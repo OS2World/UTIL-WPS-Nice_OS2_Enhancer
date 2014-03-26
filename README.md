@@ -1,6 +1,6 @@
 UTIL-WPS-Nice_OS2_Enhancer
 ==========================
-
+A system tool to extend PM interface.
 
 LICENSE
 ===============
