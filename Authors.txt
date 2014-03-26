@@ -1,0 +1,9 @@
+Programming:
+Sergey Posokhov
+
+Design:
+Ivan Smirnoff (eCoLabs)
+
+Testing & suggestions:
+Alex Porollo
+Dmitry Froloff

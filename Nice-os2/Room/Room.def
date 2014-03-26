@@ -1,0 +1,21 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  NAME
+   ROOM
+
+  WINDOWAPI
+
+  STUB
+   '..\Shared\OS2Stub\OS2Stub.bin'
+
+  DESCRIPTION
+   '@#Sergey Posokhov:1.3 for OS/2 & eComStation#@Room switcher for Nice Enhancer'
+
+  IMPORTS
+   DosQuerySysState   = DOSCALLS.368
+   DosReplaceModule   = DOSCALLS.417
+   DosVerifyPidTid    = DOSCALLS.460
+   DosSetExtLIBPATH   = DOSCALLS.873
+   DosQueryExtLibpath = DOSCALLS.874
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -1,0 +1,1 @@
+@Implib.exe /noi Doscalls.lib Doscalls.def

@@ -1,0 +1,109 @@
+// Кнопки на странице настроек.
+#define BUTTONS_BRICK_ID        7001
+
+#define OK_BUTTON_ID            5001
+#define PD_BUTTON_ID            5002
+#define HP_BUTTON_ID            5003
+
+// Подсказка.
+#define PROMPT_RECTANGLE_ID     7002
+
+// Размеры и отступы относительно родительского окна.
+#define NOTEBOOK_PAGE_MARGIN    0.05
+#define NOTEBOOK_PAGE_GAP       0.02
+
+#define PROMPT_BRICK_HEIGHT     (ULONG) (10 * 3)
+#define BUTTONS_BRICK_HEIGHT    (ULONG) (10 * 4)
+#define BUTTONS_BRICK_GAP       0.05
+#define SPACE_BRICK_HEIGHT      0.10
+
+#define EMPTY_LINE_HEIGHT       NOTEBOOK_PAGE_GAP
+
+#define BLKQT_RCT_BRICK_WIDTH   0.25
+#define BLKQT_RCT_BRICK_HEIGHT  LTM_COMMON_HEIGHT
+
+#define XC_BLK_BRICK_HEIGHT     0.40
+#define XC_BLK_BRICK_GAP        XC_BOX_BRICK_GAP   
+#define XC_BOX_BRICK_HEIGHT     0.40
+#define XC_BOX_BRICK_GAP        0.01
+#define XC_LST_BRICK_WIDTH      0.66
+#define XC_LST_BRICK_HEIGHT     0.80
+#define XC_RCT_BRICK_HEIGHT     0.33
+
+#define FILEBOX_BRICK_HEIGHT    BUTTONS_BRICK_HEIGHT
+#define FILEBOX_BRICK_GAP       BUTTONS_BRICK_GAP   
+#define FILEBOX_LABEL_WIDTH     0.33
+#define FILEBOX_NAME_WIDTH      0.50
+#define FILEBOX_BUTTON_WIDTH    0.33
+
+#define NM_BOX_BRICK_HEIGHT     0.80
+#define NM_LST_BRICK_WIDTH      0.90
+#define NM_LST_BRICK_HEIGHT     0.70
+
+#define PLT_BOX_BRICK_HEIGHT    0.30
+#define PLT_BOX_BRICK_GAP       0.05
+#define PLT_SQRE_BRICK_WIDTH    0.30
+#define PLT_SQRE_BRICK_HEIGHT   LTM_BUTTON_HEIGHT
+#define PLT_SQRS_BRICK_WIDTH    0.70
+#define PLT_SPACE_BRICK_HEIGHT  0.01
+
+#define RMS_LST_BRICK_HEIGHT    0.70
+#define RMS_CTL_BRICK_HEIGHT    0.20
+#define RMS_SWCBOX_WIDTH        0.50
+#define RMS_LBL_BRICK_WIDTH     0.50
+
+#define KBD_SPLITVIEW_HEIGHT    0.60
+#define KBD_DETECT_BTN_WIDTH    0.25
+
+#define CBCB_TEXT_WIDTH         0.33
+#define CBCB_LIST_WIDTH         0.25
+
+#define MSE_LBL_BRICK_WIDTH     0.25 
+#define MSE_CBOX_BRICK_WIDTH    0.60
+
+#define DLG_BLK_BRICK_HEIGHT    0.66
+#define DLG_BLK_BRICK_GAP       0.01
+#define DLG_BOX_BRICK_GAP       0.02
+#define DLG_LST_BRICK_WIDTH     0.66
+#define DLG_LST_BRICK_HEIGHT    0.60
+#define DLG_CTL_BRICK_HEIGHT    0.30
+#define DLG_RCT_BRICK_HEIGHT    0.55
+#define DLG_SWCBOX_WIDTH        0.50
+#define DLG_LBL_BRICK_WIDTH     0.50
+
+#define ITM_BLK_BRICK_HEIGHT    0.66
+#define ITM_BLK_BRICK_GAP       0.01
+#define ITM_BOX_BRICK_GAP       0.02
+#define ITM_LST_BRICK_WIDTH     0.80
+#define ITM_LST_BRICK_HEIGHT    0.66
+#define ITM_CTL_BRICK_HEIGHT    0.30
+#define ITM_RCT_BRICK_HEIGHT    0.55
+#define ITM_LBL_BRICK_WIDTH     0.33
+#define ITM_ENT_BRICK_WIDTH     0.66
+
+#define PTY_BLK_BRICK_HEIGHT    0.66
+#define PTY_BLK_BRICK_GAP       0.01
+#define PTY_BOX_BRICK_GAP       0.02
+#define PTY_LST_BRICK_WIDTH     0.66
+#define PTY_LST_BRICK_HEIGHT    0.90
+#define PTY_RCT_BRICK_HEIGHT    0.45
+
+#define WL_BOX_BRICK_HEIGHT     0.70
+#define WL_BOX_BRICK_GAP        XC_BOX_BRICK_GAP
+#define WL_LST_BRICK_WIDTH      XC_LST_BRICK_WIDTH
+#define WL_LST_BRICK_HEIGHT     0.40
+#define WL_RCT_BRICK_HEIGHT     XC_RCT_BRICK_HEIGHT
+
+#define VIO_LST_BRICK_HEIGHT    0.70
+#define VIO_CTL_BRICK_HEIGHT    0.20
+#define VIO_SWCBOX_WIDTH        0.50
+#define VIO_LBL_BRICK_WIDTH     0.50
+
+#define VIO_FILES_BRICK_HEIGHT  0.90
+
+#define SYS_TXT_BRICK_HEIGHT    0.10
+#define SYS_BMP_BRICK_WIDTH     0.50
+#define SYS_BMP_BRICK_HEIGHT    0.40
+
+#define LOG_LIST_WIDTH          0.95
+#define LOG_LIST_HEIGHT         0.95

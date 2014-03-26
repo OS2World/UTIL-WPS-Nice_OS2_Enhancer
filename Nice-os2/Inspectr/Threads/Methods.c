@@ -1,0 +1,62 @@
+
+// ─── Записывает настройки и завершает работу приложения ───
+
+VOID Threads_WriteSettingsAndCloseMainWindow( VOID )
+{
+ // Если надо записать настройки:
+ if( Inspector.Write_settings )
+  {
+   // Открываем файл настроек.
+   CHAR Settings_file_name[ SIZE_OF_PATH ] = "";
+   {
+    strcpy( Settings_file_name, Inspector.Current_directory );
+    CutNameInPath( Settings_file_name ); strcat( Settings_file_name, "\\Nice-os2.ini" );
+   }
+   HINI Ini_file = OpenIniProfile( Inspector.Application, Settings_file_name );
+
+   if( Ini_file != NULLHANDLE )
+    {
+     // Записываем известные приложения.
+     INT Count = 0;
+
+     for( Count = 0; Count < Repository.Length; Count ++ )
+      {
+       if( Repository.Items[ Count ].Object_INI_setting_name[ 0 ] != 0 ) if( Repository.Items[ Count ].Object[ 0 ] != 0 )
+        PrfWriteProfileData( Ini_file, "Applications", Repository.Items[ Count ].Object_INI_setting_name, Repository.Items[ Count ].Object, strlen( Repository.Items[ Count ].Object ) + 1 );
+
+       if( Repository.Items[ Count ].Path_INI_setting_name[ 0 ] != 0 ) if( Repository.Items[ Count ].Path[ 0 ] != 0 )
+        PrfWriteProfileData( Ini_file, "Applications", Repository.Items[ Count ].Path_INI_setting_name, Repository.Items[ Count ].Path, strlen( Repository.Items[ Count ].Path ) + 1 );
+      }
+
+     // Закрываем файл настроек.
+     PrfCloseProfile( Ini_file );
+    }
+
+   {
+    // Узнаем окно рабочего стола.
+    HWND Desktop = WinQueryDesktopWindow( Inspector.Application, NULLHANDLE );
+
+    // Перебираем окна рабочего стола.
+    HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+    while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+     {
+      // Если это окно расширителя - сообщаем ему, чтобы он прочел список приложений.
+      if( IsFrameWindow( Window ) && WindowIsCreatedBy( APP_NICE, Window ) )
+       {
+        CHAR Window_name[ SIZE_OF_NAME ] = ""; 
+        WinQueryClassName( WinWindowFromID( Window, FID_CLIENT ), SIZE_OF_NAME, Window_name );
+
+        if( strcmp( Window_name, "NiceOS2WndClass!E" ) == EQUALLY ) 
+         WinPostMsg( WinWindowFromID( Window, FID_CLIENT ), SM_RECEIVE_REPOSITORY, (MPARAM) 0, (MPARAM) 0 );
+       }
+     }
+    WinEndEnumWindows( Enumeration );
+   }
+  }
+
+ // Посылаем в окно приложения команду закрытия.
+ WinPostMsg( Inspector.Frame_window, WM_SYSCOMMAND, MPFROMLONG( SC_CLOSE ), 0 );
+
+ // Возврат.
+ return;
+}

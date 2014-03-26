@@ -1,0 +1,14 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  NAME
+   MMKBD
+
+  WINDOWCOMPAT
+
+  STUB
+   '..\..\..\..\Nice-os2\Shared\OS2Stub\OS2Stub.bin'
+
+  DESCRIPTION
+   '@#Sergey Posokhov:1.1#@Multimedia keyboard support'
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

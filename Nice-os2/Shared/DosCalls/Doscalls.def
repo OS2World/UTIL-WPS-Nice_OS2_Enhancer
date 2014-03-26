@@ -1,0 +1,13 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  LIBRARY
+   DOSCALLS
+
+  EXPORTS
+   DosQuerySysState      ; þ 368
+   DosReplaceModule      ; þ 417
+   DosVerifyPidTid       ; þ 460
+   DosSetExtLIBPATH      ; þ 873
+   DosQueryExtLibpath    ; þ 874
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

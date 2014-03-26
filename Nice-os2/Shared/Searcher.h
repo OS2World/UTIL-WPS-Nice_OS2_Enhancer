@@ -1,0 +1,16 @@
+// Проверка - показано ли системное окно.
+#define FIND_SYSMSG_WINDOW    1
+#define FIND_WARPCENTER       2
+#define FIND_WARPCENTER_MENU  4
+#define FIND_SYSTRAY          8
+#define FIND_SYSTRAY_MENU     16
+#define FIND_ECENTER          32
+#define FIND_ECENTER_MENU     64
+#define FIND_EPAGER           128
+#define FIND_WINDOW_LIST      256
+#define FIND_LSWITCHER_PANEL  512
+#define FIND_VIO_FONT_DIALOG  1024
+
+#define FIND_ALL_TOOLBAR_MENUS ( FIND_WARPCENTER_MENU | FIND_SYSTRAY_MENU | FIND_ECENTER_MENU )
+
+#define FIND_VISIBLE_WINDOW   1

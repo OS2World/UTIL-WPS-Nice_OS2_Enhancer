@@ -1,0 +1,45 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  LIBRARY
+   NICE-OS2-ENHANCER-V562
+
+  PROTMODE
+
+  DATA
+   MOVEABLE DISCARDABLE LOADONCALL SHARED
+
+  CODE
+   MOVEABLE DISCARDABLE LOADONCALL
+
+  STUB
+   '..\Shared\OS2Stub\OS2Stub.bin'
+
+  DESCRIPTION
+   '@#Sergey Posokhov:5.6.4 for OS/2 & eComStation#@Nice Enhancer'
+
+  EXPORTS
+   Krnl_StartKernel
+   Krnl_HeyHoLetsGo
+   Krnl_ShutdownKernel
+   Krnl_ApplicationIsKilled
+
+   Krnl_ReadSettings
+   Krnl_ReadRepository
+
+   Hook_InputHook
+   Hook_KbdInputHook
+   Hook_SendMsgHook
+   Hook_LockupHook
+
+   Applier_ScanLogonDialog
+   Applier_ScanIncompleteDialog
+   Applier_ScanMessageDialog   
+
+  IMPORTS
+   DosQuerySysState   = DOSCALLS.368
+   DosReplaceModule   = DOSCALLS.417
+   DosVerifyPidTid    = DOSCALLS.460
+   DosSetExtLIBPATH   = DOSCALLS.873
+   DosQueryExtLibpath = DOSCALLS.874
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

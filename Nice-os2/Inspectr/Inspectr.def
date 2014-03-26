@@ -1,0 +1,18 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  NAME
+   INSPECTR
+
+  WINDOWAPI
+
+  STUB
+   '..\Shared\OS2Stub\OS2Stub.bin'
+
+  IMPORTS
+   DosQuerySysState   = DOSCALLS.368
+   DosReplaceModule   = DOSCALLS.417
+   DosVerifyPidTid    = DOSCALLS.460
+   DosSetExtLIBPATH   = DOSCALLS.873
+   DosQueryExtLibpath = DOSCALLS.874
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
