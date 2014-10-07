@@ -185,10 +185,10 @@ INT main( INT argc, PCHAR argv[] )
 
  // Приложение может быть вызвано из любого каталога внутри расширителя.
  // Переходим в его настоящий каталог.
- if( !strifind( "\\Enhancer\\Inspectr", Inspector.Current_directory ) )
+ if( !stristr( "\\Enhancer\\Inspectr", Inspector.Current_directory ) )
   {
-   if( strifind( "\\Enhancer", Inspector.Current_directory ) ||
-       strifind( "\\Install", Inspector.Current_directory ) )
+   if( stristr( "\\Enhancer", Inspector.Current_directory ) ||
+       stristr( "\\Install", Inspector.Current_directory ) )
     {
      CutNameInPath( Inspector.Current_directory );
      strcat( Inspector.Current_directory, "\\Enhancer\\Inspectr" );

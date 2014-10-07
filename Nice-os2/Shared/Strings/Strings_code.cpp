@@ -110,35 +110,35 @@ VOID Strings_strcat( PCHAR String_1, PCHAR String_2 )
 // ─── Сравнивает строки ───
 
 // *_string - строки.
-INT Strings_strcmp( PCHAR First_string, PCHAR Second_string )
+INT Strings_strc( PCHAR First_string, PCHAR Second_string )
 {
- if( First_string == NULL ) return STRINGNE;
- if( Second_string == NULL ) return STRINGNE;
+ if( First_string == NULL ) return 0;
+ if( Second_string == NULL ) return 0;
 
- if( Strings_strlen( First_string ) != Strings_strlen( Second_string ) ) return STRINGNE;
+ if( Strings_strlen( First_string ) != Strings_strlen( Second_string ) ) return 0;
 
  {
   INT Count = 0;
   while( First_string[ Count ] != 0 || Second_string[ Count ] != 0 )
    {
-    if( First_string[ Count ] != Second_string[ Count ] ) return STRINGNE;
+    if( First_string[ Count ] != Second_string[ Count ] ) return 0;
 
     Count ++;
    }
  }
 
- return EQUALLY;
+ return 1;
 }
 
 // ─── Сравнивает строки не различая заглавные и строчные буквы ───
 
 // *_string - строки.
-INT Strings_stricmpe( PCHAR First_string, PCHAR Second_string )
+INT Strings_stric( PCHAR First_string, PCHAR Second_string )
 {
- if( First_string == NULL ) return STRINGNE;
- if( Second_string == NULL ) return STRINGNE;
+ if( First_string == NULL ) return 0;
+ if( Second_string == NULL ) return 0;
 
- if( Strings_strlen( First_string ) != Strings_strlen( Second_string ) ) return STRINGNE;
+ if( Strings_strlen( First_string ) != Strings_strlen( Second_string ) ) return 0;
 
  {
   INT Count = 0;
@@ -149,13 +149,13 @@ INT Strings_stricmpe( PCHAR First_string, PCHAR Second_string )
     Strings_CaseTranslator( &Character_1, 1 );
     Strings_CaseTranslator( &Character_2, 1 );
 
-    if( Character_1 != Character_2 ) return STRINGNE;
+    if( Character_1 != Character_2 ) return 0;
 
     Count ++;
    }
  }
 
- return EQUALLY;
+ return 1;
 }
 
 // ─── Сбрасывает участок памяти ───
@@ -283,21 +283,21 @@ VOID Strings_memcpy( PVOID Target, PVOID Source, INT Length )
 // ─── Находит строку в другой строке ───
 
 // Key - строка для поиска, String - где ее искать.
-PCHAR Strings_strfind( PCHAR Key, PCHAR String )
+PCHAR Strings_strstr( PCHAR Key, PCHAR String )
 {
  if( Key == NULL ) return NULL;
  if( String == NULL ) return NULL;
 
  {
-  INT strlen = Strings_strlen( String );
+  INT Strlen = Strings_strlen( String );
   INT Keylen = Strings_strlen( Key );
 
-  if( Keylen > strlen ) return NULL;
-  if( Strings_strcmp( Key, String ) == EQUALLY ) return String;
+  if( Keylen > Strlen ) return NULL;
+  if( Strings_strc( Key, String ) ) return String;
 
   {
    INT Offset;
-   for( Offset = 0; Offset <= strlen - Keylen + 1; Offset ++ )
+   for( Offset = 0; Offset <= Strlen - Keylen + 1; Offset ++ )
     {
      BYTE Strings_is_equally = 1; INT Count;
      for( Count = 0; Count < Keylen; Count ++ )
@@ -318,21 +318,21 @@ PCHAR Strings_strfind( PCHAR Key, PCHAR String )
 // ─── Находит строку в другой строке не различая заглавные и строчные буквы ───
 
 // Key - строка для поиска, String - где ее искать.
-PCHAR Strings_strifind( PCHAR Key, PCHAR String )
+PCHAR Strings_stristr( PCHAR Key, PCHAR String )
 {
  if( Key == NULL ) return NULL;
  if( String == NULL ) return NULL;
 
  {
-  INT strlen = Strings_strlen( String );
+  INT Strlen = Strings_strlen( String );
   INT Keylen = Strings_strlen( Key );
 
-  if( Keylen > strlen ) return NULL;
-  if( Strings_stricmpe( Key, String ) == EQUALLY ) return String;
+  if( Keylen > Strlen ) return NULL;
+  if( Strings_stric( Key, String ) ) return String;
 
   {
    INT Offset;
-   for( Offset = 0; Offset <= strlen - Keylen + 1; Offset ++ )
+   for( Offset = 0; Offset <= Strlen - Keylen + 1; Offset ++ )
     {
      BYTE Strings_is_equally = 1; BYTE Leave = 0; INT Count;
      for( Count = 0; Count < Keylen; Count ++ )
@@ -406,7 +406,7 @@ VOID Strings_strschg( PCHAR String, PCHAR Key, PCHAR Replacement )
 
   while( Current_pointer != NULL )
    {
-    Current_pointer = Strings_strfind( Key, Pointer ); if( Current_pointer == NULL ) break;
+    Current_pointer = Strings_strstr( Key, Pointer ); if( Current_pointer == NULL ) break;
 
     Strings_strncpy( Buffer, Pointer, Current_pointer - Pointer );
     Strings_strcat( Result, Buffer ); Strings_strcat( Result, Replacement );

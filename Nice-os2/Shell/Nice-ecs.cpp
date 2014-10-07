@@ -519,24 +519,24 @@ INT main( INT argc, PCHAR argv[] )
 
  if( argc == 2 )
   {
-   if( strifind( "icon", argv[ 1 ] ) || strifind( "min", argv[ 1 ] ) )
+   if( stristr( "icon", argv[ 1 ] ) || stristr( "min", argv[ 1 ] ) )
     {
      Enhancer.Nice_is_minimized = 1;
     }
 
-   if( strifind( "center", argv[ 1 ] ) )
+   if( stristr( "center", argv[ 1 ] ) )
     {
-     if( strifind( "_scrolling", argv[ 1 ] ) )        Enhancer.Settings_to_show = SET_SCROLLING;
-     if( strifind( "_drawing", argv[ 1 ] ) )          Enhancer.Settings_to_show = SET_DRAWING;
-     if( strifind( "_rooms", argv[ 1 ] ) )            Enhancer.Settings_to_show = SET_ROOMS;
-     if( strifind( "_keyboard", argv[ 1 ] ) )         Enhancer.Settings_to_show = SET_KEYBOARD;
-     if( strifind( "_mouse", argv[ 1 ] ) )            Enhancer.Settings_to_show = SET_MOUSE;
-     if( strifind( "_windowplacement", argv[ 1 ] ) )  Enhancer.Settings_to_show = SET_PLACEMENT;
-     if( strifind( "_dialogboxes", argv[ 1 ] ) )      Enhancer.Settings_to_show = SET_DIALOG_BOXES;
-     if( strifind( "_priority", argv[ 1 ] ) )         Enhancer.Settings_to_show = SET_PRIORITY;
-     if( strifind( "_winlist", argv[ 1 ] ) )          Enhancer.Settings_to_show = SET_WINLIST;
-     if( strifind( "_vio", argv[ 1 ] ) )              Enhancer.Settings_to_show = SET_VIO_WINDOWS;
-     if( strifind( "_syspatches", argv[ 1 ] ) )       Enhancer.Settings_to_show = SET_SYS_PATCHES;
+     if( stristr( "_scrolling", argv[ 1 ] ) )        Enhancer.Settings_to_show = SET_SCROLLING;
+     if( stristr( "_drawing", argv[ 1 ] ) )          Enhancer.Settings_to_show = SET_DRAWING;
+     if( stristr( "_rooms", argv[ 1 ] ) )            Enhancer.Settings_to_show = SET_ROOMS;
+     if( stristr( "_keyboard", argv[ 1 ] ) )         Enhancer.Settings_to_show = SET_KEYBOARD;
+     if( stristr( "_mouse", argv[ 1 ] ) )            Enhancer.Settings_to_show = SET_MOUSE;
+     if( stristr( "_windowplacement", argv[ 1 ] ) )  Enhancer.Settings_to_show = SET_PLACEMENT;
+     if( stristr( "_dialogboxes", argv[ 1 ] ) )      Enhancer.Settings_to_show = SET_DIALOG_BOXES;
+     if( stristr( "_priority", argv[ 1 ] ) )         Enhancer.Settings_to_show = SET_PRIORITY;
+     if( stristr( "_winlist", argv[ 1 ] ) )          Enhancer.Settings_to_show = SET_WINLIST;
+     if( stristr( "_vio", argv[ 1 ] ) )              Enhancer.Settings_to_show = SET_VIO_WINDOWS;
+     if( stristr( "_syspatches", argv[ 1 ] ) )       Enhancer.Settings_to_show = SET_SYS_PATCHES;
     }
   }
 
@@ -554,7 +554,7 @@ INT main( INT argc, PCHAR argv[] )
       CHAR Window_name[ SIZE_OF_NAME ] = ""; 
       WinQueryClassName( WinWindowFromID( Window, FID_CLIENT ), SIZE_OF_NAME, Window_name );
 
-      if( strcmp( Window_name, "NiceOS2WndClass!E" ) == EQUALLY ) 
+      if( strc( Window_name, "NiceOS2WndClass!E" ) ) 
        {
         Enhancer.Remote_window = Window;
         break;

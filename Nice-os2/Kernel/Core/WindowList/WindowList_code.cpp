@@ -52,7 +52,7 @@ VOID Krnl_WindowList_SetProcessJumpableFlag( PCHAR WinList_title, ULONG Flag )
      if( Task.uchVisibility != SWL_VISIBLE ) continue;
 
      // Если заголовок окна неизвестен или окно было создано другим приложением - ничего делать не надо.
-     if( Task.szSwtitle == NULL || !strifind( WinList_title, Task.szSwtitle ) ) continue;
+     if( Task.szSwtitle == NULL || !stristr( WinList_title, Task.szSwtitle ) ) continue;
 
      // Меняем свойства.
      if( Task.fbJump != Flag )
@@ -170,7 +170,7 @@ HWND Krnl_WindowList_FindFrameWindowInWindowList( PCHAR WinList_title )
      if( Task.szSwtitle == NULL ) continue;
 
      // Если заголовок содержит искомую строку:
-     if( strifind( WinList_title, Task.szSwtitle ) )
+     if( stristr( WinList_title, Task.szSwtitle ) )
       {
        // Запоминаем окно.
        Frame_window = QueryFrameWindow( Window );

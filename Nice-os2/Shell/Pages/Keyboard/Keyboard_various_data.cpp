@@ -11,7 +11,8 @@ typedef struct _KBDVRSPAGE
 
     ULONG Ctrl_CV;
     ULONG WPS_Enter;
-    ULONG CUA_F3;
+    ULONG Alt_F9;
+    ULONG F3;
 
     // Внутренние переменные.
     ULONG Turn_Num_Lock;

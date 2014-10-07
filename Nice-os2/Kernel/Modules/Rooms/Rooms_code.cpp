@@ -14,14 +14,14 @@ INT Rooms_GetPreDefinedRoom( HWND Frame_window )
  if( Exe_name[ 0 ] != 0 )
   {
    // Проверяем, есть ли приложение в списке.
-   if( stricmpe( Exe_name, Rooms.Settings.Allocations.Unit_1_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_1;
-   if( stricmpe( Exe_name, Rooms.Settings.Allocations.Unit_2_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_2;
-   if( stricmpe( Exe_name, Rooms.Settings.Allocations.Unit_3_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_3;
-   if( stricmpe( Exe_name, Rooms.Settings.Allocations.Unit_4_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_4;
-   if( stricmpe( Exe_name, Rooms.Settings.Allocations.Unit_5_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_5;
-   if( stricmpe( Exe_name, Rooms.Settings.Allocations.Unit_6_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_6;
-   if( stricmpe( Exe_name, Rooms.Settings.Allocations.Unit_7_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_7;
-   if( stricmpe( Exe_name, Rooms.Settings.Allocations.Unit_8_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_8;
+   if( stric( Exe_name, Rooms.Settings.Allocations.Unit_1_name ) ) return Rooms.Settings.Allocations.Preferable_room_1;
+   if( stric( Exe_name, Rooms.Settings.Allocations.Unit_2_name ) ) return Rooms.Settings.Allocations.Preferable_room_2;
+   if( stric( Exe_name, Rooms.Settings.Allocations.Unit_3_name ) ) return Rooms.Settings.Allocations.Preferable_room_3;
+   if( stric( Exe_name, Rooms.Settings.Allocations.Unit_4_name ) ) return Rooms.Settings.Allocations.Preferable_room_4;
+   if( stric( Exe_name, Rooms.Settings.Allocations.Unit_5_name ) ) return Rooms.Settings.Allocations.Preferable_room_5;
+   if( stric( Exe_name, Rooms.Settings.Allocations.Unit_6_name ) ) return Rooms.Settings.Allocations.Preferable_room_6;
+   if( stric( Exe_name, Rooms.Settings.Allocations.Unit_7_name ) ) return Rooms.Settings.Allocations.Preferable_room_7;
+   if( stric( Exe_name, Rooms.Settings.Allocations.Unit_8_name ) ) return Rooms.Settings.Allocations.Preferable_room_8;
   }
 
  // Узнаем окно рабочей области.
@@ -34,14 +34,14 @@ INT Rooms_GetPreDefinedRoom( HWND Frame_window )
    CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Window_name );
 
    // Проверяем, есть ли окно в списке исключений.
-   if( strcmp( Window_name, Rooms.Settings.Allocations.Unit_1_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_1;
-   if( strcmp( Window_name, Rooms.Settings.Allocations.Unit_2_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_2;
-   if( strcmp( Window_name, Rooms.Settings.Allocations.Unit_3_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_3;
-   if( strcmp( Window_name, Rooms.Settings.Allocations.Unit_4_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_4;
-   if( strcmp( Window_name, Rooms.Settings.Allocations.Unit_5_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_5;
-   if( strcmp( Window_name, Rooms.Settings.Allocations.Unit_6_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_6;
-   if( strcmp( Window_name, Rooms.Settings.Allocations.Unit_7_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_7;
-   if( strcmp( Window_name, Rooms.Settings.Allocations.Unit_8_name ) == EQUALLY ) return Rooms.Settings.Allocations.Preferable_room_8;
+   if( strc( Window_name, Rooms.Settings.Allocations.Unit_1_name ) ) return Rooms.Settings.Allocations.Preferable_room_1;
+   if( strc( Window_name, Rooms.Settings.Allocations.Unit_2_name ) ) return Rooms.Settings.Allocations.Preferable_room_2;
+   if( strc( Window_name, Rooms.Settings.Allocations.Unit_3_name ) ) return Rooms.Settings.Allocations.Preferable_room_3;
+   if( strc( Window_name, Rooms.Settings.Allocations.Unit_4_name ) ) return Rooms.Settings.Allocations.Preferable_room_4;
+   if( strc( Window_name, Rooms.Settings.Allocations.Unit_5_name ) ) return Rooms.Settings.Allocations.Preferable_room_5;
+   if( strc( Window_name, Rooms.Settings.Allocations.Unit_6_name ) ) return Rooms.Settings.Allocations.Preferable_room_6;
+   if( strc( Window_name, Rooms.Settings.Allocations.Unit_7_name ) ) return Rooms.Settings.Allocations.Preferable_room_7;
+   if( strc( Window_name, Rooms.Settings.Allocations.Unit_8_name ) ) return Rooms.Settings.Allocations.Preferable_room_8;
   }
 
  // Если надо размещать в комнатах знакомые расширителю приложения:

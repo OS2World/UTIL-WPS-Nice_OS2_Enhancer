@@ -167,13 +167,16 @@ VOID Arranger_ArrangeWindows( ULONG Action, HWND Frame_window )
      if( Show_curtain ) ShowCurtainWindow( QueryDesktopWindow() );
      // Задаем новое расположение окна.
      WinSetWindowPos( Frame_window, NULLHANDLE, X_Position, Y_Position, X_Size, Y_Size, SWP_MOVE | SWP_SIZE );
+     // Отключаем выравнивание для этого окна.
+     ULONG Arranged_at = 0; FindProperty( Frame_window, PRP_TIME_OF_ARRANGE, &Arranged_at );
+     if( !Arranged_at ) { ULONG No_more = 1; SetProperty( Frame_window, PRP_TIME_OF_ARRANGE, &No_more ); }
     }
 
    // Окно должно быть вызвано наверх.
    Activate_window = 1;
   }
 
- // Выравниваем окна WPS и Object Desktop Archiver.
+ // Выравниваем окна WPS.
  if( Action == SM_ARRANGE_WPS )
   {
    // Если окно увеличено - восстанавливаем его.
@@ -194,24 +197,68 @@ VOID Arranger_ArrangeWindows( ULONG Action, HWND Frame_window )
 
    // Выравниваем окно WPS по середине экрана.
    // Действие выполняется только для окон, имеющих размер по умолчанию.
-   if( Action == SM_ARRANGE_WPS )
-    {
-     INT Default_width_Min = X_Screen / 1.25;
-     INT Default_width_Max = X_Screen / 1.25 + 10;
+   INT Default_width_Min = X_Screen / 1.25;
+   INT Default_width_Max = X_Screen / 1.25 + 10;
 
-     // Если требуется выравнивание:
-     if( Window_placement.cx >= Default_width_Min && Window_placement.cx <= Default_width_Max )
-      {
-       // Задаем новое расположение окна.
-       WinSetWindowPos( Frame_window, NULLHANDLE, X_Position, Y_Position, X_Size, Y_Size, SWP_MOVE | SWP_SIZE );
-      }
-     }
+   // Если требуется выравнивание:
+   if( Window_placement.cx >= Default_width_Min && Window_placement.cx <= Default_width_Max )
+    {
+     // Задаем новое расположение окна.
+     WinSetWindowPos( Frame_window, NULLHANDLE, X_Position, Y_Position, X_Size, Y_Size, SWP_MOVE | SWP_SIZE );
+     // Отключаем выравнивание для этого окна.
+     ULONG No_more = 1; SetProperty( Frame_window, PRP_TIME_OF_ARRANGE, &No_more );
+    }
 
    // Окно должно быть вызвано наверх.
    Activate_window = 1;
   }
 
- // Выравниваем другие окна.
+ // Выравниваем окна браузеров.
+ if( Action == SM_ARRANGE_BROWSER || Action == SM_ARRANGE_IPF_HELP )
+  {
+   // Если окно увеличено - восстанавливаем его.
+   if( Window_placement.fl & SWP_MAXIMIZE )
+    {
+     // Восстанавливаем окно.
+     PerformAction( Frame_window, RESTORE_ACTION );
+
+     // Узнаем новый размер и расположение окна.
+     WinQueryWindowPos( Frame_window, &Window_placement );
+    }
+
+   // Задаем новый размер и расположение окна.
+   INT Free_space = 55;
+   INT X_Size = X_Screen - 1 - 1;
+   INT Y_Size = Y_Screen - Free_space - 1;
+   INT X_Position = 1;
+   INT Y_Position = Free_space;
+
+   if( Action == SM_ARRANGE_IPF_HELP ) 
+    {
+     Free_space += 40;
+     X_Size = X_Screen;
+     Y_Size = Y_Screen - Free_space;
+     X_Position = 0;
+     Y_Position = Free_space;
+    }
+
+   // Если требуется выравнивание:
+   if( X_Position != Window_placement.x || Y_Position != Window_placement.y || 
+       X_Size != Window_placement.cx || Y_Size != Window_placement.cy || Window_placement.fl & SWP_MAXIMIZE )
+    {
+     // Если оно возможно:
+     if( Arranger_PermissionForBrowsers( Frame_window ) )
+      {
+       // Задаем новое расположение окна.
+       WinSetWindowPos( Frame_window, NULLHANDLE, X_Position, Y_Position, X_Size, Y_Size, SWP_MOVE | SWP_SIZE );
+      }
+
+     // Отключаем выравнивание для этого окна.
+     ULONG No_more = 1; SetProperty( Frame_window, PRP_TIME_OF_ARRANGE, &No_more );
+    }
+  }
+
+ // Выравниваем список окон.
  if( Action == SM_ARRANGE_WIN_LIST )
   {
    // Если окно увеличено - восстанавливаем его.

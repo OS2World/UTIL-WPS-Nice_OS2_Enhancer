@@ -14,6 +14,10 @@ VOID Remover_SetPreDefinedSettings( LONG Division )
   {
    Remover.Settings.Remove_items_from_Window_list = 0;
    Remover.Settings.Hide_known_applications = 1;
+
+   strcpy( Remover.Settings.DDNS, "DDNS Server Administrator" );
+   strcpy( Remover.Settings.DHCP, "DHCP Server Administrator" );
+   strcpy( Remover.Settings.BINL, "BINL Server Administrator" );
   }
 
  // Возврат.
@@ -34,21 +38,21 @@ VOID Remover_ReadSettings( HINI Ini_file )
  {
   CHAR Item[ SIZE_OF_PATH ] = "";
 
-  Name = SIZE_OF_NAME; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 1 name", Item, &Name );
+  Name = SIZE_OF_TITLE; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 1 name", Item, &Name );
   if( Item[ 0 ] != 0 ) { strcpy( Remover.Settings.WinListNames.Remove_from_list_1_name, Item ); Item[ 0 ] = 0; }
-  Name = SIZE_OF_NAME; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 2 name", Item, &Name );
+  Name = SIZE_OF_TITLE; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 2 name", Item, &Name );
   if( Item[ 0 ] != 0 ) { strcpy( Remover.Settings.WinListNames.Remove_from_list_2_name, Item ); Item[ 0 ] = 0; }
-  Name = SIZE_OF_NAME; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 3 name", Item, &Name );
+  Name = SIZE_OF_TITLE; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 3 name", Item, &Name );
   if( Item[ 0 ] != 0 ) { strcpy( Remover.Settings.WinListNames.Remove_from_list_3_name, Item ); Item[ 0 ] = 0; }
-  Name = SIZE_OF_NAME; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 4 name", Item, &Name );
+  Name = SIZE_OF_TITLE; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 4 name", Item, &Name );
   if( Item[ 0 ] != 0 ) { strcpy( Remover.Settings.WinListNames.Remove_from_list_4_name, Item ); Item[ 0 ] = 0; }
-  Name = SIZE_OF_NAME; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 5 name", Item, &Name );
+  Name = SIZE_OF_TITLE; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 5 name", Item, &Name );
   if( Item[ 0 ] != 0 ) { strcpy( Remover.Settings.WinListNames.Remove_from_list_5_name, Item ); Item[ 0 ] = 0; }
-  Name = SIZE_OF_NAME; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 6 name", Item, &Name );
+  Name = SIZE_OF_TITLE; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 6 name", Item, &Name );
   if( Item[ 0 ] != 0 ) { strcpy( Remover.Settings.WinListNames.Remove_from_list_6_name, Item ); Item[ 0 ] = 0; }
-  Name = SIZE_OF_NAME; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 7 name", Item, &Name );
+  Name = SIZE_OF_TITLE; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 7 name", Item, &Name );
   if( Item[ 0 ] != 0 ) { strcpy( Remover.Settings.WinListNames.Remove_from_list_7_name, Item ); Item[ 0 ] = 0; }
-  Name = SIZE_OF_NAME; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 8 name", Item, &Name );
+  Name = SIZE_OF_TITLE; PrfQueryProfileData( Ini_file, "WinList", "Remove from list 8 name", Item, &Name );
   if( Item[ 0 ] != 0 ) { strcpy( Remover.Settings.WinListNames.Remove_from_list_8_name, Item ); Item[ 0 ] = 0; }
  }
 

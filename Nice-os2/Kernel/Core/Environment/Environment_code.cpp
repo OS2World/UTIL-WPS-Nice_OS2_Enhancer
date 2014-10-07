@@ -121,7 +121,7 @@ BYTE Krnl_Environment_StartupCmdIsPresent( VOID )
      CHAR Title[ SIZE_OF_TITLE ] = ""; WinQueryWindowText( WinWindowFromID( Window, FID_TITLEBAR ), SIZE_OF_TITLE, Title );
 
      // Если в нем встречается слово "Startup":
-     if( strifind( "Startup", Title ) )
+     if( stristr( "Startup", Title ) )
       {
        // Завершаем перебор окон.
        WinEndEnumWindows( Enumeration );

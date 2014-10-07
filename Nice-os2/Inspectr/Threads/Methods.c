@@ -46,7 +46,7 @@ VOID Threads_WriteSettingsAndCloseMainWindow( VOID )
         CHAR Window_name[ SIZE_OF_NAME ] = ""; 
         WinQueryClassName( WinWindowFromID( Window, FID_CLIENT ), SIZE_OF_NAME, Window_name );
 
-        if( strcmp( Window_name, "NiceOS2WndClass!E" ) == EQUALLY ) 
+        if( strc( Window_name, "NiceOS2WndClass!E" ) ) 
          WinPostMsg( WinWindowFromID( Window, FID_CLIENT ), SM_RECEIVE_REPOSITORY, (MPARAM) 0, (MPARAM) 0 );
        }
      }

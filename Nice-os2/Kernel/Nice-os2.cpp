@@ -514,6 +514,7 @@ ENHANCER; ENHANCER Enhancer;
 
 #include "Modules\\Arranger\\Arranger_data.cpp"
 #include "Modules\\Arranger\\Arranger_hook.cpp"
+#include "Modules\\Arranger\\Arranger_perm.cpp"
 #include "Modules\\Arranger\\Arranger_code.cpp"
 #include "Modules\\Arranger\\Arranger_init.cpp"
 #include "Modules\\Arranger\\Arranger_tune.cpp"

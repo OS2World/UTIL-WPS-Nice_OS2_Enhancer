@@ -334,7 +334,7 @@ VOID KeyMapper_EnableWinMgrKeysInVIO( PQMSG Message, PBYTE Discarding )
    BYTE Scan_code = CHAR4FROMMP( Message->mp1 );
    SHORT State = SHORT1FROMMP( Message->mp1 );
 
-   // Если это клавиша F4 или F9, нажата клавиша Alt без Shift и Ctrl:
+   // Если это клавиша F4 или F9 и нажата клавиша Alt без Shift и Ctrl:
    if( ( Scan_code == SC_F4 || Scan_code == SC_F9 ) &&
        ( State & KC_ALT ) && !( State & KC_SHIFT ) && !( State & KC_CTRL ) )
     {
@@ -351,6 +351,46 @@ VOID KeyMapper_EnableWinMgrKeysInVIO( PQMSG Message, PBYTE Discarding )
         {
          // Выполняем действие.
          if( Scan_code == SC_F4 ) WinPostQueueMsg( Enhancer.Modules.WindowManager->Message_queue, SM_PERFORM_ACTION, (MPARAM) Frame_window, (MPARAM) CLOSE_ACTION );
+         if( Scan_code == SC_F9 ) WinPostQueueMsg( Enhancer.Modules.WindowManager->Message_queue, SM_HIDE_WINDOW_AWAY, (MPARAM) Frame_window, 0 );
+
+         // Сообщение должно быть сброшено.
+         *Discarding = 1;
+        }
+      }
+    }
+  }
+
+ // Возврат.
+ return;
+}
+
+// ─── Включает клавиши управления окном в Qt-окнах ───
+
+// Message - сообщение, Discarding - внешняя переменная, указывает на то, что сообщение должно быть сброшено.
+VOID KeyMapper_EnableWinMgrKeysInQt( PQMSG Message, PBYTE Discarding )
+{
+ // Если получено сообщение о нажатии клавиши:
+ if( Message->msg == WM_CHAR )
+  {
+   // Смотрим, какая клавиша нажата.
+   BYTE Scan_code = CHAR4FROMMP( Message->mp1 );
+   SHORT State = SHORT1FROMMP( Message->mp1 );
+
+   // Если это клавиша F9 и нажата клавиша Alt без Shift и Ctrl:
+   if( ( Scan_code == SC_F9 ) &&
+       ( State & KC_ALT ) && !( State & KC_SHIFT ) && !( State & KC_CTRL ) )
+    {
+     // Клавиша может быть нажата в одном окне, и отжата в другом.
+     // Проверяем, что происходит нажатие клавиши, и она не была нажата раньше.
+     if( !( State & KC_KEYUP ) && !( State & KC_PREVDOWN ) )
+      {
+       // Узнаем окно рамки.
+       HWND Frame_window = QueryFrameWindow( Message->hwnd );
+
+       // Если это окно VIO:
+       if( IsQtFrameWindow( Frame_window ) )
+        {
+         // Выполняем действие.
          if( Scan_code == SC_F9 ) WinPostQueueMsg( Enhancer.Modules.WindowManager->Message_queue, SM_HIDE_WINDOW_AWAY, (MPARAM) Frame_window, 0 );
 
          // Сообщение должно быть сброшено.
@@ -393,6 +433,11 @@ VOID MapperKbdInputHook( HAB Application, PQMSG Message, PBYTE Discarding )
  if( KeyMapper.Settings.Enable_WMKeys_in_VIO )
   if( Message->msg == WM_CHAR )
    KeyMapper_EnableWinMgrKeysInVIO( Message, Discarding );
+
+ // Включаем клавиши управления окном в Qt.
+ if( KeyMapper.Settings.Define_Alt_F9 )
+  if( Message->msg == WM_CHAR )
+   KeyMapper_EnableWinMgrKeysInQt( Message, Discarding );
 
  // Восстанавливаем состояние клавиатуры, если оно было изменено во время переопределения клавиши.
  if( Message->msg == WM_CHAR )

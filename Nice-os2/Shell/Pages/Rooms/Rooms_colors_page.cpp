@@ -24,7 +24,7 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
      WinSendMsg( Window, SM_SET_PRESENTATION_PARAMETERS, 0, 0 );
 
      BYTE Show_colors = 1;
-     if( Rooms_Colors.Settings.Selected_room == SHELL_ROOM ) Show_colors = 0;
+     if( Rooms_Colors.RTSettings.Selected_room == SHELL_ROOM ) Show_colors = 0;
 
      WinShowWindow( WinWindowFromID( WinWindowFromID( Window, Rooms_Colors.Settings.WinTitles_Container_ID ), Rooms_Colors.Settings.WinTitles_Palette_ID ), Show_colors );
      WinShowWindow( WinWindowFromID( WinWindowFromID( Window, Rooms_Colors.Settings.WinTitles_Container_ID ), Rooms_Colors.Settings.WinTitles_Button_ID ), Show_colors );
@@ -33,11 +33,11 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
 
      {
       PCHAR File_name = NULL; PCHAR Name_in_path = NULL; INT Count;
-      if( Rooms_Colors.Settings.Selected_room == SHELL_ROOM ) File_name = Rooms.Settings.Wallpaper_for_shell_room;
-      if( Rooms_Colors.Settings.Selected_room == NORTHERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_northern_room;
-      if( Rooms_Colors.Settings.Selected_room == WESTERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_western_room;
-      if( Rooms_Colors.Settings.Selected_room == EASTERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_eastern_room;
-      if( Rooms_Colors.Settings.Selected_room == SOUTHERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_southern_room;
+      if( Rooms_Colors.RTSettings.Selected_room == SHELL_ROOM ) File_name = Rooms.Settings.Wallpaper_for_shell_room;
+      if( Rooms_Colors.RTSettings.Selected_room == NORTHERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_northern_room;
+      if( Rooms_Colors.RTSettings.Selected_room == WESTERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_western_room;
+      if( Rooms_Colors.RTSettings.Selected_room == EASTERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_eastern_room;
+      if( Rooms_Colors.RTSettings.Selected_room == SOUTHERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_southern_room;
 
       HWND Label = WinWindowFromID( WinWindowFromID( Window, Rooms_Colors.Settings.Wallpaper_filebox_ID ), Rooms_Colors.Settings.Wallpaper_name_ID );
 
@@ -56,14 +56,14 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
 
    case SM_SET_PRESENTATION_PARAMETERS:
     {
-     if( Rooms_Colors.Settings.Selected_room != SHELL_ROOM )
+     if( Rooms_Colors.RTSettings.Selected_room != SHELL_ROOM )
       {
        LONG AT_Text_color = 0;       LONG IT_Text_color = 0;
        LONG AT_Background_color = 0; LONG IT_Background_color = 0;
        LONG AT_Color_1 = 0;          LONG AT_Color_2 = 0;          LONG AT_Color_3 = 0;
        LONG IT_Color_1 = 0;          LONG IT_Color_2 = 0;          LONG IT_Color_3 = 0;
 
-       if( Rooms_Colors.Settings.Selected_room == NORTHERN_ROOM )
+       if( Rooms_Colors.RTSettings.Selected_room == NORTHERN_ROOM )
         {
          AT_Text_color = Painter.Settings.Northern_AT_Text_color;
          IT_Text_color = Painter.Settings.Northern_IT_Text_color;
@@ -75,7 +75,7 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
          AT_Color_3 = Painter.Settings.Northern_AT_Color_3;       IT_Color_3 = Painter.Settings.Northern_IT_Color_3;
         }
 
-       if( Rooms_Colors.Settings.Selected_room == WESTERN_ROOM )
+       if( Rooms_Colors.RTSettings.Selected_room == WESTERN_ROOM )
         {
          AT_Text_color = Painter.Settings.Western_AT_Text_color;
          IT_Text_color = Painter.Settings.Western_IT_Text_color;
@@ -87,7 +87,7 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
          AT_Color_3 = Painter.Settings.Western_AT_Color_3;       IT_Color_3 = Painter.Settings.Western_IT_Color_3;
         }
 
-       if( Rooms_Colors.Settings.Selected_room == EASTERN_ROOM )
+       if( Rooms_Colors.RTSettings.Selected_room == EASTERN_ROOM )
         {
          AT_Text_color = Painter.Settings.Eastern_AT_Text_color;
          IT_Text_color = Painter.Settings.Eastern_IT_Text_color;
@@ -99,7 +99,7 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
          AT_Color_3 = Painter.Settings.Eastern_AT_Color_3;       IT_Color_3 = Painter.Settings.Eastern_IT_Color_3;
         }
 
-       if( Rooms_Colors.Settings.Selected_room == SOUTHERN_ROOM )
+       if( Rooms_Colors.RTSettings.Selected_room == SOUTHERN_ROOM )
         {
          AT_Text_color = Painter.Settings.Southern_AT_Text_color;
          IT_Text_color = Painter.Settings.Southern_IT_Text_color;
@@ -181,11 +181,11 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
 
            if( Selected_string != LIT_NONE )
             {
-             if( Selected_string == 0 ) Rooms_Colors.Settings.Selected_room = NORTHERN_ROOM;
-             if( Selected_string == 1 ) Rooms_Colors.Settings.Selected_room = WESTERN_ROOM;
-             if( Selected_string == 2 ) Rooms_Colors.Settings.Selected_room = EASTERN_ROOM;
-             if( Selected_string == 3 ) Rooms_Colors.Settings.Selected_room = SOUTHERN_ROOM;
-             if( Selected_string == 4 ) Rooms_Colors.Settings.Selected_room = SHELL_ROOM;
+             if( Selected_string == 0 ) Rooms_Colors.RTSettings.Selected_room = NORTHERN_ROOM;
+             if( Selected_string == 1 ) Rooms_Colors.RTSettings.Selected_room = WESTERN_ROOM;
+             if( Selected_string == 2 ) Rooms_Colors.RTSettings.Selected_room = EASTERN_ROOM;
+             if( Selected_string == 3 ) Rooms_Colors.RTSettings.Selected_room = SOUTHERN_ROOM;
+             if( Selected_string == 4 ) Rooms_Colors.RTSettings.Selected_room = SHELL_ROOM;
 
              BroadcastMessage( SM_SHOW_SETTINGS );
              BroadcastMessage( SM_RECOGNIZE_THEME );
@@ -210,7 +210,6 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
      if( WM_Control_Button_ID == Rooms_Colors.Settings.Wallpaper_button_ID )
       {
        FILEDLG Parameters; HWND OpenFile_window;
-       CHAR File_mask[ SIZE_OF_PATH ] = ""; CHAR Search_pattern[] = "Bitmap\\Rooms\\*.bmp";
 
        bzero( &Parameters, sizeof( FILEDLG ) );
        Parameters.cbSize = sizeof( FILEDLG );
@@ -221,26 +220,33 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
        if( Code_page == RUSSIAN ) Parameters.pszTitle = StrConst_RU_Pages_Rooms_colors_Wallpaper_dialog;
        else Parameters.pszTitle = StrConst_EN_Pages_Rooms_colors_Wallpaper_dialog;
 
-       CHAR Current_directory[ SIZE_OF_PATH ] = "";
-       GetCurrentPath( Current_directory );
-       strcpy( File_mask, Current_directory );
-       strcat( File_mask, "\\" );
-       strcat( File_mask, Search_pattern );
-       strcpy( Parameters.szFullFile, File_mask );
+       if( Rooms_Colors.RTSettings.FileDlg_path[ 0 ] == 0 )
+        {
+         GetCurrentPath( Parameters.szFullFile );
+         strcat( Parameters.szFullFile, "\\Bitmap\\Rooms\\*.bmp" );
+        }
+       else
+        {
+         strcpy( Parameters.szFullFile, Rooms_Colors.RTSettings.FileDlg_path );
+         strcat( Parameters.szFullFile, "\\*.bmp" );
+        }
 
        OpenFile_window = WinFileDlg( HWND_DESKTOP, Window, &Parameters );
 
        if( OpenFile_window != NULLHANDLE ) if( Parameters.lReturn == DID_OK )
-        if( strifind( ".bmp", Parameters.szFullFile ) )
+        if( stristr( ".bmp", Parameters.szFullFile ) )
          {
           PCHAR File_name = NULL; PCHAR Name_in_path = NULL; INT Count;
-          if( Rooms_Colors.Settings.Selected_room == SHELL_ROOM ) File_name = Rooms.Settings.Wallpaper_for_shell_room;
-          if( Rooms_Colors.Settings.Selected_room == NORTHERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_northern_room;
-          if( Rooms_Colors.Settings.Selected_room == WESTERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_western_room;
-          if( Rooms_Colors.Settings.Selected_room == EASTERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_eastern_room;
-          if( Rooms_Colors.Settings.Selected_room == SOUTHERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_southern_room;
+          if( Rooms_Colors.RTSettings.Selected_room == SHELL_ROOM ) File_name = Rooms.Settings.Wallpaper_for_shell_room;
+          if( Rooms_Colors.RTSettings.Selected_room == NORTHERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_northern_room;
+          if( Rooms_Colors.RTSettings.Selected_room == WESTERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_western_room;
+          if( Rooms_Colors.RTSettings.Selected_room == EASTERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_eastern_room;
+          if( Rooms_Colors.RTSettings.Selected_room == SOUTHERN_ROOM ) File_name = Rooms.Settings.Wallpaper_for_southern_room;
 
           strncpy( File_name, Parameters.szFullFile, SIZE_OF_PATH );
+
+          strncpy( Rooms_Colors.RTSettings.FileDlg_path, Parameters.szFullFile, SIZE_OF_PATH );
+          CutNameInPath( Rooms_Colors.RTSettings.FileDlg_path );
 
           WinSendMsg( Window, SM_SHOW_SETTINGS, 0, 0 );
          }
@@ -254,14 +260,14 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
        if( Ini_file )
         {
          // Узнаем цвета.
-         if( Rooms_Colors.Settings.Selected_room != SHELL_ROOM )
+         if( Rooms_Colors.RTSettings.Selected_room != SHELL_ROOM )
           {
            PLONG AT_Text_color = 0;       PLONG IT_Text_color = 0;
            PLONG AT_Background_color = 0; PLONG IT_Background_color = 0;
            PLONG AT_Color_1 = 0;          PLONG AT_Color_2 = 0;          PLONG AT_Color_3 = 0;
            PLONG IT_Color_1 = 0;          PLONG IT_Color_2 = 0;          PLONG IT_Color_3 = 0;
 
-           if( Rooms_Colors.Settings.Selected_room == NORTHERN_ROOM )
+           if( Rooms_Colors.RTSettings.Selected_room == NORTHERN_ROOM )
             {
              AT_Text_color = (PLONG) &Painter.Settings.Northern_AT_Text_color;
              IT_Text_color = (PLONG) &Painter.Settings.Northern_IT_Text_color;
@@ -273,7 +279,7 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
              AT_Color_3 = (PLONG) &Painter.Settings.Northern_AT_Color_3;       IT_Color_3 = (PLONG) &Painter.Settings.Northern_IT_Color_3;
             }
 
-           if( Rooms_Colors.Settings.Selected_room == WESTERN_ROOM )
+           if( Rooms_Colors.RTSettings.Selected_room == WESTERN_ROOM )
             {
              AT_Text_color = (PLONG) &Painter.Settings.Western_AT_Text_color;
              IT_Text_color = (PLONG) &Painter.Settings.Western_IT_Text_color;
@@ -285,7 +291,7 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
              AT_Color_3 = (PLONG) &Painter.Settings.Western_AT_Color_3;       IT_Color_3 = (PLONG) &Painter.Settings.Western_IT_Color_3;
             }
 
-           if( Rooms_Colors.Settings.Selected_room == EASTERN_ROOM )
+           if( Rooms_Colors.RTSettings.Selected_room == EASTERN_ROOM )
             {
              AT_Text_color = (PLONG) &Painter.Settings.Eastern_AT_Text_color;
              IT_Text_color = (PLONG) &Painter.Settings.Eastern_IT_Text_color;
@@ -297,7 +303,7 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
              AT_Color_3 = (PLONG) &Painter.Settings.Eastern_AT_Color_3;       IT_Color_3 = (PLONG) &Painter.Settings.Eastern_IT_Color_3;
             }
 
-           if( Rooms_Colors.Settings.Selected_room == SOUTHERN_ROOM )
+           if( Rooms_Colors.RTSettings.Selected_room == SOUTHERN_ROOM )
             {
              AT_Text_color = (PLONG) &Painter.Settings.Southern_AT_Text_color;
              IT_Text_color = (PLONG) &Painter.Settings.Southern_IT_Text_color;

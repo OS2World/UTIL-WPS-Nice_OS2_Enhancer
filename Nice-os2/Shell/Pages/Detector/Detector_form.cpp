@@ -219,14 +219,14 @@ MRESULT EXPENTRY Detector_DlgProc( HWND Window, ULONG Message, MPARAM First_para
              PCHAR Window_names[ 8 ] = {0};
 
              // Проверяем, есть ли окно в списке.
-             if( strcmp( Name, Enhancer.Detector_dialog.Window_name_1 ) == EQUALLY ) return 0;
-             if( strcmp( Name, Enhancer.Detector_dialog.Window_name_2 ) == EQUALLY ) return 0;
-             if( strcmp( Name, Enhancer.Detector_dialog.Window_name_3 ) == EQUALLY ) return 0;
-             if( strcmp( Name, Enhancer.Detector_dialog.Window_name_4 ) == EQUALLY ) return 0;
-             if( strcmp( Name, Enhancer.Detector_dialog.Window_name_5 ) == EQUALLY ) return 0;
-             if( strcmp( Name, Enhancer.Detector_dialog.Window_name_6 ) == EQUALLY ) return 0;
-             if( strcmp( Name, Enhancer.Detector_dialog.Window_name_7 ) == EQUALLY ) return 0;
-             if( strcmp( Name, Enhancer.Detector_dialog.Window_name_8 ) == EQUALLY ) return 0;
+             if( strc( Name, Enhancer.Detector_dialog.Window_name_1 ) ) return 0;
+             if( strc( Name, Enhancer.Detector_dialog.Window_name_2 ) ) return 0;
+             if( strc( Name, Enhancer.Detector_dialog.Window_name_3 ) ) return 0;
+             if( strc( Name, Enhancer.Detector_dialog.Window_name_4 ) ) return 0;
+             if( strc( Name, Enhancer.Detector_dialog.Window_name_5 ) ) return 0;
+             if( strc( Name, Enhancer.Detector_dialog.Window_name_6 ) ) return 0;
+             if( strc( Name, Enhancer.Detector_dialog.Window_name_7 ) ) return 0;
+             if( strc( Name, Enhancer.Detector_dialog.Window_name_8 ) ) return 0;
 
              // Добавляем окно в список.
              {

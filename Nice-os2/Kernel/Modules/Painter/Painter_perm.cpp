@@ -31,14 +31,14 @@ BYTE Painter_PermissionForCompleteDrawing( HWND Frame_window )
     if( WindowIsCreatedBy( APP_PM123, Frame_window ) ) return 0;
 
    // Проверяем, есть ли приложение в списке исключений.
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.BorderDrawing_1 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.BorderDrawing_2 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.BorderDrawing_3 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.BorderDrawing_4 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.BorderDrawing_5 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.BorderDrawing_6 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.BorderDrawing_7 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.BorderDrawing_8 ) == EQUALLY ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.BorderDrawing_1 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.BorderDrawing_2 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.BorderDrawing_3 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.BorderDrawing_4 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.BorderDrawing_5 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.BorderDrawing_6 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.BorderDrawing_7 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.BorderDrawing_8 ) ) return 0;
   }
 
  // Узнаем окно рабочей области.
@@ -51,14 +51,14 @@ BYTE Painter_PermissionForCompleteDrawing( HWND Frame_window )
    CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Window_name );
 
    // Проверяем, есть ли окно в списке исключений.
-   if( strcmp( Window_name, Painter.Settings.Exceptions.BorderDrawing_1 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.BorderDrawing_2 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.BorderDrawing_3 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.BorderDrawing_4 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.BorderDrawing_5 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.BorderDrawing_6 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.BorderDrawing_7 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.BorderDrawing_8 ) == EQUALLY ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.BorderDrawing_1 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.BorderDrawing_2 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.BorderDrawing_3 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.BorderDrawing_4 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.BorderDrawing_5 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.BorderDrawing_6 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.BorderDrawing_7 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.BorderDrawing_8 ) ) return 0;
   }
 
  // Узнаем PID приложения, создавшего окно.
@@ -114,14 +114,14 @@ BYTE Painter_PermissionForRolling( HWND Frame_window )
  if( Exe_name[ 0 ] != 0 )
   {
    // Проверяем, есть ли приложение в списке исключений.
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Rolling_1 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Rolling_2 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Rolling_3 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Rolling_4 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Rolling_5 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Rolling_6 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Rolling_7 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Rolling_8 ) == EQUALLY ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Rolling_1 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Rolling_2 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Rolling_3 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Rolling_4 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Rolling_5 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Rolling_6 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Rolling_7 ) ) return 0;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Rolling_8 ) ) return 0;
   }
 
  // Узнаем окно рабочей области.
@@ -134,14 +134,14 @@ BYTE Painter_PermissionForRolling( HWND Frame_window )
    CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Window_name );
 
    // Проверяем, есть ли окно в списке исключений.
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Rolling_1 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Rolling_2 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Rolling_3 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Rolling_4 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Rolling_5 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Rolling_6 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Rolling_7 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Rolling_8 ) == EQUALLY ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Rolling_1 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Rolling_2 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Rolling_3 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Rolling_4 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Rolling_5 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Rolling_6 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Rolling_7 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Rolling_8 ) ) return 0;
   }
 
  // Возврат.
@@ -268,14 +268,14 @@ HWND Painter_PermissionForDrawing( HWND Window, PLONG Window_type = NULL )
  if( Exe_name[ 0 ] != 0 )
   {
    // Проверяем, есть ли приложение в списке исключений.
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Drawing_1 ) == EQUALLY ) return NULLHANDLE;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Drawing_2 ) == EQUALLY ) return NULLHANDLE;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Drawing_3 ) == EQUALLY ) return NULLHANDLE;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Drawing_4 ) == EQUALLY ) return NULLHANDLE;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Drawing_5 ) == EQUALLY ) return NULLHANDLE;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Drawing_6 ) == EQUALLY ) return NULLHANDLE;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Drawing_7 ) == EQUALLY ) return NULLHANDLE;
-   if( stricmpe( Exe_name, Painter.Settings.Exceptions.Drawing_8 ) == EQUALLY ) return NULLHANDLE;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Drawing_1 ) ) return NULLHANDLE;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Drawing_2 ) ) return NULLHANDLE;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Drawing_3 ) ) return NULLHANDLE;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Drawing_4 ) ) return NULLHANDLE;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Drawing_5 ) ) return NULLHANDLE;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Drawing_6 ) ) return NULLHANDLE;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Drawing_7 ) ) return NULLHANDLE;
+   if( stric( Exe_name, Painter.Settings.Exceptions.Drawing_8 ) ) return NULLHANDLE;
   }
 
  // Узнаем окно рабочей области для окна рамки.
@@ -288,14 +288,14 @@ HWND Painter_PermissionForDrawing( HWND Window, PLONG Window_type = NULL )
    CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Window_name );
 
    // Проверяем, есть ли окно в списке исключений.
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Drawing_1 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Drawing_2 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Drawing_3 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Drawing_4 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Drawing_5 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Drawing_6 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Drawing_7 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Painter.Settings.Exceptions.Drawing_8 ) == EQUALLY ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Drawing_1 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Drawing_2 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Drawing_3 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Drawing_4 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Drawing_5 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Drawing_6 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Drawing_7 ) ) return 0;
+   if( strc( Window_name, Painter.Settings.Exceptions.Drawing_8 ) ) return 0;
   }
 
  // Возврат.

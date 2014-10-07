@@ -17,7 +17,7 @@ VOID Processor_ProcessFile( PCHAR File_name )
    {
     CHAR Path[ SIZE_OF_PATH ] = ""; strcpy( Path, File_name ); CutNameInPath( Path );
 
-    if( strcmp( Repository.Items[ Position ].Path, Path ) != EQUALLY )
+    if( !strc( Repository.Items[ Position ].Path, Path ) )
      {
       strcpy( Repository.Items[ Position ].Path, Path );
       Inspector.Write_settings = 1;
@@ -98,7 +98,7 @@ VOID Processor_FindFiles( PCHAR Path, BYTE Include_dirs )
    strcpy( Path_mask, Path );
    strcpy( Path_mask_directories, Path );
 
-   if( strcmp( Path, Search_mask ) != EQUALLY ) if( Path[ strlen( Path ) - 1 ] != '\\' )
+   if( !strc( Path, Search_mask ) ) if( Path[ strlen( Path ) - 1 ] != '\\' )
     {
      strcat( Path_mask, "\\" ); strcat( Path_mask, Search_mask );
      strcat( Path_mask_directories, "\\" ); strcat( Path_mask_directories, "*" );
@@ -194,8 +194,8 @@ VOID Processor_FindFiles( PCHAR Path, BYTE Include_dirs )
 
     if( Report == NO_ERROR )
      {
-      if( strcmp( Find_buffer.achName, "." ) == EQUALLY ) continue;
-      if( strcmp( Find_buffer.achName, ".." ) == EQUALLY ) continue;
+      if( strc( Find_buffer.achName, "." ) ) continue;
+      if( strc( Find_buffer.achName, ".." ) ) continue;
 
       Processor_MakePathname( Processor.Static_path, Path, Find_buffer.achName );
 

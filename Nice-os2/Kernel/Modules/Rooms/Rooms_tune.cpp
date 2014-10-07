@@ -31,7 +31,7 @@ VOID Rooms_Tune( HINI Ini_file )
    strcpy( Old_style_name, "\\Enhancer\\Bitmap\\" );
    strcat( Old_style_name, FindNameInPath( Wallpaper ) );
 
-   if( strifind( Old_style_name, Wallpaper ) )
+   if( stristr( Old_style_name, Wallpaper ) )
     {
      // Задаем настоящий путь.
      CHAR New_path[ SIZE_OF_PATH ] = "";
@@ -71,11 +71,11 @@ VOID Rooms_Tune( HINI Ini_file )
       }
 
    // Если изображение изменилось - надо создать изображения заново и закрасить рабочий стол.
-   if( stricmpe( Shell_wallpaper, Rooms.Settings.Wallpaper_for_shell_room ) != EQUALLY       ||
-       stricmpe( Northern_wallpaper, Rooms.Settings.Wallpaper_for_northern_room ) != EQUALLY ||
-       stricmpe( Western_wallpaper, Rooms.Settings.Wallpaper_for_western_room ) != EQUALLY   ||
-       stricmpe( Eastern_wallpaper, Rooms.Settings.Wallpaper_for_eastern_room ) != EQUALLY   ||
-       stricmpe( Southern_wallpaper, Rooms.Settings.Wallpaper_for_southern_room ) != EQUALLY )
+   if( !stric( Shell_wallpaper, Rooms.Settings.Wallpaper_for_shell_room )       ||
+       !stric( Northern_wallpaper, Rooms.Settings.Wallpaper_for_northern_room ) ||
+       !stric( Western_wallpaper, Rooms.Settings.Wallpaper_for_western_room )   ||
+       !stric( Eastern_wallpaper, Rooms.Settings.Wallpaper_for_eastern_room )   ||
+       !stric( Southern_wallpaper, Rooms.Settings.Wallpaper_for_southern_room ) )
      {
       Rooms_CreateDesktopWallpaper( QueryDesktopWindow(), GetCurrentOrNextRoom() );
       Redraw_desktop = 1;

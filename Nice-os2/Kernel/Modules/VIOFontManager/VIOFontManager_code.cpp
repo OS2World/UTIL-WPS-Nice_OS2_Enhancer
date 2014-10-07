@@ -90,14 +90,14 @@ VOID VIOFontManager_SubmitVIOFontMetricsDialog( HWND Frame_window )
    if( Exe_name[ 0 ] != 0 )
     {
      // Запоминаем размер шрифта
-     if( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_1_name, Exe_name ) == EQUALLY ) { X = VIOFontManager.Settings.VIOFontMetrics.X_1; Y = VIOFontManager.Settings.VIOFontMetrics.Y_1; }
-     if( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_2_name, Exe_name ) == EQUALLY ) { X = VIOFontManager.Settings.VIOFontMetrics.X_2; Y = VIOFontManager.Settings.VIOFontMetrics.Y_2; }
-     if( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_3_name, Exe_name ) == EQUALLY ) { X = VIOFontManager.Settings.VIOFontMetrics.X_3; Y = VIOFontManager.Settings.VIOFontMetrics.Y_3; }
-     if( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_4_name, Exe_name ) == EQUALLY ) { X = VIOFontManager.Settings.VIOFontMetrics.X_4; Y = VIOFontManager.Settings.VIOFontMetrics.Y_4; }
-     if( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_5_name, Exe_name ) == EQUALLY ) { X = VIOFontManager.Settings.VIOFontMetrics.X_5; Y = VIOFontManager.Settings.VIOFontMetrics.Y_5; }
-     if( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_6_name, Exe_name ) == EQUALLY ) { X = VIOFontManager.Settings.VIOFontMetrics.X_6; Y = VIOFontManager.Settings.VIOFontMetrics.Y_6; }
-     if( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_7_name, Exe_name ) == EQUALLY ) { X = VIOFontManager.Settings.VIOFontMetrics.X_7; Y = VIOFontManager.Settings.VIOFontMetrics.Y_7; }
-     if( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_8_name, Exe_name ) == EQUALLY ) { X = VIOFontManager.Settings.VIOFontMetrics.X_8; Y = VIOFontManager.Settings.VIOFontMetrics.Y_8; }
+     if( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_1_name, Exe_name ) ) { X = VIOFontManager.Settings.VIOFontMetrics.X_1; Y = VIOFontManager.Settings.VIOFontMetrics.Y_1; }
+     if( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_2_name, Exe_name ) ) { X = VIOFontManager.Settings.VIOFontMetrics.X_2; Y = VIOFontManager.Settings.VIOFontMetrics.Y_2; }
+     if( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_3_name, Exe_name ) ) { X = VIOFontManager.Settings.VIOFontMetrics.X_3; Y = VIOFontManager.Settings.VIOFontMetrics.Y_3; }
+     if( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_4_name, Exe_name ) ) { X = VIOFontManager.Settings.VIOFontMetrics.X_4; Y = VIOFontManager.Settings.VIOFontMetrics.Y_4; }
+     if( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_5_name, Exe_name ) ) { X = VIOFontManager.Settings.VIOFontMetrics.X_5; Y = VIOFontManager.Settings.VIOFontMetrics.Y_5; }
+     if( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_6_name, Exe_name ) ) { X = VIOFontManager.Settings.VIOFontMetrics.X_6; Y = VIOFontManager.Settings.VIOFontMetrics.Y_6; }
+     if( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_7_name, Exe_name ) ) { X = VIOFontManager.Settings.VIOFontMetrics.X_7; Y = VIOFontManager.Settings.VIOFontMetrics.Y_7; }
+     if( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_8_name, Exe_name ) ) { X = VIOFontManager.Settings.VIOFontMetrics.X_8; Y = VIOFontManager.Settings.VIOFontMetrics.Y_8; }
     }
 
    // Если шрифт задан:

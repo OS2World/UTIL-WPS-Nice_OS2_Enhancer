@@ -36,6 +36,18 @@ VOID Placement_Settings_CreatePage( VOID )
 
  {
   LTBRICK Checkbox_brick; LitPrepareBrick( &Checkbox_brick );
+  Checkbox_brick.hwnd = WinCreateWindow( Page->Window, WC_BUTTON, NULL, BS_CHECKBOX, LTM_X, LTM_Y, LTM_CX, LTM_CY, Page->Window, HWND_TOP, Placement_Settings.Settings.Browser_button_ID, NULL, NULL );
+  Checkbox_brick.prpWidthInParent = LTM_COMMON_WIDTH; Checkbox_brick.prpHeightInParent = LTM_COMMON_HEIGHT;
+  SetCommonEnhancerColors( Checkbox_brick.hwnd );
+  if( Code_page == RUSSIAN ) WinSetWindowText( Checkbox_brick.hwnd, StrConst_RU_Pages_Placement_settings_Browser_button );
+  else WinSetWindowText( Checkbox_brick.hwnd, StrConst_EN_Pages_Placement_settings_Browser_button );
+  LitJoinBrick( &( Page->Layout ), &Checkbox_brick );
+
+  LitCompleteRow( &( Page->Layout ) );
+ }
+
+ {
+  LTBRICK Checkbox_brick; LitPrepareBrick( &Checkbox_brick );
   Checkbox_brick.hwnd = WinCreateWindow( Page->Window, WC_BUTTON, NULL, BS_CHECKBOX, LTM_X, LTM_Y, LTM_CX, LTM_CY, Page->Window, HWND_TOP, Placement_Settings.Settings.WPS_button_ID, NULL, NULL );
   Checkbox_brick.prpWidthInParent = LTM_COMMON_WIDTH; Checkbox_brick.prpHeightInParent = LTM_COMMON_HEIGHT;
   SetCommonEnhancerColors( Checkbox_brick.hwnd );

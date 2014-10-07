@@ -26,6 +26,9 @@ MRESULT EXPENTRY Placement_Settings_WndProc( HWND Window, ULONG Message, MPARAM 
 
      Value = 0; if( Arranger.Settings.Arrange_WPS_windows ) Value = 1;
      WinSendDlgItemMsg( Window, Placement_Settings.Settings.WPS_button_ID, BM_SETCHECK, MPFROMLONG( Value ), 0 );
+
+     Value = 0; if( Arranger.Settings.Arrange_Browser_windows ) Value = 1;
+     WinSendDlgItemMsg( Window, Placement_Settings.Settings.Browser_button_ID, BM_SETCHECK, MPFROMLONG( Value ), 0 );
     }
    return 0;
 
@@ -106,6 +109,24 @@ MRESULT EXPENTRY Placement_Settings_WndProc( HWND Window, ULONG Message, MPARAM 
          break;
         }
       }
+
+     if( WM_Control_Window_ID == Placement_Settings.Settings.Browser_button_ID )
+      {
+       switch( WM_Control_Action_ID )
+        {
+         case BN_CLICKED:
+         case BN_DBLCLICKED:
+          {
+           ULONG Button_is_checked = (ULONG) WinSendDlgItemMsg( Window, WM_Control_Window_ID, BM_QUERYCHECK, 0, 0 );
+
+           if( Button_is_checked ) Arranger.Settings.Arrange_Browser_windows = 0;
+           else Arranger.Settings.Arrange_Browser_windows = 1;
+
+           WinSendMsg( Window, SM_SHOW_SETTINGS, 0, 0 );
+          }
+         break;
+        }
+      }
     }
    return 0;
 
@@ -121,10 +142,11 @@ MRESULT EXPENTRY Placement_Settings_WndProc( HWND Window, ULONG Message, MPARAM 
 
        if( Ini_file )
         {
-         PrfWriteProfileData( Ini_file, "Settings", "Arrange VIO windows", &Arranger.Settings.Arrange_VIO_windows, sizeof( BYTE ) );
-         PrfWriteProfileData( Ini_file, "Settings", "Arrange FC2 windows", &Arranger.Settings.Arrange_FC2_windows, sizeof( BYTE ) );
-         PrfWriteProfileData( Ini_file, "Settings", "Arrange WindowList",  &Arranger.Settings.Arrange_WindowList,  sizeof( BYTE ) );
-         PrfWriteProfileData( Ini_file, "Settings", "Arrange WPS windows", &Arranger.Settings.Arrange_WPS_windows, sizeof( BYTE ) );
+         PrfWriteProfileData( Ini_file, "Settings", "Arrange VIO windows", &Arranger.Settings.Arrange_VIO_windows,  sizeof( BYTE ) );
+         PrfWriteProfileData( Ini_file, "Settings", "Arrange FC2 windows", &Arranger.Settings.Arrange_FC2_windows,  sizeof( BYTE ) );
+         PrfWriteProfileData( Ini_file, "Settings", "Arrange WindowList",  &Arranger.Settings.Arrange_WindowList,   sizeof( BYTE ) );
+         PrfWriteProfileData( Ini_file, "Settings", "Arrange WPS windows", &Arranger.Settings.Arrange_WPS_windows,  sizeof( BYTE ) );
+         PrfWriteProfileData( Ini_file, "Settings", "Arrange Browsers", &Arranger.Settings.Arrange_Browser_windows, sizeof( BYTE ) );
 
          PrfCloseProfile( Ini_file );
 

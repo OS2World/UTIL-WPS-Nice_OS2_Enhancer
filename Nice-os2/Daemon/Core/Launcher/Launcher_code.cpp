@@ -73,7 +73,7 @@ VOID LauncherThread( VOID )
            CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
            // Если это окно WPS:
-           if( strcmp( Window_name, "wpFolder window" ) == EQUALLY )
+           if( strc( Window_name, "wpFolder window" ) )
             {
              // Узнаем размер экрана.
              INT X_Screen = WinQuerySysValue( Desktop, SV_CXSCREEN );

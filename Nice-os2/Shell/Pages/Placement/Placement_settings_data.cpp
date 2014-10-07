@@ -9,6 +9,7 @@ typedef struct _PLCMNTSTSPAGE
     ULONG FC2_button_ID;
     ULONG WindowList_button_ID;
     ULONG WPS_button_ID;
+    ULONG Browser_button_ID;
    }
   INRSTS; INRSTS Settings;
  }

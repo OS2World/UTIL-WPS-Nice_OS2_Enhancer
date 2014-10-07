@@ -35,8 +35,11 @@ MRESULT EXPENTRY Keyboard_Various_WndProc( HWND Window, ULONG Message, MPARAM Fi
      Value = 0; if( KeyMapper.Settings.Define_Enter ) Value = 1;
      WinSendDlgItemMsg( Window, Keyboard_Various.Settings.WPS_Enter, BM_SETCHECK, MPFROMLONG( Value ), 0 );
 
+     Value = 0; if( KeyMapper.Settings.Define_Alt_F9 ) Value = 1;
+     WinSendDlgItemMsg( Window, Keyboard_Various.Settings.Alt_F9, BM_SETCHECK, MPFROMLONG( Value ), 0 );
+
      Value = 0; if( KeyMapper.Settings.Discard_F3 ) Value = 1;
-     WinSendDlgItemMsg( Window, Keyboard_Various.Settings.CUA_F3, BM_SETCHECK, MPFROMLONG( Value ), 0 );
+     WinSendDlgItemMsg( Window, Keyboard_Various.Settings.F3, BM_SETCHECK, MPFROMLONG( Value ), 0 );
     }
    return 0;
 
@@ -133,7 +136,25 @@ MRESULT EXPENTRY Keyboard_Various_WndProc( HWND Window, ULONG Message, MPARAM Fi
         }
       }
 
-     if( WM_Control_Window_ID == Keyboard_Various.Settings.CUA_F3 )
+     if( WM_Control_Window_ID == Keyboard_Various.Settings.Alt_F9 )
+      {
+       switch( WM_Control_Action_ID )
+        {
+         case BN_CLICKED:
+         case BN_DBLCLICKED:
+          {
+           ULONG Button_is_checked = (ULONG) WinSendDlgItemMsg( Window, WM_Control_Window_ID, BM_QUERYCHECK, 0, 0 );
+
+           if( Button_is_checked ) KeyMapper.Settings.Define_Alt_F9 = 0;
+           else KeyMapper.Settings.Define_Alt_F9 = 1;
+
+           WinSendMsg( Window, SM_SHOW_SETTINGS, 0, 0 );
+          }
+         break;
+        }
+      }
+
+     if( WM_Control_Window_ID == Keyboard_Various.Settings.F3 )
       {
        switch( WM_Control_Action_ID )
         {
@@ -170,6 +191,7 @@ MRESULT EXPENTRY Keyboard_Various_WndProc( HWND Window, ULONG Message, MPARAM Fi
 
          PrfWriteProfileData( Ini_file, "Settings", "Define Ctrl + C/V", &KeyMapper.Settings.Define_Ctrl_CV, sizeof( BYTE ) );
          PrfWriteProfileData( Ini_file, "Settings", "Define Enter", &KeyMapper.Settings.Define_Enter, sizeof( BYTE ) );
+         PrfWriteProfileData( Ini_file, "Settings", "Define Alt + F9", &KeyMapper.Settings.Define_Alt_F9, sizeof( BYTE ) );
          PrfWriteProfileData( Ini_file, "Settings", "Discard F3", &KeyMapper.Settings.Discard_F3, sizeof( BYTE ) );
 
          PrfCloseProfile( Ini_file );

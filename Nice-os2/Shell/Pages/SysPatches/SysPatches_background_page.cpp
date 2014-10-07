@@ -72,7 +72,6 @@ MRESULT EXPENTRY SysPatches_Background_WndProc( HWND Window, ULONG Message, MPAR
      if( WM_Control_Button_ID == SysPatches_Background.Settings.Wallpaper_button_ID )
       {
        FILEDLG Parameters; HWND OpenFile_window;
-       CHAR File_mask[ SIZE_OF_PATH ] = ""; CHAR Search_pattern[] = "Bitmap\\WPShell\\*.bmp";
 
        bzero( &Parameters, sizeof( FILEDLG ) );
        Parameters.cbSize = sizeof( FILEDLG );
@@ -83,19 +82,26 @@ MRESULT EXPENTRY SysPatches_Background_WndProc( HWND Window, ULONG Message, MPAR
        if( Code_page == RUSSIAN ) Parameters.pszTitle = StrConst_RU_Pages_SysPatches_background_Wallpaper_dialog;
        else Parameters.pszTitle = StrConst_EN_Pages_SysPatches_background_Wallpaper_dialog;
 
-       CHAR Current_directory[ SIZE_OF_PATH ] = "";
-       GetCurrentPath( Current_directory );
-       strcpy( File_mask, Current_directory );
-       strcat( File_mask, "\\" );
-       strcat( File_mask, Search_pattern );
-       strcpy( Parameters.szFullFile, File_mask );
+       if( SysPatches_Background.RTSettings.FileDlg_path[ 0 ] == 0 )
+        {
+         GetCurrentPath( Parameters.szFullFile );
+         strcat( Parameters.szFullFile, "\\Bitmap\\WPShell\\*.bmp" );
+        }
+       else
+        {
+         strcpy( Parameters.szFullFile, SysPatches_Background.RTSettings.FileDlg_path );
+         strcat( Parameters.szFullFile, "\\*.bmp" );
+        }
 
        OpenFile_window = WinFileDlg( HWND_DESKTOP, Window, &Parameters );
 
        if( OpenFile_window != NULLHANDLE ) if( Parameters.lReturn == DID_OK )
-        if( strifind( ".bmp", Parameters.szFullFile ) )
+        if( stristr( ".bmp", Parameters.szFullFile ) )
          {
           strncpy( SysPatches_Background.Settings.Folder_background_name, Parameters.szFullFile, SIZE_OF_PATH );
+
+          strncpy( SysPatches_Background.RTSettings.FileDlg_path, Parameters.szFullFile, SIZE_OF_PATH );
+          CutNameInPath( SysPatches_Background.RTSettings.FileDlg_path );
 
           LoadBitmap( Enhancer.Application, SysPatches_Background.Settings.Folder_background_name, &SysPatches_Background.Settings.Folder_background, &SysPatches_Background.Settings.Folder_background_width, &SysPatches_Background.Settings.Folder_background_height );
           BroadcastRSMessages();

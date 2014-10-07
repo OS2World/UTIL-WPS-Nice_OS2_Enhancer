@@ -79,19 +79,19 @@ BYTE Launcher_FindAndShowApplication( INT Action )
 
        // Проверяем его.
        if( Repository.Items[ Position ].Window_keyword_1[ 0 ] != 0 )
-        if( strifind( Repository.Items[ Position ].Window_keyword_1, Title ) )
+        if( stristr( Repository.Items[ Position ].Window_keyword_1, Title ) )
          Show_window = 1;
 
        if( Repository.Items[ Position ].Window_keyword_2[ 0 ] != 0 )
-        if( strifind( Repository.Items[ Position ].Window_keyword_2, Title ) )
+        if( stristr( Repository.Items[ Position ].Window_keyword_2, Title ) )
          Show_window = 1;
 
        if( Repository.Items[ Position ].Window_keyword_3[ 0 ] != 0 )
-        if( strifind( Repository.Items[ Position ].Window_keyword_3, Title ) )
+        if( stristr( Repository.Items[ Position ].Window_keyword_3, Title ) )
          Show_window = 1;
 
        if( Repository.Items[ Position ].Window_keyword_4[ 0 ] != 0 )
-        if( strifind( Repository.Items[ Position ].Window_keyword_4, Title ) )
+        if( stristr( Repository.Items[ Position ].Window_keyword_4, Title ) )
          Show_window = 1;
       }
 
@@ -149,10 +149,10 @@ BYTE Launcher_FindAndShowApplication( INT Action )
        // Узнаем значок на рабочем столе.
        PCHAR Object_name = NULL;
 
-       if( Count == 0 ) Object_name = Repository.Items[ Position ].WPS_name_1;
-       if( Count == 1 ) Object_name = Repository.Items[ Position ].WPS_name_2;
-       if( Count == 2 ) Object_name = Repository.Items[ Position ].WPS_name_3;
-       if( Count == 3 ) Object_name = Repository.Items[ Position ].WPS_name_4;
+       if( Count == 0 ) Object_name = Repository.Items[ Position ].WPS_name_A;
+       if( Count == 1 ) Object_name = Repository.Items[ Position ].WPS_name_B;
+       if( Count == 2 ) Object_name = Repository.Items[ Position ].WPS_name_C;
+       if( Count == 3 ) Object_name = Repository.Items[ Position ].WPS_name_D;
 
        // Если значок есть - вызываем его.
        if( Object_name[ 0 ] != 0 )
@@ -205,7 +205,7 @@ BYTE Launcher_FindAndShowApplication( INT Action )
          // Если для приложения задан файл *.cmd - вызываем его.
          CHAR Cmd_path[ SIZE_OF_PATH ] = ""; strcpy( Cmd_path, Path );
 
-         PCHAR Extension = strifind( ".exe", Cmd_path );
+         PCHAR Extension = stristr( ".exe", Cmd_path );
 
          if( Extension != NULL )
           {

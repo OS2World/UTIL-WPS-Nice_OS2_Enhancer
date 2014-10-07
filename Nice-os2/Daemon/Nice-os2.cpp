@@ -121,16 +121,16 @@ INT main( INT argc, PCHAR argv[] )
  // Узнаем, что надо сделать.
  if( argc == 2 )
   {
-   if( strifind( "hide",    argv[ 1 ] ) ) Enhancer.Launcher_mode = 1;
-   if( strifind( "mini",    argv[ 1 ] ) ) Enhancer.Launcher_mode = 1;
-   if( strifind( "launch",  argv[ 1 ] ) ) Enhancer.Launcher_mode = 1;
-   if( strifind( "enhance", argv[ 1 ] ) ) Enhancer.Enhancer_mode = 1;
+   if( stristr( "hide",    argv[ 1 ] ) ) Enhancer.Launcher_mode = 1;
+   if( stristr( "mini",    argv[ 1 ] ) ) Enhancer.Launcher_mode = 1;
+   if( stristr( "launch",  argv[ 1 ] ) ) Enhancer.Launcher_mode = 1;
+   if( stristr( "enhance", argv[ 1 ] ) ) Enhancer.Enhancer_mode = 1;
   }
 
  // Возможно, надо вызвать окно настроек.
  if( argc == 2 )
   {
-   if( strfind( "ControlCenter", argv[ 1 ] ) )
+   if( strstr( "ControlCenter", argv[ 1 ] ) )
     {
      CHAR Path_to_ControlCenter[ SIZE_OF_PATH ] = "";
      GetCurrentPath( Path_to_ControlCenter );
@@ -217,7 +217,7 @@ INT main( INT argc, PCHAR argv[] )
      WinQueryWindowText( WinWindowFromID( Window, FID_TITLEBAR ), SIZE_OF_TITLE, Window_title );
 
      // Если это окно расширителя - запоминаем его.
-     if( strcmp( Window_title, Launcher_title ) == EQUALLY )
+     if( strc( Window_title, Launcher_title ) )
       {
        Launcher_window = Window;
        break;
@@ -322,7 +322,7 @@ VOID CheckSystemConfig( VOID )
    DosRead( File, Text, Length, &Length );
 
    // Проверяем, есть ли в настройках путь к каталогу расширителя.
-   BYTE Path_is_present = 1; if( !strifind( "NICE\\ENHANCER", Text ) ) Path_is_present = 0;
+   BYTE Path_is_present = 1; if( !stristr( "NICE\\ENHANCER", Text ) ) Path_is_present = 0;
 
    // Освобождаем память.
    DosFreeMem( Text ); Text = NULL;

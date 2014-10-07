@@ -15,14 +15,14 @@ VOID PriorityManager_CalculatePriorityLevel( HWND Frame_window, PLONG Class, PLO
  if( Exe_name[ 0 ] != 0 )
   {
    // Проверяем, есть ли приложение в списке исключений.
-   if( stricmpe( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_1_name ) == EQUALLY ) Normalize_priority = 1;
-   if( stricmpe( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_2_name ) == EQUALLY ) Normalize_priority = 1;
-   if( stricmpe( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_3_name ) == EQUALLY ) Normalize_priority = 1;
-   if( stricmpe( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_4_name ) == EQUALLY ) Normalize_priority = 1;
-   if( stricmpe( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_5_name ) == EQUALLY ) Normalize_priority = 1;
-   if( stricmpe( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_6_name ) == EQUALLY ) Normalize_priority = 1;
-   if( stricmpe( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_7_name ) == EQUALLY ) Normalize_priority = 1;
-   if( stricmpe( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_8_name ) == EQUALLY ) Normalize_priority = 1;
+   if( stric( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_1_name ) ) Normalize_priority = 1;
+   if( stric( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_2_name ) ) Normalize_priority = 1;
+   if( stric( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_3_name ) ) Normalize_priority = 1;
+   if( stric( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_4_name ) ) Normalize_priority = 1;
+   if( stric( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_5_name ) ) Normalize_priority = 1;
+   if( stric( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_6_name ) ) Normalize_priority = 1;
+   if( stric( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_7_name ) ) Normalize_priority = 1;
+   if( stric( Exe_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_8_name ) ) Normalize_priority = 1;
   }
 
  // Узнаем окно рабочей области для окна рамки.
@@ -35,14 +35,14 @@ VOID PriorityManager_CalculatePriorityLevel( HWND Frame_window, PLONG Class, PLO
    CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Window_name );
 
    // Проверяем, есть ли окно в списке исключений.
-   if( strcmp( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_1_name ) == EQUALLY ) Normalize_priority = 1;
-   if( strcmp( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_2_name ) == EQUALLY ) Normalize_priority = 1;
-   if( strcmp( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_3_name ) == EQUALLY ) Normalize_priority = 1;
-   if( strcmp( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_4_name ) == EQUALLY ) Normalize_priority = 1;
-   if( strcmp( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_5_name ) == EQUALLY ) Normalize_priority = 1;
-   if( strcmp( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_6_name ) == EQUALLY ) Normalize_priority = 1;
-   if( strcmp( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_7_name ) == EQUALLY ) Normalize_priority = 1;
-   if( strcmp( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_8_name ) == EQUALLY ) Normalize_priority = 1;
+   if( strc( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_1_name ) ) Normalize_priority = 1;
+   if( strc( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_2_name ) ) Normalize_priority = 1;
+   if( strc( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_3_name ) ) Normalize_priority = 1;
+   if( strc( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_4_name ) ) Normalize_priority = 1;
+   if( strc( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_5_name ) ) Normalize_priority = 1;
+   if( strc( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_6_name ) ) Normalize_priority = 1;
+   if( strc( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_7_name ) ) Normalize_priority = 1;
+   if( strc( Window_name, PriorityManager.Settings.PriorityNames.Exceeded_priority_8_name ) ) Normalize_priority = 1;
   }
 
  // Задаем новые значения, если это требуется.
@@ -58,7 +58,7 @@ VOID PriorityManager_CalculatePriorityLevel( HWND Frame_window, PLONG Class, PLO
  return;
 }
 
-// ─── Заполняет упрощенный список видимых приложений в RTSettings ───
+// ─── Заполняет список видимых приложений в RTSettings ───
 
 // Visible_processes - список, который надо заполнить.
 VOID PriorityManager_CopyWindowListToRTSettings( VOID )

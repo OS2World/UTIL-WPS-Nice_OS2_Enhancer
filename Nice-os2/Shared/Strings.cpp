@@ -3,15 +3,15 @@
 #define strncpy   Strings_strncpy
 #define strcpy    Strings_strcpy
 #define strcat    Strings_strcat
-#define strcmp    Strings_strcmp
-#define stricmpe  Strings_stricmpe
+#define strc      Strings_strc
+#define stric     Strings_stric
 
 #define memset    Strings_memset
 #define bzero     Strings_bzero
 #define memcpy    Strings_memcpy
 
-#define strfind   Strings_strfind
-#define strifind  Strings_strifind
+#define strstr    Strings_strstr
+#define stristr   Strings_stristr
 #define strchg    Strings_strchg
 #define strschg   Strings_strschg
 

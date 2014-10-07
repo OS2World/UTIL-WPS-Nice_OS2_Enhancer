@@ -20,7 +20,7 @@ BYTE Remover_WindowWillBeHidden( PCHAR WinList_title )
      if( Item_count == 7 ) Item_name = Remover.Settings.WinListNames.Remove_from_list_8_name;
 
      if( Item_name[ 0 ] != 0 )
-      if( strifind( Item_name, WinList_title ) ) return 1;
+      if( stristr( Item_name, WinList_title ) ) return 1;
     }
   }
 
@@ -93,6 +93,15 @@ VOID Remover_ShowAllItemsInSwitchList( BYTE Show_or_hide, BYTE Hide_known_applic
       if( !Hide_this_item && IsLaunchPadWindow( Frame_window ) ) Hide_this_item = 1;
       if( !Hide_this_item && IslSwitcherWindow( Frame_window ) ) Hide_this_item = 1;
 
+      if( !Hide_this_item && IsVIOWindow( Frame_window ) )
+       {
+        PCHAR Title = SWBlock->aswentry[ Count ].swctl.szSwtitle;
+
+        if( strc( Title, Remover.Settings.DDNS ) ||
+            strc( Title, Remover.Settings.DHCP ) ||
+            strc( Title, Remover.Settings.BINL ) ) Hide_this_item = 1;
+       }
+
       if( !Hide_this_item && ShellIsWPS() )
        {
         if( WindowIsUsedTo( DO_IMPROVE_WORKPLACE, Frame_window ) )
@@ -123,11 +132,11 @@ VOID Remover_ShowAllItemsInSwitchList( BYTE Show_or_hide, BYTE Hide_known_applic
         #ifndef INCLUDED_BY_SHELL
 
         if( Shell_window_item != NULL )
-         if( strcmp( Title, Shell_window_item ) == EQUALLY ) continue;
+         if( strc( Title, Shell_window_item ) ) continue;
 
         #endif
 
-        if( strcmp( Title, Item_name ) == EQUALLY ) Hide_this_item = 1;
+        if( strc( Title, Item_name ) ) Hide_this_item = 1;
        }
 
        if( Hide_this_item ) break;

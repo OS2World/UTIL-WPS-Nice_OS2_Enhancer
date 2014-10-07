@@ -208,7 +208,7 @@ VOID Rooms_Colors_CreatePage( VOID )
  CompleteCreation( Page );
 
  // Задаем выбранную комнату.
- Rooms_Colors.Settings.Selected_room = NORTHERN_ROOM;
+ Rooms_Colors.RTSettings.Selected_room = NORTHERN_ROOM;
 
  // Заполняем список комнат.
  {
@@ -237,9 +237,9 @@ VOID Rooms_Colors_CreatePage( VOID )
    // Передаем строки окну списка.
    HWND ComboBox_window = WinWindowFromID( Page->Window, Rooms_Colors.Settings.Selected_room_cmbox_ID );
 
-   INT Selected_room = Rooms_Colors.Settings.Selected_room;
+   INT Selected_room = Rooms_Colors.RTSettings.Selected_room;
    for( Count = 0; Count < Max_strings; Count ++ ) WinSendMsg( ComboBox_window, LM_INSERTITEM, (MPARAM) LIT_END, MPFROMP( Strings[ Count ] ) );
-   Rooms_Colors.Settings.Selected_room = Selected_room;
+   Rooms_Colors.RTSettings.Selected_room = Selected_room;
 
    // Делаем выбранной первую строку списка.
    WinSendMsg( ComboBox_window, LM_SELECTITEM, MPFROMLONG( LIT_NONE ), MPFROMLONG( 1 ) );

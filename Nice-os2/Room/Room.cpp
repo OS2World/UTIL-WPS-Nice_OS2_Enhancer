@@ -37,11 +37,11 @@ INT main( INT argc, CHAR *argv[] )
 
  if( argc == 2 )
   {
-   if( strifind( "north", argv[ 1 ] ) ) { Scan_code = SC_NUM_8; Key = VK_UP;    }
-   if( strifind( "west",  argv[ 1 ] ) ) { Scan_code = SC_NUM_4; Key = VK_LEFT;  }
-   if( strifind( "east",  argv[ 1 ] ) ) { Scan_code = SC_NUM_6; Key = VK_RIGHT; }
-   if( strifind( "south", argv[ 1 ] ) ) { Scan_code = SC_NUM_2; Key = VK_DOWN;  }
-   if( strifind( "desk",  argv[ 1 ] ) ) { Scan_code = SC_NUM_5; Key = 0;        }
+   if( stristr( "north", argv[ 1 ] ) ) { Scan_code = SC_NUM_8; Key = VK_UP;    }
+   if( stristr( "west",  argv[ 1 ] ) ) { Scan_code = SC_NUM_4; Key = VK_LEFT;  }
+   if( stristr( "east",  argv[ 1 ] ) ) { Scan_code = SC_NUM_6; Key = VK_RIGHT; }
+   if( stristr( "south", argv[ 1 ] ) ) { Scan_code = SC_NUM_2; Key = VK_DOWN;  }
+   if( stristr( "desk",  argv[ 1 ] ) ) { Scan_code = SC_NUM_5; Key = 0;        }
   }
 
  // Если комната неизвестна - выход.

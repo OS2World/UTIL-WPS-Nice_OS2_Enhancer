@@ -36,11 +36,23 @@ VOID Keyboard_Various_CreatePage( VOID )
 
  {
   LTBRICK Checkbox_brick; LitPrepareBrick( &Checkbox_brick );
-  Checkbox_brick.hwnd = WinCreateWindow( Page->Window, WC_BUTTON, NULL, BS_CHECKBOX, LTM_X, LTM_Y, LTM_CX, LTM_CY, Page->Window, HWND_TOP, Keyboard_Various.Settings.CUA_F3, NULL, NULL );
+  Checkbox_brick.hwnd = WinCreateWindow( Page->Window, WC_BUTTON, NULL, BS_CHECKBOX, LTM_X, LTM_Y, LTM_CX, LTM_CY, Page->Window, HWND_TOP, Keyboard_Various.Settings.F3, NULL, NULL );
   Checkbox_brick.prpWidthInParent = LTM_COMMON_WIDTH; Checkbox_brick.prpHeightInParent = LTM_COMMON_HEIGHT;
   SetCommonEnhancerColors( Checkbox_brick.hwnd );
-  if( Code_page == RUSSIAN ) WinSetWindowText( Checkbox_brick.hwnd, StrConst_RU_Pages_Keyboard_various_CUA_F3 );
-  else WinSetWindowText( Checkbox_brick.hwnd, StrConst_EN_Pages_Keyboard_various_CUA_F3 );
+  if( Code_page == RUSSIAN ) WinSetWindowText( Checkbox_brick.hwnd, StrConst_RU_Pages_Keyboard_various_F3 );
+  else WinSetWindowText( Checkbox_brick.hwnd, StrConst_EN_Pages_Keyboard_various_F3 );
+  LitJoinBrick( &( Page->Layout ), &Checkbox_brick );
+
+  LitCompleteRow( &( Page->Layout ) );
+ }
+
+ {
+  LTBRICK Checkbox_brick; LitPrepareBrick( &Checkbox_brick );
+  Checkbox_brick.hwnd = WinCreateWindow( Page->Window, WC_BUTTON, NULL, BS_CHECKBOX, LTM_X, LTM_Y, LTM_CX, LTM_CY, Page->Window, HWND_TOP, Keyboard_Various.Settings.Alt_F9, NULL, NULL );
+  Checkbox_brick.prpWidthInParent = LTM_COMMON_WIDTH; Checkbox_brick.prpHeightInParent = LTM_COMMON_HEIGHT;
+  SetCommonEnhancerColors( Checkbox_brick.hwnd );
+  if( Code_page == RUSSIAN ) WinSetWindowText( Checkbox_brick.hwnd, StrConst_RU_Pages_Keyboard_various_Alt_F9 );
+  else WinSetWindowText( Checkbox_brick.hwnd, StrConst_EN_Pages_Keyboard_various_Alt_F9 );
   LitJoinBrick( &( Page->Layout ), &Checkbox_brick );
 
   LitCompleteRow( &( Page->Layout ) );

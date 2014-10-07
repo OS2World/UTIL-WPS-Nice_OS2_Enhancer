@@ -75,8 +75,8 @@ VOID PatcherInputHook( HAB Application, PQMSG Message, PBYTE Discarding )
      // Узнаем окно рамки.
      HWND Frame_window = QueryFrameWindow( Message->hwnd );
 
-     // Если это не окно диалога и в него можно переключиться из списка окон:
-     if( !WindowIsAppDialog( Frame_window ) ) if( WindowIsTouchable( Frame_window ) )
+     // Если это не окно диалога и не окно VIO и в него можно переключиться из списка окон:
+     if( !WindowIsAppDialog( Frame_window ) ) if( !IsVIOWindow( Frame_window ) ) if( WindowIsTouchable( Frame_window ) )
       {
        // Если родительское окно - рабочий стол:
        if( WinQueryWindow( Frame_window, QW_PARENT ) == QueryDesktopWindow() )

@@ -198,11 +198,20 @@ MRESULT EXPENTRY Keyboard_Actions_WndProc( HWND Window, ULONG Message, MPARAM Fi
          Parameters.cbSize = sizeof( FILEDLG );
          Parameters.fl = FDS_OPEN_DIALOG | FDS_CENTER;
 
-         strcpy( Parameters.szFullFile, "\\*.exe;*.cmd" );
-
          LONG Code_page = Enhancer.Code_page;
          if( Code_page == RUSSIAN ) Parameters.pszTitle = StrConst_RU_Pages_Keyboard_actions_ExeName_dialog;
          else Parameters.pszTitle = StrConst_EN_Pages_Keyboard_actions_ExeName_dialog;
+
+         if( Keyboard_Actions.RTSettings.FileDlg_path[ 0 ] == 0 )
+          {
+           GetCurrentPath( Parameters.szFullFile );
+           strcat( Parameters.szFullFile, "\\*.exe;*.cmd" );
+          }
+         else
+          {
+           strcpy( Parameters.szFullFile, Keyboard_Actions.RTSettings.FileDlg_path );
+           strcat( Parameters.szFullFile, "\\*.exe;*.cmd" );
+          }
 
          HWND OpenFile_window = WinFileDlg( HWND_DESKTOP, Window, &Parameters );
 
@@ -211,9 +220,12 @@ MRESULT EXPENTRY Keyboard_Actions_WndProc( HWND Window, ULONG Message, MPARAM Fi
            bzero( Keyboard_Actions.Settings.UserTool_name, SIZE_OF_NAME );
            strcpy( Keyboard_Actions.Settings.UserTool_name, FindNameInPath( Parameters.szFullFile ) );
 
-           CutNameInPath( Parameters.szFullFile );
            bzero( Keyboard_Actions.Settings.UserTool_path, SIZE_OF_PATH );
            strcpy( Keyboard_Actions.Settings.UserTool_path, Parameters.szFullFile );
+           CutNameInPath( Keyboard_Actions.Settings.UserTool_path );
+
+           strncpy( Keyboard_Actions.RTSettings.FileDlg_path, Parameters.szFullFile, SIZE_OF_PATH );
+           CutNameInPath( Keyboard_Actions.RTSettings.FileDlg_path );
 
            WinSetWindowText( WinWindowFromID( WinWindowFromID( Page->Window, Keyboard_Actions.Settings.ExeName_filebox_ID ), Keyboard_Actions.Settings.ExeName_name_ID ), Keyboard_Actions.Settings.UserTool_name );
           }

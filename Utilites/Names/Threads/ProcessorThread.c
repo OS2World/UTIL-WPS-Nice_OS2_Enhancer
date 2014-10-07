@@ -17,7 +17,7 @@ PROCESSORTHRD; PROCESSORTHRD Processor_Thread;
 BYTE Processor_QueryBetterName( PCHAR Short_name )
 {
  // Если имя "os2" - делаем эти буквы заглавными.
- if( stricmpe( Short_name, "os2" ) == EQUALLY )
+ if( stric( Short_name, "os2" ) )
   {
    Short_name[ 0 ] = 'O';
    Short_name[ 1 ] = 'S';
@@ -26,12 +26,12 @@ BYTE Processor_QueryBetterName( PCHAR Short_name )
   }
 
  // Также можно переименовать другие файлы.
- if( stricmpe( Short_name, "wp root. sf" ) == EQUALLY ) { strcpy( Short_name, "WP Root. sf" ); return 1; }
- if( stricmpe( Short_name, "ea data. sf" ) == EQUALLY ) { strcpy( Short_name, "EA Data. sf" ); return 1; }
+ if( stric( Short_name, "wp root. sf" ) ) { strcpy( Short_name, "WP Root. sf" ); return 1; }
+ if( stric( Short_name, "ea data. sf" ) ) { strcpy( Short_name, "EA Data. sf" ); return 1; }
 
- if( stricmpe( Short_name, "psfonts" ) == EQUALLY )     { strcpy( Short_name, "PSFonts" );     return 1; }
- if( stricmpe( Short_name, "lotusw4" ) == EQUALLY )     { strcpy( Short_name, "LotusW4" );     return 1; }
- if( stricmpe( Short_name, "xfree86" ) == EQUALLY )     { strcpy( Short_name, "XFree86" );     return 1; }
+ if( stric( Short_name, "psfonts" ) )     { strcpy( Short_name, "PSFonts" );     return 1; }
+ if( stric( Short_name, "lotusw4" ) )     { strcpy( Short_name, "LotusW4" );     return 1; }
+ if( stric( Short_name, "xfree86" ) )     { strcpy( Short_name, "XFree86" );     return 1; }
 
  // Возврат.
  return 0;
@@ -42,7 +42,7 @@ BYTE Processor_QueryBetterName( PCHAR Short_name )
 VOID Processor_ProcessFile( PCHAR File_name )
 {
  // Корень диска и каталог, с которого начинается обработка, трогать не нужно.
- if( stricmpe( File_name, Names.Task.Root_directory ) == EQUALLY ) return;
+ if( stric( File_name, Names.Task.Root_directory ) ) return;
 
  {
   // Выбираем имя файла.
@@ -57,10 +57,10 @@ VOID Processor_ProcessFile( PCHAR File_name )
     // Если в имени есть заглавные и строчные буквы - их надо сохранить.
     BYTE Convert_name = 0;
 
-    if( Name_in_path[ 0 ] != '.' && strfind( ".", Name_in_path ) )
+    if( Name_in_path[ 0 ] != '.' && strstr( ".", Name_in_path ) )
      {
       strcpy( Better_name, Name_in_path ); UpperCase( Better_name );
-      if( strcmp( Better_name, Name_in_path ) == EQUALLY ) Convert_name = 1;
+      if( strc( Better_name, Name_in_path ) ) Convert_name = 1;
      }
 
     // Если файл можно обработать:
@@ -75,7 +75,7 @@ VOID Processor_ProcessFile( PCHAR File_name )
       if( !Better_name_is_exists ) MixedCase( Better_name );
 
       // Если имя изменилось - переименовываем файл.
-      if( strcmp( Name_in_path, Better_name ) != EQUALLY )
+      if( !strc( Name_in_path, Better_name ) )
        {
         strcpy( Name_in_path, Better_name );
 
@@ -95,7 +95,7 @@ VOID Processor_ProcessFile( PCHAR File_name )
  if( Names.Task.Revise_differences )
   {
    BYTE Convert_name = 1;
-   if( stricmpe( &File_name[ 1 ], ":\\OS2\\Bitmap" ) == EQUALLY ) Convert_name = 0;
+   if( stric( &File_name[ 1 ], ":\\OS2\\Bitmap" ) ) Convert_name = 0;
 
    if( Convert_name ) DiscardEA( File_name, ".LONGNAME" );
   }
@@ -110,10 +110,10 @@ VOID Processor_ProcessFile( PCHAR File_name )
    INT Quantity = 32; BYTE Process_file = 0; INT Count;
 
    for( Count = 0; Count < Quantity; Count ++ )
-    if( strifind( Extensions[ Count ], Name_in_path ) ) Process_file = 1;
+    if( stristr( Extensions[ Count ], Name_in_path ) ) Process_file = 1;
 
    if( Process_file )
-    if( strifind( ".ico", Name_in_path ) || strifind( ".ptr", Name_in_path ) )
+    if( stristr( ".ico", Name_in_path ) || stristr( ".ptr", Name_in_path ) )
      {
       DiscardEA( File_name, ".ICON" );
      }
@@ -131,7 +131,7 @@ VOID Processor_ProcessFile( PCHAR File_name )
    INT Quantity = 4; BYTE Process_file = 0; INT Count;
 
    for( Count = 0; Count < Quantity; Count ++ )
-    if( strifind( Extensions[ Count ], Name_in_path ) ) Process_file = 1;
+    if( stristr( Extensions[ Count ], Name_in_path ) ) Process_file = 1;
 
    if( Process_file ) DiscardEA( File_name, ".MMPREF_MMGENERIC" );
   }
@@ -139,7 +139,7 @@ VOID Processor_ProcessFile( PCHAR File_name )
  // Сбрасываем "тип", если есть расширение.
  if( Names.Task.Remove_types )
   {
-   if( strfind( ".", File_name ) )
+   if( strstr( ".", File_name ) )
     {
      DiscardEA( File_name, ".TYPE" );
 
@@ -154,7 +154,7 @@ VOID Processor_ProcessFile( PCHAR File_name )
      DiscardEA( File_name, ".APPTYPE" );
      DiscardEA( File_name, ".CHECKSUM" );
 
-     if( strifind( ".dll", File_name ) ) DiscardEA( File_name, ".ICON" );
+     if( stristr( ".dll", File_name ) ) DiscardEA( File_name, ".ICON" );
     }
   }
 
@@ -250,7 +250,7 @@ VOID FindFiles( PCHAR Path, BYTE Include_dirs )
   {
    strcpy( Path_mask, Path );
 
-   if( strcmp( Path, "*" ) != EQUALLY ) if( Path[ strlen( Path ) - 1 ] != '\\' )
+   if( !strc( Path, "*" ) ) if( Path[ strlen( Path ) - 1 ] != '\\' )
     strcat( Path_mask, "\\*" );
   }
 
@@ -331,8 +331,8 @@ VOID FindFiles( PCHAR Path, BYTE Include_dirs )
     // Обрабатываем его.
     if( Report == NO_ERROR )
      {
-      if( strcmp( Find_buffer.achName, "." ) == EQUALLY ) continue;
-      if( strcmp( Find_buffer.achName, ".." ) == EQUALLY ) continue;
+      if( strc( Find_buffer.achName, "." ) ) continue;
+      if( strc( Find_buffer.achName, ".." ) ) continue;
       Processor_MakePathname( Processor_Thread.Static_path, Path, Find_buffer.achName );
      }
     else break;

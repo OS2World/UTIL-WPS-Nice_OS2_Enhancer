@@ -14,14 +14,14 @@ BYTE Scroller_PermissionForScrolling( HWND Window )
  if( Exe_name[ 0 ] != 0 )
   {
    // Проверяем, есть ли приложение в списке исключений.
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.Scrolling_1 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.Scrolling_2 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.Scrolling_3 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.Scrolling_4 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.Scrolling_5 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.Scrolling_6 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.Scrolling_7 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.Scrolling_8 ) == EQUALLY ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.Scrolling_1 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.Scrolling_2 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.Scrolling_3 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.Scrolling_4 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.Scrolling_5 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.Scrolling_6 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.Scrolling_7 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.Scrolling_8 ) ) return 0;
   }
 
  // Узнаем окно рабочей области для окна рамки.
@@ -34,14 +34,14 @@ BYTE Scroller_PermissionForScrolling( HWND Window )
    CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Window_name );
 
    // Проверяем, есть ли окно в списке исключений.
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.Scrolling_1 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.Scrolling_2 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.Scrolling_3 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.Scrolling_4 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.Scrolling_5 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.Scrolling_6 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.Scrolling_7 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.Scrolling_8 ) == EQUALLY ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.Scrolling_1 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.Scrolling_2 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.Scrolling_3 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.Scrolling_4 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.Scrolling_5 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.Scrolling_6 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.Scrolling_7 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.Scrolling_8 ) ) return 0;
   }
 
  // Возврат.
@@ -63,14 +63,14 @@ BYTE Scroller_PermissionForKeyScrolling( HWND Window )
  if( Exe_name[ 0 ] != 0 )
   {
    // Проверяем, есть ли приложение в списке исключений.
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_1 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_2 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_3 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_4 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_5 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_6 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_7 ) == EQUALLY ) return 0;
-   if( stricmpe( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_8 ) == EQUALLY ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_1 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_2 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_3 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_4 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_5 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_6 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_7 ) ) return 0;
+   if( stric( Exe_name, Scroller.Settings.Exceptions.KeyScrolling_8 ) ) return 0;
   }
 
  // Узнаем окно рабочей области для окна рамки.
@@ -83,14 +83,14 @@ BYTE Scroller_PermissionForKeyScrolling( HWND Window )
    CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Window_name );
 
    // Проверяем, есть ли окно в списке исключений.
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.KeyScrolling_1 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.KeyScrolling_2 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.KeyScrolling_3 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.KeyScrolling_4 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.KeyScrolling_5 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.KeyScrolling_6 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.KeyScrolling_7 ) == EQUALLY ) return 0;
-   if( strcmp( Window_name, Scroller.Settings.Exceptions.KeyScrolling_8 ) == EQUALLY ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.KeyScrolling_1 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.KeyScrolling_2 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.KeyScrolling_3 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.KeyScrolling_4 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.KeyScrolling_5 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.KeyScrolling_6 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.KeyScrolling_7 ) ) return 0;
+   if( strc( Window_name, Scroller.Settings.Exceptions.KeyScrolling_8 ) ) return 0;
   }
 
  // Возврат.

@@ -44,10 +44,10 @@ VOID EnhancerProperties_SetCommonEnhancerFont( HWND Window )
  BYTE Large_fonts_enabled = 0;
 
  PCHAR FontSize_ptr = NULL; DosScanEnv( "SDDFONTSIZE", (PPCSZ) &FontSize_ptr );
- if( !FontSize_ptr || !strfind( "SMALL", FontSize_ptr ) ) Large_fonts_enabled = 1;
+ if( !FontSize_ptr || !strstr( "SMALL", FontSize_ptr ) ) Large_fonts_enabled = 1;
 
  PCHAR FontDPI_ptr = NULL; DosScanEnv( "SDDFONTDPI", (PPCSZ) &FontDPI_ptr );
- if( !FontDPI_ptr || !strfind( "96", FontDPI_ptr ) ) Large_fonts_enabled = 1;
+ if( !FontDPI_ptr || !strstr( "96", FontDPI_ptr ) ) Large_fonts_enabled = 1;
 
  // Задаем шрифт.
  if( !Large_fonts_enabled )

@@ -13,6 +13,8 @@ typedef struct _ARRANGER
     BYTE Arrange_WindowList;
     // Выравнивать окна WPS? 0 - нет, 1 - да.
     BYTE Arrange_WPS_windows;
+    // Выравнивать окна браузеров? 0 - нет, 1 - да.
+    BYTE Arrange_Browser_windows;
    }
   INRSTS; INRSTS Settings;
  }

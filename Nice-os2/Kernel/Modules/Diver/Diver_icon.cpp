@@ -80,14 +80,6 @@ HPOINTER Diver_QueryWindowIcon( HWND Frame_window )
     }
   }
 
- if( Icon == NULLHANDLE )
-  {
-   if( WindowIsCreatedBy( APP_HTTPD, Frame_window ) ) Icon = Resources.Default_icons[ ICON_SERVER ];
-   if( WindowIsCreatedBy( APP_WEB2, Frame_window ) ) Icon = Resources.Default_icons[ ICON_SERVER ];
-   if( WindowIsCreatedBy( APP_SSHD, Frame_window ) ) Icon = Resources.Default_icons[ ICON_SERVER ];
-   if( WindowIsCreatedBy( APP_NFTPPM, Frame_window ) ) Icon = Resources.Default_icons[ ICON_NFTPPM ];
-  }
-
  // Если значок был выбран - ставим и возвращаем его.
  if( Icon != NULLHANDLE )
   {

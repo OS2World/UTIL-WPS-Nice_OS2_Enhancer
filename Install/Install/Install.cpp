@@ -140,7 +140,7 @@ INT main( INT argc, PCHAR argv[] )
  }
 
  // Узнаем страну, в которой работает приложение.
- if( argc == 2 && strifind( "english", argv[ 1 ] ) ) Installer.Code_page = ENGLISH;
+ if( argc == 2 && stristr( "english", argv[ 1 ] ) ) Installer.Code_page = ENGLISH;
  else Installer.Code_page = QuerySystemCodePage();
 
  // Заполняем структуры данных, используемых окнами.

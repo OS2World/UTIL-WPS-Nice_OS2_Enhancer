@@ -361,7 +361,7 @@ VOID Krnl_DlgBox_RestoreDialogFields( HWND Window, PDLGBOX Data )
 
      if( Field_type == DLG_SPIN_BUTTON )
       {
-       if( strfind( ":", Value ) )
+       if( strstr( ":", Value ) )
         {
          strchg( Value, ':', 0x00 ); LONG Index = atol( Value );
          WinSendMsg( Field, SPBM_SETCURRENTVALUE, MPARAM( Index ), 0 );

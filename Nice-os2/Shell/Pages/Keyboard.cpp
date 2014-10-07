@@ -199,7 +199,8 @@ VOID Keyboard_Start( LONG Settings_to_show = SET_ALL_SETTINGS )
 
   Keyboard_Various.Settings.Ctrl_CV        = 1005;
   Keyboard_Various.Settings.WPS_Enter      = 1006;
-  Keyboard_Various.Settings.CUA_F3         = 1007;
+  Keyboard_Various.Settings.Alt_F9         = 1007;
+  Keyboard_Various.Settings.F3             = 1008;
  }
 
  {

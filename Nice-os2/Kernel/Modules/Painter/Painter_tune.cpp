@@ -15,7 +15,7 @@ VOID Painter_Tune( HINI Ini_file )
  if( Painter.Settings.Draw_frames ) Painter_SetDrawingRules();
 
  // Задаем путь к узору для заполнения заголовков.
- if( strifind( "\\Enhancer\\Bitmap\\", Painter.Settings.TitleBar_pattern ) )
+ if( stristr( "\\Enhancer\\Bitmap\\", Painter.Settings.TitleBar_pattern ) )
   {
    CHAR New_path[ SIZE_OF_PATH ] = "";
 

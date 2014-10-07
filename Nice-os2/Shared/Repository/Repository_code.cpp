@@ -95,6 +95,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_MPCPUMON;
  Repository.Items[ I ].Purpose = DO_MONITOR_SYSTEM;
  Repository.Items[ I ].Action = SHOW_PULSE;
+ strcpy( Repository.Items[ I ].WPS_name_A, "<WP_PULSE>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "MPCPUMon.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "MPCPUMonitor object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "MPCPUMonitor path" );
@@ -152,7 +153,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_NETDRIVE;
  Repository.Items[ I ].Purpose = DO_CONNECT_DRIVES;
  Repository.Items[ I ].Action = SHOW_NETWORK;
- strcpy( Repository.Items[ I ].WPS_name_1, "<NDFS_CONTROLPANEL>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<NDFS_CONTROLPANEL>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Ndpm.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "NetDrive object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "NetDrive path" );
@@ -161,7 +162,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_DISCON;
  Repository.Items[ I ].Purpose = DO_CONNECT_DRIVES;
  Repository.Items[ I ].Action = SHOW_NETWORK;
- strcpy( Repository.Items[ I ].WPS_name_1, "<FF_DISCON>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<FF_DISCON>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Connect.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "DisCon object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "DisCon path" );
@@ -205,7 +206,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_ECSCONET;
  Repository.Items[ I ].Purpose = DO_CONNECT_INTERNET;
  Repository.Items[ I ].Action = SHOW_DIALER;
- strcpy( Repository.Items[ I ].WPS_name_1, "<ECSCONET_EXEC>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<ECSCONET_EXEC>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "eCSCoNet.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "eCSCoNet object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "eCSCoNet path" );
@@ -241,7 +242,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_LCMD;
  Repository.Items[ I ].Purpose = DO_MANAGE_FILES;
  Repository.Items[ I ].Action = SHOW_PM_COMMANDER;
- strcpy( Repository.Items[ I ].WPS_name_1, "<LarsenCommanderProg>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<LarsenCommanderProg>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Lcmd.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "LCmd object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "LCmd path" );
@@ -258,7 +259,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_FM2;
  Repository.Items[ I ].Purpose = DO_MANAGE_FILES;
  Repository.Items[ I ].Action = SHOW_PM_COMMANDER;
- strcpy( Repository.Items[ I ].WPS_name_1, "<FM/2>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<FM/2>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "FM2.exe" );
  strcpy( Repository.Items[ I ].Exe_name_2, "FM3.exe" );
  strcpy( Repository.Items[ I ].Exe_name_3, "FM4.exe" );
@@ -269,7 +270,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_FBROWSER;
  Repository.Items[ I ].Purpose = DO_MANAGE_FILES;
  Repository.Items[ I ].Action = SHOW_PM_COMMANDER;
- strcpy( Repository.Items[ I ].WPS_name_1, "<FB_BROWSER>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<FB_BROWSER>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "FBrowser.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "FileBrowser object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "FileBrowser path" );
@@ -278,7 +279,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_FFREEDOM;
  Repository.Items[ I ].Purpose = DO_MANAGE_FILES;
  Repository.Items[ I ].Action = SHOW_PM_COMMANDER;
- strcpy( Repository.Items[ I ].WPS_name_1, "<FF_FILEMANAGER>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<FF_FILEMANAGER>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "FileFrdm.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "FileFreedom object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "FileFreedom path" );
@@ -295,7 +296,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_MOZILLA;
  Repository.Items[ I ].Purpose = DO_BROWSE_WEB_PAGES;
  Repository.Items[ I ].Action = SHOW_WEB_BROWSER;
- strcpy( Repository.Items[ I ].WPS_name_1, "<MOZILLAEXE>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<MOZILLAEXE>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Mozilla.exe" );
  strcpy( Repository.Items[ I ].Exe_name_2, "SeaMonkey.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "Mozilla object" );
@@ -305,18 +306,27 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_FIREFOX;
  Repository.Items[ I ].Purpose = DO_BROWSE_WEB_PAGES;
  Repository.Items[ I ].Action = SHOW_WEB_BROWSER;
- strcpy( Repository.Items[ I ].WPS_name_1, "<FIREFOXEXE>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<FIREFOXEXE>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "FireFox.exe" );
+ strcpy( Repository.Items[ I ].Exe_name_2, "FireFox!K.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "FireFox object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "FireFox path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
- Repository.Items[ I ].Application = APP_OPERA;
+ Repository.Items[ I ].Application = APP_ARORA;
  Repository.Items[ I ].Purpose = DO_BROWSE_WEB_PAGES;
  Repository.Items[ I ].Action = SHOW_WEB_BROWSER;
- strcpy( Repository.Items[ I ].Exe_name_1, "Opera5.exe" );
- strcpy( Repository.Items[ I ].Object_INI_setting_name, "Opera object" );
- strcpy( Repository.Items[ I ].Path_INI_setting_name, "Opera path" );
+ strcpy( Repository.Items[ I ].Exe_name_1, "Arora.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "Arora object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "Arora path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_QUPZILLA;
+ Repository.Items[ I ].Purpose = DO_BROWSE_WEB_PAGES;
+ Repository.Items[ I ].Action = SHOW_WEB_BROWSER;
+ strcpy( Repository.Items[ I ].Exe_name_1, "QupZilla.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "QupZilla object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "QupZilla path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_LINKS;
@@ -380,7 +390,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_ICECQ;
  Repository.Items[ I ].Purpose = DO_CONTACT_PEOPLE;
  Repository.Items[ I ].Action = SHOW_ICQ_PAGER;
- strcpy( Repository.Items[ I ].WPS_name_1, "<MINITUN>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<MINITUN>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "IceCQ.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "IceCQ object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "IceCQ path" );
@@ -398,7 +408,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_FTPBROWSER;
  Repository.Items[ I ].Purpose = DO_BROWSE_FTP_SITES;
  Repository.Items[ I ].Action = SHOW_FTP_BROWSER;
- strcpy( Repository.Items[ I ].WPS_name_1, "<FTPB>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<FTPB>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "FTPBAddr.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "FTPBrowser object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "FTPBrowser path" );
@@ -449,7 +459,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_KON;
  Repository.Items[ I ].Purpose = DO_EDIT_TEXT;
  Repository.Items[ I ].Action = SHOW_TEXT_EDITOR;
- strcpy( Repository.Items[ I ].WPS_name_1, "<KON2>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<KON2>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "KonOS2.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "KON object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "KON path" );
@@ -466,7 +476,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_FWE;
  Repository.Items[ I ].Purpose = DO_EDIT_TEXT;
  Repository.Items[ I ].Action = SHOW_TEXT_EDITOR;
- strcpy( Repository.Items[ I ].WPS_name_1, "<WP_FutureWaveEditor>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<WP_FutureWaveEditor>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Fwe.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "FWE object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "FWE path" );
@@ -475,7 +485,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_E;
  Repository.Items[ I ].Purpose = DO_EDIT_TEXT;
  Repository.Items[ I ].Action = SHOW_TEXT_EDITOR;
- strcpy( Repository.Items[ I ].WPS_name_1, "<WP_SYSED>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<WP_SYSED>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "E.exe" );
  strcpy( Repository.Items[ I ].Exe_name_2, "AE.exe" );
 
@@ -483,6 +493,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_EPM;
  Repository.Items[ I ].Purpose = DO_EDIT_TEXT;
  Repository.Items[ I ].Action = SHOW_TEXT_EDITOR;
+ strcpy( Repository.Items[ I ].WPS_name_A, "<WP_EPM>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Epm.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "EPM object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "EPM path" );
@@ -515,7 +526,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_SCALC;
  Repository.Items[ I ].Purpose = DO_CALCULATION;
  Repository.Items[ I ].Action = SHOW_CALCULATOR;
- strcpy( Repository.Items[ I ].WPS_name_1, "<ECS_CALC>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<ECS_CALC>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "SCalc.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "SCalc object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "SCalc path" );
@@ -524,7 +535,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_SCALC;
  Repository.Items[ I ].Purpose = DO_CALCULATION;
  Repository.Items[ I ].Action = SHOW_CALCULATOR;
- strcpy( Repository.Items[ I ].WPS_name_1, "<DECalc_Prog>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<DECalc_Prog>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "DECalc.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "DECalc object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "DECalc path" );
@@ -584,9 +595,9 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_PMVIEW;
  Repository.Items[ I ].Purpose = DO_BROWSE_IMAGES;
  Repository.Items[ I ].Action = SHOW_IMAGE_VIEWER;
- strcpy( Repository.Items[ I ].WPS_name_1, "<PMVIEW20>" );
- strcpy( Repository.Items[ I ].WPS_name_2, "<PMVIEW30>" );
- strcpy( Repository.Items[ I ].WPS_name_3, "<PMVIEW40>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<PMVIEW20>" );
+ strcpy( Repository.Items[ I ].WPS_name_B, "<PMVIEW30>" );
+ strcpy( Repository.Items[ I ].WPS_name_C, "<PMVIEW40>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "PMView.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "PMView object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "PMView path" );
@@ -595,7 +606,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_PM123;
  Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
  Repository.Items[ I ].Action = SHOW_MP3_PLAYER;
- strcpy( Repository.Items[ I ].WPS_name_1, "<PM123>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<PM123>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Pm123.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "PM123 object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "PM123 path" );
@@ -652,7 +663,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_MMOS2_VOLUME;
  Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
  Repository.Items[ I ].Action = SHOW_MMOS2_VOLUME;
- strcpy( Repository.Items[ I ].WPS_name_1, "<MMPM2_MMVOLUME>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<MMPM2_MMVOLUME>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Volume.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "MM/V object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "MM/V path" );
@@ -661,7 +672,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_UNIAUDIO_MIXER;
  Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
  Repository.Items[ I ].Action = SHOW_UNIAUDIO_MIXER;
- strcpy( Repository.Items[ I ].WPS_name_1, "<UNIAUD_MIXER>" );
+ strcpy( Repository.Items[ I ].WPS_name_A, "<UNIAUD_MIXER>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "UniMixPM.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "UniMix object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "UniMix path" );
@@ -1009,10 +1020,10 @@ BYTE Repository_ApplicationIsExists( INT Application )
  if( Position == -1 ) return 0;
 
  // Проверяем, есть ли значок для приложения.
- if( Repository.Items[ Position ].WPS_name_1[ 0 ] != 0 ) if( Repository_QueryWPSObject( Repository.Items[ Position ].WPS_name_1 ) != NULLHANDLE ) return 1;
- if( Repository.Items[ Position ].WPS_name_2[ 0 ] != 0 ) if( Repository_QueryWPSObject( Repository.Items[ Position ].WPS_name_2 ) != NULLHANDLE ) return 1;
- if( Repository.Items[ Position ].WPS_name_3[ 0 ] != 0 ) if( Repository_QueryWPSObject( Repository.Items[ Position ].WPS_name_3 ) != NULLHANDLE ) return 1;
- if( Repository.Items[ Position ].WPS_name_4[ 0 ] != 0 ) if( Repository_QueryWPSObject( Repository.Items[ Position ].WPS_name_4 ) != NULLHANDLE ) return 1;
+ if( Repository.Items[ Position ].WPS_name_A[ 0 ] != 0 ) if( Repository_QueryWPSObject( Repository.Items[ Position ].WPS_name_A ) != NULLHANDLE ) return 1;
+ if( Repository.Items[ Position ].WPS_name_B[ 0 ] != 0 ) if( Repository_QueryWPSObject( Repository.Items[ Position ].WPS_name_B ) != NULLHANDLE ) return 1;
+ if( Repository.Items[ Position ].WPS_name_C[ 0 ] != 0 ) if( Repository_QueryWPSObject( Repository.Items[ Position ].WPS_name_C ) != NULLHANDLE ) return 1;
+ if( Repository.Items[ Position ].WPS_name_D[ 0 ] != 0 ) if( Repository_QueryWPSObject( Repository.Items[ Position ].WPS_name_D ) != NULLHANDLE ) return 1;
 
  if( Repository.Items[ Position ].Object[ 0 ] != 0 )
   if( Repository_WPSObjectIsExists( Repository.Items[ Position ].Object ) )
@@ -1081,10 +1092,10 @@ INT Repository_FindExeNameInRepository( PCHAR Name )
 
  while( Count < Repository.Length )
   {
-   if( stricmpe( Name, Repository.Items[ Count ].Exe_name_1 ) == EQUALLY ) return Count;
-   if( stricmpe( Name, Repository.Items[ Count ].Exe_name_2 ) == EQUALLY ) return Count;
-   if( stricmpe( Name, Repository.Items[ Count ].Exe_name_3 ) == EQUALLY ) return Count;
-   if( stricmpe( Name, Repository.Items[ Count ].Exe_name_4 ) == EQUALLY ) return Count;
+   if( stric( Name, Repository.Items[ Count ].Exe_name_1 ) ) return Count;
+   if( stric( Name, Repository.Items[ Count ].Exe_name_2 ) ) return Count;
+   if( stric( Name, Repository.Items[ Count ].Exe_name_3 ) ) return Count;
+   if( stric( Name, Repository.Items[ Count ].Exe_name_4 ) ) return Count;
 
    Count ++;
   }
@@ -1106,7 +1117,7 @@ PCHAR Repository_FindDescriptionInRepository( INT Application )
    if( Repository.Items[ Count ].Application == Application )
     {
      if( Repository.Items[ Count ].Exe_name_1[ 0 ] != 0 ) return Repository.Items[ Count ].Exe_name_1;
-     if( Repository.Items[ Count ].WPS_name_1[ 0 ] != 0 ) return Repository.Items[ Count ].WPS_name_1;
+     if( Repository.Items[ Count ].WPS_name_A[ 0 ] != 0 ) return Repository.Items[ Count ].WPS_name_A;
     }
 
    Count ++;
@@ -1125,10 +1136,10 @@ BYTE Repository_NamesAreEqually( INT Position, PCHAR Name )
  if( Position == -1 ) return 0;
 
  // Проверяем имена.
- if( stricmpe( Repository.Items[ Position ].Exe_name_1, Name ) == EQUALLY ||
-     stricmpe( Repository.Items[ Position ].Exe_name_2, Name ) == EQUALLY ||
-     stricmpe( Repository.Items[ Position ].Exe_name_3, Name ) == EQUALLY ||
-     stricmpe( Repository.Items[ Position ].Exe_name_4, Name ) == EQUALLY )
+ if( stric( Repository.Items[ Position ].Exe_name_1, Name ) ||
+     stric( Repository.Items[ Position ].Exe_name_2, Name ) ||
+     stric( Repository.Items[ Position ].Exe_name_3, Name ) ||
+     stric( Repository.Items[ Position ].Exe_name_4, Name ) )
   return 1;
 
  // Возврат.
@@ -1144,7 +1155,7 @@ BYTE Repository_IsDesktopWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#32766" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "#32766" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1163,10 +1174,10 @@ BYTE Repository_IsFrameWindow( HWND Window )
   // Проверяем имя, под которым определено окно.
   BYTE Window_can_be_frame = 0;
 
-  if( strcmp( Window_name, "#1" ) == EQUALLY ) Window_can_be_frame = 1;
-  if( strcmp( Window_name, "EFrame" ) == EQUALLY ) Window_can_be_frame = 1;
-  if( strcmp( Window_name, "wpFolder window" ) == EQUALLY ) Window_can_be_frame = 1;
-  if( strcmp( Window_name, "Win32FrameClass" ) == EQUALLY ) Window_can_be_frame = 1;
+  if( strc( Window_name, "#1" ) ) Window_can_be_frame = 1;
+  if( strc( Window_name, "EFrame" ) ) Window_can_be_frame = 1;
+  if( strc( Window_name, "wpFolder window" ) ) Window_can_be_frame = 1;
+  if( strc( Window_name, "Win32FrameClass" ) ) Window_can_be_frame = 1;
 
   #ifndef INCLUDED_BY_SHELL
 
@@ -1196,7 +1207,7 @@ BYTE Repository_IsFolderWindow( HWND Frame_window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Frame_window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "wpFolder window" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "wpFolder window" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1568,7 +1579,7 @@ BYTE Repository_IsMenuWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#4" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "#4" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1583,7 +1594,7 @@ BYTE Repository_IsTitleBarWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#9" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "#9" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1598,7 +1609,7 @@ BYTE Repository_IsScrollBarWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#8" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "#8" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1613,8 +1624,8 @@ BYTE Repository_IsInputFieldWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#10" ) == EQUALLY ||
-     strfind( "MultiLineEntryField", Window_name ) ) return 1;
+ if( strc( Window_name, "#10" ) ||
+     strstr( "MultiLineEntryField", Window_name ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1629,8 +1640,8 @@ BYTE Repository_IsEntryFieldWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#6" ) == EQUALLY ||
-     strfind( "EntryField", Window_name ) ) return 1;
+ if( strc( Window_name, "#6" ) ||
+     strstr( "EntryField", Window_name ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1645,7 +1656,7 @@ BYTE Repository_IsIconViewWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#37" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "#37" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1660,8 +1671,8 @@ BYTE Repository_IsDetailViewWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#50" ) == EQUALLY ) return 1;
- if( strcmp( Window_name, "#51" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "#50" ) ) return 1;
+ if( strc( Window_name, "#51" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1676,9 +1687,9 @@ BYTE Repository_IsComboBoxWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#2" ) == EQUALLY ||
-     strfind( "Combo", Window_name ) ||
-     strfind( "DropDown", Window_name ) ) return 1;
+ if( strc( Window_name, "#2" ) ||
+     strstr( "Combo", Window_name ) ||
+     strstr( "DropDown", Window_name ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1693,8 +1704,8 @@ BYTE Repository_IsListBoxWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#7" ) == EQUALLY ||
-     strfind( "ListBox", Window_name ) ) return 1;
+ if( strc( Window_name, "#7" ) ||
+     strstr( "ListBox", Window_name ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1709,8 +1720,8 @@ BYTE Repository_IsSpinButtonWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#32" ) == EQUALLY ||
-     strfind( "SpinButton", Window_name ) ) return 1;
+ if( strc( Window_name, "#32" ) ||
+     strstr( "SpinButton", Window_name ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1725,8 +1736,8 @@ BYTE Repository_IsCheckBoxButtonWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#3" ) == EQUALLY ||
-     strfind( "CheckBox", Window_name ) )
+ if( strc( Window_name, "#3" ) ||
+     strstr( "CheckBox", Window_name ) )
   {
    QMSG Report = {0};
    LONG Style = (LONG) WinSendMsg( Window, WM_QUERYDLGCODE, &Report, 0 );
@@ -1746,8 +1757,8 @@ BYTE Repository_IsRadioButtonWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#3" ) == EQUALLY ||
-     strfind( "RadioButton", Window_name ) )
+ if( strc( Window_name, "#3" ) ||
+     strstr( "RadioButton", Window_name ) )
   {
    QMSG Report = {0};
    LONG Style = (LONG) WinSendMsg( Window, WM_QUERYDLGCODE, &Report, 0 );
@@ -1767,8 +1778,8 @@ BYTE Repository_IsButtonWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#3" ) == EQUALLY ||
-     strfind( "PushButton", Window_name ) )
+ if( strc( Window_name, "#3" ) ||
+     strstr( "PushButton", Window_name ) )
   {
    QMSG Report = {0};
    LONG Style = (LONG) WinSendMsg( Window, WM_QUERYDLGCODE, &Report, 0 );
@@ -1788,7 +1799,7 @@ BYTE Repository_IsSliderWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#38" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "#38" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1803,7 +1814,7 @@ BYTE Repository_IsCircularSliderWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#65" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "#65" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1818,7 +1829,7 @@ BYTE Repository_IsNotebookWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#40" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "#40" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1848,7 +1859,7 @@ BYTE Repository_IsStaticWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#5" ) == EQUALLY )
+ if( strc( Window_name, "#5" ) )
   if( WinQueryWindowTextLength( Window ) == 0 )
    return 1;
 
@@ -1865,7 +1876,7 @@ BYTE Repository_IsLabelWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "#5" ) == EQUALLY )
+ if( strc( Window_name, "#5" ) )
   if( WinQueryWindowTextLength( Window ) != 0 )
    return 1;
 
@@ -1901,7 +1912,7 @@ BYTE Repository_IsFileBarWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strcmp( Client_name, "FileBar" ) == EQUALLY ) return 1;
+   if( strc( Client_name, "FileBar" ) ) return 1;
   }
 
  // Возврат.
@@ -1922,7 +1933,7 @@ BYTE Repository_IsMDeskWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strcmp( Client_name, "MDesk-Folder" ) == EQUALLY ) return 1;
+   if( strc( Client_name, "MDesk-Folder" ) ) return 1;
   }
 
  // Возврат.
@@ -1943,7 +1954,7 @@ BYTE Repository_IsWinListWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strcmp( Client_name, "WindowList" ) == EQUALLY ) return 1;
+   if( strc( Client_name, "WindowList" ) ) return 1;
   }
 
  // Возврат.
@@ -2006,7 +2017,7 @@ BYTE Repository_IsWorkplaceShellWindow( HWND Frame_window )
    if( Exe_name[ 0 ] != 0 )
     {
      // Проверяем его.
-     if( strifind( Exe_name, Workplace ) ) return 1;
+     if( stristr( Exe_name, Workplace ) ) return 1;
     }
    // А если имя неизвестно:
    else
@@ -2043,7 +2054,7 @@ BYTE Repository_IsAltTabSwitcherWindow( HWND Frame_window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Frame_window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( stricmpe( Window_name, "AltTabSwitcher" ) == EQUALLY ) return 1;
+ if( stric( Window_name, "AltTabSwitcher" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -2063,8 +2074,8 @@ BYTE Repository_IslSwitcherWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его. Начало имени, "lsw" может быть задано разными буквами.
-   if( stricmpe( Client_name, "lswPopupClass" ) == EQUALLY ) return 1;
-   if( stricmpe( Client_name, "lswTaskBarClass" ) == EQUALLY ) return 1;
+   if( stric( Client_name, "lswPopupClass" ) ) return 1;
+   if( stric( Client_name, "lswTaskBarClass" ) ) return 1;
   }
 
  // Возврат.
@@ -2111,7 +2122,7 @@ BYTE Repository_IsWarpCenterWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Если это может быть WarpCenter:
- if( strcmp( Window_name, "#3" ) == EQUALLY )
+ if( strc( Window_name, "#3" ) )
   if( Repository_HasWarpCenterSize( Window ) )
    {
     // Узнаем заголовок окна.
@@ -2119,7 +2130,7 @@ BYTE Repository_IsWarpCenterWindow( HWND Window )
     WinQueryWindowText( Window, SIZE_OF_NAME, Window_name );
 
     // Если это WarpCenter - возвращаем 1.
-    if( strcmp( Window_name, "SmartCenter" ) == EQUALLY ) return 1;
+    if( strc( Window_name, "SmartCenter" ) ) return 1;
    }
 
  // Возврат.
@@ -2141,7 +2152,7 @@ BYTE Repository_IsWarpCenterMenuWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Если это может быть WarpCenter:
- if( strcmp( Window_name, "#3" ) == EQUALLY )
+ if( strc( Window_name, "#3" ) )
   {
    // Узнаем размер окна.
    RECT Rectangle = {0}; WinQueryWindowRect( Window, &Rectangle );
@@ -2168,7 +2179,7 @@ BYTE Repository_IsSysTrayWindow( HWND Window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Если оно может быть окном SysTray:
-   if( strifind( "SysTray", Client_name ) )
+   if( stristr( "SysTray", Client_name ) )
     {
      // Проверяем расположение окна.
      if( Repository_HasWarpCenterSize( Window ) ) return 1;
@@ -2194,8 +2205,8 @@ BYTE Repository_IsSysTrayMenuWindow( HWND Window )
    CHAR Owner_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Owner_window, SIZE_OF_NAME, Owner_name );
 
    // Проверяем его.
-   if( strcmp( Owner_name, "AgentCenterClass" ) == EQUALLY ) return 1;
-   if( strcmp( Owner_name, "SPLG_WarpButton" ) == EQUALLY ) return 1;
+   if( strc( Owner_name, "AgentCenterClass" ) ) return 1;
+   if( strc( Owner_name, "SPLG_WarpButton" ) ) return 1;
   }
 
  // Возврат.
@@ -2216,7 +2227,7 @@ BYTE Repository_IsECenterWindow( HWND Window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Если оно может быть окном eCenter:
-   if( strifind( "XWPCenter", Client_name ) )
+   if( stristr( "XWPCenter", Client_name ) )
     {
      // Проверяем расположение окна.
      if( Repository_HasWarpCenterSize( Window ) ) return 1;
@@ -2242,7 +2253,7 @@ BYTE Repository_IsECenterMenuWindow( HWND Window )
    CHAR Owner_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Owner_window, SIZE_OF_NAME, Owner_name );
 
    // Проверяем его.
-   if( strifind( "XWPCenter", Owner_name ) ) return 1;
+   if( stristr( "XWPCenter", Owner_name ) ) return 1;
   }
 
  // Возврат.
@@ -2263,7 +2274,7 @@ BYTE Repository_IsEPagerWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strifind( "XWPXPagerClient", Client_name ) ) return 1;
+   if( stristr( "XWPXPagerClient", Client_name ) ) return 1;
   }
 
  // Возврат.
@@ -2284,7 +2295,7 @@ BYTE Repository_IsSysMsgWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strcmp( Client_name, "PM Hard Error" ) == EQUALLY ) return 1;
+   if( strc( Client_name, "PM Hard Error" ) ) return 1;
   }
 
  // Возврат.
@@ -2305,8 +2316,8 @@ BYTE Repository_IsWindowsWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strfind( "Win32WindowClass", Client_name ) ) return 1;
-   if( strcmp( Client_name, "SeamlessClass" ) == EQUALLY ) return 1;
+   if( strstr( "Win32WindowClass", Client_name ) ) return 1;
+   if( strc( Client_name, "SeamlessClass" ) ) return 1;
   }
 
  // Возврат.
@@ -2327,7 +2338,7 @@ BYTE Repository_IsVIOWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strcmp( Client_name, "Shield" ) == EQUALLY ) return 1;
+   if( strc( Client_name, "Shield" ) ) return 1;
   }
 
  // Возврат.

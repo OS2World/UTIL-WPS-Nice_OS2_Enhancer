@@ -16,6 +16,14 @@ typedef struct _VIOSSHPROMPTSPAGE
     ULONG File_Remove_ID;
    }
   INRSTS; INRSTS Settings;
+
+  // Внутренние переменные.
+  typedef struct _RTSTS
+   {
+    // Последний выбранный каталог.
+    CHAR FileDlg_path[ SIZE_OF_PATH ];
+   }
+  RTSETTINGS; RTSETTINGS RTSettings;
  }
 VIOSSHPROMPTSPAGE;
 

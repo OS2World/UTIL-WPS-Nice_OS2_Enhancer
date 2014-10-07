@@ -41,7 +41,7 @@ VOID Applier_FindWindowInMessageDialogList( HWND Frame_window, BYTE Check_title,
 
      // Если окно создано другим приложением - продолжаем перебор.
      if( DlgList[ Count ]->Exe_name[ 0 ] != 0 )
-      if( strcmp( Exe_name, DlgList[ Count ]->Exe_name ) != EQUALLY )
+      if( !strc( Exe_name, DlgList[ Count ]->Exe_name ) )
        continue;
 
      // Если надо проверять заголовок окна:
@@ -49,7 +49,7 @@ VOID Applier_FindWindowInMessageDialogList( HWND Frame_window, BYTE Check_title,
       {
        // Если у окна другой заголовок - продолжаем перебор.
        if( DlgList[ Count ]->Window_title[ 0 ] != 0 )
-        if( strcmp( Title, DlgList[ Count ]->Window_title ) != EQUALLY )
+        if( !strc( Title, DlgList[ Count ]->Window_title ) )
          continue;
       }
 
@@ -117,7 +117,7 @@ VOID Applier_FindWindowInIncompleteDialogList( HWND Frame_window, BYTE Check_tit
 
      // Если окно создано другим приложением - продолжаем перебор.
      if( DlgList[ Count ]->Exe_name[ 0 ] != 0 )
-      if( strcmp( Exe_name, DlgList[ Count ]->Exe_name ) != EQUALLY )
+      if( !strc( Exe_name, DlgList[ Count ]->Exe_name ) )
        continue;
 
      // Если надо проверять заголовок окна:
@@ -125,7 +125,7 @@ VOID Applier_FindWindowInIncompleteDialogList( HWND Frame_window, BYTE Check_tit
       {
        // Если у окна другой заголовок - продолжаем перебор.
        if( DlgList[ Count ]->Window_title[ 0 ] != 0 )
-        if( strcmp( Title, DlgList[ Count ]->Window_title ) != EQUALLY )
+        if( !strc( Title, DlgList[ Count ]->Window_title ) )
          continue;
       }
 
@@ -193,7 +193,7 @@ VOID Applier_FindWindowInLogonDialogList( HWND Frame_window, BYTE Check_title, P
 
      // Если окно создано другим приложением - продолжаем перебор.
      if( DlgList[ Count ]->Exe_name[ 0 ] != 0 )
-      if( strcmp( Exe_name, DlgList[ Count ]->Exe_name ) != EQUALLY )
+      if( !strc( Exe_name, DlgList[ Count ]->Exe_name ) )
        continue;
 
      // Если надо проверять заголовок окна:
@@ -201,7 +201,7 @@ VOID Applier_FindWindowInLogonDialogList( HWND Frame_window, BYTE Check_title, P
       {
        // Если у окна другой заголовок - продолжаем перебор.
        if( DlgList[ Count ]->Window_title[ 0 ] != 0 )
-        if( strcmp( Title, DlgList[ Count ]->Window_title ) != EQUALLY )
+        if( !strc( Title, DlgList[ Count ]->Window_title ) )
          continue;
       }
 

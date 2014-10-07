@@ -30,11 +30,18 @@ typedef struct _RMSCLRSPAGE
     ULONG WinTitles_Active_ID;
     ULONG WinTitles_Button_ID;
     ULONG WinTitles_DrawText_ID;
-
-    // Выбранная комната.
-    ULONG Selected_room;
    }
   INRSTS; INRSTS Settings;
+
+  // Внутренние переменные.
+  typedef struct _RTSTS
+   {
+    // Выбранная комната.
+    ULONG Selected_room;
+    // Последний выбранный каталог.
+    CHAR FileDlg_path[ SIZE_OF_PATH ];
+   }
+  RTSETTINGS; RTSETTINGS RTSettings;
  }
 RMSCLRSPAGE;
 

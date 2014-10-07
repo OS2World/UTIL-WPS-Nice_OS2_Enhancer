@@ -9,7 +9,7 @@ VOID SysCheck_CheckPMSettingsAndWriteLog( VOID )
 
   PCHAR RestartObjects_ptr = NULL; DosScanEnv( "RESTARTOBJECTS", (PPCSZ) &RestartObjects_ptr );
   if( RestartObjects_ptr == NULL ) RestartObjects_is_correct = 0;
-  else if( !strfind( "STARTUPFOLDERSONLY", RestartObjects_ptr ) ) RestartObjects_is_correct = 0;
+  else if( !strstr( "STARTUPFOLDERSONLY", RestartObjects_ptr ) ) RestartObjects_is_correct = 0;
 
   if( !RestartObjects_is_correct )
    {

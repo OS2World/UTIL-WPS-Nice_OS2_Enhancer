@@ -76,7 +76,7 @@ BYTE Permission( PCHAR Directory_name )
        // Структуры имеют разную длину, поэтому выполняем поиск строки.
        BYTE Success = 0; PBYTE One_byte = (PBYTE) Descriptions; INT Count;
        for( Count = 0; Count < Descriptions_size - strlen( EA_Name ) - 1; Count ++ )
-        if( strcmp( &One_byte[ Count ], EA_Name ) == EQUALLY ) { Success = 1; break; }
+        if( strc( &One_byte[ Count ], EA_Name ) ) { Success = 1; break; }
 
        DosFreeMem( Descriptions ); Descriptions = NULL;
 
@@ -112,8 +112,8 @@ BYTE Permission( PCHAR Directory_name )
              for( Count = 0; Count < Limit; Count ++ ) if( One_byte[ Count ] == 0 ) One_byte[ Count ] = '.';
              One_byte[ Limit ] = 0;
 
-             if( Permission ) if( strfind( "WPDesktop", (PBYTE) OutputData ) ) Permission = 0;
-             if( Permission ) if( strfind( "WPVault", (PBYTE) OutputData ) ) Permission = 0;
+             if( Permission ) if( strstr( "WPDesktop", (PBYTE) OutputData ) ) Permission = 0;
+             if( Permission ) if( strstr( "WPVault", (PBYTE) OutputData ) ) Permission = 0;
 
              OutputData->cbList = (ULONG) 0;
             }

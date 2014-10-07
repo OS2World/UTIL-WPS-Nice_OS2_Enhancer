@@ -102,7 +102,7 @@ VOID HelpPages_CloseExistingHelpPage( VOID )
      WinQueryWindowText( WinWindowFromID( Window, FID_TITLEBAR ), SIZE_OF_TITLE, Window_title );
 
      // Если это справочник расширителя - закрываем окно.
-     if( strifind( "Nice", Window_title ) ) WinPostMsg( Window, WM_SYSCOMMAND, (MPARAM) SC_CLOSE, MPFROM2SHORT( CMDSRC_MENU, 0 ) );
+     if( stristr( "Nice", Window_title ) ) WinPostMsg( Window, WM_SYSCOMMAND, (MPARAM) SC_CLOSE, MPFROM2SHORT( CMDSRC_MENU, 0 ) );
     }
   }
 

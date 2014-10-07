@@ -219,7 +219,7 @@ VOID Applier_PrepareLogonCommand( PCHAR Command, PDLGFIELD Values, INT Quantity 
     if( Pointer == Str_pointers[ Ptr_count ] )
      {
       PCHAR Value = Dlg_pointers[ Ptr_count ]->Value;
-      BYTE Space_is_present = 0; if( strfind( " ", Value ) ) Space_is_present = 1;
+      BYTE Space_is_present = 0; if( strstr( " ", Value ) ) Space_is_present = 1;
 
       if( Space_is_present ) strcat( New_command, "\"" );
       strcat( New_command, Value );
@@ -274,7 +274,7 @@ VOID Applier_ExecuteLogonScript( PID Process_ID )
 
        // Выполняем команду.
        CHAR Parameters[ SIZE_OF_PATH ] = "";
-       PCHAR Space = strfind( " ", Command );
+       PCHAR Space = strstr( " ", Command );
        if( Space ) { strcpy( Parameters, Space + 1 ); *Space = 0; }
 
        HAPP PM_Handle = Execute( Command, Parameters, Title, SWP_MINIMIZE );

@@ -62,7 +62,9 @@
 #define SM_ARRANGE_VIO_IN_ROOM        ( WM_USER + 141   )
 #define SM_ARRANGE_FC2                ( WM_USER + 142   )
 #define SM_ARRANGE_WPS                ( WM_USER + 143   )
-#define SM_ARRANGE_WIN_LIST           ( WM_USER + 144   )
+#define SM_ARRANGE_BROWSER            ( WM_USER + 144   )
+#define SM_ARRANGE_IPF_HELP           ( WM_USER + 145   )
+#define SM_ARRANGE_WIN_LIST           ( WM_USER + 146   )
 
 #define SM_ARRANGE_FIRST              ( SM_ARRANGE_VIO      )
 #define SM_ARRANGE_LAST               ( SM_ARRANGE_WIN_LIST )

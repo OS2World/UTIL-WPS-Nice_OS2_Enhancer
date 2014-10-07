@@ -40,7 +40,7 @@ INT VIOMenuManager_GetCommandSubset( HWND Frame_window )
     {
      // Если заголовок есть и он совпадает с заголовком окна - возвращаем номер файла.
      PCHAR Title = VIOMenuManager.RTSettings.Files[ File_number ].Titles[ Title_number ];
-     if( Title[ 0 ] != 0 ) if( strifind( Title, Window_title ) ) return File_number;
+     if( Title[ 0 ] != 0 ) if( stristr( Title, Window_title ) ) return File_number;
     }
   }
 
@@ -94,7 +94,7 @@ INT VIOMenuManager_FindCommandInList( INT File_number, PCHAR String )
    strcpy( Command, VIOMenuManager.RTSettings.Files[ File_number ].Commands[ Count ] );
    VIOMenuManager_RemoveEmphasisMarks( Command );
 
-   if( strcmp( Command, String ) == EQUALLY ) { Position = Count; break; }
+   if( strc( Command, String ) ) { Position = Count; break; }
   }
 
  // Возврат.

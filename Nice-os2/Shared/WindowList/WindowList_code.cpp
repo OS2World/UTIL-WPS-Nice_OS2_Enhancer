@@ -81,7 +81,7 @@ VOID WindowList_CorrectWindowTitle( HWND Frame_window, PCHAR Window_title, INT R
  // Если заголовок содержит имя исполняемого файла - приводим его к виду "Имя.exe"
  if( String_length > 4 )
   if( Window_title[ String_length - 4 ] == '.' )
-   if( !strfind( " ", Window_title ) )
+   if( !strstr( " ", Window_title ) )
     if( ( Window_title[ String_length - 3 ] == 'E' &&
           Window_title[ String_length - 2 ] == 'X' &&
           Window_title[ String_length - 1 ] == 'E' ) ||
@@ -110,7 +110,7 @@ VOID WindowList_CorrectWindowTitle( HWND Frame_window, PCHAR Window_title, INT R
    }
 
  // В заголовке обозревателя Mozilla не надо показывать дату его сборки.
- PCHAR Brace = strfind( " {", Window_title );
+ PCHAR Brace = strstr( " {", Window_title );
  if( Brace )
   if( WindowIsCreatedBy( APP_MOZILLA, Frame_window ) )
    *Brace = 0;
@@ -141,7 +141,7 @@ VOID WindowList_QueryWindowTitle( HWND Frame_window, HWND TitleBar_window, PCHAR
    strncpy( Window_title, Task.szSwtitle, SIZE_OF_TITLE );
    Window_title[ SIZE_OF_TITLE - 1 ] = NULL;
 
-   if( strfind( "% ", Window_title ) ) Window_title[ 0 ] = NULL;
+   if( strstr( "% ", Window_title ) ) Window_title[ 0 ] = NULL;
    if( Window_title[ strlen( Window_title ) - 1 ] == '%' ) Window_title[ 0 ] = NULL;
   }
 
@@ -273,7 +273,7 @@ VOID WindowList_QuerySWBlocks( PSWBLOCK* SWBlock, PSWBLOCK* Corrected_SWBlock )
   for( Count = 0; Count < ( *Corrected_SWBlock )->cswentry; Count ++ )
    {
     PSWCNTRL Task = &( ( *Corrected_SWBlock )->aswentry[ Count ].swctl );
-    WindowList_CorrectWindowTitle( Task->hwnd, Task->szSwtitle, SIZE_OF_NAME );
+    WindowList_CorrectWindowTitle( Task->hwnd, Task->szSwtitle, SIZE_OF_TITLE );
    }
  }
 
@@ -362,7 +362,7 @@ VOID WindowList_ShowItemInSwitchList( PCHAR Item_name, BYTE Show_item )
     SWCNTRL Task = Corrected_SWBlock->aswentry[ Count ].swctl;
     PCHAR Title = Corrected_SWBlock->aswentry[ Count ].swctl.szSwtitle;
 
-    if( strcmp( Title, Item_name ) == EQUALLY ) WindowList_ShowItemInSwitchList( Switch_handle, Task, Show_item );
+    if( strc( Title, Item_name ) ) WindowList_ShowItemInSwitchList( Switch_handle, Task, Show_item );
    }
  }
 

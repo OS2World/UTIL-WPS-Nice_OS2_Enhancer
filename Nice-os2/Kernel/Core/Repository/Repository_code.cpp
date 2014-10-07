@@ -13,7 +13,7 @@ BYTE Krnl_Repository_IsHobWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strfind( "XWP", Client_name ) ) return 1;
+   if( strstr( "XWP", Client_name ) ) return 1;
   }
 
  // Возврат.
@@ -29,8 +29,8 @@ BYTE Krnl_Repository_IsJavaWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем окно.
- if( strfind( "awt", Window_name ) )
-  if( strfind( "Class", Window_name ) ) return 1;
+ if( strstr( "awt", Window_name ) )
+  if( strstr( "Class", Window_name ) ) return 1;
 
  // Возврат.
  return 0;
@@ -50,7 +50,7 @@ BYTE Krnl_Repository_IsSpeedPascalWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strfind( "Speed-Pascal", Client_name ) ) return 1;
+   if( strstr( "Speed-Pascal", Client_name ) ) return 1;
   }
 
  // Возврат.
@@ -66,7 +66,7 @@ BYTE Krnl_Repository_IsSibylInnerWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strfind( "Sibyl", Window_name ) ) return 1;
+ if( strstr( "Sibyl", Window_name ) ) return 1;
 
  // Возврат.
  return 0;
@@ -137,7 +137,7 @@ BYTE Krnl_Repository_IsPaletteWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strcmp( Client_name, "PaletteClient" ) == EQUALLY ) return 1;
+   if( strc( Client_name, "PaletteClient" ) ) return 1;
   }
 
  // Возврат.
@@ -160,7 +160,7 @@ BYTE Krnl_Repository_IsJobCnrWindow( HWND Frame_window )
    CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
    // Проверяем его.
-   if( strcmp( Window_name, "JobCnr" ) == EQUALLY )
+   if( strc( Window_name, "JobCnr" ) )
     {
      // Завершаем перебор окон.
      WinEndEnumWindows( Enumeration );
@@ -189,7 +189,7 @@ BYTE Krnl_Repository_IsSmartBarWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strcmp( Client_name, "SMARTBAR_ClientWindow" ) == EQUALLY ) return 1;
+   if( strc( Client_name, "SMARTBAR_ClientWindow" ) ) return 1;
   }
 
  // Возврат.
@@ -205,7 +205,7 @@ BYTE Krnl_Repository_IsMozillaLiningWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "MozillaWindowClass" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "MozillaWindowClass" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -238,7 +238,7 @@ BYTE Krnl_Repository_IsQtLiningWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "QWindow" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "QWindow" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -271,7 +271,7 @@ BYTE Krnl_Repository_IsOdinLiningWindow( HWND Window )
  CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
  // Проверяем его.
- if( strcmp( Window_name, "Win32WindowClass" ) == EQUALLY ) return 1;
+ if( strc( Window_name, "Win32WindowClass" ) ) return 1;
 
  // Возврат.
  return 0;
@@ -309,7 +309,7 @@ BYTE Krnl_Repository_IsEPMEditorWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strfind( "NewEditWndClass", Client_name ) ) return 1;
+   if( strstr( "NewEditWndClass", Client_name ) ) return 1;
   }
 
  // Возврат.
@@ -330,7 +330,7 @@ BYTE Krnl_Repository_IsVideoViewerWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strfind( "VIDEO2", Client_name ) ) return 1;
+   if( strstr( "VIDEO2", Client_name ) ) return 1;
   }
 
  // Возврат.
@@ -351,7 +351,7 @@ BYTE Krnl_Repository_IsVideoPlayerWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strfind( "diveView", Client_name ) ) return 1;
+   if( strstr( "diveView", Client_name ) ) return 1;
   }
 
  // Возврат.
@@ -379,7 +379,7 @@ HWND Krnl_Repository_FindFontListField( HWND Frame_window )
      CHAR Text[ 25 ] = ""; strncpy( Text, Krnl_Repository.RTSettings.Item_text, Length );
 
      // Если они есть:
-     if( strfind( " x ", Text ) )
+     if( strstr( " x ", Text ) )
       {
        // Завершаем перебор окон.
        WinEndEnumWindows( Enumeration );
@@ -441,8 +441,8 @@ BYTE Krnl_Repository_IsRZApiWindow( HWND Frame_window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( strcmp( Client_name, "RzFrW" ) == EQUALLY ) return 1;
-   if( strifind( "RzSup_", Client_name ) ) return 1;
+   if( strc( Client_name, "RzFrW" ) ) return 1;
+   if( stristr( "RzSup_", Client_name ) ) return 1;
   }
 
  // Возврат.
@@ -466,7 +466,7 @@ BYTE Krnl_Repository_IsGoldEdWindow( HWND Frame_window )
      // Проверяем имя.
      if( strlen( Exe_name ) > 6 )
       {
-       Exe_name[ 3 ] = 0; if( stricmpe( Exe_name, "Ged" ) == EQUALLY ) return 1;
+       Exe_name[ 3 ] = 0; if( stric( Exe_name, "Ged" ) ) return 1;
       }
     }
   }
@@ -492,7 +492,7 @@ BYTE Krnl_Repository_IsHotJavaBrowserWindow( HWND Frame_window )
      CHAR Title[ SIZE_OF_TITLE ] = ""; GetDetectedWindowTitle( Frame_window, Title );
 
      // Проверяем его.
-     if( strifind( "HotJava", Title ) ) return 1;
+     if( stristr( "HotJava", Title ) ) return 1;
     }
   }
 

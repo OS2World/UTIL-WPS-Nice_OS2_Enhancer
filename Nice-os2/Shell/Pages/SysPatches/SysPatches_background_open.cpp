@@ -105,7 +105,7 @@ VOID SysPatches_Background_CreatePage( VOID )
   if( SysPatches_Background.Settings.Folder_background_name[ 0 ] != 0 )
    {
     // Ставим после имени файла признак конца строки.
-    PCHAR Point = strifind( ".bmp", SysPatches_Background.Settings.Folder_background_name );
+    PCHAR Point = stristr( ".bmp", SysPatches_Background.Settings.Folder_background_name );
     if( Point != NULL ) *( Point + 4 ) = 0;
 
     // Загружаем изображение.

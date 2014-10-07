@@ -33,6 +33,7 @@ VOID Placement_Start( LONG Settings_to_show = SET_ALL_SETTINGS )
   Placement_Settings.Settings.FC2_button_ID        = 1002;
   Placement_Settings.Settings.WindowList_button_ID = 1003;
   Placement_Settings.Settings.WPS_button_ID        = 1004;
+  Placement_Settings.Settings.Browser_button_ID    = 1005;
  }
 
  // Возврат.

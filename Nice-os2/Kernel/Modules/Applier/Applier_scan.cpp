@@ -171,10 +171,10 @@ VOID EXPENTRY Applier_ScanMessageDialog( HWND Message_window )
 
  for( Count = 0; Count < Applier.RTDlgMemory.Message_data.Quantity; Count ++ )
   {
-   if( strcmp( Applier.RTDlgMemory.Message_data.Buttons[ Count ].Value, "Discard" ) == EQUALLY ||
-       strcmp( Applier.RTDlgMemory.Message_data.Buttons[ Count ].Value, "Dismiss" ) == EQUALLY ||
-       strcmp( Applier.RTDlgMemory.Message_data.Buttons[ Count ].Value, "Cancel" ) == EQUALLY ||
-       strcmp( Applier.RTDlgMemory.Message_data.Buttons[ Count ].Value, "Close" ) == EQUALLY )
+   if( strc( Applier.RTDlgMemory.Message_data.Buttons[ Count ].Value, "Discard" ) ||
+       strc( Applier.RTDlgMemory.Message_data.Buttons[ Count ].Value, "Dismiss" ) ||
+       strc( Applier.RTDlgMemory.Message_data.Buttons[ Count ].Value, "Cancel" )  ||
+       strc( Applier.RTDlgMemory.Message_data.Buttons[ Count ].Value, "Close" ) )
     {
      Applier.RTDlgMemory.Message_data.Close_button = Count;
      break;

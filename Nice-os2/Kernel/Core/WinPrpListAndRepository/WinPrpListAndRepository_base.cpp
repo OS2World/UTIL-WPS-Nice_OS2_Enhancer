@@ -31,7 +31,7 @@ VOID WinPrpListAndRepository_RememberExeNameAndPath( HWND Frame_window )
     {
      // Если путь к приложению изменился - запоминаем новый путь.
      if( Repository.Items[ Position ].Path_INI_setting_name[ 0 ] != 0 )
-      if( strcmp( Repository.Items[ Position ].Path, Path ) != EQUALLY )
+      if( !strc( Repository.Items[ Position ].Path, Path ) ) 
        strcpy( Repository.Items[ Position ].Path, Path );
     }
   }

@@ -18,10 +18,10 @@ INT AbstractPrpList_GetTopItemPosition( PPRPLISTDESC Descendant )
 INT AbstractPrpList_LookupList( PPRPLISTDESC Descendant, LISTKEY Key )
 {
  // Ищем значение в списке.
- PRPLISTISITEMEQUALSPROCEDURE ItemsAreEqually = Descendant->IsItemEqualsTo;
+ PRPLISTISITEMEQUALSPROCEDURE IsEqualsTo = Descendant->IsItemEqualsTo;
 
  for( INT Count = AbstractPrpList_GetTopItemPosition( Descendant ); Count >= 0; Count -- )
-  if( ItemsAreEqually( Count, Key ) ) return Count;
+  if( IsEqualsTo( Count, Key ) ) return Count;
 
  // Возврат.
  return -1;

@@ -137,7 +137,6 @@ MRESULT EXPENTRY Drawing_Themes_WndProc( HWND Window, ULONG Message, MPARAM Firs
      if( WM_Control_Button_ID == Drawing_Themes.Settings.Texture_button_ID )
       {
        FILEDLG Parameters; HWND OpenFile_window;
-       CHAR File_mask[ SIZE_OF_PATH ] = ""; CHAR Search_pattern[] = "Bitmap\\Themes\\*.bmp";
 
        bzero( &Parameters, sizeof( FILEDLG ) );
        Parameters.cbSize = sizeof( FILEDLG );
@@ -148,19 +147,26 @@ MRESULT EXPENTRY Drawing_Themes_WndProc( HWND Window, ULONG Message, MPARAM Firs
        if( Code_page == RUSSIAN ) Parameters.pszTitle = StrConst_RU_Pages_Drawing_themes_Texture_dialog;
        else Parameters.pszTitle = StrConst_EN_Pages_Drawing_themes_Texture_dialog;
 
-       CHAR Current_directory[ SIZE_OF_PATH ] = "";
-       GetCurrentPath( Current_directory );
-       strcpy( File_mask, Current_directory );
-       strcat( File_mask, "\\" );
-       strcat( File_mask, Search_pattern );
-       strcpy( Parameters.szFullFile, File_mask );
+       if( Drawing_Themes.RTSettings.FileDlg_path[ 0 ] == 0 )
+        {
+         GetCurrentPath( Parameters.szFullFile );
+         strcat( Parameters.szFullFile, "\\Bitmap\\Themes\\*.bmp" );
+        }
+       else
+        {
+         strcpy( Parameters.szFullFile, Drawing_Themes.RTSettings.FileDlg_path );
+         strcat( Parameters.szFullFile, "\\*.bmp" );
+        }
 
        OpenFile_window = WinFileDlg( HWND_DESKTOP, Window, &Parameters );
 
        if( OpenFile_window != NULLHANDLE ) if( Parameters.lReturn == DID_OK )
-        if( strifind( ".bmp", Parameters.szFullFile ) )
+        if( stristr( ".bmp", Parameters.szFullFile ) )
          {
           strncpy( Painter.Settings.TitleBar_pattern, Parameters.szFullFile, SIZE_OF_PATH );
+
+          strncpy( Drawing_Themes.RTSettings.FileDlg_path, Parameters.szFullFile, SIZE_OF_PATH );
+          CutNameInPath( Drawing_Themes.RTSettings.FileDlg_path );
 
           WinSendMsg( Window, SM_SHOW_SETTINGS, 0, 0 );
          }

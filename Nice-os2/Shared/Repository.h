@@ -49,8 +49,9 @@
 
 #define APP_MOZILLA                  10100
 #define APP_FIREFOX                  10101
-#define APP_OPERA                    10102
-#define APP_LINKS                    10103
+#define APP_ARORA                    10102
+#define APP_QUPZILLA                 10103
+#define APP_LINKS                    10104
 
 #define APP_THUNDERBIRD              10110
 #define APP_PMMAIL                   10111

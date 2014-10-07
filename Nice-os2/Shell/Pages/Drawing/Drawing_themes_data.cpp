@@ -17,6 +17,14 @@ typedef struct _DRWTHEMESPAGE
     BYTE Theme_list_is_locked;
    }
   INRSTS; INRSTS Settings;
+
+  // Внутренние переменные.
+  typedef struct _RTSTS
+   {
+    // Последний выбранный каталог.
+    CHAR FileDlg_path[ SIZE_OF_PATH ];
+   }
+  RTSETTINGS; RTSETTINGS RTSettings;
  }
 DRWTHEMESPAGE;
 

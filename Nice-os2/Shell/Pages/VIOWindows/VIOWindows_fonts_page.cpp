@@ -137,8 +137,8 @@ MRESULT EXPENTRY VIOWindows_Fonts_WndProc( HWND Window, ULONG Message, MPARAM Fi
 
               if( VIOWindows_Fonts.Settings.Shell_font_X != NULL )
                {
-                itoa( *VIOWindows_Fonts.Settings.Shell_font_X, Metrics_X, 10 ); if( strcmp( Metrics_X, "0" ) == EQUALLY ) Metrics_X[ 0 ] = 0;
-                itoa( *VIOWindows_Fonts.Settings.Shell_font_Y, Metrics_Y, 10 ); if( strcmp( Metrics_Y, "0" ) == EQUALLY ) Metrics_Y[ 0 ] = 0;
+                itoa( *VIOWindows_Fonts.Settings.Shell_font_X, Metrics_X, 10 ); if( strc( Metrics_X, "0" ) ) Metrics_X[ 0 ] = 0;
+                itoa( *VIOWindows_Fonts.Settings.Shell_font_Y, Metrics_Y, 10 ); if( strc( Metrics_Y, "0" ) ) Metrics_Y[ 0 ] = 0;
 
                 HWND ComboBox_window = WinWindowFromID( WinWindowFromID( WinWindowFromID( Window, VIOWindows_Fonts.Settings.AppList_Container_ID ), VIOWindows_Fonts.Settings.SelectBox_ID ), VIOWindows_Fonts.Settings.Selected_font_cmbox_ID );
 

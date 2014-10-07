@@ -188,7 +188,7 @@ INT main( INT argc, PCHAR argv[] )
 VOID ParseArg( INT argc, PCHAR argv_1, PCHAR argv_2 )
 {
  // Узнаем страну, в которой работает приложение.
- if( argc == 2 && strifind( "english", argv_2 ) )
+ if( argc == 2 && stristr( "english", argv_2 ) )
   {
    Names.Settings.Code_page = ENGLISH;
   }

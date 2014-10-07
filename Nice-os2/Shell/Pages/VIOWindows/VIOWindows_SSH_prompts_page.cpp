@@ -109,23 +109,29 @@ MRESULT EXPENTRY VIOWindows_SSH_Prompts_WndProc( HWND Window, ULONG Message, MPA
        if( Code_page == RUSSIAN ) Parameters.pszTitle = StrConst_RU_Pages_VIOWindows_SSH_prompts_Dialog;
        else Parameters.pszTitle = StrConst_EN_Pages_VIOWindows_SSH_prompts_Dialog;
 
-       {
-        ULONG Current_drive = 0; ULONG Drive_map = 0;
-        DosQueryCurrentDisk( &Current_drive, &Drive_map );
-        Parameters.szFullFile[ 0 ] = (CHAR) Current_drive + 64;
-        Parameters.szFullFile[ 1 ] = 0;
-        strcat( Parameters.szFullFile, ":\\*.txt" );
-       }
+       if( VIOWindows_SSH_Prompts.RTSettings.FileDlg_path[ 0 ] == 0 )
+        {
+         ULONG Current_drive = 0; ULONG Drive_map = 0;
+         DosQueryCurrentDisk( &Current_drive, &Drive_map );
+         Parameters.szFullFile[ 0 ] = (CHAR) Current_drive + 64;
+         Parameters.szFullFile[ 1 ] = 0;
+         strcat( Parameters.szFullFile, ":\\*.txt" );
+        }
+       else
+        {
+         strcpy( Parameters.szFullFile, VIOWindows_SSH_Prompts.RTSettings.FileDlg_path );
+         strcat( Parameters.szFullFile, "\\*.txt" );
+        }
 
        OpenFile_window = WinFileDlg( HWND_DESKTOP, Window, &Parameters );
 
        if( OpenFile_window != NULLHANDLE ) if( Parameters.lReturn == DID_OK )
-        if( strifind( ".txt", Parameters.szFullFile ) )
+        if( stristr( ".txt", Parameters.szFullFile ) )
          {
           BYTE Already_present = 0;
           for( INT Count = 0; Count < MAX_VIO_MENU_FILES; Count ++ )
            if( VIOMenuManager.Settings.Files[ Count ][ 0 ] != 0 )
-            if( stricmpe( VIOMenuManager.Settings.Files[ Count ], Parameters.szFullFile ) == EQUALLY )
+            if( stric( VIOMenuManager.Settings.Files[ Count ], Parameters.szFullFile ) )
              {
               Already_present = 1;
               break;
@@ -142,6 +148,9 @@ MRESULT EXPENTRY VIOWindows_SSH_Prompts_WndProc( HWND Window, ULONG Message, MPA
 
             BroadcastRSMessages();
            }
+
+          strncpy( VIOWindows_SSH_Prompts.RTSettings.FileDlg_path, Parameters.szFullFile, SIZE_OF_PATH );
+          CutNameInPath( VIOWindows_SSH_Prompts.RTSettings.FileDlg_path );
          }
       }
 

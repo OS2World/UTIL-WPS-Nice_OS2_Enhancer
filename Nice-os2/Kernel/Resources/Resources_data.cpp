@@ -5,10 +5,8 @@
 #define ICON_LEAF          1
 #define ICON_WINLIST       2
 #define ICON_VIEWDOC       3
-#define ICON_SERVER        4
-#define ICON_NFTPPM        5
 
-#define RC_ICONS_QUANTITY  12
+#define RC_ICONS_QUANTITY  9
 
 // Указатели мыши.
 #define PTR_CLIPBOARD      5

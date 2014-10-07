@@ -7,7 +7,7 @@ VOID ArrangerInputHook( HAB Application, PQMSG Message, PBYTE Discarding )
  // Выравниваем окна по середине экрана. Это сообщение посылается в окно в SendMsgHook()
  // при обработке сообщения о том, что оно будет показано. Очередь для этого использовать
  // не получилось - мало места для параметров, можно передать всего 2 значения LONG.
- if( Arranger.Settings.Arrange_VIO_windows || Arranger.Settings.Arrange_WindowList || Arranger.Settings.Arrange_WPS_windows )
+ if( Arranger.Settings.Arrange_VIO_windows || Arranger.Settings.Arrange_WindowList || Arranger.Settings.Arrange_WPS_windows || Arranger.Settings.Arrange_Browser_windows )
   if( Message->msg == WM_MARK ) if( Message->mp1 == (MPARAM) MRK_ARRANGE_WINDOW )
    if( IsFrameWindow( Message->hwnd ) )
     {
@@ -26,7 +26,7 @@ VOID ArrangerInputHook( HAB Application, PQMSG Message, PBYTE Discarding )
 VOID ArrangerSendMsgHook( HAB Application, PSMHSTRUCT Message )
 {
  // Выравниваем окна по середине экрана.
- if( Arranger.Settings.Arrange_VIO_windows || Arranger.Settings.Arrange_WindowList || Arranger.Settings.Arrange_WPS_windows )
+ if( Arranger.Settings.Arrange_VIO_windows || Arranger.Settings.Arrange_WindowList || Arranger.Settings.Arrange_WPS_windows || Arranger.Settings.Arrange_Browser_windows )
   if( !ArrangerMustBeDisabled() ) if( !RoomsChangeIsInProcess() )
    {
     // Выбираем сообщение в зависимости от того, что происходит.
@@ -43,9 +43,17 @@ VOID ArrangerSendMsgHook( HAB Application, PSMHSTRUCT Message )
         Mark = SM_ARRANGE_VIO;
 
     if( !Mark ) if( Arranger.Settings.Arrange_WPS_windows )
+     if( Top_frame_window_is_showing ) 
+      {
+       if( IsFolderWindow( Frame_window ) ) Mark = SM_ARRANGE_WPS;
+      }
+
+    if( !Mark ) if( Arranger.Settings.Arrange_Browser_windows )
      if( Top_frame_window_is_showing )
-      if( IsFolderWindow( Frame_window ) )
-       Mark = SM_ARRANGE_WPS;
+      {
+       if( WindowIsUsedTo( DO_BROWSE_WEB_PAGES, Frame_window ) ) Mark = SM_ARRANGE_BROWSER;
+       if( WindowIsUsedTo( DO_BROWSE_IPF_HELP, Frame_window ) ) Mark = SM_ARRANGE_IPF_HELP;
+      }
 
     // Выравниваем список окон после того, как пользователь скрывает его.
     if( !Mark ) if( Arranger.Settings.Arrange_WindowList )

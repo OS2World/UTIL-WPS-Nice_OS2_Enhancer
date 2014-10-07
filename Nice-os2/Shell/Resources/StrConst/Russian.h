@@ -347,8 +347,10 @@ CONST PCHAR StrConst_RU_Pages_Keyboard_various_Clipboard = "Включить 'Ctrl + C /
 CONST PCHAR StrConst_EN_Pages_Keyboard_various_Clipboard = "Enable 'Ctrl + C / V' in all windows";
 CONST PCHAR StrConst_RU_Pages_Keyboard_various_WPS_Enter = "Запретить перенос строки для имен значков в WPS";
 CONST PCHAR StrConst_EN_Pages_Keyboard_various_WPS_Enter = "Suppress line break in WPS object titles";
-CONST PCHAR StrConst_RU_Pages_Keyboard_various_CUA_F3 = "Отключить 'F3' для закрытия окна";
-CONST PCHAR StrConst_EN_Pages_Keyboard_various_CUA_F3 = "Discard 'F3' used for exit in old applications";
+CONST PCHAR StrConst_RU_Pages_Keyboard_various_Alt_F9 = "Всегда использовать 'Alt + F9' для сокрытия окна";
+CONST PCHAR StrConst_EN_Pages_Keyboard_various_Alt_F9 = "Always use 'Alt + F9' to minimize or hide windows";
+CONST PCHAR StrConst_RU_Pages_Keyboard_various_F3 = "Отключить 'F3' для закрытия окна";
+CONST PCHAR StrConst_EN_Pages_Keyboard_various_F3 = "Discard 'F3' used for exit in old applications";
 
 CONST PCHAR StrConst_RU_Pages_Keyboard_VIO_Prompt = "Выполнять различные действия в окнах текстовых приложений";
 CONST PCHAR StrConst_EN_Pages_Keyboard_VIO_Prompt = "Extend text-mode applications adding common features to their windows";
@@ -422,6 +424,8 @@ CONST PCHAR StrConst_RU_Pages_Placement_settings_WindowList_button = "Выравниват
 CONST PCHAR StrConst_EN_Pages_Placement_settings_WindowList_button = "Arrange Window List";
 CONST PCHAR StrConst_RU_Pages_Placement_settings_WPS_button = "Выравнивать окна рабочего стола";
 CONST PCHAR StrConst_EN_Pages_Placement_settings_WPS_button = "Arrange WPS windows";
+CONST PCHAR StrConst_RU_Pages_Placement_settings_Browser_button = "Выравнивать окна браузеров";
+CONST PCHAR StrConst_EN_Pages_Placement_settings_Browser_button = "Arrange browser windows";
 
 CONST PCHAR StrConst_RU_Pages_Dialogs_logon_Prompt = "Выполнять приложение или скрипт на Rexx после закрытия окна ввода пароля";
 CONST PCHAR StrConst_EN_Pages_Dialogs_logon_Prompt = "Execute an application or Rexx script after logging into the network and use these values in the script";

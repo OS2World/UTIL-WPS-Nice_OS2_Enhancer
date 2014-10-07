@@ -176,14 +176,14 @@ MRESULT EXPENTRY WinList_Settings_WndProc( HWND Window, ULONG Message, MPARAM Fi
          WinSendMsg( Visible_ListBox_window, LM_QUERYITEMTEXT, MPFROM2SHORT( Selected_string, SIZE_OF_NAME ), MPFROMP( Name ) );
 
          BYTE Name_is_present_in_list = 0;
-         if( strcmp( Name, Remover.Settings.WinListNames.Remove_from_list_1_name ) == EQUALLY ) Name_is_present_in_list = 1;
-         if( strcmp( Name, Remover.Settings.WinListNames.Remove_from_list_2_name ) == EQUALLY ) Name_is_present_in_list = 1;
-         if( strcmp( Name, Remover.Settings.WinListNames.Remove_from_list_3_name ) == EQUALLY ) Name_is_present_in_list = 1;
-         if( strcmp( Name, Remover.Settings.WinListNames.Remove_from_list_4_name ) == EQUALLY ) Name_is_present_in_list = 1;
-         if( strcmp( Name, Remover.Settings.WinListNames.Remove_from_list_5_name ) == EQUALLY ) Name_is_present_in_list = 1;
-         if( strcmp( Name, Remover.Settings.WinListNames.Remove_from_list_6_name ) == EQUALLY ) Name_is_present_in_list = 1;
-         if( strcmp( Name, Remover.Settings.WinListNames.Remove_from_list_7_name ) == EQUALLY ) Name_is_present_in_list = 1;
-         if( strcmp( Name, Remover.Settings.WinListNames.Remove_from_list_8_name ) == EQUALLY ) Name_is_present_in_list = 1;
+         if( strc( Name, Remover.Settings.WinListNames.Remove_from_list_1_name ) ) Name_is_present_in_list = 1;
+         if( strc( Name, Remover.Settings.WinListNames.Remove_from_list_2_name ) ) Name_is_present_in_list = 1;
+         if( strc( Name, Remover.Settings.WinListNames.Remove_from_list_3_name ) ) Name_is_present_in_list = 1;
+         if( strc( Name, Remover.Settings.WinListNames.Remove_from_list_4_name ) ) Name_is_present_in_list = 1;
+         if( strc( Name, Remover.Settings.WinListNames.Remove_from_list_5_name ) ) Name_is_present_in_list = 1;
+         if( strc( Name, Remover.Settings.WinListNames.Remove_from_list_6_name ) ) Name_is_present_in_list = 1;
+         if( strc( Name, Remover.Settings.WinListNames.Remove_from_list_7_name ) ) Name_is_present_in_list = 1;
+         if( strc( Name, Remover.Settings.WinListNames.Remove_from_list_8_name ) ) Name_is_present_in_list = 1;
 
          if( !Name_is_present_in_list )
           {

@@ -6,7 +6,7 @@ VOID ObserverR_ProcessReportData( PCHAR Object, PCHAR Exe_name, PCHAR Parameters
  // Просматриваем список известных приложений и сравниваем значения.
  INT Count = 0;
 
- if( strifind( ":\\", Exe_name ) ) Exe_name = FindNameInPath( Exe_name );
+ if( stristr( ":\\", Exe_name ) ) Exe_name = FindNameInPath( Exe_name );
 
  for( Count = 0; Count < Repository.Length; Count ++ )
   {
@@ -26,7 +26,7 @@ VOID ObserverR_ProcessReportData( PCHAR Object, PCHAR Exe_name, PCHAR Parameters
         {
          if( Str_count > 2 )
           {
-           PCHAR Extension = strifind( ".exe", Name );
+           PCHAR Extension = stristr( ".exe", Name );
 
            if( Extension != NULL )
             {
@@ -36,8 +36,8 @@ VOID ObserverR_ProcessReportData( PCHAR Object, PCHAR Exe_name, PCHAR Parameters
             }
           }
 
-         if( stricmpe( Name, Exe_name ) == EQUALLY ) Name_is_found = 1;
-         if( strifind( Name, Parameters ) ) Name_is_found = 1;
+         if( stric( Name, Exe_name ) ) Name_is_found = 1;
+         if( stristr( Name, Parameters ) ) Name_is_found = 1;
         }
       }
 
@@ -52,10 +52,10 @@ VOID ObserverR_ProcessReportData( PCHAR Object, PCHAR Exe_name, PCHAR Parameters
 
        if( Name[ 0 ] != 0 )
         {
-         if( strifind( Name, Object ) ) Name_is_found = 1;
-         if( strifind( Name, Exe_name ) ) Name_is_found = 1;
-         if( strifind( Name, Parameters ) ) Name_is_found = 1;
-         if( strifind( Name, Work_directory ) ) Name_is_found = 1;
+         if( stristr( Name, Object ) ) Name_is_found = 1;
+         if( stristr( Name, Exe_name ) ) Name_is_found = 1;
+         if( stristr( Name, Parameters ) ) Name_is_found = 1;
+         if( stristr( Name, Work_directory ) ) Name_is_found = 1;
         }
       }
 
@@ -64,7 +64,7 @@ VOID ObserverR_ProcessReportData( PCHAR Object, PCHAR Exe_name, PCHAR Parameters
      // на уже присутствующие в списке, и для них надо будет запомнить те же самые значения.
      if( Name_is_found )
       {
-       if( strcmp( Repository.Items[ Count ].Object, Object ) != EQUALLY )
+       if( !strc( Repository.Items[ Count ].Object, Object ) )
         {
          strcpy( Repository.Items[ Count ].Object, Object );
          Inspector.Write_settings = 1;
@@ -103,17 +103,17 @@ VOID ObserverR_ProcessReportData( PCHAR Object, PCHAR Exe_name, PCHAR Parameters
 VOID ObserverR_ParseReportLine( PCHAR Line )
 {
  // Разбираем строку и отдаем ее обработчику.
- PCHAR Begin_of_line = strfind( "", Line );
- PCHAR End_of_line = strfind( "", Line );
+ PCHAR Begin_of_line = strstr( "", Line );
+ PCHAR End_of_line = strstr( "", Line );
 
  if( Begin_of_line != NULL && End_of_line != NULL )
   {
    PCHAR Object = NULL; PCHAR Exe_name = NULL; PCHAR Parameters = NULL; PCHAR Work_directory = NULL;
 
    Object = Begin_of_line + 1;
-   Exe_name = strfind( "■", Object ); *Exe_name = 0; Exe_name ++;
-   Parameters = strfind( "■", Exe_name ); *Parameters = 0; Parameters ++;
-   Work_directory = strfind( "■", Parameters ); *Work_directory = 0; Work_directory ++;
+   Exe_name = strstr( "■", Object ); *Exe_name = 0; Exe_name ++;
+   Parameters = strstr( "■", Exe_name ); *Parameters = 0; Parameters ++;
+   Work_directory = strstr( "■", Parameters ); *Work_directory = 0; Work_directory ++;
 
    ObserverR_ProcessReportData( Object, Exe_name, Parameters, Work_directory );
   }

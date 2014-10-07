@@ -146,20 +146,20 @@ BYTE Files_DriveIsAvailable( PCHAR Drive_name )
  if( FileSystem_name[ 0 ] == 0 ) return 0;
 
  // Сетевые диски нам не нужны (устройства RAMFS определяются как сетевые, не учитываем их).
- if( Type != FSAT_LOCALDRV ) if( !strfind( "RAM", FileSystem_name ) ) return 0;
+ if( Type != FSAT_LOCALDRV ) if( !strstr( "RAM", FileSystem_name ) ) return 0;
 
  // Непригодные для поиска - тоже.
- if( strfind( "CDFS", FileSystem_name ) ) return 0;
- if( strfind( "UDF", FileSystem_name ) ) return 0;
+ if( strstr( "CDFS", FileSystem_name ) ) return 0;
+ if( strstr( "UDF", FileSystem_name ) ) return 0;
 
- if( strfind( "FAT", FileSystem_name ) ) return 0;
- if( strfind( "NTFS", FileSystem_name ) ) return 0;
+ if( strstr( "FAT", FileSystem_name ) ) return 0;
+ if( strstr( "NTFS", FileSystem_name ) ) return 0;
 
- if( strfind( "HFS", FileSystem_name ) ) return 0;
- if( strfind( "EXT", FileSystem_name ) ) return 0;
+ if( strstr( "HFS", FileSystem_name ) ) return 0;
+ if( strstr( "EXT", FileSystem_name ) ) return 0;
 
- if( strfind( "FTP", FileSystem_name ) ) return 0;
- if( strfind( "NET", FileSystem_name ) ) return 0;
+ if( strstr( "FTP", FileSystem_name ) ) return 0;
+ if( strstr( "NET", FileSystem_name ) ) return 0;
 
  {
   CHAR Label[ SIZE_OF_NAME ] = ""; Files_QueryDriveLabel( Drive_name, Label );
@@ -191,7 +191,7 @@ VOID Files_FindRAMDrive( PCHAR Memory_drive )
 
    // Проверяем его.
    if( FileSystem_name[ 0 ] != 0 )
-    if( strfind( "RAM", FileSystem_name ) )
+    if( strstr( "RAM", FileSystem_name ) )
      {
       Memory_drive[ 0 ] = Letter;
       Memory_drive[ 1 ] = ':';
@@ -286,11 +286,11 @@ HAPP Files_Execute( PCHAR App_name, PCHAR App_params = NULL, PCHAR Title = NULL,
  while( App_name[ End ] == ' ' ) { App_name[ End ] = 0; End --; }
 
  // Возможно, требуется выполнить Exe-приложение или скрипт на Rexx.
- BYTE OS2Warp_Exe = 0; if( stricmpe( ".exe", &App_name[ End - 3 ] ) == EQUALLY ) OS2Warp_Exe = 1;
- BYTE Rexx_script = 0; if( stricmpe( ".cmd", &App_name[ End - 3 ] ) == EQUALLY ) Rexx_script = 1;
+ BYTE OS2Warp_Exe = 0; if( stric( ".exe", &App_name[ End - 3 ] ) ) OS2Warp_Exe = 1;
+ BYTE Rexx_script = 0; if( stric( ".cmd", &App_name[ End - 3 ] ) ) Rexx_script = 1;
 
  CHAR App_path[ SIZE_OF_PATH ] = "C:\\";
- if( strfind( ":\\", App_name ) ) { strcpy( App_path, App_name ); Files_CutNameInPath( App_path ); }
+ if( strstr( ":\\", App_name ) ) { strcpy( App_path, App_name ); Files_CutNameInPath( App_path ); }
 
  // Если это обыкновенное приложение:
  if( OS2Warp_Exe )

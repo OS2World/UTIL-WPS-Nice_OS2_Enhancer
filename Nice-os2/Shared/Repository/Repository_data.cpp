@@ -26,10 +26,10 @@ typedef struct _APPLICATIONS
   PROGCATEGORY Mode;
 
   // Имена значков для вызова приложения, может быть несколько.
-  CHAR WPS_name_1[ SIZE_OF_NAME ];
-  CHAR WPS_name_2[ SIZE_OF_NAME ];
-  CHAR WPS_name_3[ SIZE_OF_NAME ];
-  CHAR WPS_name_4[ SIZE_OF_NAME ];
+  CHAR WPS_name_A[ SIZE_OF_NAME ];
+  CHAR WPS_name_B[ SIZE_OF_NAME ];
+  CHAR WPS_name_C[ SIZE_OF_NAME ];
+  CHAR WPS_name_D[ SIZE_OF_NAME ];
 
   // Имена файлов для вызова приложения, может быть несколько.
   CHAR Exe_name_1[ SIZE_OF_NAME ];

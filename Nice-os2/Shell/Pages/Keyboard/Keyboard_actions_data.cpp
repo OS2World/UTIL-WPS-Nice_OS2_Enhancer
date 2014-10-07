@@ -38,6 +38,14 @@ typedef struct _KBDACTIONSPAGE
     ACTIONS; ACTIONS Actions;
    }
   INRSTS; INRSTS Settings;
+
+  // Внутренние переменные.
+  typedef struct _RTSTS
+   {
+    // Последний выбранный каталог.
+    CHAR FileDlg_path[ SIZE_OF_PATH ];
+   }
+  RTSETTINGS; RTSETTINGS RTSettings;
  }
 KBDACTIONSPAGE;
 

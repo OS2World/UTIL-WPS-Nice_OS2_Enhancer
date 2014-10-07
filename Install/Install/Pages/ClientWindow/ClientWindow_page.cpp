@@ -115,12 +115,12 @@ MRESULT EXPENTRY Installer_ClientWindowProc( HWND Window, ULONG Message, MPARAM 
 
      if( Presentation_space )
       {
-       LONG Color_table[ 2^8 ]; bzero( Color_table, sizeof( Color_table ) );
-       GpiQueryLogColorTable( Presentation_space, 0, 0, 2^8, Color_table );
+       LONG Color_table[ 256 ]; bzero( Color_table, sizeof( Color_table ) );
+       GpiQueryLogColorTable( Presentation_space, 0, 0, 256, Color_table );
 
-       LONG Color_index = ( 2^8 - 1 );
+       LONG Color_index = ( 256 - 1 );
        WinQueryPresParam( Window, PP_BACKGROUNDCOLOR, 0, NULL, sizeof( Color_table[ Color_index ] ), &Color_table[ Color_index ], QPF_NOINHERIT );
-       GpiCreateLogColorTable( Presentation_space, 0, LCOLF_CONSECRGB, 0, 2^8, Color_table );
+       GpiCreateLogColorTable( Presentation_space, 0, LCOLF_CONSECRGB, 0, 256, Color_table );
 
        WinFillRect( Presentation_space, &Rectangle, Color_index );
        WinEndPaint( Presentation_space );

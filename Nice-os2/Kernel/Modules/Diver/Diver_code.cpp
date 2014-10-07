@@ -138,7 +138,7 @@ VOID Diver_QueryWindowProperty( HWND Frame_window, ULONG Target, LONG Buttons_to
      // Если заголовок изменился - рамка должна быть перерисована.
      CHAR Previous_title[ SIZE_OF_TITLE ] = ""; FindProperty( Frame_window, PRP_TITLE, Previous_title );
 
-     if( strcmp( Title, Previous_title ) != EQUALLY )
+     if( !strc( Title, Previous_title ) )
       {
        // Устанавливаем свойство.
        SetProperty( Frame_window, PRP_TITLE, Title );

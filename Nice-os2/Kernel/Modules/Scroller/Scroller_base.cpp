@@ -13,7 +13,7 @@ INT Scroller_AddWindowToList( HWND Window )
 
  // Если имя есть в списке - возврат.
  for( INT Count = 0; Count < SCROLLER_SCRLIST_SIZE; Count ++ )
-  if( strcmp( Window_name, Scroller.Scrolling_list[ Count ].Name ) == EQUALLY )
+  if( strc( Window_name, Scroller.Scrolling_list[ Count ].Name ) )
    return Count;
 
  // Если оно не было найдено - его надо добавить.
@@ -52,7 +52,7 @@ VOID Scroller_AddPreDefinedWindowToList( PCHAR Window_name, INT X_V_DD, INT Y_V_
 
  // Если имя есть в списке:
  for( INT Count = 0; Count < SCROLLER_SCRLIST_SIZE; Count ++ )
-  if( strcmp( Window_name, Scroller.Scrolling_list[ Count ].Name ) == EQUALLY )
+  if( strc( Window_name, Scroller.Scrolling_list[ Count ].Name ) )
    {
     // В любом случае задаем скорость и способ передвижения изображения.
     // Некоторым окнам надо направлять сообщения через полоски просмотра (посылая полоскам сообщения
@@ -104,7 +104,7 @@ INT Scroller_FindWindowInList( HWND Window, PSCRLIST Record_from_list = NULL )
 
  // Если имя есть в списке:
  for( INT Count = 0; Count < SCROLLER_SCRLIST_SIZE; Count ++ )
-  if( strcmp( Window_name, Scroller.Scrolling_list[ Count ].Name ) == EQUALLY )
+  if( strc( Window_name, Scroller.Scrolling_list[ Count ].Name ) )
    {
     // Заполняем переменную, указывающую на запись из списка. После ее можно будет использовать.
     if( Record_from_list != NULL )

@@ -141,7 +141,7 @@ VOID Painter_PrepareTitleBarImage( HPS Memory_space, RECT Rectangle, BYTE Window
  BYTE Use_last_loaded_pattern = 0;
 
  if( Painter.RTSettings.Pattern != NULLHANDLE )
-  if( strcmp( Painter.RTSettings.Pattern_name, Name ) == EQUALLY )
+  if( strc( Painter.RTSettings.Pattern_name, Name ) )
    Use_last_loaded_pattern = 1;
 
  // Если надо загружать новый узор

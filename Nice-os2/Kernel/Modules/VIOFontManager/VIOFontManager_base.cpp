@@ -36,14 +36,14 @@ BYTE VIOFontManager_VIOFontMustBeChanged( HWND Frame_window )
  if( Exe_name[ 0 ] != 0 )
   {
    // Смотрим, есть ли имя в списке.
-   if( ( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_1_name, Exe_name ) == EQUALLY && VIOFontManager.Settings.VIOFontMetrics.X_1 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_1 != 0 ) ||
-       ( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_2_name, Exe_name ) == EQUALLY && VIOFontManager.Settings.VIOFontMetrics.X_2 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_2 != 0 ) ||
-       ( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_3_name, Exe_name ) == EQUALLY && VIOFontManager.Settings.VIOFontMetrics.X_3 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_3 != 0 ) ||
-       ( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_4_name, Exe_name ) == EQUALLY && VIOFontManager.Settings.VIOFontMetrics.X_4 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_4 != 0 ) ||
-       ( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_5_name, Exe_name ) == EQUALLY && VIOFontManager.Settings.VIOFontMetrics.X_5 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_5 != 0 ) ||
-       ( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_6_name, Exe_name ) == EQUALLY && VIOFontManager.Settings.VIOFontMetrics.X_6 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_6 != 0 ) ||
-       ( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_7_name, Exe_name ) == EQUALLY && VIOFontManager.Settings.VIOFontMetrics.X_7 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_7 != 0 ) ||
-       ( strcmp( VIOFontManager.Settings.VIOFontMetrics.Shell_8_name, Exe_name ) == EQUALLY && VIOFontManager.Settings.VIOFontMetrics.X_8 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_8 != 0 ) )
+   if( ( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_1_name, Exe_name ) && VIOFontManager.Settings.VIOFontMetrics.X_1 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_1 != 0 ) ||
+       ( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_2_name, Exe_name ) && VIOFontManager.Settings.VIOFontMetrics.X_2 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_2 != 0 ) ||
+       ( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_3_name, Exe_name ) && VIOFontManager.Settings.VIOFontMetrics.X_3 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_3 != 0 ) ||
+       ( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_4_name, Exe_name ) && VIOFontManager.Settings.VIOFontMetrics.X_4 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_4 != 0 ) ||
+       ( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_5_name, Exe_name ) && VIOFontManager.Settings.VIOFontMetrics.X_5 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_5 != 0 ) ||
+       ( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_6_name, Exe_name ) && VIOFontManager.Settings.VIOFontMetrics.X_6 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_6 != 0 ) ||
+       ( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_7_name, Exe_name ) && VIOFontManager.Settings.VIOFontMetrics.X_7 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_7 != 0 ) ||
+       ( strc( VIOFontManager.Settings.VIOFontMetrics.Shell_8_name, Exe_name ) && VIOFontManager.Settings.VIOFontMetrics.X_8 != 0 && VIOFontManager.Settings.VIOFontMetrics.Y_8 != 0 ) )
     {
      Change_font = 1;
     }
