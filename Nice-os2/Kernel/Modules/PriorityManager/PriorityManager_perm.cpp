@@ -6,7 +6,7 @@
 BYTE PriorityManager_PermissionForPriorityActions( HWND Frame_window )
 {
  // Если окно создано оболочкой или расширителем - менять приоритет нельзя.
- if( IsPresentationManagerWindow( Frame_window ) ||
+ if( IsPMShellAuxiliaryWindow( Frame_window ) ||
      IsWorkplaceShellWindow( Frame_window ) ||
      WindowIsCreatedBy( APP_NICE, Frame_window ) ) return 0;
 

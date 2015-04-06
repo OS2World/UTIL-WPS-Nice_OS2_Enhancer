@@ -44,13 +44,13 @@ VOID LauncherThread( VOID )
     }
 
     // Снижаем приоритет потока.
-    DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_MINIMUM, 0 );
+    DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, 0, 0 );
 
     // Ждем завершения расширителя.
     while( DosVerifyPidTid( Process_ID, 1 ) == NO_ERROR ) DosSleep( 7500 );
 
     // Восстанавливаем приоритет.
-    DosSetPriority( PRTYS_THREAD, PRTYC_REGULAR, PRTYD_NORMAL, 0 );
+    DosSetPriority( PRTYS_THREAD, PRTYC_REGULAR, 0, 0 );
 
     // Если загруженный расширитель не сообщил, что все в порядке - значит, он упал или его прибили.
     if( !Enhancer.Enhancer_is_terminated_normally )

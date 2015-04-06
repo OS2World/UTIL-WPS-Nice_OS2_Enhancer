@@ -537,6 +537,8 @@ CONST PCHAR StrConst_EN_Pages_SysPatches_background_Restart = "To apply changes 
 
 CONST PCHAR StrConst_RU_Pages_Log_RestartObjects = " Не найдено в \"Config.sys\":\n  SET RESTARTOBJECTS=STARTUPFOLDERSONLY\n";
 CONST PCHAR StrConst_EN_Pages_Log_RestartObjects = " Not found in \"Config.sys\":\n  SET RESTARTOBJECTS=STARTUPFOLDERSONLY\n";
+CONST PCHAR StrConst_RU_Pages_Log_DynamicPriority = " Не найдено в \"Config.sys\":\n  PRIORITY=ABSOLUTE\n";
+CONST PCHAR StrConst_EN_Pages_Log_DynamicPriority = " Not found in \"Config.sys\":\n  PRIORITY=ABSOLUTE\n";
 
 CONST PCHAR StrConst_RU_Pages_Log_Note = " Это необязательные требования. Но желательно включить.\n";
 CONST PCHAR StrConst_EN_Pages_Log_Note = " This is optional.\n";

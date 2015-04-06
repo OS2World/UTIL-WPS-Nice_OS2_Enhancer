@@ -402,7 +402,7 @@ BYTE Krnl_Repository_IsVIOFontMetricsDialog( HWND Frame_window )
 {
  // Проверяем окно.
  if( Krnl_Repository_WindowIsDialog( Frame_window ) )
-  if( IsPresentationManagerWindow( Frame_window ) )
+  if( IsPMShellAuxiliaryWindow( Frame_window ) )
    if( Krnl_Repository_FindFontListField( Frame_window ) != NULLHANDLE )
     return 1;
 

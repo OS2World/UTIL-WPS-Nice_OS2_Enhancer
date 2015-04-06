@@ -138,9 +138,6 @@ VOID Definer_ChangeKeyMessage( PQMSG Message, SHORT State, INT Action, PBYTE Dis
 // Action - действие, которое нужно выполнить, Do_not_check_mouse - отключить проверку мыши.
 VOID Definer_GoDefine( INT Action, LONG Do_not_check_mouse = 0 )
 {
- // Снижаем приоритеты для всех приложений.
- SetDynamicPriorityLevels( SDPL_SUPPRESS_ALL_PROCESSES );
-
  // Освобождаем указатель мыши.
  ResetPointer();
 

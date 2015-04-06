@@ -26,6 +26,7 @@
 
 #include "..\\..\\Nice-os2\\Shared\\Repository.h"
 #include "..\\..\\Nice-os2\\Shared\\Repository\\Repository_data.cpp"
+#include "..\\..\\Nice-os2\\Shared\\Repository\\Repository_base.cpp"
 #include "..\\..\\Nice-os2\\Shared\\Repository\\Repository_code.cpp"
 #include "..\\..\\Nice-os2\\Shared\\Repository.cpp"
 

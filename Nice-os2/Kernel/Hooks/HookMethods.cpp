@@ -60,9 +60,6 @@ ULONG EXPENTRY Hook_InputHook( HAB Application, PQMSG Message, ULONG Removing )
  // Действия с окнами диалогов.
  ApplierInputHook( Application, Message, &Discarding );
 
- // Управление приоритетами приложений.
- PriorityManagerInputHook( Application, Message, &Discarding );
-
  // Заплатки для оболочки OS/2.
  PatcherInputHook( Application, Message, &Discarding );
 

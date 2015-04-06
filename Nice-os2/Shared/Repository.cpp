@@ -54,7 +54,7 @@
 #define IsMDeskWindow               Repository_IsMDeskWindow
 #define IsWinListWindow             Repository_IsWinListWindow
 
-#define IsPresentationManagerWindow Repository_IsPresentationManagerWindow
+#define IsPMShellAuxiliaryWindow    Repository_IsPMShellAuxiliaryWindow
 #define IsWorkplaceShellWindow      Repository_IsWorkplaceShellWindow
 #define IsCommandExecutorWindow     Repository_IsCommandExecutorWindow
 #define IsAltTabSwitcherWindow      Repository_IsAltTabSwitcherWindow

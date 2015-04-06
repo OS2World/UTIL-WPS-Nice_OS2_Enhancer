@@ -17,7 +17,7 @@ VOID DialogWindow_Init( HWND Window, ULONG Message, MPARAM First_parameter, MPAR
   INT X_Screen = WinQuerySysValue( HWND_DESKTOP, SV_CXSCREEN );
   INT Y_Screen = WinQuerySysValue( HWND_DESKTOP, SV_CYSCREEN );
 
-  SWP Window_placement = { 0 }; WinQueryWindowPos( Window, &Window_placement );
+  SWP Window_placement = {0}; WinQueryWindowPos( Window, &Window_placement );
 
   INT Window_position_X = ( X_Screen - Window_placement.cx ) / 2;
   INT Window_position_Y = ( Y_Screen - Window_placement.cy ) / 2 + ( Y_Screen - Window_placement.cy ) / 4 / 2;
@@ -45,7 +45,7 @@ VOID DialogWindow_Init( HWND Window, ULONG Message, MPARAM First_parameter, MPAR
 
  // Передвигаем картинку.
  {
-  SWP Window_placement = { 0 };
+  SWP Window_placement = {0};
   WinQueryWindowPos( Window, &Window_placement );
 
   if( Window_placement.cx > MAINWNDFORM_WIDTH && Window_placement.cy > MAINWNDFORM_HEIGHT )
@@ -53,8 +53,8 @@ VOID DialogWindow_Init( HWND Window, ULONG Message, MPARAM First_parameter, MPAR
     HWND Bitmap = WinWindowFromID( Window, ID_MAINWNDFORM_BITMAP );
     HWND Checkbox = WinWindowFromID( Window, ID_MAINWNDFORM_NAMES_CHECKBOX );
 
-    SWP Bitmap_placement = { 0 }; WinQueryWindowPos( Bitmap, &Bitmap_placement );
-    SWP Checkbox_placement = { 0 }; WinQueryWindowPos( Checkbox, &Checkbox_placement );
+    SWP Bitmap_placement = {0}; WinQueryWindowPos( Bitmap, &Bitmap_placement );
+    SWP Checkbox_placement = {0}; WinQueryWindowPos( Checkbox, &Checkbox_placement );
 
     Bitmap_placement.y = ( Window_placement.cy - Bitmap_placement.cy ) / 2;
     Bitmap_placement.x = ( Checkbox_placement.x - Bitmap_placement.cx ) / 2;

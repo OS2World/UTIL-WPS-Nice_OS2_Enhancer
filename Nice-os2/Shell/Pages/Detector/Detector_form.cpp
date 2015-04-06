@@ -153,7 +153,7 @@ MRESULT EXPENTRY Detector_DlgProc( HWND Window, ULONG Message, MPARAM First_para
              WindowIsCreatedBy( APP_NICE_ECS, Frame_window ) ) Name[ 0 ] = 0;
 
          if( !Enhancer.Detector_dialog.Include_shell_windows )
-          if( IsPresentationManagerWindow( Frame_window ) ||
+          if( IsPMShellAuxiliaryWindow( Frame_window ) ||
               IsWorkplaceShellWindow( Frame_window ) ) Name[ 0 ] = 0;
 
          if( Enhancer.Detector_dialog.Include_VIO_windows_only )

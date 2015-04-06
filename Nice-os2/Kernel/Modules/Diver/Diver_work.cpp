@@ -18,7 +18,7 @@ VOID Diver_StartThread( VOID )
  // Если поток создать не удалось - возврат.
  if( Thread_is_created != NO_ERROR || Thread_responds.Thread_is_created == -1 ) { Enhancer.Modules.Diver->Thread = 0; return; }
  // Устанавливаем приоритет потока.
- WinPostQueueMsg( Enhancer.Modules.Diver->Message_queue, SM_PRIORITY, (MPARAM) PRTYC_REGULAR, (MPARAM) PRTYD_MINIMUM );
+ WinPostQueueMsg( Enhancer.Modules.Diver->Message_queue, SM_PRIORITY, (MPARAM) PRTYC_REGULAR, 0 );
 
  // Возврат.
  return;

@@ -1,6 +1,6 @@
 OPEN SOFTWARE LICENSE
 
-Copyright (c) 1994-2014, Sergey Posokhov
+Copyright (c) 1994-2015, Sergey Posokhov
 All rights reserved.
 
 Redistribution & use in source and binary forms, with or without modification,

@@ -518,7 +518,7 @@ VOID Applier_CheckLogonWindow( HWND Frame_window )
    // Запоминаем окно, создавшее его приложение и настройки, связанные с окном. Значения полей в нем самом пока неизвестны.
    bzero( &Applier.RTDlgMemory.Logon_windows[ APPLIER_MONITORING_LOGON_WINDOWS - 1 ], sizeof( LOGONWNDINFO ) );
 
-   PID Process_ID = 0; WinQueryWindowProcess( Frame_window, &Process_ID, NULL );
+   PID Process_ID = QueryWindowRealProcessID( Frame_window );
 
    Applier.RTDlgMemory.Logon_windows[ APPLIER_MONITORING_LOGON_WINDOWS - 1 ].Window = Frame_window;
    Applier.RTDlgMemory.Logon_windows[ APPLIER_MONITORING_LOGON_WINDOWS - 1 ].Process_ID = Process_ID;
@@ -608,7 +608,7 @@ VOID Applier_ApplierMessageProcessing( PQMSG Message )
    if( Process_ID == NULLHANDLE ) return;
 
    // Уменьшаем приоритет.
-   DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_MINIMUM, 0 );
+   DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, 0, 0 );
 
    // Выполняем команду.
    Applier_ExecuteLogonScript( Process_ID );

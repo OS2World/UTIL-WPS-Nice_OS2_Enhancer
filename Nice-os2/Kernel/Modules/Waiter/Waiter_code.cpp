@@ -8,7 +8,7 @@ VOID Waiter_WaiterMessageProcessing( PQMSG Message, HMQ Thread_queue )
  if( Message->msg == SM_WAIT_SOME_TIME )
   {
    // Снижаем приоритет потока.
-   DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_MINIMUM, 0 );
+   DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, 0, 0 );
 
    // Узнаем очередь сообщений владельца потока.
    HMQ Owner_queue = (HMQ) Message->mp2;
@@ -28,7 +28,7 @@ VOID Waiter_WaiterMessageProcessing( PQMSG Message, HMQ Thread_queue )
  if( Message->msg == SM_WAIT_STARTING_PROCESS )
   {
    // Снижаем приоритет потока.
-   DosSetPriority( PRTYS_THREAD, PRTYC_REGULAR, PRTYD_MINIMUM, 0 );
+   DosSetPriority( PRTYS_THREAD, PRTYC_REGULAR, 0, 0 );
 
    // Узнаем приложение, появления которого надо ждать.
    INT App_code = (INT) Message->mp1;
@@ -59,7 +59,7 @@ VOID Waiter_WaiterMessageProcessing( PQMSG Message, HMQ Thread_queue )
 
      // Если ожидание затягивается - снижаем приоритет еще и еще.
      if( Count == Point_to_reduce_priority_1 ) DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_QUICK, 0 );
-     if( Count == Point_to_reduce_priority_2 ) DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_MINIMUM, 0 );
+     if( Count == Point_to_reduce_priority_2 ) DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_NORMAL, 0 );
     }
 
    // Посылаем своему потоку сообщение о том, что его работа закончена.
@@ -70,7 +70,7 @@ VOID Waiter_WaiterMessageProcessing( PQMSG Message, HMQ Thread_queue )
  if( Message->msg == SM_WAIT_EXISTING_PROCESS )
   {
    // Снижаем приоритет потока.
-   DosSetPriority( PRTYS_THREAD, PRTYC_REGULAR, PRTYD_MINIMUM, 0 );
+   DosSetPriority( PRTYS_THREAD, PRTYC_REGULAR, 0, 0 );
 
    // Узнаем приложение, за которым надо следить.
    PID Process_ID = (PID) Message->mp1;
@@ -104,7 +104,7 @@ VOID Waiter_WaiterMessageProcessing( PQMSG Message, HMQ Thread_queue )
 
      // Если ожидание затягивается - снижаем приоритет еще и еще.
      if( Count == Point_to_reduce_priority_1 ) DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_QUICK, 0 );
-     if( Count == Point_to_reduce_priority_2 ) DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_MINIMUM, 0 );
+     if( Count == Point_to_reduce_priority_2 ) DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_NORMAL, 0 );
     }
 
    // Посылаем своему потоку сообщение о том, что его работа закончена.
@@ -115,7 +115,7 @@ VOID Waiter_WaiterMessageProcessing( PQMSG Message, HMQ Thread_queue )
  if( Message->msg == SM_ESCORT_LOGON )
   {
    // Снижаем приоритет потока.
-   DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_MINIMUM, 0 );
+   DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, 0, 0 );
 
    // Узнаем время запуска приложения и составляем заголовок окна.
    LONG Time = (LONG) Message->mp1;

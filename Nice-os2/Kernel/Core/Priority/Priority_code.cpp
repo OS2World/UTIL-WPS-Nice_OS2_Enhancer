@@ -4,14 +4,15 @@
 // Frame_window - окно приложения, Class и Delta - значения приоритета.
 VOID Priority_SetPriorityLevel( HWND Frame_window, LONG Class, LONG Delta )
 {
+ // Если это окно создано самой оболочкой Presentation Manager - возврат.
+ if( IsPMShellAuxiliaryWindow( Frame_window ) ) return;
+
  // Узнаем приложение, создавшее окно.
+ // Для окон VIO здесь возвращается их настоящий PID, а не PID окна (оно создаётся оболочкой PM).
  PID Process_ID = QueryWindowRealProcessID( Frame_window );
 
- // Если оно неизвестно - возврат.
- if( Process_ID == 0 ) return;
-
  // Пробуем изменить приоритет на месте.
- APIRET Result = DosSetPriority( PRTYS_PROCESSTREE, Class, Delta, Process_ID );
+ APIRET Result = NO_ERROR; if( Process_ID != 0 ) Result = DosSetPriority( PRTYS_PROCESSTREE, Class, Delta, Process_ID );
 
  // Если это сделать не удалось:
  if( Result != NO_ERROR )

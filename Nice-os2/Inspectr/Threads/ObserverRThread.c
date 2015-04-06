@@ -184,7 +184,7 @@ VOID ObserverR_ObserverReportReaderThread( VOID )
  if( Thread == NULLHANDLE || Message_queue == NULLHANDLE ) DosExit( EXIT_THREAD, 0 );
 
  // Читаем отчет и завершаем просмотр значков на рабочем столе.
- DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_MINIMUM, 0 );
+ DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, 0, 0 );
  ObserverR_ReadExplorerReport();
  DosSetPriority( PRTYS_THREAD, PRTYC_REGULAR, 0, 0 );
 

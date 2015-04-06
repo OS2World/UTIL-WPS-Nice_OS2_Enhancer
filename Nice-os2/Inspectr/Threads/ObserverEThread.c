@@ -89,7 +89,7 @@ VOID ObserverE_ObserverThread( VOID )
  WinSendMsg( WinWindowFromID( Inspector.Frame_window, FID_SYSMENU ), MM_SETITEMATTR, MPFROM2SHORT( SM_CLOSE, INCLUDE_SUBMENUS ), MPFROM2SHORT( MIA_DISABLED, MIA_DISABLED ) );
 
  // Начинаем просмотр значков на рабочем столе. При просмотре будет получен отчет, который прочитает другой поток
- DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_MINIMUM, 0 );
+ DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, 0, 0 );
  ObserverE_ExploreDesktop();
  DosSetPriority( PRTYS_THREAD, PRTYC_REGULAR, 0, 0 );
 

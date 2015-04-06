@@ -45,6 +45,7 @@
 // Окна и поля ввода.
 #include "..\\Shared\\Repository.h"
 #include "..\\Shared\\Repository\\Repository_data.cpp"
+#include "..\\Shared\\Repository\\Repository_base.cpp"
 #include "..\\Shared\\Repository\\Repository_code.cpp"
 #include "..\\Shared\\Repository.cpp"
 
@@ -692,6 +693,8 @@ INT main( INT argc, PCHAR argv[] )
 
    SysCheck_Start();
    CheckPMSettingsAndWriteLog();
+   if( Enhancer.Settings_to_show == SET_PRIORITY ) CheckPrioritySettingsAndWriteLog();
+   if( !LogIsEmpty() ) AddCompletiveLogMessage();
    if( LogIsEmpty() ) Enhancer.Pages.Log->Present = 0;
 
    // Открываем файл настроек.

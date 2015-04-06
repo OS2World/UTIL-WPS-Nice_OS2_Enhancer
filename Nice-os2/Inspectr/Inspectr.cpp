@@ -42,6 +42,7 @@
 // Окна и поля ввода.
 #include "..\\Shared\\Repository.h"
 #include "..\\Shared\\Repository\\Repository_data.cpp"
+#include "..\\Shared\\Repository\\Repository_base.cpp"
 #include "..\\Shared\\Repository\\Repository_code.cpp"
 #include "..\\Shared\\Repository.cpp"
 

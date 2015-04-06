@@ -109,7 +109,7 @@ VOID Processor_FindFiles( PCHAR Path, BYTE Include_dirs )
   // Находим первый файл.
   HDIR Directory = HDIR_CREATE;
   ULONG All_files = FILE_READONLY | FILE_HIDDEN | FILE_SYSTEM | FILE_ARCHIVED;
-  FILEFINDBUF3 Find_buffer = { 0 };
+  FILEFINDBUF3 Find_buffer = {0};
   ULONG Buffer_length = sizeof( FILEFINDBUF3 );
   ULONG Find_count = 1;
 
@@ -264,7 +264,7 @@ VOID Processor_ProcessorThread( VOID )
 
    if( DriveIsAvailable( Drive_name ) )
     {
-     DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_MINIMUM, 0 );
+     DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, 0, 0 );
      Processor_FindFiles( Drive_name, 0 );
      DosSetPriority( PRTYS_THREAD, PRTYC_REGULAR, 0, 0 );
     }

@@ -98,9 +98,6 @@ BYTE Launcher_FindAndShowApplication( INT Action )
      // Если это окно, которое надо вызвать:
      if( Show_window )
       {
-       // Устанавливаем приложению хороший приоритет.
-       SetDynamicPriorityLevels( SDPL_FORCE_ACTIVE_PROCESS, Window );
-
        // Узнаем состояние окна рамки.
        SWP Window_state = {0}; WinQueryWindowPos( Window, &Window_state );
 

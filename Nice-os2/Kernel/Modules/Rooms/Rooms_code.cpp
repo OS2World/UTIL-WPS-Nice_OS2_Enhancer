@@ -883,7 +883,7 @@ VOID Rooms_RoomsMessageProcessing( PQMSG Message )
      if( !ShellIsAvailable() ) Rooms_RetrieveShellWindow();
 
      // Через несколько шагов - уменьшаем приоритет.
-     if( Count == 3 ) DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_MINIMUM, 0 );
+     if( Count == 3 ) DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, 0, 0 );
     }
 
    // Восстанавливаем приоритет.
@@ -915,7 +915,7 @@ VOID Rooms_RoomsMessageProcessing( PQMSG Message )
    if( !WinIsWindow( WinQueryAnchorBlock( Desktop ), Desktop ) ) return;
 
    // Уменьшаем приоритет.
-   DosSetPriority( PRTYS_THREAD, PRTYC_REGULAR, PRTYD_MINIMUM, 0 );
+   DosSetPriority( PRTYS_THREAD, PRTYC_REGULAR, 0, 0 );
 
    // Закрашиваем рабочий стол.
    Rooms_FillDesktop( Desktop );

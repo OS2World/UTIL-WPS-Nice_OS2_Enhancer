@@ -60,7 +60,7 @@ VOID WindowManager_WindowManagerMessageProcessing( PQMSG Message )
    INT Room = GetCurrentOrNextRoom();
 
    // Уменьшаем приоритет.
-   DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, PRTYD_MINIMUM, 0 );
+   DosSetPriority( PRTYS_THREAD, PRTYC_IDLETIME, 0, 0 );
 
    // Ждем некоторое время.
    for( INT Count = 0; Count < 5; Count ++ ) Retard();

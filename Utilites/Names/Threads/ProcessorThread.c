@@ -258,7 +258,7 @@ VOID FindFiles( PCHAR Path, BYTE Include_dirs )
   // Находим первый файл.
   HDIR Directory = HDIR_CREATE;
   ULONG All_files = FILE_READONLY | FILE_HIDDEN | FILE_SYSTEM | FILE_ARCHIVED;
-  FILEFINDBUF3 Find_buffer = { 0 };
+  FILEFINDBUF3 Find_buffer = {0};
   ULONG Buffer_length = sizeof( FILEFINDBUF3 );
   ULONG Find_count = 1;
 

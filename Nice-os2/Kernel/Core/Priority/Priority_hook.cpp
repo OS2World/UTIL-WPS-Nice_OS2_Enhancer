@@ -13,10 +13,10 @@ VOID PriorityInputHook( PQMSG Message )
     HWND Frame_window = (HWND) Message->mp2;
 
     LONG Class = PRTYC_NOCHANGE; FindProperty( Frame_window, PRP_PRIORITY_CLASS, &Class );
-    LONG Delta = PRTYD_INFINITY; FindProperty( Frame_window, PRP_PRIORITY_DELTA, &Delta );
+    LONG Delta = PRTYD_NORMAL;   FindProperty( Frame_window, PRP_PRIORITY_DELTA, &Delta );
 
     // Если они заданы:
-    if( Class != PRTYC_NOCHANGE && Delta != PRTYD_INFINITY )
+    if( Class != PRTYC_NOCHANGE )
      {
       // Узнаем приложение, создавшее окно.
       PID Process_ID = QueryWindowRealProcessID( Frame_window );
@@ -26,7 +26,7 @@ VOID PriorityInputHook( PQMSG Message )
 
       // Сбрасываем значения.
       Class = PRTYC_NOCHANGE; SetProperty( Frame_window, PRP_PRIORITY_CLASS, &Class );
-      Delta = PRTYD_INFINITY; SetProperty( Frame_window, PRP_PRIORITY_DELTA, &Delta );
+      Delta = PRTYD_NORMAL;   SetProperty( Frame_window, PRP_PRIORITY_DELTA, &Delta );
      }
    }
 

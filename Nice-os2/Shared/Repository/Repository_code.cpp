@@ -67,8 +67,8 @@ VOID Repository_SetRepository( VOID )
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_WATCHCAT;
  Repository.Items[ I ].Purpose = DO_MONITOR_SYSTEM;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  Repository.Items[ I ].Action = SHOW_TASK_MANAGER;
+ Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "WatchCat.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "WatchCat object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "WatchCat path" );
@@ -179,9 +179,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_SAFEFIRE;
  Repository.Items[ I ].Purpose = DO_CONNECT_INTERNET;
  Repository.Items[ I ].Action = SHOW_DIALER;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
- strcpy( Repository.Items[ I ].Exe_name_1, "sfppp.exe" );
- strcpy( Repository.Items[ I ].Exe_name_2, "SafeFire.exe" );
+ strcpy( Repository.Items[ I ].Exe_name_1, "sfgui.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "SafeFire object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "SafeFire path" );
 
@@ -398,8 +396,8 @@ VOID Repository_SetRepository( VOID )
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_AICQ;
  Repository.Items[ I ].Purpose = DO_CONTACT_PEOPLE;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  Repository.Items[ I ].Action = SHOW_ICQ_PAGER;
+ Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "AICQ.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "AICQ object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "AICQ path" );
@@ -417,7 +415,8 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_NFTPPM;
  Repository.Items[ I ].Purpose = DO_BROWSE_FTP_SITES;
  Repository.Items[ I ].Action = SHOW_FTP_BROWSER;
- strcpy( Repository.Items[ I ].Exe_name_1, "Nftppm.exe" );
+ Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
+ strcpy( Repository.Items[ I ].Exe_name_1, "Nftp.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "NFTP object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "NFTP path" );
 
@@ -432,8 +431,8 @@ VOID Repository_SetRepository( VOID )
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_SSH;
  Repository.Items[ I ].Purpose = DO_REMOTE_CONTROL;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  Repository.Items[ I ].Action = SHOW_VIO_SSH_TERMINAL;
+ Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "Ssh.exe" );
  strcpy( Repository.Items[ I ].Exe_name_2, "Ssh2.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "SSH object" );
@@ -622,8 +621,8 @@ VOID Repository_SetRepository( VOID )
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_ZMP3;
  Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  Repository.Items[ I ].Action = SHOW_MP3_PLAYER;
+ Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "Z.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "ZMP3 object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "ZMP3 path" );
@@ -653,8 +652,8 @@ VOID Repository_SetRepository( VOID )
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_ZMP3;
  Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  Repository.Items[ I ].Action = SHOW_MP3_PLAYER;
+ Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "Z.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "ZMP3 object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "ZMP3 path" );
@@ -1146,73 +1145,6 @@ BYTE Repository_NamesAreEqually( INT Position, PCHAR Name )
  return 0;
 }
 
-// ─── Проверяет, является ли окно "коробкой для всех окон", то есть окном "рабочего стола" ───
-
-// Window - окно для проверки.
-BYTE Repository_IsDesktopWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#32766" ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно рамкой OS/2 ───
-
-// Window - окно для проверки.
-BYTE Repository_IsFrameWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- {
-  // Проверяем имя, под которым определено окно.
-  BYTE Window_can_be_frame = 0;
-
-  if( strc( Window_name, "#1" ) ) Window_can_be_frame = 1;
-  if( strc( Window_name, "EFrame" ) ) Window_can_be_frame = 1;
-  if( strc( Window_name, "wpFolder window" ) ) Window_can_be_frame = 1;
-  if( strc( Window_name, "Win32FrameClass" ) ) Window_can_be_frame = 1;
-
-  #ifndef INCLUDED_BY_SHELL
-
-  // Рамки часто используются для рисования прямоугольников.
-  // Если у окна нет заголовка и оно расположено не в окне рабочего стола - это уже не рамка.
-  if( Window_can_be_frame )
-   if( WinWindowFromID( Window, FID_TITLEBAR ) == NULLHANDLE )
-    if( WinQueryWindow( Window, QW_PARENT ) != QueryDesktopWindow() )
-     return 0;
-
-  #endif
-
-  // Если проверка пройдена - это рамка.
-  if( Window_can_be_frame ) return 1;
- }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно рамкой WPS ───
-
-// Frame_window - окно для проверки.
-BYTE Repository_IsFolderWindow( HWND Frame_window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Frame_window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "wpFolder window" ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
 // ─── Узнает окно рамки ───
 
 // Window - одно из окон приложения.
@@ -1305,45 +1237,38 @@ HWND Repository_QueryMainWindow( HWND Window, BYTE Find_frame_window = 1 )
 // Frame_window - окно рамки
 PID Repository_QueryWindowRealProcessID( HWND Frame_window )
 {
- #ifndef INCLUDED_BY_SHELL
-
- // Значение Switch Entry доступно только для главных окон.
- // Узнаем главное окно приложения - не обязательно окно рамки.
- Frame_window = Repository_QueryMainWindow( Frame_window, 0 );
-
- #endif
-
  // Если в окно можно переключиться - можно узнать и приложение, создавшее окно.
- // Окна VIO в этом поле записывают значение PID работающих в них приложений, а
- // если спрашивать PID окна, получим PID оконной оболочки, создавшей окно VIO.
- HSWITCH Switch_handle = WinQuerySwitchHandle( Frame_window, NULLHANDLE );
-
- if( Switch_handle != NULLHANDLE )
+ // Для окон VIO в поле "idProcess" записано значение PID работающих в них приложений.
+ // Если же здесь запрашивать PID окна, получим PID оконной оболочки, создавшей окно VIO.
+ if( Repository_IsVIOWindow( Frame_window ) )
   {
-   SWCNTRL Task; WinQuerySwitchEntry( Switch_handle, &Task );
-   if( Task.idProcess != 0 ) return Task.idProcess;
+   HSWITCH Switch_handle = WinQuerySwitchHandle( Frame_window, NULLHANDLE );
+
+   if( Switch_handle != NULLHANDLE )
+    {
+     SWCNTRL Task; WinQuerySwitchEntry( Switch_handle, &Task );
+     if( Task.idProcess != 0 ) return Task.idProcess;
+    }
   }
+ // Если это не текстовое окно - пробуем получить PID обыкновенным способом.
+ else
+  {
+   PID Process_ID = 0; TID Thread_ID = 0;
+   WinQueryWindowProcess( Frame_window, &Process_ID, &Thread_ID );
 
- // Если переключиться нельзя - пробуем получить его обыкновенным способом.
- {
-  PID Process_ID = 0; TID Thread_ID = 0;
-  WinQueryWindowProcess( Frame_window, &Process_ID, &Thread_ID );
+   #ifndef INCLUDED_BY_SHELL
 
-  #ifndef INCLUDED_BY_SHELL
+   // Для окон, созданных самой OS/2 (список окон, окно рабочего стола,
+   // сообщение или еще не готовое текстовое окно) ничего делать не надо.
+   PID Desktop_process_ID = 0; TID Desktop_thread_ID = 0;
+   WinQueryWindowProcess( QueryDesktopWindow(), &Desktop_process_ID, &Desktop_thread_ID );
 
-  // Для окон, созданных самой OS/2 (список окон, окно рабочего стола,
-  // сообщение или еще не готовое текстовое окно) ничего делать не надо.
-  PID Desktop_process_ID = 0; TID Desktop_thread_ID = 0;
-  WinQueryWindowProcess( QueryDesktopWindow(), &Desktop_process_ID, &Desktop_thread_ID );
+   if( Desktop_process_ID != 0 && Process_ID == Desktop_process_ID ) return 0;
 
-  if( Process_ID == Desktop_process_ID ) return 0;
+   #endif
 
-  // Вызывать здесь IsPresentationManagerWindow() нельзя - получится замкнутый круг.
-
-  #endif
-
-  return Process_ID;
- }
+   return Process_ID;
+  }
 
  // Возврат.
  return 0;
@@ -1506,6 +1431,19 @@ BYTE Repository_WindowIsCreatedBy( INT Application, HWND Window )
  return 0;
 }
 
+// ─── Проверяет, может ли данное окно быть окном исполнителя команд ───
+
+// Exe_name - имя приложения, создавшего окно.
+BYTE Repository_IsCommandExecutorWindow( PCHAR Exe_name )
+{
+ // Проверяем окно.
+ if( Repository_NamesAreEqually( Repository_FindApplicationInRepository( APP_CMD ), Exe_name ) ) return 1;
+ if( Repository_NamesAreEqually( Repository_FindApplicationInRepository( APP_COM ), Exe_name ) ) return 1;
+
+ // Возврат.
+ return 0;
+}
+
 // ─── Проверяет, используется ли окно для выполнения задачи ───
 
 // Purpose - задача, Frame_window - окно рамки.
@@ -1570,777 +1508,3 @@ BYTE Repository_CommandForWindowIs( INT Action, HWND Frame_window )
  return 0;
 }
 
-// ─── Проверяет, меню ли данное окно ───
-
-// Window - окно для проверки.
-BYTE Repository_IsMenuWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#4" ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно заголовком ───
-
-// Window - окно для проверки.
-BYTE Repository_IsTitleBarWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#9" ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно полоской просмотра ───
-
-// Window - окно для проверки.
-BYTE Repository_IsScrollBarWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#8" ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно полем ввода ───
-
-// Window - окно для проверки.
-BYTE Repository_IsInputFieldWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#10" ) ||
-     strstr( "MultiLineEntryField", Window_name ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно однострочным полем ввода ───
-
-// Window - окно для проверки.
-BYTE Repository_IsEntryFieldWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#6" ) ||
-     strstr( "EntryField", Window_name ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно списком со значками ───
-
-// Window - окно для проверки.
-BYTE Repository_IsIconViewWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#37" ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно списком со значками ───
-
-// Window - окно для проверки.
-BYTE Repository_IsDetailViewWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#50" ) ) return 1;
- if( strc( Window_name, "#51" ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно списком с выпадающим меню ───
-
-// Window - окно для проверки.
-BYTE Repository_IsComboBoxWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#2" ) ||
-     strstr( "Combo", Window_name ) ||
-     strstr( "DropDown", Window_name ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно списком ───
-
-// Window - окно для проверки.
-BYTE Repository_IsListBoxWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#7" ) ||
-     strstr( "ListBox", Window_name ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно однострочным списком ───
-
-// Window - окно для проверки.
-BYTE Repository_IsSpinButtonWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#32" ) ||
-     strstr( "SpinButton", Window_name ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно отмечаемой кнопкой ───
-
-// Window - окно для проверки.
-BYTE Repository_IsCheckBoxButtonWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#3" ) ||
-     strstr( "CheckBox", Window_name ) )
-  {
-   QMSG Report = {0};
-   LONG Style = (LONG) WinSendMsg( Window, WM_QUERYDLGCODE, &Report, 0 );
-   if( Style & DLGC_CHECKBOX ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно выбираемой кнопкой ───
-
-// Window - окно для проверки.
-BYTE Repository_IsRadioButtonWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#3" ) ||
-     strstr( "RadioButton", Window_name ) )
-  {
-   QMSG Report = {0};
-   LONG Style = (LONG) WinSendMsg( Window, WM_QUERYDLGCODE, &Report, 0 );
-   if( Style & DLGC_RADIOBUTTON ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно кнопкой ───
-
-// Window - окно для проверки.
-BYTE Repository_IsButtonWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#3" ) ||
-     strstr( "PushButton", Window_name ) )
-  {
-   QMSG Report = {0};
-   LONG Style = (LONG) WinSendMsg( Window, WM_QUERYDLGCODE, &Report, 0 );
-   if( Style & DLGC_PUSHBUTTON || Style & DLGC_DEFAULT ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно движком ───
-
-// Window - окно для проверки.
-BYTE Repository_IsSliderWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#38" ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно круглым движком ───
-
-// Window - окно для проверки.
-BYTE Repository_IsCircularSliderWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#65" ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно набором закладок ───
-
-// Window - окно для проверки.
-BYTE Repository_IsNotebookWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#40" ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно закладкой ───
-
-// Window - окно для проверки.
-BYTE Repository_IsNotebookPageWindow( HWND Window )
-{
- // Закладка - окно рамки без заголовка, расположенное в наборе закладок.
- if( Repository_IsFrameWindow( Window ) )
-  if( WinWindowFromID( Window, FID_TITLEBAR ) == NULLHANDLE )
-   if( Repository_IsNotebookWindow( WinQueryWindow( Window, QW_PARENT ) ) )
-    return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно невидимым прямоугольником ───
-
-// Window - окно для проверки.
-BYTE Repository_IsStaticWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#5" ) )
-  if( WinQueryWindowTextLength( Window ) == 0 )
-   return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно надписью ───
-
-// Window - окно для проверки.
-BYTE Repository_IsLabelWindow( HWND Window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( strc( Window_name, "#5" ) )
-  if( WinQueryWindowTextLength( Window ) != 0 )
-   return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, может ли окно быть оболочкой для полей ввода ───
-
-// Window - окно для проверки.
-BYTE Repository_IsInputFieldContainerWindow( HWND Window )
-{
- // Поля ввода могут располагаться в прямоугольниках и в закладках.
- if( Repository_IsStaticWindow( Window ) ||
-     Repository_IsNotebookWindow( Window ) ||
-     Repository_IsNotebookPageWindow( Window ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, FileBar ли данное окно ───
-
-// Frame_window - окно для проверки.
-BYTE Repository_IsFileBarWindow( HWND Frame_window )
-{
- // Узнаем окно рабочей области.
- HWND Client_window = WinWindowFromID( Frame_window, FID_CLIENT );
-
- if( Client_window != NULLHANDLE )
-  {
-   // Узнаем имя, под которым определено окно.
-   CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
-
-   // Проверяем его.
-   if( strc( Client_name, "FileBar" ) ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно рамкой MDesk ───
-
-// Frame_window - окно для проверки.
-BYTE Repository_IsMDeskWindow( HWND Frame_window )
-{
- // Узнаем окно рабочей области.
- HWND Client_window = WinWindowFromID( Frame_window, FID_CLIENT );
-
- if( Client_window != NULLHANDLE )
-  {
-   // Узнаем имя, под которым определено окно.
-   CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
-
-   // Проверяем его.
-   if( strc( Client_name, "MDesk-Folder" ) ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, WindowList ли данное окно ───
-
-// Frame_window - окно, которое надо проверить.
-BYTE Repository_IsWinListWindow( HWND Frame_window )
-{
- // Узнаем окно рабочей области.
- HWND Client_window = WinWindowFromID( Frame_window, FID_CLIENT );
-
- if( Client_window != NULLHANDLE )
-  {
-   // Узнаем имя, под которым определено окно.
-   CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
-
-   // Проверяем его.
-   if( strc( Client_name, "WindowList" ) ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, создано ли окно оболочкой OS/2 (PM, не WPS) ───
-
-// Frame_window - окно, которое надо проверить.
-BYTE Repository_IsPresentationManagerWindow( HWND Frame_window )
-{
- // Узнаем приложение, создавшее окно.
- // Окна VIO не считаем окнами Presentation Manager, хотя и они создаются оболочкой.
- PID Process_ID = Repository_QueryWindowRealProcessID( Frame_window ); TID Thread_ID = 0;
-
- // Если его не удалось узнать - считаем, что окно создано оболочкой Presentation Manager.
- if( Process_ID == 0 ) return 1;
-
- {
-  // Узнаем приложение, создавшее окно рабочего стола.
-  PID Desktop_process_ID = 0; TID Desktop_thread_ID = 0;
-  WinQueryWindowProcess( QueryDesktopWindow(), &Desktop_process_ID, &Desktop_thread_ID );
-
- // Если его не удалось узнать - считаем, что окно создано оболочкой Presentation Manager.
- if( Desktop_process_ID == 0 ) return 1;
-
-  // Если значения совпадают - окно создано оболочкой Presentation Manager.
-  if( Process_ID == Desktop_process_ID ) return 1;
- }
-
- // Возврат.
- return 0;
-}
-// ─── Проверяет, создано ли окно оболочкой OS/2 (WPS, не PM) ───
-
-// Frame_window - окно, которое надо проверить.
-BYTE Repository_IsWorkplaceShellWindow( HWND Frame_window )
-{
- // Если окно создано оболочкой PM - возврат.
- if( Repository_IsPresentationManagerWindow( Frame_window ) ) return 0;
-
- {
-  // Узнаем имя приложения, используемого в качестве оболочки.
-  PCHAR Workplace = NULL; DosScanEnv( "RUNWORKPLACE", (PPCSZ) &Workplace );
-
-  // Если оно неизвестно - нет ни одного окна, которое может быть им создано, возврат.
-  if( Workplace == NULL ) return 0;
-
-  {
-   // Узнаем имя приложения, создавшего окно.
-   CHAR Exe_name[ SIZE_OF_NAME ] = "";
-
-   #ifndef INCLUDED_BY_SHELL
-   GetDetectedExeName( Frame_window, Exe_name );
-   #else
-   Repository_QueryExeName( Frame_window, Exe_name );
-   #endif
-
-   // Если его удалось определить:
-   if( Exe_name[ 0 ] != 0 )
-    {
-     // Проверяем его.
-     if( stristr( Exe_name, Workplace ) ) return 1;
-    }
-   // А если имя неизвестно:
-   else
-    {
-     // Это может быть окно Win-OS/2 или текстовое с приложением для PC-DOS, но никак не одно из окон оболочки.
-     return 0;
-    }
-  }
- }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, может ли данное окно быть окном исполнителя команд ───
-
-// Exe_name - имя приложения, создавшего окно.
-BYTE Repository_IsCommandExecutorWindow( PCHAR Exe_name )
-{
- // Проверяем окно.
- if( Repository_NamesAreEqually( Repository_FindApplicationInRepository( APP_CMD ), Exe_name ) ) return 1;
- if( Repository_NamesAreEqually( Repository_FindApplicationInRepository( APP_COM ), Exe_name ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, может ли данное окно быть переключателем окон по "Alt + Tab" ───
-
-// Frame_window - окно, которое надо проверить.
-BYTE Repository_IsAltTabSwitcherWindow( HWND Frame_window )
-{
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Frame_window, SIZE_OF_NAME, Window_name );
-
- // Проверяем его.
- if( stric( Window_name, "AltTabSwitcher" ) ) return 1;
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, lSwitcher ли данное окно ───
-
-// Frame_window - окно, которое надо проверить.
-BYTE Repository_IslSwitcherWindow( HWND Frame_window )
-{
- // Узнаем окно рабочей области.
- HWND Client_window = WinWindowFromID( Frame_window, FID_CLIENT );
-
- if( Client_window != NULLHANDLE )
-  {
-   // Узнаем имя, под которым определено окно.
-   CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
-
-   // Проверяем его. Начало имени, "lsw" может быть задано разными буквами.
-   if( stric( Client_name, "lswPopupClass" ) ) return 1;
-   if( stric( Client_name, "lswTaskBarClass" ) ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, имеет ли окно расположение, похожее на WarpCenter ───
-
-// Window - окно для проверки.
-BYTE Repository_HasWarpCenterSize( HWND Window )
-{
- // Узнаем размер окна.
- RECT Rectangle = {0}; WinQueryWindowRect( Window, &Rectangle );
-
- // Если ширина окна в несколько раз больше его высоты:
- if( Rectangle.xRight > Rectangle.yTop * 10 )
-  {
-   // Узнаем окно рабочего стола.
-   HWND Desktop = QueryDesktopWindow();
-
-   // Узнаем размер экрана.
-   INT X_Screen = WinQuerySysValue( QueryDesktopWindow(), SV_CXSCREEN );
-
-   // Если ширина окна больше размера экрана - это окно похоже на WarpCenter.
-   if( Rectangle.xRight > X_Screen - 10 ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, WarpCenter ли данное окно ───
-
-// Window - окно, которое надо проверить.
-BYTE Repository_IsWarpCenterWindow( HWND Window )
-{
- // Если окно создано не оболочкой - возврат.
- if( !Repository_IsWorkplaceShellWindow( Window ) ) return 0;
-
- // Если родительское окно не рабочий стол - возврат.
- if( WinQueryWindow( Window, QW_PARENT ) != QueryDesktopWindow() ) return 0;
-
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Если это может быть WarpCenter:
- if( strc( Window_name, "#3" ) )
-  if( Repository_HasWarpCenterSize( Window ) )
-   {
-    // Узнаем заголовок окна.
-    Window_name[ 0 ] = NULL;
-    WinQueryWindowText( Window, SIZE_OF_NAME, Window_name );
-
-    // Если это WarpCenter - возвращаем 1.
-    if( strc( Window_name, "SmartCenter" ) ) return 1;
-   }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, может ли данное окно быть окном меню WarpCenter ───
-
-// Window - окно, которое надо проверить.
-BYTE Repository_IsWarpCenterMenuWindow( HWND Window )
-{
- // Если окно создано не оболочкой - возврат.
- if( !Repository_IsWorkplaceShellWindow( Window ) ) return 0;
-
- // Если родительское окно не рабочий стол - возврат.
- if( WinQueryWindow( Window, QW_PARENT ) != QueryDesktopWindow() ) return 0;
-
- // Узнаем имя, под которым определено окно.
- CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
-
- // Если это может быть WarpCenter:
- if( strc( Window_name, "#3" ) )
-  {
-   // Узнаем размер окна.
-   RECT Rectangle = {0}; WinQueryWindowRect( Window, &Rectangle );
-
-   // Если высота окна больше его ширины - это меню WarpCenter.
-   if( Rectangle.yTop > Rectangle.xRight ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, SysTray ли данное окно ───
-
-// Window - окно, которое надо проверить.
-BYTE Repository_IsSysTrayWindow( HWND Window )
-{
- // Узнаем окно рабочей области.
- HWND Client_window = WinWindowFromID( Window, FID_CLIENT );
-
- if( Client_window != NULLHANDLE )
-  {
-   // Узнаем имя, под которым определено окно.
-   CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
-
-   // Если оно может быть окном SysTray:
-   if( stristr( "SysTray", Client_name ) )
-    {
-     // Проверяем расположение окна.
-     if( Repository_HasWarpCenterSize( Window ) ) return 1;
-    }
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, может ли данное окно быть окном меню SysTray ───
-
-// Window - окно, которое надо проверить.
-BYTE Repository_IsSysTrayMenuWindow( HWND Window )
-{
- // Если это окно меню:
- if( Repository_IsMenuWindow( Window ) )
-  {
-   // Узнаем окно владельца.
-   HWND Owner_window = WinQueryWindow( Window, QW_OWNER );
-
-   // Узнаем имя, под которым определено окно.
-   CHAR Owner_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Owner_window, SIZE_OF_NAME, Owner_name );
-
-   // Проверяем его.
-   if( strc( Owner_name, "AgentCenterClass" ) ) return 1;
-   if( strc( Owner_name, "SPLG_WarpButton" ) ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, eCenter ли данное окно ───
-
-// Window - окно, которое надо проверить.
-BYTE Repository_IsECenterWindow( HWND Window )
-{
- // Узнаем окно рабочей области.
- HWND Client_window = WinWindowFromID( Window, FID_CLIENT );
-
- if( Client_window != NULLHANDLE )
-  {
-   // Узнаем имя, под которым определено окно.
-   CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
-
-   // Если оно может быть окном eCenter:
-   if( stristr( "XWPCenter", Client_name ) )
-    {
-     // Проверяем расположение окна.
-     if( Repository_HasWarpCenterSize( Window ) ) return 1;
-    }
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, может ли данное окно быть окном меню eCenter ───
-
-// Window - окно, которое надо проверить.
-BYTE Repository_IsECenterMenuWindow( HWND Window )
-{
- // Если это окно меню:
- if( Repository_IsMenuWindow( Window ) )
-  {
-   // Узнаем окно владельца.
-   HWND Owner_window = WinQueryWindow( Window, QW_OWNER );
-
-   // Узнаем имя, под которым определено окно.
-   CHAR Owner_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Owner_window, SIZE_OF_NAME, Owner_name );
-
-   // Проверяем его.
-   if( stristr( "XWPCenter", Owner_name ) ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, ePager ли данное окно ───
-
-// Window - окно, которое надо проверить.
-BYTE Repository_IsEPagerWindow( HWND Frame_window )
-{
- // Узнаем окно рабочей области.
- HWND Client_window = WinWindowFromID( Frame_window, FID_CLIENT );
-
- if( Client_window != NULLHANDLE )
-  {
-   // Узнаем имя, под которым определено окно.
-   CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
-
-   // Проверяем его.
-   if( stristr( "XWPXPagerClient", Client_name ) ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, может ли данное окно быть окном системного сообщения ───
-
-// Frame_window - окно, которое надо проверить.
-BYTE Repository_IsSysMsgWindow( HWND Frame_window )
-{
- // Узнаем окно рабочей области.
- HWND Client_window = WinWindowFromID( Frame_window, FID_CLIENT );
-
- if( Client_window != NULLHANDLE )
-  {
-   // Узнаем имя, под которым определено окно.
-   CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
-
-   // Проверяем его.
-   if( strc( Client_name, "PM Hard Error" ) ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно рамкой Win-OS/2 или Odin ───
-
-// Frame_window - окно рамки.
-BYTE Repository_IsWindowsWindow( HWND Frame_window )
-{
- // Узнаем окно рабочей области.
- HWND Client_window = WinWindowFromID( Frame_window, FID_CLIENT );
-
- if( Client_window != NULLHANDLE )
-  {
-   // Узнаем имя, под которым определено окно.
-   CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
-
-   // Проверяем его.
-   if( strstr( "Win32WindowClass", Client_name ) ) return 1;
-   if( strc( Client_name, "SeamlessClass" ) ) return 1;
-  }
-
- // Возврат.
- return 0;
-}
-
-// ─── Проверяет, является ли окно рамкой VIO ───
-
-// Frame_window - окно для проверки.
-BYTE Repository_IsVIOWindow( HWND Frame_window )
-{
- // Узнаем окно рабочей области.
- HWND Client_window = WinWindowFromID( Frame_window, FID_CLIENT );
-
- if( Client_window != NULLHANDLE )
-  {
-   // Узнаем имя, под которым определено окно.
-   CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
-
-   // Проверяем его.
-   if( strc( Client_name, "Shield" ) ) return 1;
-  }
-
- // Возврат.
- return 0;
-}

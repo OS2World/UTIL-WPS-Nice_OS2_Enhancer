@@ -51,7 +51,6 @@ VOID PriorityManager_CalculatePriorityLevel( HWND Frame_window, PLONG Class, PLO
   {
    *Class = PRTYC_IDLETIME;
    *Delta = PRTYD_NORMAL;
-   return;
   }
 
  // Возврат.
@@ -96,8 +95,8 @@ VOID PriorityManager_CopyWindowListToRTSettings( VOID )
 
 // ─── Проставляет приоритеты всем видимым приложениям ───
 
-// Action - действие, которое надо выполнить, Active_window - выбранное окно.
-VOID PriorityManager_SetDynamicPriorityLevels( LONG Action, HWND Active_window = NULLHANDLE )
+// Action - действие, которое надо выполнить.
+VOID PriorityManager_SetDynamicPriorityLevels( LONG Action )
 {
  // Если менять приоритеты не надо - возврат.
  if( !PriorityManager.Settings.Dynamic_priority ) return;
@@ -105,24 +104,9 @@ VOID PriorityManager_SetDynamicPriorityLevels( LONG Action, HWND Active_window =
  // Узнаем список видимых приложений.
  PriorityManager_CopyWindowListToRTSettings();
 
- // Узнаем приложение, которое сейчас выбрано.
- PID Active_process = 0;
-
- if( Action == SDPL_FORCE_ACTIVE_PROCESS || Action == SDPL_SUPPRESS_ACTIVE_PROCESS )
-  {
-   // Узнаем окно, которое сейчас выбрано.
-   if( Active_window == NULLHANDLE ) Active_window = WinQueryActiveWindow( QueryDesktopWindow() );
-
-   // Если оно есть:
-   if( Active_window != NULLHANDLE )
-    {
-     // Узнаем приложение, которое сейчас выбрано.
-     Active_process = QueryWindowRealProcessID( Active_window );
-    }
-  }
-
- // Если надо рассчитать приоритеты для всех приложений:
- if( Action == SDPL_FORCE_ACTIVE_PROCESS && Active_process != 0 )
+ // Если надо рассчитать приоритеты для всех приложений и повысить
+ // приоритет того приложения, с которым работает пользователь:
+ if( Action == SDPL_FORCE_ACTIVE_PROCESS )
   {
    // Назначаем низкий приоритет всем приложениям.
    // Это значение останется для невидимых приложений.
@@ -136,44 +120,34 @@ VOID PriorityManager_SetDynamicPriorityLevels( LONG Action, HWND Active_window =
      PriorityManager.RTSettings.Visible_processes[ Count ].Priority_delta = PRTYD_NORMAL;
     }
 
-   // Задаем полноэкранным приложениям средний приоритет.
+   // Задаем приложениям, имеющим видимые окна, средний приоритет, а
+   // приложению, с которым работает пользователь - высокий приоритет.
    for( Count = 0; Count < SIZE_OF_VISPROCLIST; Count ++ )
     {
      // Если запись ничего не содержит - продолжаем просмотр списка.
      if( PriorityManager.RTSettings.Visible_processes[ Count ].Process_ID == 0 ) continue;
 
-     // Если приложение идет в полный экран - назначаем ему средний приоритет.
-     if( PriorityManager.RTSettings.Visible_processes[ Count ].Program_type == PROG_FULLSCREEN )
-      {
-       // Рассчитываем приоритет для приложения.
-       LONG Class = PRTYC_IDLETIME;
-       LONG Delta = PRTYD_MAXIMUM;
-
-       if( PriorityManager.Settings.Normalize_priority ) PriorityManager_CalculatePriorityLevel( PriorityManager.RTSettings.Visible_processes[ Count ].Frame_window, &Class, &Delta );
-
-       // Меняем его свойства в списке.
-       PriorityManager.RTSettings.Visible_processes[ Count ].Priority_class = Class;
-       PriorityManager.RTSettings.Visible_processes[ Count ].Priority_delta = Delta;
-      }
-    }
-
-   // Задаем приложениям, имеющим видимые окна, хороший приоритет.
-   for( Count = 0; Count < SIZE_OF_VISPROCLIST; Count ++ )
-    {
-     // Если запись ничего не содержит - продолжаем просмотр списка.
-     if( PriorityManager.RTSettings.Visible_processes[ Count ].Process_ID == 0 ) continue;
-
-     // Если окно видимо - ставим приложению хороший приоритет.
-     if( WinIsWindowShowing( PriorityManager.RTSettings.Visible_processes[ Count ].Frame_window ) )
+     // Если окно не скрыто и хотя бы часть его видна на экране:
+     if( WinIsWindowVisible( PriorityManager.RTSettings.Visible_processes[ Count ].Frame_window ) &&
+         WinIsWindowShowing( PriorityManager.RTSettings.Visible_processes[ Count ].Frame_window ) )
       {
        // Узнаем приложение, создавшее это окно.
        PID Inactive_process = PriorityManager.RTSettings.Visible_processes[ Count ].Process_ID;
 
        // Рассчитываем приоритет для приложения.
-       LONG Class = PRTYC_REGULAR;
-       LONG Delta = PRTYD_MINIMUM;
+       LONG Class = PRTYC_IDLETIME;
+       LONG Delta = PRTYD_QUICK;
 
-       if( PriorityManager.Settings.Normalize_priority ) PriorityManager_CalculatePriorityLevel( PriorityManager.RTSettings.Visible_processes[ Count ].Frame_window, &Class, &Delta );
+       if( WindowIsActive( PriorityManager.RTSettings.Visible_processes[ Count ].Frame_window ) )
+        {
+         Class = PRTYC_REGULAR;
+         Delta = PRTYD_NORMAL;
+        }
+
+       if( PriorityManager.Settings.Normalize_priority ) 
+        {
+         PriorityManager_CalculatePriorityLevel( PriorityManager.RTSettings.Visible_processes[ Count ].Frame_window, &Class, &Delta );
+        }
 
        // Меняем его свойства в списке.
        for( INT Pointer = 0; Pointer < SIZE_OF_VISPROCLIST; Pointer ++ )
@@ -182,43 +156,6 @@ VOID PriorityManager_SetDynamicPriorityLevels( LONG Action, HWND Active_window =
           PriorityManager.RTSettings.Visible_processes[ Pointer ].Priority_class = Class;
           PriorityManager.RTSettings.Visible_processes[ Pointer ].Priority_delta = Delta;
          }
-      }
-    }
-
-   // Задаем высокий приоритет приложению, с которым работает пользователь.
-   LONG Class = PRTYC_REGULAR;
-   LONG Delta = PRTYD_NORMAL;
-
-   if( PriorityManager.Settings.Normalize_priority ) PriorityManager_CalculatePriorityLevel( Active_window, &Class, &Delta );
-
-   // Меняем его свойства в списке.
-   for( INT Pointer = 0; Pointer < SIZE_OF_VISPROCLIST; Pointer ++ )
-    if( PriorityManager.RTSettings.Visible_processes[ Pointer ].Process_ID == Active_process )
-     {
-      PriorityManager.RTSettings.Visible_processes[ Pointer ].Priority_class = Class;
-      PriorityManager.RTSettings.Visible_processes[ Pointer ].Priority_delta = Delta;
-     }
-  }
-
- // Если надо снизить приоритет одного приложения:
- if( Action == SDPL_SUPPRESS_ACTIVE_PROCESS && Active_process != 0 )
-  {
-   // Задаем приложению низкий приоритет. Остальные приложения не трогаем.
-   for( INT Count = 0; Count < SIZE_OF_VISPROCLIST; Count ++ )
-    {
-     // Если запись ничего не содержит - продолжаем просмотр списка.
-     if( PriorityManager.RTSettings.Visible_processes[ Count ].Process_ID == 0 ) continue;
-
-     // Ставим приоритет выбранному приложению.
-     if( PriorityManager.RTSettings.Visible_processes[ Count ].Process_ID == Active_process )
-      {
-       PriorityManager.RTSettings.Visible_processes[ Count ].Priority_class = PRTYC_REGULAR;
-       PriorityManager.RTSettings.Visible_processes[ Count ].Priority_delta = PRTYD_MINIMUM;
-      }
-     // Удаляем из списка остальные приложения.
-     else
-      {
-       PriorityManager.RTSettings.Visible_processes[ Count ].Process_ID = 0;
       }
     }
   }
@@ -233,8 +170,8 @@ VOID PriorityManager_SetDynamicPriorityLevels( LONG Action, HWND Active_window =
      if( PriorityManager.RTSettings.Visible_processes[ Count ].Process_ID == 0 ) continue;
 
      // Ставим приоритет.
-     PriorityManager.RTSettings.Visible_processes[ Count ].Priority_class = PRTYC_REGULAR;
-     PriorityManager.RTSettings.Visible_processes[ Count ].Priority_delta = PRTYD_MINIMUM;
+     PriorityManager.RTSettings.Visible_processes[ Count ].Priority_class = PRTYC_IDLETIME;
+     PriorityManager.RTSettings.Visible_processes[ Count ].Priority_delta = PRTYD_NORMAL;
     }
   }
 
@@ -270,6 +207,9 @@ VOID PriorityManager_SetDynamicPriorityLevels( LONG Action, HWND Active_window =
      for( INT Pointer = 0; Pointer < SIZE_OF_VISPROCLIST; Pointer ++ )
       if( PriorityManager.RTSettings.Visible_processes[ Pointer ].Process_ID == Excepted_process )
        PriorityManager.RTSettings.Visible_processes[ Pointer ].Process_ID = 0;
+
+     // Удаляем из списка текущую запись.
+     PriorityManager.RTSettings.Visible_processes[ Count ].Process_ID = 0;
     }
   }
 
@@ -286,25 +226,7 @@ VOID PriorityManager_SetDynamicPriorityLevels( LONG Action, HWND Active_window =
       PriorityManager.RTSettings.Visible_processes[ Pointer ].Process_ID = 0;
   }
 
- // Устанавливаем приоритеты для текстовых приложений.
- for( Count = 0; Count < SIZE_OF_VISPROCLIST; Count ++ )
-  {
-   // Если запись ничего не содержит - продолжаем просмотр списка.
-   if( PriorityManager.RTSettings.Visible_processes[ Count ].Process_ID == 0 ) continue;
-
-   // Если это текстовое приложение:
-   if( PriorityManager.RTSettings.Visible_processes[ Count ].Program_type == PROG_FULLSCREEN ||
-       PriorityManager.RTSettings.Visible_processes[ Count ].Program_type == PROG_WINDOWABLEVIO )
-    {
-     // Устанавливаем приоритет.
-     SetPriorityLevel( PriorityManager.RTSettings.Visible_processes[ Count ].Frame_window, PriorityManager.RTSettings.Visible_processes[ Count ].Priority_class, PriorityManager.RTSettings.Visible_processes[ Count ].Priority_delta );
-
-     // Выбрасываем приложение из списка.
-     PriorityManager.RTSettings.Visible_processes[ Count ].Process_ID = 0;
-    }
-  }
-
- // Устанавливаем приоритеты для оконных приложений.
+ // Устанавливаем приоритеты.
  for( Count = 0; Count < SIZE_OF_VISPROCLIST; Count ++ )
   {
    // Если запись ничего не содержит - продолжаем просмотр списка.

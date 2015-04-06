@@ -160,6 +160,7 @@ ENHANCER; ENHANCER Enhancer;
 #include "Core\\WindowTypesAndRepository.h"
 
 #include "..\\Shared\\Repository\\Repository_data.cpp"
+#include "..\\Shared\\Repository\\Repository_base.cpp"
 #include "..\\Shared\\Repository\\Repository_code.cpp"
 #include "..\\Shared\\Repository.cpp"
 
@@ -901,7 +902,7 @@ VOID EXPENTRY Krnl_ApplicationIsKilled( VOID )
  Krnl_DisableKernelSettings();
 
  // Снижаем приоритет приложения - неизвестно, что будет дальше.
- DosSetPriority( PRTYS_PROCESS, PRTYC_REGULAR, PRTYD_MINIMUM, 0 );
+ DosSetPriority( PRTYS_PROCESS, PRTYC_REGULAR, 0, 0 );
 
  // Возврат.
  return;
