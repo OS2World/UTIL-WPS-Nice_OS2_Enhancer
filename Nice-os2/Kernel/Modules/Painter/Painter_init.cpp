@@ -6,6 +6,8 @@ VOID Painter_SetDrawingRules( VOID )
  // Задаем правила в зависимости от темы.
  switch( Painter.Settings.Theme )
   {
+   case PAINTER_THEME_PHOENIX:
+   case PAINTER_THEME_BLUE_LION:
    case PAINTER_THEME_ECOMSTATION:
     {
      Painter.Settings.Draw_normal_frames = 0;
@@ -73,10 +75,10 @@ VOID Painter_SetPreDefinedSettings( LONG Division )
    Painter.Settings.Rollup_VIO_windows = 0;
    Painter.Settings.Keep_frame_colors = 1;
 
-   Painter.Settings.Theme = PAINTER_THEME_ECOMSTATION; Painter_SetDrawingRules();
+   Painter.Settings.Theme = PAINTER_THEME_PHOENIX; Painter_SetDrawingRules();
 
    GetCurrentPath( Painter.Settings.TitleBar_pattern );
-   strcat( Painter.Settings.TitleBar_pattern, "\\Bitmap\\Themes\\Clouds.bmp" );
+   strcat( Painter.Settings.TitleBar_pattern, "\\Bitmap\\Themes\\Pixels.bmp" );
   }
 
  // Задаем цвета для заголовков окон.

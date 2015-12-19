@@ -27,7 +27,12 @@ BYTE Painter_DifferentTitleBarImagesAreRequired( VOID )
 BYTE Painter_NeonTitleBarIsRequired( BYTE Window_is_active = 1 )
 {
  // Проверяем тему для рамок и смотрим, выбрано ли окно.
- if( Painter.Settings.Theme == PAINTER_THEME_ECOMSTATION ) if( Window_is_active ) return 1;
+ if( Window_is_active )
+  {
+   if( Painter.Settings.Theme == PAINTER_THEME_PHOENIX ) return 1;
+   if( Painter.Settings.Theme == PAINTER_THEME_BLUE_LION ) return 1;
+   if( Painter.Settings.Theme == PAINTER_THEME_ECOMSTATION ) return 1;
+  }
 
  // Возврат.
  return 0;
@@ -98,6 +103,7 @@ INT Painter_GetTitleBarPixelMargin( INT Theme, HWND Frame_window, BYTE Window_is
     }
    break;
 
+   case PAINTER_THEME_PHOENIX:
    case PAINTER_THEME_WHITE_SNOW:
     {
      if( Window_is_active ) Pixel_margin = 1;
@@ -1323,7 +1329,8 @@ VOID Painter_CalculateTitleRectangle( HPS Presentation_space, HWND TitleBar_wind
  // Задаем выравнивание для текста.
  LONG Defined_alignment = DT_CENTER;
 
- if( Painter.Settings.Theme == PAINTER_THEME_ECOMSTATION ||
+ if( Painter.Settings.Theme == PAINTER_THEME_PHOENIX ||
+     Painter.Settings.Theme == PAINTER_THEME_ECOMSTATION ||
      Painter.Settings.Theme == PAINTER_THEME_WHITE_SNOW ) Defined_alignment = DT_LEFT;
 
  // Название надо выравнивать по середине окна заголовка, но если справа от него
@@ -1629,6 +1636,103 @@ VOID Painter_DrawVTVControlVolumeLines( HWND TitleBar_window, PRECT Rectangle, L
 // ─── Подчеркивает объем заголовка ───
 
 // Все переменные - внешние.
+VOID Painter_DrawOS4TitleBarVolumeLines( HWND TitleBar_window, PRECT Rectangle, HWND Frame_window, PRECT Frame_rectangle, PSWP Frame_placement )
+{
+ // Работаем в пространстве отображения окна.
+ HPS Presentation_space = WinGetPS( TitleBar_window );
+
+ // Если пространство отображения не получено - возврат.
+ if( Presentation_space == NULLHANDLE ) return;
+
+ // Рисуем темную часть рамки.
+ GpiSetColor( Presentation_space, SYSCLR_BUTTONDARK );
+
+ POINT Point = {0};           if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiMove( Presentation_space, &Point );
+ Point.y = Rectangle->yTop;   if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiLine( Presentation_space, &Point );
+ Point.x = Rectangle->xRight; if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiLine( Presentation_space, &Point );
+
+ GpiSetColor( Presentation_space, SYSCLR_BUTTONLIGHT );
+
+ Point.x = 1; Point.y = 1;        if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiMove( Presentation_space, &Point );
+ Point.y = Rectangle->yTop - 1;   if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiLine( Presentation_space, &Point );
+ Point.x = Rectangle->xRight - 1; if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiLine( Presentation_space, &Point );
+
+ // Рисуем светлую часть рамки.
+ GpiSetColor( Presentation_space, SYSCLR_BUTTONLIGHT );
+
+ Point.x = Rectangle->xRight; Point.y = Rectangle->yTop - 1; if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiMove( Presentation_space, &Point );
+ Point.y = 0; Point.x = Rectangle->xRight;                   if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiLine( Presentation_space, &Point );
+ Point.x = 0;                                                if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiLine( Presentation_space, &Point );
+
+ GpiSetColor( Presentation_space, SYSCLR_BUTTONDARK );
+
+ Point.x = Rectangle->xRight - 1; Point.y = Rectangle->yTop - 2; if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiMove( Presentation_space, &Point );
+ Point.y = 1;                                                    if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiLine( Presentation_space, &Point );
+ Point.x = 1;                                                    if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiLine( Presentation_space, &Point );
+
+ // Рисуем уголки рамки.
+ GpiSetColor( Presentation_space, SYSCLR_DIALOGBACKGROUND );
+
+ Point.y = 0; Point.x = 0;
+ if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiSetPel( Presentation_space, &Point );
+ Point.y = Rectangle->yTop; Point.x = Rectangle->xRight;
+ if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiSetPel( Presentation_space, &Point );
+
+ Point.y = 1; Point.x = 1;
+ if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiSetPel( Presentation_space, &Point );
+ Point.y = Rectangle->yTop - 1; Point.x = Rectangle->xRight - 1;
+ if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiSetPel( Presentation_space, &Point );
+
+ // Завершаем работу в пространстве отображения окна.
+ WinReleasePS( Presentation_space );
+
+ // Возврат.
+ return;
+}
+
+// ─── Подчеркивает объем заголовка ───
+
+// Все переменные - внешние.
+VOID Painter_DrawLionTitleBarVolumeLines( HWND TitleBar_window, PRECT Rectangle, HWND Frame_window, PRECT Frame_rectangle, PSWP Frame_placement )
+{
+ // Работаем в пространстве отображения окна.
+ HPS Presentation_space = WinGetPS( TitleBar_window );
+
+ // Если пространство отображения не получено - возврат.
+ if( Presentation_space == NULLHANDLE ) return;
+
+ // Рисуем темную часть рамки.
+ GpiSetColor( Presentation_space, SYSCLR_BUTTONDARK );
+
+ POINT Point = {0};           if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiMove( Presentation_space, &Point );
+ Point.y = Rectangle->yTop;   if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiLine( Presentation_space, &Point );
+ Point.x = Rectangle->xRight; if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiLine( Presentation_space, &Point );
+
+ // Рисуем светлую часть рамки.
+ GpiSetColor( Presentation_space, SYSCLR_BUTTONLIGHT );
+
+ Point.y = 0; if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiLine( Presentation_space, &Point );
+ Point.x = 0; if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiLine( Presentation_space, &Point );
+
+ // Рисуем уголки рамки.
+ GpiSetColor( Presentation_space, SYSCLR_DIALOGBACKGROUND );
+
+ Point.y = 0; Point.x = 0;
+ if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiSetPel( Presentation_space, &Point );
+
+ Point.y = Rectangle->yTop; Point.x = Rectangle->xRight;
+ if( !Painter_SMPError( Frame_window, Frame_rectangle, Frame_placement ) ) GpiSetPel( Presentation_space, &Point );
+
+ // Завершаем работу в пространстве отображения окна.
+ WinReleasePS( Presentation_space );
+
+ // Возврат.
+ return;
+}
+
+// ─── Подчеркивает объем заголовка ───
+
+// Все переменные - внешние.
 VOID Painter_DrawECSTitleBarVolumeLines( HWND TitleBar_window, PRECT Rectangle, HWND Frame_window, PRECT Frame_rectangle, PSWP Frame_placement )
 {
  // Работаем в пространстве отображения окна.
@@ -1798,16 +1902,31 @@ VOID Painter_DrawClassicTitleBarVolumeLines( HWND TitleBar_window, PRECT Rectang
 VOID Painter_DrawTitleBarVolumeLines( HWND TitleBar_window, LONG Frame_type, PRECT Rectangle, BYTE Window_is_active, HWND Frame_window, PRECT Frame_rectangle, PSWP Frame_placement )
 {
  // Задаем правила рисования в зависимости от выбранной темы для рамок.
- BYTE Draw_classic_lines = 0; BYTE Draw_eCS_lines = 0; BYTE Draw_Snow_lines = 0; BYTE Draw_VTV_lines = 0;
+ BYTE Draw_OS4_lines     = 0; 
+ BYTE Draw_Lion_lines    = 0; 
+ BYTE Draw_eCS_lines     = 0; 
+ BYTE Draw_classic_lines = 0; 
+ BYTE Draw_Snow_lines    = 0; 
+ BYTE Draw_VTV_lines     = 0;
 
  switch( Painter.Settings.Theme )
   {
+   case PAINTER_THEME_PHOENIX:
+    {
+     if( Window_is_active ) Draw_OS4_lines = 1;
+     else Draw_VTV_lines = 1;
+    }
+   break;
+
+   case PAINTER_THEME_BLUE_LION:
+    {
+     if( Window_is_active ) Draw_Lion_lines = 1;
+    }
+   break;
+
    case PAINTER_THEME_ECOMSTATION:
     {
-     if( Window_is_active )
-      {
-       Draw_eCS_lines = 1;
-      }
+     if( Window_is_active ) Draw_eCS_lines = 1;
     }
    break;
 
@@ -1821,7 +1940,7 @@ VOID Painter_DrawTitleBarVolumeLines( HWND TitleBar_window, LONG Frame_type, PRE
       }
      else
       {
-       if( !Painter_PermissionForCompleteDrawing( Frame_window ) ) Draw_eCS_lines = 1;
+       if( !Painter_PermissionForCompleteDrawing( Frame_window ) ) Draw_OS4_lines = 1;
       }
     }
    break;
@@ -1835,8 +1954,10 @@ VOID Painter_DrawTitleBarVolumeLines( HWND TitleBar_window, LONG Frame_type, PRE
   }
 
  // Подчеркиваем объем окна.
- if( Draw_classic_lines ) Painter_DrawClassicTitleBarVolumeLines( TitleBar_window,  Rectangle, -1, Window_is_active, Frame_window, Frame_rectangle, Frame_placement );
+ if( Draw_OS4_lines ) Painter_DrawOS4TitleBarVolumeLines( TitleBar_window, Rectangle, Frame_window, Frame_rectangle, Frame_placement );
+ if( Draw_Lion_lines ) Painter_DrawLionTitleBarVolumeLines( TitleBar_window, Rectangle, Frame_window, Frame_rectangle, Frame_placement );
  if( Draw_eCS_lines ) Painter_DrawECSTitleBarVolumeLines( TitleBar_window, Rectangle, Frame_window, Frame_rectangle, Frame_placement );
+ if( Draw_classic_lines ) Painter_DrawClassicTitleBarVolumeLines( TitleBar_window,  Rectangle, -1, Window_is_active, Frame_window, Frame_rectangle, Frame_placement );
  if( Draw_Snow_lines ) Painter_DrawSnowTitleBarVolumeLines( TitleBar_window, Rectangle, Frame_window, Frame_rectangle, Frame_placement );
  if( Draw_VTV_lines ) Painter_DrawVTVControlVolumeLines( TitleBar_window, Rectangle, -1, Window_is_active, Frame_window, Frame_rectangle, Frame_placement );
 
@@ -2177,7 +2298,9 @@ VOID Painter_DrawTitleBar( HWND TitleBar_window, HWND Frame_window, LONG Frame_t
 
    if( !Window_is_active )
     {
-     if( Painter.Settings.Theme == PAINTER_THEME_ECOMSTATION ) Draw_A3D_text = 1;
+     if( Painter.Settings.Theme == PAINTER_THEME_PHOENIX ||
+         Painter.Settings.Theme == PAINTER_THEME_BLUE_LION ||
+         Painter.Settings.Theme == PAINTER_THEME_ECOMSTATION ) Draw_A3D_text = 1;
 
      if( Painter.Settings.Theme == PAINTER_THEME_CLASSIC_RGB ||
          Painter.Settings.Theme == PAINTER_THEME_WHITE_SNOW ) Draw_V3D_text = 1;
@@ -2236,7 +2359,9 @@ VOID Painter_DrawTitleBar( HWND TitleBar_window, HWND Frame_window, LONG Frame_t
 
    if( Window_is_active )
     {
-     if( Painter.Settings.Theme == PAINTER_THEME_ECOMSTATION ||
+     if( Painter.Settings.Theme == PAINTER_THEME_PHOENIX ||
+         Painter.Settings.Theme == PAINTER_THEME_BLUE_LION ||
+         Painter.Settings.Theme == PAINTER_THEME_ECOMSTATION ||
          Painter.Settings.Theme == PAINTER_THEME_CLASSIC_RGB ||
          Painter.Settings.Theme == PAINTER_THEME_WHITE_SNOW ) Draw_shadow = 1;
     }

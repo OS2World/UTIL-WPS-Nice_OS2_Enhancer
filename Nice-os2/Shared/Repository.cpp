@@ -10,7 +10,6 @@
 #define ApplicationIsExists         Repository_ApplicationIsExists
 #define ShowCommandCanBeUsed        Repository_ShowCommandCanBeUsed
 #define FindExeNameInRepository     Repository_FindExeNameInRepository
-#define FindDescriptionInRepository Repository_FindDescriptionInRepository
 
 #define IsDesktopWindow             Repository_IsDesktopWindow
 #define IsFrameWindow               Repository_IsFrameWindow

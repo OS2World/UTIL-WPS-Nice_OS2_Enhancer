@@ -148,6 +148,11 @@ CONST PCHAR StrConst_RU_Pages_Drawing_themes_Texture_dialog = "Найти узор";
 CONST PCHAR StrConst_EN_Pages_Drawing_themes_Texture_dialog = "Find texture";
 CONST PCHAR StrConst_RU_Pages_Drawing_themes_Draw_frames = "Рисовать новые рамки и заголовки: ";
 CONST PCHAR StrConst_EN_Pages_Drawing_themes_Draw_frames = "Draw new frames and controls: ";
+
+CONST PCHAR StrConst_RU_Pages_Drawing_themes_TName_Phoenix = "OS/4";
+CONST PCHAR StrConst_EN_Pages_Drawing_themes_TName_Phoenix = "OS/4";
+CONST PCHAR StrConst_RU_Pages_Drawing_themes_TName_BlueLion = "Blue Lion";
+CONST PCHAR StrConst_EN_Pages_Drawing_themes_TName_BlueLion = "Blue Lion";
 CONST PCHAR StrConst_RU_Pages_Drawing_themes_TName_eComStation = "eComStation";
 CONST PCHAR StrConst_EN_Pages_Drawing_themes_TName_eComStation = "eComStation";
 CONST PCHAR StrConst_RU_Pages_Drawing_themes_TName_Classic = "Классика";

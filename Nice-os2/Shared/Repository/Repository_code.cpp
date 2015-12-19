@@ -69,6 +69,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Purpose = DO_MONITOR_SYSTEM;
  Repository.Items[ I ].Action = SHOW_TASK_MANAGER;
  Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
+ Repository.Items[ I ].Desired = 1;
  strcpy( Repository.Items[ I ].Exe_name_1, "WatchCat.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "WatchCat object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "WatchCat path" );
@@ -214,6 +215,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Purpose = DO_MANAGE_FILES;
  Repository.Items[ I ].Action = SHOW_VIO_COMMANDER;
  Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
+ Repository.Items[ I ].Desired = 1;
  strcpy( Repository.Items[ I ].Exe_name_1, "Fc.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "FC/2 object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "FC/2 path" );
@@ -291,6 +293,17 @@ VOID Repository_SetRepository( VOID )
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "GTU.Files path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_FIREFOX;
+ Repository.Items[ I ].Purpose = DO_BROWSE_WEB_PAGES;
+ Repository.Items[ I ].Action = SHOW_WEB_BROWSER;
+ Repository.Items[ I ].Desired = 1;
+ strcpy( Repository.Items[ I ].WPS_name_A, "<FIREFOXEXE>" );
+ strcpy( Repository.Items[ I ].Exe_name_1, "FireFox.exe" );
+ strcpy( Repository.Items[ I ].Exe_name_2, "FireFox!K.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "FireFox object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "FireFox path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_MOZILLA;
  Repository.Items[ I ].Purpose = DO_BROWSE_WEB_PAGES;
  Repository.Items[ I ].Action = SHOW_WEB_BROWSER;
@@ -299,16 +312,6 @@ VOID Repository_SetRepository( VOID )
  strcpy( Repository.Items[ I ].Exe_name_2, "SeaMonkey.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "Mozilla object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "Mozilla path" );
-
- Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
- Repository.Items[ I ].Application = APP_FIREFOX;
- Repository.Items[ I ].Purpose = DO_BROWSE_WEB_PAGES;
- Repository.Items[ I ].Action = SHOW_WEB_BROWSER;
- strcpy( Repository.Items[ I ].WPS_name_A, "<FIREFOXEXE>" );
- strcpy( Repository.Items[ I ].Exe_name_1, "FireFox.exe" );
- strcpy( Repository.Items[ I ].Exe_name_2, "FireFox!K.exe" );
- strcpy( Repository.Items[ I ].Object_INI_setting_name, "FireFox object" );
- strcpy( Repository.Items[ I ].Path_INI_setting_name, "FireFox path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_ARORA;
@@ -403,15 +406,6 @@ VOID Repository_SetRepository( VOID )
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "AICQ path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
- Repository.Items[ I ].Application = APP_FTPBROWSER;
- Repository.Items[ I ].Purpose = DO_BROWSE_FTP_SITES;
- Repository.Items[ I ].Action = SHOW_FTP_BROWSER;
- strcpy( Repository.Items[ I ].WPS_name_A, "<FTPB>" );
- strcpy( Repository.Items[ I ].Exe_name_1, "FTPBAddr.exe" );
- strcpy( Repository.Items[ I ].Object_INI_setting_name, "FTPBrowser object" );
- strcpy( Repository.Items[ I ].Path_INI_setting_name, "FTPBrowser path" );
-
- Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_NFTPPM;
  Repository.Items[ I ].Purpose = DO_BROWSE_FTP_SITES;
  Repository.Items[ I ].Action = SHOW_FTP_BROWSER;
@@ -419,6 +413,15 @@ VOID Repository_SetRepository( VOID )
  strcpy( Repository.Items[ I ].Exe_name_1, "Nftp.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "NFTP object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "NFTP path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_FTPBROWSER;
+ Repository.Items[ I ].Purpose = DO_BROWSE_FTP_SITES;
+ Repository.Items[ I ].Action = SHOW_FTP_BROWSER;
+ strcpy( Repository.Items[ I ].WPS_name_A, "<FTPB>" );
+ strcpy( Repository.Items[ I ].Exe_name_1, "FTPBAddr.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "FTPBrowser object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "FTPBrowser path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_FTPPM;
@@ -433,6 +436,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Purpose = DO_REMOTE_CONTROL;
  Repository.Items[ I ].Action = SHOW_VIO_SSH_TERMINAL;
  Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
+ Repository.Items[ I ].Desired = 1;
  strcpy( Repository.Items[ I ].Exe_name_1, "Ssh.exe" );
  strcpy( Repository.Items[ I ].Exe_name_2, "Ssh2.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "SSH object" );
@@ -594,6 +598,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_PMVIEW;
  Repository.Items[ I ].Purpose = DO_BROWSE_IMAGES;
  Repository.Items[ I ].Action = SHOW_IMAGE_VIEWER;
+ Repository.Items[ I ].Desired = 1;
  strcpy( Repository.Items[ I ].WPS_name_A, "<PMVIEW20>" );
  strcpy( Repository.Items[ I ].WPS_name_B, "<PMVIEW30>" );
  strcpy( Repository.Items[ I ].WPS_name_C, "<PMVIEW40>" );
@@ -602,9 +607,15 @@ VOID Repository_SetRepository( VOID )
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "PMView path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_EMBELLISH;
+ Repository.Items[ I ].Purpose = DO_CREATE_IMAGES;
+ strcpy( Repository.Items[ I ].Exe_name_1, "Emb.exe" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_PM123;
  Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
  Repository.Items[ I ].Action = SHOW_MP3_PLAYER;
+ Repository.Items[ I ].Desired = 1;
  strcpy( Repository.Items[ I ].WPS_name_A, "<PM123>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Pm123.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "PM123 object" );
@@ -662,6 +673,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_MMOS2_VOLUME;
  Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
  Repository.Items[ I ].Action = SHOW_MMOS2_VOLUME;
+ Repository.Items[ I ].Desired = 1;
  strcpy( Repository.Items[ I ].WPS_name_A, "<MMPM2_MMVOLUME>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Volume.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "MM/V object" );
@@ -857,11 +869,6 @@ VOID Repository_SetRepository( VOID )
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "UserTool F object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "UserTool F path" );
 
- Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
- Repository.Items[ I ].Application = APP_EMBELLISH;
- Repository.Items[ I ].Purpose = DO_CREATE_IMAGES;
- strcpy( Repository.Items[ I ].Exe_name_1, "Emb.exe" );
-
  // Запоминаем число строк в списке.
  Repository.Length = I + 1;
 
@@ -970,11 +977,11 @@ BYTE Repository_WPSObjectIsExists( PCHAR Name )
 
 // ─── Находит приложение в списке ───
 
-// Application и Action - значения для поиска, Position - с какого места продолжать поиск.
+// Application, Action, Filter - значения для поиска, Position - с какого места продолжать поиск.
 #ifndef INCLUDED_BY_SHELL
-INT Repository_FindApplicationInRepository( INT Application, INT Action = 0, INT Position = 0 )
+INT Repository_FindApplicationInRepository( INT Application, INT Action = 0, BYTE Filter = FLT_ALL, INT Position = 0 )
 #else
-INT Repository_FindApplicationInRepository( INT Application )
+INT Repository_FindApplicationInRepository( INT Application, BYTE Filter = FLT_ALL )
 #endif
 {
  // Если предыдущий поиск ничего не дал - возврат.
@@ -991,16 +998,63 @@ INT Repository_FindApplicationInRepository( INT Application )
 
  while( Count < Repository.Length )
   {
+   BYTE Success = 0;
+
    #ifndef INCLUDED_BY_SHELL
-   if( ( Application != 0 ) && ( Repository.Items[ Count ].Application == Application ) ||
-       ( Action != 0 ) && ( Repository.Items[ Count ].Action == Action ) )
-    return Count;
+   if( Application != 0 && Repository.Items[ Count ].Application == Application )
+    {
+     if( Filter == FLT_ALL ) Success = 1;
+     if( Filter == FLT_DESIRED  && Repository.Items[ Count ].Desired == 1 ) Success = 1;
+     if( Filter == FLT_SUITABLE && Repository.Items[ Count ].Desired == 0 ) Success = 1;
+    }
+
+   if( Action != 0 && Repository.Items[ Count ].Action == Action )
+    {
+     if( Filter == FLT_ALL ) Success = 1;
+     if( Filter == FLT_DESIRED  && Repository.Items[ Count ].Desired == 1 ) Success = 1;
+     if( Filter == FLT_SUITABLE && Repository.Items[ Count ].Desired == 0 ) Success = 1;
+    }
    #else
-   if( Repository.Items[ Count ].Application == Application )
-    return Count;
+   if( Repository.Items[ Count ].Application == Application ) 
+    {
+     if( Filter == FLT_ALL ) Success = 1;
+     if( Filter == FLT_DESIRED  && Repository.Items[ Count ].Desired == 1 ) Success = 1;
+     if( Filter == FLT_SUITABLE && Repository.Items[ Count ].Desired == 0 ) Success = 1;
+    }
    #endif
 
-   Count ++;
+   if( Success ) return Count;
+   else Count ++;
+  }
+
+ // Возврат.
+ return -1;
+}
+
+// ─── Находит имя в списке ───
+
+// Name - имя приложения или окна, Filter - условие отбора.
+INT Repository_FindExeNameInRepository( PCHAR Name, BYTE Filter = FLT_ALL )
+{
+ // Выполняем поиск.
+ INT Count = 0;
+
+ while( Count < Repository.Length )
+  {
+   BYTE Success = 0;
+
+   if( stric( Name, Repository.Items[ Count ].Exe_name_1 ) ||
+       stric( Name, Repository.Items[ Count ].Exe_name_2 ) ||
+       stric( Name, Repository.Items[ Count ].Exe_name_3 ) ||
+       stric( Name, Repository.Items[ Count ].Exe_name_4 ) ) 
+    {
+     if( Filter == FLT_ALL ) Success = 1;
+     if( Filter == FLT_DESIRED  && Repository.Items[ Count ].Desired == 1 ) Success = 1;
+     if( Filter == FLT_SUITABLE && Repository.Items[ Count ].Desired == 0 ) Success = 1;
+    }
+
+   if( Success ) return Count;
+   else Count ++;
   }
 
  // Возврат.
@@ -1009,11 +1063,11 @@ INT Repository_FindApplicationInRepository( INT Application )
 
 // ─── Проверяет существование приложения ───
 
-// Application - приложение для проверки.
-BYTE Repository_ApplicationIsExists( INT Application )
+// Application - приложение для проверки, Filter - условие отбора.
+BYTE Repository_ApplicationIsExists( INT Application, BYTE Filter = FLT_ALL )
 {
  // Находим приложение в списке.
- INT Position = Repository_FindApplicationInRepository( Application );
+ INT Position = Repository_FindApplicationInRepository( Application, Filter );
 
  // Если оно не найдено - возврат.
  if( Position == -1 ) return 0;
@@ -1059,8 +1113,8 @@ BYTE Repository_ApplicationIsExists( INT Application )
 
 // ─── Проверяет существование приложений, которые можно вызвать по заданной команде ───
 
-// Action - действие для вызова приложения.
-BYTE Repository_ShowCommandCanBeUsed( INT Action )
+// Action - действие для вызова приложения, Filter - условие отбора.
+BYTE Repository_ShowCommandCanBeUsed( INT Action, BYTE Filter = FLT_ALL )
 {
  // Действия, для которых не заданы приложения, применимы всегда.
  if( ( Action >= SHOW_PMSHELL_FIRST && Action <= SHOW_PMSHELL_LAST ) ||
@@ -1073,57 +1127,12 @@ BYTE Repository_ShowCommandCanBeUsed( INT Action )
 
   for( Count; Count < Repository.Length; Count ++ )
    if( Repository.Items[ Count ].Action == Action )
-    if( Repository_ApplicationIsExists( Repository.Items[ Count ].Application ) )
+    if( Repository_ApplicationIsExists( Repository.Items[ Count ].Application, Filter ) )
      return 1;
  }
 
  // Возврат.
  return 0;
-}
-
-// ─── Находит имя в списке ───
-
-// Name - имя приложения или окна.
-INT Repository_FindExeNameInRepository( PCHAR Name )
-{
- // Выполняем поиск.
- INT Count = 0;
-
- while( Count < Repository.Length )
-  {
-   if( stric( Name, Repository.Items[ Count ].Exe_name_1 ) ) return Count;
-   if( stric( Name, Repository.Items[ Count ].Exe_name_2 ) ) return Count;
-   if( stric( Name, Repository.Items[ Count ].Exe_name_3 ) ) return Count;
-   if( stric( Name, Repository.Items[ Count ].Exe_name_4 ) ) return Count;
-
-   Count ++;
-  }
-
- // Возврат.
- return -1;
-}
-
-// ─── Находит имя в списке ───
-
-// Application - значение для поиска.
-PCHAR Repository_FindDescriptionInRepository( INT Application )
-{
- // Выполняем поиск.
- INT Count = 0;
-
- while( Count < Repository.Length )
-  {
-   if( Repository.Items[ Count ].Application == Application )
-    {
-     if( Repository.Items[ Count ].Exe_name_1[ 0 ] != 0 ) return Repository.Items[ Count ].Exe_name_1;
-     if( Repository.Items[ Count ].WPS_name_A[ 0 ] != 0 ) return Repository.Items[ Count ].WPS_name_A;
-    }
-
-   Count ++;
-  }
-
- // Возврат.
- return NULL;
 }
 
 // ─── Выполняет сравнение имени приложения и значения в списке ───
@@ -1138,8 +1147,7 @@ BYTE Repository_NamesAreEqually( INT Position, PCHAR Name )
  if( stric( Repository.Items[ Position ].Exe_name_1, Name ) ||
      stric( Repository.Items[ Position ].Exe_name_2, Name ) ||
      stric( Repository.Items[ Position ].Exe_name_3, Name ) ||
-     stric( Repository.Items[ Position ].Exe_name_4, Name ) )
-  return 1;
+     stric( Repository.Items[ Position ].Exe_name_4, Name ) ) return 1;
 
  // Возврат.
  return 0;
@@ -1377,8 +1385,8 @@ VOID Repository_QueryExeName( HWND Frame_window, PCHAR Name )
 
 // ─── Проверяет окно, пытаясь найти приложение в списке ───
 
-// Application - приложение для сравнения, Window - окно приложения.
-BYTE Repository_WindowIsCreatedBy( INT Application, HWND Window )
+// Application - приложение для сравнения, Window - окно приложения, Filter - условие отбора.
+BYTE Repository_WindowIsCreatedBy( INT Application, HWND Window, BYTE Filter = FLT_ALL )
 {
  #ifndef INCLUDED_BY_SHELL
 
@@ -1392,7 +1400,7 @@ BYTE Repository_WindowIsCreatedBy( INT Application, HWND Window )
  if( Exe_name[ 0 ] != 0 )
   {
    // Проверяем его.
-   if( Repository_NamesAreEqually( Repository_FindApplicationInRepository( Application ), Exe_name ) ) return 1;
+   if( Repository_NamesAreEqually( Repository_FindApplicationInRepository( Application, Filter ), Exe_name ) ) return 1;
   }
 
  // Узнаем окно рабочей области.
@@ -1404,7 +1412,7 @@ BYTE Repository_WindowIsCreatedBy( INT Application, HWND Window )
    CHAR Client_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Client_window, SIZE_OF_NAME, Client_name );
 
    // Проверяем его.
-   if( Repository_NamesAreEqually( Repository_FindApplicationInRepository( Application ), Client_name ) ) return 1;
+   if( Repository_NamesAreEqually( Repository_FindApplicationInRepository( Application, Filter ), Client_name ) ) return 1;
   }
 
  // Если проверяется не окно рамки:
@@ -1414,7 +1422,7 @@ BYTE Repository_WindowIsCreatedBy( INT Application, HWND Window )
    CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
    // Проверяем его.
-   if( Repository_NamesAreEqually( Repository_FindApplicationInRepository( Application ), Window_name ) ) return 1;
+   if( Repository_NamesAreEqually( Repository_FindApplicationInRepository( Application, Filter ), Window_name ) ) return 1;
   }
 
  #else
@@ -1423,7 +1431,7 @@ BYTE Repository_WindowIsCreatedBy( INT Application, HWND Window )
  CHAR Exe_name[ SIZE_OF_NAME ] = ""; Repository_QueryExeName( Window, Exe_name );
 
  // Проверяем его.
- if( Repository_NamesAreEqually( Repository_FindApplicationInRepository( Application ), Exe_name ) ) return 1;
+ if( Repository_NamesAreEqually( Repository_FindApplicationInRepository( Application, Filter ), Exe_name ) ) return 1;
 
  #endif
 
@@ -1446,8 +1454,8 @@ BYTE Repository_IsCommandExecutorWindow( PCHAR Exe_name )
 
 // ─── Проверяет, используется ли окно для выполнения задачи ───
 
-// Purpose - задача, Frame_window - окно рамки.
-BYTE Repository_WindowIsUsedTo( INT Purpose, HWND Frame_window )
+// Purpose - задача, Frame_window - окно рамки, Filter - условие отбора.
+BYTE Repository_WindowIsUsedTo( INT Purpose, HWND Frame_window, BYTE Filter = FLT_ALL )
 {
  // Узнаем имя приложения, создавшего окно.
  CHAR Exe_name[ SIZE_OF_NAME ] = "";
@@ -1462,7 +1470,7 @@ BYTE Repository_WindowIsUsedTo( INT Purpose, HWND Frame_window )
  if( Exe_name[ 0 ] != 0 )
   {
    // Проверяем, есть ли это приложение в списке.
-   INT Position = Repository_FindExeNameInRepository( Exe_name );
+   INT Position = Repository_FindExeNameInRepository( Exe_name, Filter );
 
    // Если оно есть:
    if( Position != -1 )
@@ -1478,8 +1486,8 @@ BYTE Repository_WindowIsUsedTo( INT Purpose, HWND Frame_window )
 
 // ─── Проверяет, воспринимает ли окно заданную команду ───
 
-// Action - действие, Frame_window - окно рамки.
-BYTE Repository_CommandForWindowIs( INT Action, HWND Frame_window )
+// Action - действие, Frame_window - окно рамки, Filter - условие отбора.
+BYTE Repository_CommandForWindowIs( INT Action, HWND Frame_window, BYTE Filter = FLT_ALL )
 {
  // Узнаем имя приложения, создавшего окно.
  CHAR Exe_name[ SIZE_OF_NAME ] = "";
@@ -1494,7 +1502,7 @@ BYTE Repository_CommandForWindowIs( INT Action, HWND Frame_window )
  if( Exe_name[ 0 ] != 0 )
   {
    // Проверяем, есть ли это приложение в списке.
-   INT Position = Repository_FindExeNameInRepository( Exe_name );
+   INT Position = Repository_FindExeNameInRepository( Exe_name, Filter );
 
    // Если оно есть:
    if( Position != -1 )
@@ -1507,4 +1515,3 @@ BYTE Repository_CommandForWindowIs( INT Action, HWND Frame_window )
  // Возврат.
  return 0;
 }
-

@@ -2,7 +2,7 @@ Programming:
 Sergey Posokhov
 
 Design:
-Ivan Smirnoff (eCoLabs)
+Ivan Smirnoff
 
 Testing & suggestions:
 Alex Porollo

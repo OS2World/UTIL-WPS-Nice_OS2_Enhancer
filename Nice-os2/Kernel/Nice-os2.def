@@ -1,7 +1,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   LIBRARY
-   NICE-OS2-ENHANCER-V567
+   NICE-OS2-ENHANCER-V569
 
   PROTMODE
 
@@ -15,7 +15,7 @@
    '..\Shared\OS2Stub\OS2Stub.bin'
 
   DESCRIPTION
-   '@#Sergey Posokhov:5.6.7 for OS/2 & eComStation#@Nice Enhancer'
+   '@#Sergey Posokhov:5.6.9 for OS/2#@Nice Enhancer'
 
   EXPORTS
    Krnl_StartKernel

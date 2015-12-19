@@ -9,7 +9,7 @@
    '..\Shared\OS2Stub\OS2Stub.bin'
 
   DESCRIPTION
-   '@#Sergey Posokhov:1.1 for OS/2 & eComStation#@Keyboard clicker for Nice Enhancer'
+   '@#Sergey Posokhov:1.1 for OS/2#@Keyboard clicker for Nice Enhancer'
 
   IMPORTS
    DosQuerySysState   = DOSCALLS.368

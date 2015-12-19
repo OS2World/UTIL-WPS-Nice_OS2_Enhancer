@@ -9,7 +9,7 @@
    '..\..\Nice-os2\Shared\OS2Stub\OS2Stub.bin'
 
   DESCRIPTION
-   '@#Sergey Posokhov:1.0 for OS/2 & eComStation#@Starter for Nice Enhancer'
+   '@#Sergey Posokhov:1.0 for OS/2#@Starter for Nice Enhancer'
 
   IMPORTS
    DosQuerySysState   = DOSCALLS.368

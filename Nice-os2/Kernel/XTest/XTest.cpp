@@ -5,12 +5,67 @@
 
 VOID XTest( HAB Application )
 {
-
+ /*
  // Узнаем высоту заголовка и картинки.
  INT TitleBar_height = WinQuerySysValue( QueryDesktopWindow(), SV_CYMINMAXBUTTON );
 
- Log( TitleBar_height );
+ Log( "TitleBar height:" ); Log( TitleBar_height );
+ */
 
+ /*
+ // Ждем, пока будет включен "Scroll Lock".
+ while( 1 )
+  {
+   BYTE Keyboard_state[ 256 ]; bzero( Keyboard_state, sizeof( BYTE ) * 256 );
+   WinSetKeyboardStateTable( QueryDesktopWindow(), Keyboard_state, 0 );
+
+   if( Keyboard_state[ VK_SCRLLOCK ] ) break;
+   else DosSleep( 1 );
+  }
+
+ // Узнаем окно, над которым расположен указатель мыши.
+ POINT Pointer = {0}; WinQueryPointerPos( QueryDesktopWindow(), &Pointer );
+ HWND Window = WinWindowFromPoint( QueryDesktopWindow(), &Pointer, 1 );
+ HWND Frame_window = QueryFrameWindow( Window );
+
+ // Если это окно VirtualPC и оно выбрано:
+ if( IsOdinFrameWindow( Frame_window ) && WindowIsActive( Frame_window ) )
+  {
+   // Посылаем сообщения в окно.
+   while( 1 )
+   {
+    // Узнаем расположение окна рамки.
+    SWP Wp = {0}; WinQueryWindowPos( Frame_window, &Wp );
+
+    // Посылаем окну сообщения от клавиатуры и мыши.
+    WinSetPointerPos( QueryDesktopWindow(), Wp.x + 1010, Wp.y + 70 );
+    WinPostMsg( Window, WM_BUTTON1DOWN, MRFROM2SHORT( 0, 0 ), MRFROM2SHORT( HT_NORMAL, KC_NONE ) );
+    WinPostMsg( Window, WM_BUTTON1UP, MRFROM2SHORT( 0, 0 ), MRFROM2SHORT( HT_NORMAL, KC_NONE ) );
+
+    DosSleep( 250 );
+
+    WinSetPointerPos( QueryDesktopWindow(), Wp.x + 425, Wp.y + 100 );
+    WinPostMsg( Window, WM_BUTTON1DOWN, MRFROM2SHORT( 0, 0 ), MRFROM2SHORT( HT_NORMAL, KC_NONE ) );
+    WinPostMsg( Window, WM_BUTTON1UP, MRFROM2SHORT( 0, 0 ), MRFROM2SHORT( HT_NORMAL, KC_NONE ) );
+
+    DosSleep( 100 );
+
+    MPARAM First_parameter_1 = 0; MPARAM Second_parameter_1 = 0;
+    MPARAM First_parameter_2 = 0; MPARAM Second_parameter_2 = 0;
+    ComposeWMCharMessage( &First_parameter_1, &Second_parameter_1, &First_parameter_2, &Second_parameter_2, SC_DELETE, 0, 0 );
+    WinPostMsg( Window, WM_CHAR, First_parameter_1, Second_parameter_1 );
+    WinPostMsg( Window, WM_CHAR, First_parameter_2, Second_parameter_2 );
+
+    DosSleep( 1000 );
+
+    // Проверяем, включен ли еще "Scroll Lock".
+    BYTE Keyboard_state[ 256 ]; bzero( Keyboard_state, sizeof( BYTE ) * 256 );
+    WinSetKeyboardStateTable( QueryDesktopWindow(), Keyboard_state, 0 );
+
+    if( !Keyboard_state[ VK_SCRLLOCK ] ) break;
+   }
+  }
+ */
 
  /*
  // Узнаем содержимое Clipboard.

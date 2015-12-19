@@ -1,4 +1,34 @@
 
+// ─── Подбирает внешний вид окна ───
+
+BYTE PatternFileBoxIsRequired( ULONG Theme )
+{
+ // Возвращает 1 или 0.
+ if( Painter.Settings.Theme == PAINTER_THEME_CLASSIC_GRAY ||
+     Painter.Settings.Theme == PAINTER_THEME_CLASSIC_RGB  ||
+     Painter.Settings.Theme == PAINTER_THEME_WHITE_SNOW ) 
+  {
+   return 0;
+  }
+ else 
+  {
+   return 1;
+  }
+}
+
+// ─── Подбирает параметры ───
+
+VOID SelectDesiredTexture( ULONG Theme )
+{
+ GetCurrentPath( Painter.Settings.TitleBar_pattern );
+ if( Theme == PAINTER_THEME_PHOENIX ) strcat( Painter.Settings.TitleBar_pattern, "\\Bitmap\\Themes\\Stucco.bmp" );
+ if( Theme == PAINTER_THEME_BLUE_LION ) strcat( Painter.Settings.TitleBar_pattern, "\\Bitmap\\Themes\\Pixels.bmp" );
+ if( Theme == PAINTER_THEME_ECOMSTATION ) strcat( Painter.Settings.TitleBar_pattern, "\\Bitmap\\Themes\\Clouds.bmp" );
+
+ // Возврат.
+ return;
+}
+
 // ─── Обработчик сообщений для окна ───
 
 // Поток приложения вызывает WindowProc всякий раз, когда для окна есть сообщение.
@@ -41,33 +71,35 @@ MRESULT EXPENTRY Drawing_Themes_WndProc( HWND Window, ULONG Message, MPARAM Firs
 
      INT Selected_string = (INT) WinSendMsg( Theme_list_window, LM_QUERYSELECTION, MPFROMLONG( LIT_FIRST ), MPFROMLONG( 0 ) );
 
+     ULONG Previous_theme = Painter.Settings.Theme;
+
      if( Selected_string != LIT_NONE )
       {
-       ULONG Previous_theme = Painter.Settings.Theme;
-
        switch( Selected_string )
         {
-         case 0: Painter.Settings.Theme = PAINTER_THEME_ECOMSTATION;  break;
-         case 1: Painter.Settings.Theme = PAINTER_THEME_CLASSIC_GRAY; break;
-         case 2: Painter.Settings.Theme = PAINTER_THEME_CLASSIC_RGB;  break;
-         case 3: Painter.Settings.Theme = PAINTER_THEME_WHITE_SNOW;   break;
+         case 0: Painter.Settings.Theme = PAINTER_THEME_PHOENIX;      break;
+         case 1: Painter.Settings.Theme = PAINTER_THEME_BLUE_LION;    break;
+         case 2: Painter.Settings.Theme = PAINTER_THEME_ECOMSTATION;  break;
+         case 3: Painter.Settings.Theme = PAINTER_THEME_CLASSIC_GRAY; break;
+         case 4: Painter.Settings.Theme = PAINTER_THEME_CLASSIC_RGB;  break;
+         case 5: Painter.Settings.Theme = PAINTER_THEME_WHITE_SNOW;   break;
         }
 
        {
+        SelectDesiredTexture( Painter.Settings.Theme );
+
+        strncpy( Drawing_Themes.RTSettings.FileDlg_path, Painter.Settings.TitleBar_pattern, SIZE_OF_PATH ); 
+        CutNameInPath( Drawing_Themes.RTSettings.FileDlg_path );
+
+        WinSendMsg( Window, SM_SHOW_SETTINGS, 0, 0 );
+       }
+
+       {
         HWND FileBox_window = WinWindowFromID( WinWindowFromID( Window, Drawing_Themes.Settings.Container_ID ), Drawing_Themes.Settings.Texture_filebox_ID );
+        WinShowWindow( FileBox_window, PatternFileBoxIsRequired( Painter.Settings.Theme ) );
 
-        BYTE Show_pattern_filebox = 1;
-        if( Painter.Settings.Theme != PAINTER_THEME_ECOMSTATION ) Show_pattern_filebox = 0;
-
-        BYTE Update_page_window = 0;
-        if( ( Previous_theme != PAINTER_THEME_ECOMSTATION && Painter.Settings.Theme == PAINTER_THEME_ECOMSTATION ) ||
-            ( Previous_theme == PAINTER_THEME_ECOMSTATION && Painter.Settings.Theme != PAINTER_THEME_ECOMSTATION ) )
-         {
-          if( WinIsWindowVisible( FileBox_window ) ) Update_page_window = 1;
-         }
-
-        WinShowWindow( FileBox_window, Show_pattern_filebox );
-        if( Update_page_window ) UpdatePageWindow( Page );
+        if( PatternFileBoxIsRequired( Previous_theme ) != 
+            PatternFileBoxIsRequired( Painter.Settings.Theme ) ) UpdatePageWindow( Page );
        }
       }
     }
@@ -80,10 +112,12 @@ MRESULT EXPENTRY Drawing_Themes_WndProc( HWND Window, ULONG Message, MPARAM Firs
 
      switch( Painter.Settings.Theme )
       {
-       case PAINTER_THEME_ECOMSTATION:  String_to_select = 0; break;
-       case PAINTER_THEME_CLASSIC_GRAY: String_to_select = 1; break;
-       case PAINTER_THEME_CLASSIC_RGB:  String_to_select = 2; break;
-       case PAINTER_THEME_WHITE_SNOW:   String_to_select = 3; break;
+       case PAINTER_THEME_PHOENIX:      String_to_select = 0; break;
+       case PAINTER_THEME_BLUE_LION:    String_to_select = 1; break;
+       case PAINTER_THEME_ECOMSTATION:  String_to_select = 2; break;
+       case PAINTER_THEME_CLASSIC_GRAY: String_to_select = 3; break;
+       case PAINTER_THEME_CLASSIC_RGB:  String_to_select = 4; break;
+       case PAINTER_THEME_WHITE_SNOW:   String_to_select = 5; break;
       }
 
      HWND Theme_list_window = WinWindowFromID( WinWindowFromID( Window, Drawing_Themes.Settings.Container_ID ), Drawing_Themes.Settings.Theme_list_ID );
@@ -214,3 +248,4 @@ MRESULT EXPENTRY Drawing_Themes_WndProc( HWND Window, ULONG Message, MPARAM Firs
  // Возврат.
  return WinDefWindowProc( Window, Message, First_parameter, Second_parameter );
 }
+

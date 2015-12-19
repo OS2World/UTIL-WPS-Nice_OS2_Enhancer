@@ -390,3 +390,8 @@
 #define DO_WEB_SERVER               1510
 #define DO_FTP_SERVER               1520
 #define DO_SSH_SERVER               1530
+
+// Свойства окон и значков (и правила их вызова).
+#define FLT_ALL                     0
+#define FLT_DESIRED                 1
+#define FLT_SUITABLE                2

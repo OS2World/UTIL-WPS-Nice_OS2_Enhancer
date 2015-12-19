@@ -1,4 +1,6 @@
 // Темы для окон. Эти значения пишутся в INI. Менять их нежелательно.
+#define PAINTER_THEME_PHOENIX              1
+#define PAINTER_THEME_BLUE_LION            5
 #define PAINTER_THEME_ECOMSTATION         10
 #define PAINTER_THEME_CLASSIC_GRAY        20
 #define PAINTER_THEME_CLASSIC_RGB         30

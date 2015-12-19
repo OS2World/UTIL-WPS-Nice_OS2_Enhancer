@@ -1,7 +1,8 @@
 
 // ─── Скрывает окно приложения, если оно соответствует действию ───
 
-BYTE Launcher_CheckActiveWindowAndHideApplication( INT Action )
+// Action - действие, которое надо выполнить, Filter - правила выбора.
+BYTE Launcher_CheckActiveWindowAndHideApplication( INT Action, BYTE Filter )
 {
  // Узнаем окно рабочего стола.
  HWND Desktop = QueryDesktopWindow();
@@ -9,18 +10,40 @@ BYTE Launcher_CheckActiveWindowAndHideApplication( INT Action )
  // Узнаем окно, которое сейчас выбрано.
  HWND Active_window = WinQueryActiveWindow( Desktop );
 
- // Если это окно рамки и оно видимо:
- if( Active_window != NULLHANDLE )
-  if( IsFrameWindow( Active_window ) )
-   if( WinIsWindowVisible( Active_window ) )
+ // Если это окно рамки и оно доступно в списке окон:
+ if( Active_window != NULLHANDLE && IsFrameWindow( Active_window ) && WindowIsTouchable( Active_window ) )
+  {
+   // Если это и есть то окно, которое надо найти:
+   if( CommandForWindowIs( Action, Active_window, Filter ) )
     {
-     // Если это и есть то окно, которое надо найти:
-     if( CommandForWindowIs( Action, Active_window ) )
+     // Находим другое такое же окно, а если его нет - скрываем это окно.
+     BYTE Another_window_is_found = 0;
+
+     // Перебираем окна в окне рабочего стола.
+     HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
+     while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
       {
-       // Скрываем его и возвращаем ненулевое значение.
-       if( HideWindowAway( Active_window ) ) return 1;
+       // Если это другое окно, и это тоже окно рамки, и оно тоже доступно в списке окон:
+       if( Window != Active_window && IsFrameWindow( Window ) && WindowIsTouchable( Window ) )
+        {
+         // Если оно предназначено для выполнения тех же действий:
+         if( CommandForWindowIs( Action, Window, Filter ) )
+          {
+           // Запоминаем, что оно было найдено и завершаем перебор окон.
+           Another_window_is_found = 1; break;
+          }
+        }
+      }
+     WinEndEnumWindows( Enumeration );
+
+     // Если другого окна нет - скрываем окно приложения.
+     // При этом возвращаем ненулевое значение, чтобы поток не выполнял никаких других действий.
+     if( !Another_window_is_found ) 
+      {
+       HideWindowAway( Active_window ); return 1;
       }
     }
+  }
 
  // Возврат.
  return 0;
@@ -28,16 +51,16 @@ BYTE Launcher_CheckActiveWindowAndHideApplication( INT Action )
 
 // ─── Вызывает окно приложения, которое соответствует действию ───
 
-// Action - действие, которое надо выполнить.
-BYTE Launcher_FindAndShowApplication( INT Action )
+// Action - действие, которое надо выполнить, Filter - правила выбора.
+BYTE Launcher_FindAndShowApplication( INT Action, BYTE Filter )
 {
  // Находим в списке приложения, способные откликнуться на эту команду, и пробуем вызвать их.
- INT Position = 0;
+ INT Position = -1;
 
  while( 1 )
   {
    // Пробуем найти первое или следующее приложение.
-   Position = FindApplicationInRepository( 0, Action, Position + 1 );
+   Position = FindApplicationInRepository( 0, Action, Filter, Position + 1 );
 
    // Если ничего не найдено - возврат.
    if( Position == -1 ) return 0;
@@ -61,9 +84,6 @@ BYTE Launcher_FindAndShowApplication( INT Action )
 
      // Смотрим, соответствует ли окно заданным условиям.
      BYTE Show_window = 0;
-
-     // Если окно может откликнуться на заданную команду - надо вызвать его.
-     if( CommandForWindowIs( Action, Window ) ) Show_window = 1;
 
      // Если окно создано этим приложением - надо вызвать его.
      if( WindowIsCreatedBy( Repository.Items[ Position ].Application, Window ) ) Show_window = 1;
@@ -1047,12 +1067,13 @@ VOID Launcher_DoSystemAction( INT Action, LONG Do_not_check_mouse = 0 )
 
  // Если пользователь работает с окном приложения, которое соответствует этой команде -
  // прячем его и выбираем окно в середине экрана.
- if( Launcher_CheckActiveWindowAndHideApplication( Action ) ) return;
+ if( Launcher_CheckActiveWindowAndHideApplication( Action, FLT_ALL ) ) return;
 
  // Если одно из известных приложений может откликнуться на эту команду - вызываем его.
  // Если для этой команды был задан значок - приложение будет вызвано в первую очередь.
- if( Launcher_FindAndShowApplication( Action ) ) return;
-
+ if( Launcher_FindAndShowApplication( Action, FLT_DESIRED ) ) return;
+ if( Launcher_FindAndShowApplication( Action, FLT_SUITABLE ) ) return;
+ 
  // Вызываем значок на рабочем столе.
  // Он будет вызван только если для этой команды нет подходящего приложения.
  if( Action >= SHOW_OBJECT_FIRST && Action <= SHOW_OBJECT_LAST )

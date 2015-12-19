@@ -105,22 +105,26 @@ VOID Drawing_Themes_CreatePage( VOID )
  // Заполняем список тем.
  {
   // Задаем строки.
-  INT Max_strings = 4; PCHAR Strings[ 4 ]; INT Count;
+  INT Max_strings = 6; PCHAR Strings[ 6 ]; INT Count;
   for( Count = 0; Count < Max_strings; Count ++ ) DosAllocMem( (PPVOID) &Strings[ Count ], 256, PAG_ALLOCATE );
 
   if( Code_page == RUSSIAN )
    {
-    strcpy( Strings[ 0 ], StrConst_RU_Pages_Drawing_themes_TName_eComStation );
-    strcpy( Strings[ 1 ], StrConst_RU_Pages_Drawing_themes_TName_Classic );
-    strcpy( Strings[ 2 ], StrConst_RU_Pages_Drawing_themes_TName_NeonBars );
-    strcpy( Strings[ 3 ], StrConst_RU_Pages_Drawing_themes_TName_WhiteSnow );
+    strcpy( Strings[ 0 ], StrConst_RU_Pages_Drawing_themes_TName_Phoenix );
+    strcpy( Strings[ 1 ], StrConst_RU_Pages_Drawing_themes_TName_BlueLion );
+    strcpy( Strings[ 2 ], StrConst_RU_Pages_Drawing_themes_TName_eComStation );
+    strcpy( Strings[ 3 ], StrConst_RU_Pages_Drawing_themes_TName_Classic );
+    strcpy( Strings[ 4 ], StrConst_RU_Pages_Drawing_themes_TName_NeonBars );
+    strcpy( Strings[ 5 ], StrConst_RU_Pages_Drawing_themes_TName_WhiteSnow );
     }
   else
    {
-    strcpy( Strings[ 0 ], StrConst_EN_Pages_Drawing_themes_TName_eComStation );
-    strcpy( Strings[ 1 ], StrConst_EN_Pages_Drawing_themes_TName_Classic );
-    strcpy( Strings[ 2 ], StrConst_EN_Pages_Drawing_themes_TName_NeonBars );
-    strcpy( Strings[ 3 ], StrConst_EN_Pages_Drawing_themes_TName_WhiteSnow );
+    strcpy( Strings[ 0 ], StrConst_EN_Pages_Drawing_themes_TName_Phoenix );
+    strcpy( Strings[ 1 ], StrConst_EN_Pages_Drawing_themes_TName_BlueLion );
+    strcpy( Strings[ 2 ], StrConst_EN_Pages_Drawing_themes_TName_eComStation );
+    strcpy( Strings[ 3 ], StrConst_EN_Pages_Drawing_themes_TName_Classic );
+    strcpy( Strings[ 4 ], StrConst_EN_Pages_Drawing_themes_TName_NeonBars );
+    strcpy( Strings[ 5 ], StrConst_EN_Pages_Drawing_themes_TName_WhiteSnow );
    }
 
   // Передаем строки окну списка.
