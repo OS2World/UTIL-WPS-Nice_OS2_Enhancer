@@ -16,9 +16,6 @@ VOID Inspector_InspectorMessageProcessing( PQMSG Message )
    Enhancer.Modules.Inspector->Priority = MAKELONG( Class, Delta );
   }
 
- // Проверяем список приложений.
- if( Message->msg == SM_CHECK_REPOSITORY ) CheckRepositoryEntries();
-
  // Узнаем имена приложений для текстовых окон.
  if( Message->msg == SM_CHECK_VIO_EXENAME )
   {

@@ -1,5 +1,3 @@
-// Методы для исследования окон.
-#define RepositoryCheckIsRequired   Inspector_RepositoryCheckIsRequired
 
 // ─── Метод для подключения класса ───
 
@@ -15,7 +13,6 @@ VOID Inspector_Start( VOID )
  Item.StartThread  = Inspector_StartThread;
  Item.PostQuitMsg  = Inspector_PostQuitMsg;
  Item.TuneModule   = Inspector_Tune;
- Item.JumpBeforeGo = Inspector_Jump;
 
  RememberModuleItem( Enhancer.Modules.Inspector, &Item );
 

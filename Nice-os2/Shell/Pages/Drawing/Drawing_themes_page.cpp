@@ -16,14 +16,12 @@ BYTE PatternFileBoxIsRequired( ULONG Theme )
   }
 }
 
-// ─── Подбирает параметры ───
+// ─── Подбирает параметры для рисования ───
 
 VOID SelectDesiredTexture( ULONG Theme )
 {
- GetCurrentPath( Painter.Settings.TitleBar_pattern );
- if( Theme == PAINTER_THEME_PHOENIX ) strcat( Painter.Settings.TitleBar_pattern, "\\Bitmap\\Themes\\Stucco.bmp" );
- if( Theme == PAINTER_THEME_BLUE_LION ) strcat( Painter.Settings.TitleBar_pattern, "\\Bitmap\\Themes\\Pixels.bmp" );
- if( Theme == PAINTER_THEME_ECOMSTATION ) strcat( Painter.Settings.TitleBar_pattern, "\\Bitmap\\Themes\\Clouds.bmp" );
+ // Задаем настройки.
+ Painter_SelectDesiredTexture( Theme );
 
  // Возврат.
  return;
@@ -85,14 +83,15 @@ MRESULT EXPENTRY Drawing_Themes_WndProc( HWND Window, ULONG Message, MPARAM Firs
          case 5: Painter.Settings.Theme = PAINTER_THEME_WHITE_SNOW;   break;
         }
 
-       {
-        SelectDesiredTexture( Painter.Settings.Theme );
+       if( Painter.Settings.Theme != Previous_theme )
+        {
+         SelectDesiredTexture( Painter.Settings.Theme );
 
-        strncpy( Drawing_Themes.RTSettings.FileDlg_path, Painter.Settings.TitleBar_pattern, SIZE_OF_PATH ); 
-        CutNameInPath( Drawing_Themes.RTSettings.FileDlg_path );
+         strncpy( Drawing_Themes.RTSettings.FileDlg_path, Painter.Settings.TitleBar_pattern, SIZE_OF_PATH ); 
+         CutNameInPath( Drawing_Themes.RTSettings.FileDlg_path );
 
-        WinSendMsg( Window, SM_SHOW_SETTINGS, 0, 0 );
-       }
+         WinSendMsg( Window, SM_SHOW_SETTINGS, 0, 0 );
+        }
 
        {
         HWND FileBox_window = WinWindowFromID( WinWindowFromID( Window, Drawing_Themes.Settings.Container_ID ), Drawing_Themes.Settings.Texture_filebox_ID );

@@ -46,38 +46,40 @@ HWND Workplace_QueryShellWindow( VOID )
  // Окно оболочки.
  HWND Shell_window = NULLHANDLE;
 
- // Перебираем окна в окне рабочего стола.
- HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если окно не скрыто:
-   if( WinIsWindowVisible( Window ) )
-    {
-     // Если это окно WPS:
-     if( IsFolderWindow( Window ) )
-      {
-       // Узнаем расположение окна и его состояние.
-       SWP Window_placement = {0}; WinQueryWindowPos( Window, &Window_placement );
+ {
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если окно не скрыто:
+    if( WinIsWindowVisible( Window ) )
+     {
+      // Если это окно WPS:
+      if( IsFolderWindow( Window ) )
+       {
+        // Узнаем расположение окна и его состояние.
+        SWP Window_placement = {0}; WinQueryWindowPos( Window, &Window_placement );
 
-       // Окно оболочки должно быть расположено за пределами экрана.
-       if( Workplace_HasShellPlacement( Window, &Window_placement ) )
-        {
-         // Если окно оболочки еще не найдено - запоминаем его.
-         if( Shell_window == NULLHANDLE ) Shell_window = Window;
-         // А если оно было найдено:
-         else
-          {
-           // Окно оболочки может быть только одно.
-           Shell_window = NULLHANDLE;
+        // Окно оболочки должно быть расположено за пределами экрана.
+        if( Workplace_HasShellPlacement( Window, &Window_placement ) )
+         {
+          // Если окно оболочки еще не найдено - запоминаем его.
+          if( Shell_window == NULLHANDLE ) Shell_window = Window;
+          // А если оно было найдено:
+          else
+           {
+            // Окно оболочки может быть только одно.
+            Shell_window = NULLHANDLE;
 
-           // Завершаем перебор окон.
-           break;
-          }
-        }
-      }
-    }
-  }
- WinEndEnumWindows( Enumeration );
+            // Завершаем перебор окон.
+            break;
+           }
+         }
+       }
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Возвращаем окно оболочки.
  return Shell_window;

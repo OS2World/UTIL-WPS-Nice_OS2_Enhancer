@@ -18,16 +18,16 @@ VOID Pipes_TransactNamedPipe( PCHAR Pipe_name, PCHAR Query_string, PCHAR Reply_s
  if( Reply_string != NULL ) Mode |= OPEN_ACCESS_READWRITE;
  else Mode |= OPEN_ACCESS_WRITEONLY;
 
- DosOpen( Pipe_name, &Pipe, &Report, New_size, FILE_PIPE_ATTRIBUTES, Action, Mode, EAs );
+ Result = DosOpen( Pipe_name, &Pipe, &Report, New_size, FILE_PIPE_ATTRIBUTES, Action, Mode, EAs );
 
  // Если PIPE-соединение недоступно - возврат.
  if( Pipe == NULLHANDLE ) return;
 
  // Посылаем строку.
- DosWrite( Pipe, Query_string, strlen( Query_string ), &Report );
+ Result = DosWrite( Pipe, Query_string, strlen( Query_string ), &Report );
 
  // Принимаем ответ, если это требуется.
- if( Reply_string != NULL ) DosRead( Pipe, Reply_string, Reply_length, &Report );
+ if( Reply_string != NULL ) Result = DosRead( Pipe, Reply_string, Reply_length, &Report );
 
  // Закрываем PIPE-соединение.
  DosClose( Pipe ); Pipe = NULLHANDLE;

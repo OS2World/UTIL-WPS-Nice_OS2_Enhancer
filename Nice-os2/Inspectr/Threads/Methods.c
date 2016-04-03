@@ -21,11 +21,17 @@ VOID Threads_WriteSettingsAndCloseMainWindow( VOID )
 
      for( Count = 0; Count < Repository.Length; Count ++ )
       {
-       if( Repository.Items[ Count ].Object_INI_setting_name[ 0 ] != 0 ) if( Repository.Items[ Count ].Object[ 0 ] != 0 )
-        PrfWriteProfileData( Ini_file, "Applications", Repository.Items[ Count ].Object_INI_setting_name, Repository.Items[ Count ].Object, strlen( Repository.Items[ Count ].Object ) + 1 );
+       if( Repository.Items[ Count ].Known_WPS_object[ 0 ] != 0 )
+        if( Repository.Items[ Count ].Object_INI_setting_name[ 0 ] != 0 ) 
+         if( !strc( Repository.Items[ Count ].Known_WPS_object, Repository.Items[ Count ].WPS_name_A ) )
+          if( !strc( Repository.Items[ Count ].Known_WPS_object, Repository.Items[ Count ].WPS_name_B ) )
+           if( !strc( Repository.Items[ Count ].Known_WPS_object, Repository.Items[ Count ].WPS_name_C ) )
+            if( !strc( Repository.Items[ Count ].Known_WPS_object, Repository.Items[ Count ].WPS_name_D ) )
+             PrfWriteProfileData( Ini_file, "Applications", Repository.Items[ Count ].Object_INI_setting_name, Repository.Items[ Count ].Known_WPS_object, strlen( Repository.Items[ Count ].Known_WPS_object ) + 1 );
 
-       if( Repository.Items[ Count ].Path_INI_setting_name[ 0 ] != 0 ) if( Repository.Items[ Count ].Path[ 0 ] != 0 )
-        PrfWriteProfileData( Ini_file, "Applications", Repository.Items[ Count ].Path_INI_setting_name, Repository.Items[ Count ].Path, strlen( Repository.Items[ Count ].Path ) + 1 );
+       if( Repository.Items[ Count ].Path_to_Exe_file[ 0 ] != 0 )
+        if( Repository.Items[ Count ].Path_INI_setting_name[ 0 ] != 0 ) 
+         PrfWriteProfileData( Ini_file, "Applications", Repository.Items[ Count ].Path_INI_setting_name, Repository.Items[ Count ].Path_to_Exe_file, strlen( Repository.Items[ Count ].Path_to_Exe_file ) + 1 );
       }
 
      // Закрываем файл настроек.
@@ -36,21 +42,23 @@ VOID Threads_WriteSettingsAndCloseMainWindow( VOID )
     // Узнаем окно рабочего стола.
     HWND Desktop = WinQueryDesktopWindow( Inspector.Application, NULLHANDLE );
 
-    // Перебираем окна рабочего стола.
-    HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
-    while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-     {
-      // Если это окно расширителя - сообщаем ему, чтобы он прочел список приложений.
-      if( IsFrameWindow( Window ) && WindowIsCreatedBy( APP_NICE, Window ) )
-       {
-        CHAR Window_name[ SIZE_OF_NAME ] = ""; 
-        WinQueryClassName( WinWindowFromID( Window, FID_CLIENT ), SIZE_OF_NAME, Window_name );
+    {
+     // Перебираем окна в окне рабочего стола.
+     HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+     while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+      {
+       // Если это окно расширителя - сообщаем ему, чтобы он прочел список приложений.
+       if( IsFrameWindow( Window ) && WindowIsCreatedBy( APP_NICE, Window ) )
+        {
+         CHAR Window_name[ SIZE_OF_NAME ] = ""; 
+         WinQueryClassName( WinWindowFromID( Window, FID_CLIENT ), SIZE_OF_NAME, Window_name );
 
-        if( strc( Window_name, "NiceOS2WndClass!E" ) ) 
-         WinPostMsg( WinWindowFromID( Window, FID_CLIENT ), SM_RECEIVE_REPOSITORY, (MPARAM) 0, (MPARAM) 0 );
-       }
-     }
-    WinEndEnumWindows( Enumeration );
+         if( strc( Window_name, "NiceOS2WndClass!E" ) ) 
+          WinPostMsg( WinWindowFromID( Window, FID_CLIENT ), SM_RECEIVE_REPOSITORY, (MPARAM) 0, (MPARAM) 0 );
+        }
+      }
+     WinEndEnumWindows( Enumeration );
+    }
    }
   }
 

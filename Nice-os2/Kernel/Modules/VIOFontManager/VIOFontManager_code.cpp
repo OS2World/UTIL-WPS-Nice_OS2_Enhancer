@@ -45,34 +45,36 @@ VOID VIOFontManager_SubmitVIOFontMetricsDialog( HWND Frame_window )
  // Узнаем окно рабочего стола.
  HWND Desktop = QueryDesktopWindow();
 
- // Перебираем окна в окне рабочего стола.
- HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если окно скрыто - продолжаем перебор окон.
-   if( !WinIsWindowVisible( Window ) ) continue;
+ {
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если окно скрыто - продолжаем перебор окон.
+    if( !WinIsWindowVisible( Window ) ) continue;
 
-   // Если это не окно рамки - продолжаем перебор окон.
-   if( !IsFrameWindow( Window ) ) continue;
+    // Если это не окно рамки - продолжаем перебор окон.
+    if( !IsFrameWindow( Window ) ) continue;
 
-   // Если это окно для выбора шрифта:
-   if( IsVIOFontMetricsDialog( Window ) )
-    {
-     // Узнаем его владельца:
-     HWND Owner_frame = QueryFrameWindow( WinQueryWindow( Window, QW_OWNER ) );
+    // Если это окно для выбора шрифта:
+    if( IsVIOFontMetricsDialog( Window ) )
+     {
+      // Узнаем его владельца:
+      HWND Owner_frame = QueryFrameWindow( WinQueryWindow( Window, QW_OWNER ) );
 
-     // Если это текстовое окно, для которого надо менять шрифт:
-     if( Owner_frame == Frame_window )
-      {
-       // Запоминаем окно для выбора шрифта.
-       Font_dialog = Window;
+      // Если это текстовое окно, для которого надо менять шрифт:
+      if( Owner_frame == Frame_window )
+       {
+        // Запоминаем окно для выбора шрифта.
+        Font_dialog = Window;
 
-       // Завершаем перебор окон.
-       break;
-      }
-    }
-  }
- WinEndEnumWindows( Enumeration );
+        // Завершаем перебор окон.
+        break;
+       }
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Если окно найдено:
  if( Font_dialog != NULLHANDLE )

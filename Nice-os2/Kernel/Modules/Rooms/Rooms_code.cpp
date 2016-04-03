@@ -51,11 +51,10 @@ INT Rooms_GetPreDefinedRoom( HWND Frame_window )
    if( Exe_name[ 0 ] != 0 )
     {
      // Проверяем его.
-     if( WindowIsUsedTo( DO_BROWSE_FTP_SITES, Frame_window ) )   return NORTHERN_ROOM;
-     if( WindowIsUsedTo( DO_REMOTE_CONTROL, Frame_window ) )     return NORTHERN_ROOM;
-     if( WindowIsUsedTo( DO_MANAGE_FILES, Frame_window ) )       return WESTERN_ROOM;
-     if( WindowIsUsedTo( DO_CONNECT_INTERNET, Frame_window ) )   return EASTERN_ROOM;
-     if( WindowIsUsedTo( DO_READ_MESSAGES, Frame_window ) )      return SOUTHERN_ROOM;
+     if( WindowIsUsedTo( DO_MANAGE_FILES, Frame_window ) )     return WESTERN_ROOM;
+     if( WindowIsUsedTo( DO_BROWSE_WEB_PAGES, Frame_window ) ) return EASTERN_ROOM;
+     if( WindowIsUsedTo( DO_BROWSE_FTP_SITES, Frame_window ) ) return NORTHERN_ROOM;
+     if( WindowIsUsedTo( DO_READ_MESSAGES, Frame_window ) )    return SOUTHERN_ROOM;
     }
   }
 
@@ -91,43 +90,45 @@ VOID Rooms_RestoreAndCloseOuterWPSWindows( HWND Desktop )
    // Узнаем окно оболочки.
    HWND Shell_window = GetDetectedShellWindow();
 
-   // Перебираем окна в окне рабочего стола.
-   HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
-   while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-    {
-     // Если это не окно оболочки:
-     if( Window != Shell_window )
-      {
-       // Узнаем комнату, в которой расположено окно.
-       INT Window_room = NO_ROOM; FindProperty( Window, PRP_ROOM, &Window_room );
+   {
+    // Перебираем окна в окне рабочего стола.
+    HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+    while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+     {
+      // Если это не окно оболочки:
+      if( Window != Shell_window )
+       {
+        // Узнаем комнату, в которой расположено окно.
+        INT Window_room = NO_ROOM; FindProperty( Window, PRP_ROOM, &Window_room );
 
-       // Если это не комната с окном оболочки:
-       if( Window_room != SHELL_ROOM )
-        {
-         // Если это окно WPS:
-         if( IsFolderWindow( Window ) )
-          {
-           // Узнаем расположение окна и его состояние.
-           SWP Window_state = {0}; WinQueryWindowPos( Window, &Window_state );
+        // Если это не комната с окном оболочки:
+        if( Window_room != SHELL_ROOM )
+         {
+          // Если это окно WPS:
+          if( IsFolderWindow( Window ) )
+           {
+            // Узнаем расположение окна и его состояние.
+            SWP Window_state = {0}; WinQueryWindowPos( Window, &Window_state );
 
-           // Если окно уменьшено в значок или скрыто:
-           if( Window_state.fl & SWP_MINIMIZE || Window_state.fl & SWP_HIDE )
-            {
-             // Устанавливаем окно-занавеску поверх всех окон. Оно закрывает экран, но ничего не рисует.
-             ShowCurtainWindow( Desktop );
+            // Если окно уменьшено в значок или скрыто:
+            if( Window_state.fl & SWP_MINIMIZE || Window_state.fl & SWP_HIDE )
+             {
+              // Устанавливаем окно-занавеску поверх всех окон. Оно закрывает экран, но ничего не рисует.
+              ShowCurtainWindow( Desktop );
 
-             // Отключаем заставку при открытии окна, чтобы оно закрывалось быстрее.
-             DisableAnimation( Window );
+              // Отключаем заставку при открытии окна, чтобы оно закрывалось быстрее.
+              DisableAnimation( Window );
 
-             // Восстанавливаем и закрываем его.
-             PerformAction( Window, RESTORE_ACTION );
-             PerformAction( Window, CLOSE_ACTION );
-            }
-          }
-        }
-      }
-    }
-   WinEndEnumWindows( Enumeration );
+              // Восстанавливаем и закрываем его.
+              PerformAction( Window, RESTORE_ACTION );
+              PerformAction( Window, CLOSE_ACTION );
+             }
+           }
+         }
+       }
+     }
+    WinEndEnumWindows( Enumeration );
+   }
   }
 
  // Возврат.
@@ -287,174 +288,176 @@ VOID Rooms_ChangeWindowSet( HWND Desktop, INT New_room, INT Current_room )
     WinSetWindowPos( Rolled_window, HWND_BOTTOM, 0, 0, 0, 0, SWP_ZORDER | SWP_NOADJUST );
    }
 
- // Перебираем окна в окне рабочего стола.
- HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Узнаем комнату, в которой расположено окно.
-   INT Window_room = NO_ROOM; FindProperty( Window, PRP_ROOM, &Window_room );
+ {
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Узнаем комнату, в которой расположено окно.
+    INT Window_room = NO_ROOM; FindProperty( Window, PRP_ROOM, &Window_room );
 
-   // Узнаем предопределенную комнату.
-   INT PreDefined_room = Rooms_GetPreDefinedRoom( Window );
+    // Узнаем предопределенную комнату.
+    INT PreDefined_room = Rooms_GetPreDefinedRoom( Window );
 
-   // Скрываем все окна в комнате, в которые можно переключиться.
-   BYTE Minimize_window = 0;
+    // Скрываем все окна в комнате, в которые можно переключиться.
+    BYTE Minimize_window = 0;
 
-   if( Window_room == Current_room ) Minimize_window = 1;
+    if( Window_room == Current_room ) Minimize_window = 1;
 
-   if( PreDefined_room != NO_ROOM )
-    {
-     if( Minimize_window ) if( PreDefined_room == New_room ) Minimize_window = 0;
-    }
+    if( PreDefined_room != NO_ROOM )
+     {
+      if( Minimize_window ) if( PreDefined_room == New_room ) Minimize_window = 0;
+     }
 
-   if( Minimize_window ) if( !PermissionForSwitching( Window ) ) Minimize_window = 0;
-   if( Minimize_window ) if( !Rooms_PermissionForRoomActions( Window ) ) Minimize_window = 0;
+    if( Minimize_window ) if( !PermissionForSwitching( Window ) ) Minimize_window = 0;
+    if( Minimize_window ) if( !Rooms_PermissionForRoomActions( Window ) ) Minimize_window = 0;
 
-   if( Minimize_window )
-    {
-     // Узнаем состояние кнопок в заголовке окна.
-     LONG Buttons = 0;
+    if( Minimize_window )
+     {
+      // Узнаем состояние кнопок в заголовке окна.
+      LONG Buttons = 0;
 
-     // Окна Win-OS/2 и Odin можно только уменьшать в значок.
-     if( IsWindowsWindow( Window ) )
-      {
-       Buttons = MINIMIZE_ACTION;
-      }
-     // Окна OS/2 можно уменьшать и скрывать.
-     else
-      {
-       // Для окна, которое было убрано наверх состояние кнопок известно заранее.
-       if( Window != Rolled_window ) Buttons = QueryButtonsState( Window, MINIMIZE_ACTION | MAXIMIZE_ACTION, 0 );
-       else Buttons = Rolled_window_buttons;
-      }
+      // Окна Win-OS/2 и Odin можно только уменьшать в значок.
+      if( IsWindowsWindow( Window ) )
+       {
+        Buttons = MINIMIZE_ACTION;
+       }
+      // Окна OS/2 можно уменьшать и скрывать.
+      else
+       {
+        // Для окна, которое было убрано наверх состояние кнопок известно заранее.
+        if( Window != Rolled_window ) Buttons = QueryButtonsState( Window, MINIMIZE_ACTION | MAXIMIZE_ACTION, 0 );
+        else Buttons = Rolled_window_buttons;
+       }
 
-     // Если это окно OS/2:
-     if( !IsWindowsWindow( Window ) )
-      {
-       // Если рамки или кнопки рисовать не надо - запоминаем состояние кнопок.
-       // Оно будет использовано при вызове SetMaximizeProperty() и при восстановлении окна.
-       if( !DrawFramesSettingIsON() || !DrawButtonsSettingIsON() || !PermissionForDrawing( Window ) )
-        {
-         SetProperty( Window, PRP_BUTTONS, &Buttons );
-        }
-      }
+      // Если это окно OS/2:
+      if( !IsWindowsWindow( Window ) )
+       {
+        // Если рамки или кнопки рисовать не надо - запоминаем состояние кнопок.
+        // Оно будет использовано при вызове SetMaximizeProperty() и при восстановлении окна.
+        if( !DrawFramesSettingIsON() || !DrawButtonsSettingIsON() || !PermissionForDrawing( Window ) )
+         {
+          SetProperty( Window, PRP_BUTTONS, &Buttons );
+         }
+       }
 
-     // Если окно может быть уменьшено в значок:
-     if( Buttons & MINIMIZE_ACTION )
-      {
-       // Запоминаем размер окна.
-       RECT Rectangle = {0}; WinQueryWindowRect( Window, &Rectangle );
+      // Если окно может быть уменьшено в значок:
+      if( Buttons & MINIMIZE_ACTION )
+       {
+        // Запоминаем размер окна.
+        RECT Rectangle = {0}; WinQueryWindowRect( Window, &Rectangle );
 
-       INT Width = Rectangle.xRight - Rectangle.xLeft;
-       INT Height = Rectangle.yTop - Rectangle.yBottom;
+        INT Width = Rectangle.xRight - Rectangle.xLeft;
+        INT Height = Rectangle.yTop - Rectangle.yBottom;
 
-       SetProperty( Window, PRP_PREVIOUS_WIDTH, &Width );
-       SetProperty( Window, PRP_PREVIOUS_HEIGHT, &Height );
+        SetProperty( Window, PRP_PREVIOUS_WIDTH, &Width );
+        SetProperty( Window, PRP_PREVIOUS_HEIGHT, &Height );
 
-       // Уменьшаем окно в значок.
-       // Оно должно быть перенесено в список значков скрытых окон.
-       LONG Action = MINIMIZE_ACTION;
+        // Уменьшаем окно в значок.
+        // Оно должно быть перенесено в список значков скрытых окон.
+        LONG Action = MINIMIZE_ACTION;
 
-       SetProperty( Window, PRP_PERFORMED_ACTION, &Action );
-       BYTE Action_completed = PerformAction( Window, Action );
+        SetProperty( Window, PRP_PERFORMED_ACTION, &Action );
+        BYTE Action_completed = PerformAction( Window, Action );
 
-       // Скрываем окно, если действие не было выполнено и окно все еще остается на экране.
-       // Это надо делать для окон ODIN, которые не обращают внимание на сообщения.
-       if( !Action_completed ) WinShowWindow( Window, 0 );
+        // Скрываем окно, если действие не было выполнено и окно все еще остается на экране.
+        // Это надо делать для окон ODIN, которые не обращают внимание на сообщения.
+        if( !Action_completed ) WinShowWindow( Window, 0 );
 
-       // Делаем окно недоступным для переключения.
-       WinPostQueueMsg( Enhancer.Modules.Changer->Message_queue, SM_SET_JUMPABLE, (MPARAM) Window, (MPARAM) SWL_NOTJUMPABLE );
-      }
-     // А если окно можно только скрыть:
-     else
-      {
-       // Скрываем окно.
-       WinShowWindow( Window, 0 );
+        // Делаем окно недоступным для переключения.
+        WinPostQueueMsg( Enhancer.Modules.Changer->Message_queue, SM_SET_JUMPABLE, (MPARAM) Window, (MPARAM) SWL_NOTJUMPABLE );
+       }
+      // А если окно можно только скрыть:
+      else
+       {
+        // Скрываем окно.
+        WinShowWindow( Window, 0 );
 
-       // Делаем окно недоступным для переключения.
-       WinPostQueueMsg( Enhancer.Modules.Changer->Message_queue, SM_SET_JUMPABLE, (MPARAM) Window, (MPARAM) SWL_NOTJUMPABLE );
-      }
-    }
+        // Делаем окно недоступным для переключения.
+        WinPostQueueMsg( Enhancer.Modules.Changer->Message_queue, SM_SET_JUMPABLE, (MPARAM) Window, (MPARAM) SWL_NOTJUMPABLE );
+       }
+     }
 
-   // Показываем окна для новой комнаты.
-   BYTE Restore_window = 0;
+    // Показываем окна для новой комнаты.
+    BYTE Restore_window = 0;
 
-   if( Window_room == New_room ) Restore_window = 1;
+    if( Window_room == New_room ) Restore_window = 1;
 
-   if( PreDefined_room != NO_ROOM )
-    {
-     if( Restore_window )
-      {
-       if( PreDefined_room != New_room ) Restore_window = 0;
-      }
-     else
-      {
-       if( PreDefined_room == New_room ) Restore_window = 1;
-      }
-    }
+    if( PreDefined_room != NO_ROOM )
+     {
+      if( Restore_window )
+       {
+        if( PreDefined_room != New_room ) Restore_window = 0;
+       }
+      else
+       {
+        if( PreDefined_room == New_room ) Restore_window = 1;
+       }
+     }
 
-   if( Restore_window ) if( PermissionForSwitching( Window ) ) Restore_window = 0;
-   if( Restore_window ) if( !Rooms_PermissionForRoomActions( Window ) ) Restore_window = 0;
+    if( Restore_window ) if( PermissionForSwitching( Window ) ) Restore_window = 0;
+    if( Restore_window ) if( !Rooms_PermissionForRoomActions( Window ) ) Restore_window = 0;
 
-   if( Restore_window )
-    {
-     // Если окно видимо:
-     if( WinIsWindowVisible( Window ) )
-      {
-       // Узнаем, было ли окно увеличено.
-       BYTE Maximized = 0; FindProperty( Window, PRP_MAXIMIZED, &Maximized );
+    if( Restore_window )
+     {
+      // Если окно видимо:
+      if( WinIsWindowVisible( Window ) )
+       {
+        // Узнаем, было ли окно увеличено.
+        BYTE Maximized = 0; FindProperty( Window, PRP_MAXIMIZED, &Maximized );
 
-       // Посылаем сообщение в окно.
-       if( !IsWindowsWindow( Window ) )
-        {
-         LONG Action = RESTORE_ACTION;
-         if( Maximized ) Action = MAXIMIZE_ACTION;
+        // Посылаем сообщение в окно.
+        if( !IsWindowsWindow( Window ) )
+         {
+          LONG Action = RESTORE_ACTION;
+          if( Maximized ) Action = MAXIMIZE_ACTION;
 
-         SetProperty( Window, PRP_PERFORMED_ACTION, &Action );
-         PerformAction( Window, Action );
-        }
-       else
-        {
-         LONG Action = RESTORE_ACTION;
+          SetProperty( Window, PRP_PERFORMED_ACTION, &Action );
+          PerformAction( Window, Action );
+         }
+        else
+         {
+          LONG Action = RESTORE_ACTION;
 
-         SetProperty( Window, PRP_PERFORMED_ACTION, &Action );
-         PerformAction( Window, Action );
+          SetProperty( Window, PRP_PERFORMED_ACTION, &Action );
+          PerformAction( Window, Action );
 
-         if( Maximized )
-          {
-           Action = MAXIMIZE_ACTION;
+          if( Maximized )
+           {
+            Action = MAXIMIZE_ACTION;
 
-           SetProperty( Window, PRP_PERFORMED_ACTION, &Action );
-           PerformAction( Window, Action );
-          }
-        }
+            SetProperty( Window, PRP_PERFORMED_ACTION, &Action );
+            PerformAction( Window, Action );
+           }
+         }
 
-       // Выравниваем текстовые окна, которые были увеличены.
-       if( Maximized ) if( IsVIOWindow( Window ) )
-        {
-         // Посылаем в окно сообщение WM_MARK. Когда оно будет получено, окно можно будет выравнивать.
-         WinPostMsg( Window, WM_MARK, (MPARAM) MRK_ARRANGE_WINDOW, (MPARAM) SM_ARRANGE_VIO_IN_ROOM );
-        }
-      }
-     // А если оно скрыто:
-     else
-      {
-       // Делаем окно видимым.
-       // Это надо делать для окон ODIN и для тех окон, у которых единственным действием было "скрыть окно".
-       WinShowWindow( Window, 1 );
-      }
+        // Выравниваем текстовые окна, которые были увеличены.
+        if( Maximized ) if( IsVIOWindow( Window ) )
+         {
+          // Посылаем в окно сообщение WM_MARK. Когда оно будет получено, окно можно будет выравнивать.
+          WinPostMsg( Window, WM_MARK, (MPARAM) MRK_ARRANGE_WINDOW, (MPARAM) SM_ARRANGE_VIO_IN_ROOM );
+         }
+       }
+      // А если оно скрыто:
+      else
+       {
+        // Делаем окно видимым.
+        // Это надо делать для окон ODIN и для тех окон, у которых единственным действием было "скрыть окно".
+        WinShowWindow( Window, 1 );
+       }
 
-     // Делаем окно доступным для переключения.
-     WinPostQueueMsg( Enhancer.Modules.Changer->Message_queue, SM_SET_JUMPABLE, (MPARAM) Window, (MPARAM) SWL_JUMPABLE );
-    }
+      // Делаем окно доступным для переключения.
+      WinPostQueueMsg( Enhancer.Modules.Changer->Message_queue, SM_SET_JUMPABLE, (MPARAM) Window, (MPARAM) SWL_JUMPABLE );
+     }
 
-   // Отодвигаем назад LaunchPad.
-   if( IsLaunchPadWindow( Window ) ) WinSetWindowPos( Window, HWND_BOTTOM, 0, 0, 0, 0, SWP_ZORDER | SWP_NOADJUST );
+    // Отодвигаем назад LaunchPad.
+    if( IsLaunchPadWindow( Window ) ) WinSetWindowPos( Window, HWND_BOTTOM, 0, 0, 0, 0, SWP_ZORDER | SWP_NOADJUST );
 
-   // Скрываем список окон.
-   if( IsWinListWindow( Window ) ) PerformAction( Window, HIDE_ACTION );
-  }
- WinEndEnumWindows( Enumeration );
+    // Скрываем список окон.
+    if( IsWinListWindow( Window ) ) PerformAction( Window, HIDE_ACTION );
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Возврат.
  return;
@@ -510,73 +513,79 @@ VOID Rooms_RetrieveShellWindow( VOID )
  // Узнаем, как расположено окно WarpCenter.
  BYTE WarpCenter_is_in_top = 1;
 
- // Перебираем окна в окне рабочего стола.
+ // Узнаем окно рабочего стола.
  HWND Desktop = QueryDesktopWindow();
- HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если окно не скрыто и это окно WarpCenter:
-   if( WinIsWindowVisible( Window ) ) if( IsWarpCenterWindow( Window ) )
-    {
-     // Узнаем расположение окна.
-     SWP Window_placement = {0}; WinQueryWindowPos( Window, &Window_placement );
 
-     // Проверяем расположение окна.
-     if( Window_placement.y <= 0 ) WarpCenter_is_in_top = 0;
+ {
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если окно не скрыто и это окно WarpCenter:
+    if( WinIsWindowVisible( Window ) ) if( IsWarpCenterWindow( Window ) )
+     {
+      // Узнаем расположение окна.
+      SWP Window_placement = {0}; WinQueryWindowPos( Window, &Window_placement );
 
-     // Завершаем перебор окон.
-     break;
-    }
-  }
- WinEndEnumWindows( Enumeration );
+      // Проверяем расположение окна.
+      if( Window_placement.y <= 0 ) WarpCenter_is_in_top = 0;
 
- // Перебираем окна в окне рабочего стола.
- Enumeration = WinBeginEnumWindows( Desktop ); Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если окно не скрыто:
-   if( WinIsWindowVisible( Window ) )
-    {
-     // Если это окно WPS:
-     if( IsFolderWindow( Window ) )
-      {
-       // Если оно имеет свойства окна оболочки - задаем новое расположение окна.
-       if( HasShellWindowControls( Window ) )
-        {
-         // Если окно WarpCenter расположено вверху:
-         if( WarpCenter_is_in_top )
-          {
-           // Левый нижний угол окна должен выходить за пределы экрана.
-           INT Frame_width = FrameWidth( Window );
-           Rooms.RTSettings.Shell_window_angle.x = Rooms.RTSettings.Shell_window_angle.y = Frame_width * (-1);
-          }
-         // А если окно WarpCenter расположено внизу:
-         else
-          {
-           // Узнаем размер экрана.
-           INT Y_Screen = WinQuerySysValue( Desktop, SV_CYSCREEN );
+      // Завершаем перебор окон.
+      break;
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
-           // Узнаем высоту заголовка окна.
-           INT TitleBar_height = WinQuerySysValue( Desktop, SV_CYMINMAXBUTTON );
+ {
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если окно не скрыто:
+    if( WinIsWindowVisible( Window ) )
+     {
+      // Если это окно WPS:
+      if( IsFolderWindow( Window ) )
+       {
+        // Если оно имеет свойства окна оболочки - задаем новое расположение окна.
+        if( HasShellWindowControls( Window ) )
+         {
+          // Если окно WarpCenter расположено вверху:
+          if( WarpCenter_is_in_top )
+           {
+            // Левый нижний угол окна должен выходить за пределы экрана.
+            INT Frame_width = FrameWidth( Window );
+            Rooms.RTSettings.Shell_window_angle.x = Rooms.RTSettings.Shell_window_angle.y = Frame_width * (-1);
+           }
+          // А если окно WarpCenter расположено внизу:
+          else
+           {
+            // Узнаем размер экрана.
+            INT Y_Screen = WinQuerySysValue( Desktop, SV_CYSCREEN );
 
-           // Узнаем размер окна.
-           RECT Rectangle = {0}; WinQueryWindowRect( Window, &Rectangle );
+            // Узнаем высоту заголовка окна.
+            INT TitleBar_height = WinQuerySysValue( Desktop, SV_CYMINMAXBUTTON );
 
-           // Левый нижний угол окна должен касаться окна WarpCenter.
-           INT Frame_width = FrameWidth( Window );
-           Rooms.RTSettings.Shell_window_angle.x = Frame_width * (-1);
+            // Узнаем размер окна.
+            RECT Rectangle = {0}; WinQueryWindowRect( Window, &Rectangle );
 
-           INT Y_Top = Y_Screen + TitleBar_height + Frame_width;
-           Rooms.RTSettings.Shell_window_angle.y = Y_Top - Rectangle.yTop;
-          }
+            // Левый нижний угол окна должен касаться окна WarpCenter.
+            INT Frame_width = FrameWidth( Window );
+            Rooms.RTSettings.Shell_window_angle.x = Frame_width * (-1);
 
-         // Показываем окно.
-         RememberShellWindow( Window ); Rooms_ShowShellWindow( Window, 1 );
-        }
-      }
-    }
-  }
- WinEndEnumWindows( Enumeration );
+            INT Y_Top = Y_Screen + TitleBar_height + Frame_width;
+            Rooms.RTSettings.Shell_window_angle.y = Y_Top - Rectangle.yTop;
+           }
+
+          // Показываем окно.
+          RememberShellWindow( Window ); Rooms_ShowShellWindow( Window, 1 );
+         }
+       }
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Возврат.
  return;
@@ -702,47 +711,49 @@ VOID Rooms_GoToRoom( INT New_room )
      Rooms_ShowShellWindow( GetDetectedShellWindow(), 1 );
   }
 
- // Некоторые окна могли быть скрыты пользователем, тогда они нигде не расположены.
- // Они появятся в другой комнате, когда будут выбраны пользователем в списке окон.
- // Перебираем окна в окне рабочего стола.
- HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если окно можно прятать при смене комнат:
-   if( Rooms_PermissionForRoomActions( Window ) )
-    {
-     // Узнаем комнату, в которой расположено окно.
-     INT Window_room = NO_ROOM; FindProperty( Window, PRP_ROOM, &Window_room );
+ {
+  // Некоторые окна могли быть скрыты пользователем, тогда они нигде не расположены.
+  // Они появятся в другой комнате, когда будут выбраны пользователем в списке окон.
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если окно можно прятать при смене комнат:
+    if( Rooms_PermissionForRoomActions( Window ) )
+     {
+      // Узнаем комнату, в которой расположено окно.
+      INT Window_room = NO_ROOM; FindProperty( Window, PRP_ROOM, &Window_room );
 
-     // Если оно расположено в этой комнате и было уменьшено или скрыто - сбрасываем свойство.
-     // Если окно не расположено ни в одной комнате и в него нельзя переключиться - сбрасываем свойство.
-     if( Window_room == Current_room || !Window_room )
-      if( !PermissionForSwitching( Window ) )
-       {
-        // Запоминаем комнату.
-        INT Room = Rooms_GetMostSuitableRoom( Window ); Rooms_SetRoomProperty( Window, Room );
+      // Если оно расположено в этой комнате и было уменьшено или скрыто - сбрасываем свойство.
+      // Если окно не расположено ни в одной комнате и в него нельзя переключиться - сбрасываем свойство.
+      if( Window_room == Current_room || !Window_room )
+       if( !PermissionForSwitching( Window ) )
+        {
+         // Запоминаем комнату.
+         INT Room = Rooms_GetMostSuitableRoom( Window ); Rooms_SetRoomProperty( Window, Room );
 
-        // Отодвигаем окно за все остальные окна.
-        WinSetWindowPos( Window, HWND_BOTTOM, 0, 0, 0, 0, SWP_ZORDER );
+         // Отодвигаем окно за все остальные окна.
+         WinSetWindowPos( Window, HWND_BOTTOM, 0, 0, 0, 0, SWP_ZORDER );
 
-        // Делаем окно недоступным для переключения.
-        WinPostQueueMsg( Enhancer.Modules.Changer->Message_queue, SM_SET_JUMPABLE, (MPARAM) Window, (MPARAM) SWL_NOTJUMPABLE );
-       }
+         // Делаем окно недоступным для переключения.
+         WinPostQueueMsg( Enhancer.Modules.Changer->Message_queue, SM_SET_JUMPABLE, (MPARAM) Window, (MPARAM) SWL_NOTJUMPABLE );
+        }
 
-     // Если окно не расположено ни в одной комнате и в него можно переключиться - считаем,
-     // что оно расположено в этой комнате. Это бывает, когда настройка включается во время работы.
-     if( !Window_room )
-      if( PermissionForSwitching( Window ) )
-       {
-        // Запоминаем комнату.
-        Rooms_SetRoomProperty( Window, Current_room );
+      // Если окно не расположено ни в одной комнате и в него можно переключиться - считаем,
+      // что оно расположено в этой комнате. Это бывает, когда настройка включается во время работы.
+      if( !Window_room )
+       if( PermissionForSwitching( Window ) )
+        {
+         // Запоминаем комнату.
+         Rooms_SetRoomProperty( Window, Current_room );
 
-        // Делаем окно недоступным для переключения.
-        WinPostQueueMsg( Enhancer.Modules.Changer->Message_queue, SM_SET_JUMPABLE, (MPARAM) Window, (MPARAM) SWL_JUMPABLE );
-       }
-    }
-  }
- WinEndEnumWindows( Enumeration );
+         // Делаем окно недоступным для переключения.
+         WinPostQueueMsg( Enhancer.Modules.Changer->Message_queue, SM_SET_JUMPABLE, (MPARAM) Window, (MPARAM) SWL_JUMPABLE );
+        }
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Меняем набор окон.
  LONG Animation_is_allowed = WinQuerySysValue( Desktop, SV_ANIMATION );

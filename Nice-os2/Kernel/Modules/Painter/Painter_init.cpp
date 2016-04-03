@@ -56,6 +56,19 @@ VOID Painter_SetDrawingRules( VOID )
  return;
 }
 
+// ─── Подбирает параметры для рисования ───
+
+VOID Painter_SelectDesiredTexture( ULONG Theme )
+{
+ GetCurrentPath( Painter.Settings.TitleBar_pattern );
+ if( Theme == PAINTER_THEME_PHOENIX ) strcat( Painter.Settings.TitleBar_pattern, "\\Bitmap\\Themes\\Stucco.bmp" );
+ if( Theme == PAINTER_THEME_BLUE_LION ) strcat( Painter.Settings.TitleBar_pattern, "\\Bitmap\\Themes\\Pixels.bmp" );
+ if( Theme == PAINTER_THEME_ECOMSTATION ) strcat( Painter.Settings.TitleBar_pattern, "\\Bitmap\\Themes\\Clouds.bmp" );
+
+ // Возврат.
+ return;
+}
+
 // ─── Устанавливает настройки по умолчанию ───
 
 // Division - какие настройки надо установить.
@@ -75,10 +88,8 @@ VOID Painter_SetPreDefinedSettings( LONG Division )
    Painter.Settings.Rollup_VIO_windows = 0;
    Painter.Settings.Keep_frame_colors = 1;
 
-   Painter.Settings.Theme = PAINTER_THEME_PHOENIX; Painter_SetDrawingRules();
-
-   GetCurrentPath( Painter.Settings.TitleBar_pattern );
-   strcat( Painter.Settings.TitleBar_pattern, "\\Bitmap\\Themes\\Pixels.bmp" );
+   Painter.Settings.Theme = PAINTER_THEME_PHOENIX; 
+   Painter_SetDrawingRules(); Painter_SelectDesiredTexture( Painter.Settings.Theme );
   }
 
  // Задаем цвета для заголовков окон.
@@ -89,10 +100,10 @@ VOID Painter_SetPreDefinedSettings( LONG Division )
 
    // Цвета для текста и заполнения заголовков.
    Painter.Settings.AT_Text_color          = MAKERGB( LLL, LLL,  LL );
-   Painter.Settings.Northern_AT_Text_color = MAKERGB( XXX, XXX, LLL );
-   Painter.Settings.Western_AT_Text_color  = MAKERGB( XXX, LLL, XXX );
-   Painter.Settings.Eastern_AT_Text_color  = MAKERGB( XXX, LLL, LLL );
-   Painter.Settings.Southern_AT_Text_color = MAKERGB( LLL, LLL, XXX );
+   Painter.Settings.Northern_AT_Text_color = MAKERGB( LLL, LLL,  LL );
+   Painter.Settings.Western_AT_Text_color  = MAKERGB( LLL, LLL,  LL );
+   Painter.Settings.Eastern_AT_Text_color  = MAKERGB( LLL, LLL,  LL );
+   Painter.Settings.Southern_AT_Text_color = MAKERGB( LLL, LLL,  LL );
 
    Painter.Settings.AT_Background_color          = MAKERGB(  DD,   0,   0 );
    Painter.Settings.Northern_AT_Background_color = MAKERGB(   0,   0,  DD );
@@ -180,30 +191,30 @@ VOID Painter_ReadSettings( HINI Ini_file )
  }
 
  // Читаем цвета.
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "AT Text color", &Long_data, &Long ) ) Painter.Settings.AT_Text_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "AT Background color", &Long_data, &Long ) ) Painter.Settings.AT_Background_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "IT Text color", &Long_data, &Long ) ) Painter.Settings.IT_Text_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "IT Background color", &Long_data, &Long ) ) Painter.Settings.IT_Background_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "AT Color", &Long_data, &Long ) ) Painter.Settings.AT_Text_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "AT BG Color", &Long_data, &Long ) ) Painter.Settings.AT_Background_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "IT Color", &Long_data, &Long ) ) Painter.Settings.IT_Text_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "IT BG Color", &Long_data, &Long ) ) Painter.Settings.IT_Background_color = Long_data;
 
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Northern AT Text color", &Long_data, &Long ) ) Painter.Settings.Northern_AT_Text_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Northern IT Text color", &Long_data, &Long ) ) Painter.Settings.Northern_IT_Text_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Northern AT Background color", &Long_data, &Long ) ) Painter.Settings.Northern_AT_Background_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Northern IT Background color", &Long_data, &Long ) ) Painter.Settings.Northern_IT_Background_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Northern AT Color", &Long_data, &Long ) ) Painter.Settings.Northern_AT_Text_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Northern IT Color", &Long_data, &Long ) ) Painter.Settings.Northern_IT_Text_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Northern AT BG Color", &Long_data, &Long ) ) Painter.Settings.Northern_AT_Background_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Northern IT BG Color", &Long_data, &Long ) ) Painter.Settings.Northern_IT_Background_color = Long_data;
 
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Western AT Text color", &Long_data, &Long ) ) Painter.Settings.Western_AT_Text_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Western IT Text color", &Long_data, &Long ) ) Painter.Settings.Western_IT_Text_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Western AT Background color", &Long_data, &Long ) ) Painter.Settings.Western_AT_Background_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Western IT Background color", &Long_data, &Long ) ) Painter.Settings.Western_IT_Background_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Western AT Color", &Long_data, &Long ) ) Painter.Settings.Western_AT_Text_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Western IT Color", &Long_data, &Long ) ) Painter.Settings.Western_IT_Text_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Western AT BG Color", &Long_data, &Long ) ) Painter.Settings.Western_AT_Background_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Western IT BG Color", &Long_data, &Long ) ) Painter.Settings.Western_IT_Background_color = Long_data;
 
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Eastern AT Text color", &Long_data, &Long ) ) Painter.Settings.Eastern_AT_Text_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Eastern IT Text color", &Long_data, &Long ) ) Painter.Settings.Eastern_IT_Text_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Eastern AT Background color", &Long_data, &Long ) ) Painter.Settings.Eastern_AT_Background_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Eastern IT Background color", &Long_data, &Long ) ) Painter.Settings.Eastern_IT_Background_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Eastern AT Color", &Long_data, &Long ) ) Painter.Settings.Eastern_AT_Text_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Eastern IT Color", &Long_data, &Long ) ) Painter.Settings.Eastern_IT_Text_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Eastern AT BG Color", &Long_data, &Long ) ) Painter.Settings.Eastern_AT_Background_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Eastern IT BG Color", &Long_data, &Long ) ) Painter.Settings.Eastern_IT_Background_color = Long_data;
 
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Southern AT Text color", &Long_data, &Long ) ) Painter.Settings.Southern_AT_Text_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Southern IT Text color", &Long_data, &Long ) ) Painter.Settings.Southern_IT_Text_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Southern AT Background color", &Long_data, &Long ) ) Painter.Settings.Southern_AT_Background_color = Long_data;
- Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Southern IT Background color", &Long_data, &Long ) ) Painter.Settings.Southern_IT_Background_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Southern AT Color", &Long_data, &Long ) ) Painter.Settings.Southern_AT_Text_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Southern IT Color", &Long_data, &Long ) ) Painter.Settings.Southern_IT_Text_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Southern AT BG Color", &Long_data, &Long ) ) Painter.Settings.Southern_AT_Background_color = Long_data;
+ Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "Southern IT BG Color", &Long_data, &Long ) ) Painter.Settings.Southern_IT_Background_color = Long_data;
 
  Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "AT Color 1", &Long_data, &Long ) ) Painter.Settings.AT_Color_1 = Long_data;
  Long = sizeof( LONG ); if( PrfQueryProfileData( Ini_file, "Drawing", "AT Color 2", &Long_data, &Long ) ) Painter.Settings.AT_Color_2 = Long_data;

@@ -40,8 +40,6 @@ CONST PCHAR StrConst_RU_Pages_Keyboard_keys_Name = "Клавиатура";
 CONST PCHAR StrConst_EN_Pages_Keyboard_keys_Name = "Keyboard";
 CONST PCHAR StrConst_RU_Pages_Keyboard_actions_Name = "Клавиши и действия";
 CONST PCHAR StrConst_EN_Pages_Keyboard_actions_Name = "Keys and actions";
-CONST PCHAR StrConst_RU_Pages_Keyboard_repository_Name = "Приложения";
-CONST PCHAR StrConst_EN_Pages_Keyboard_repository_Name = "Applications";
 CONST PCHAR StrConst_RU_Pages_Keyboard_ffx_Name = "FireFox-клавиши";
 CONST PCHAR StrConst_EN_Pages_Keyboard_ffx_Name = "FireFox keys";
 CONST PCHAR StrConst_RU_Pages_Keyboard_break_Name = "Клавиши прерываний";
@@ -318,11 +316,6 @@ CONST PCHAR StrConst_RU_Pages_Keyboard_actions_ExeName_dialog = "Найти приложени
 CONST PCHAR StrConst_EN_Pages_Keyboard_actions_ExeName_dialog = "Find application";
 CONST PCHAR StrConst_RU_Pages_Keyboard_actions_Detect = "Узнать...";
 CONST PCHAR StrConst_EN_Pages_Keyboard_actions_Detect = "Detect key...";
-
-CONST PCHAR StrConst_RU_Pages_Keyboard_repository_Prompt = "Есть возможность отслеживать состояние рабочего стола WPS";
-CONST PCHAR StrConst_EN_Pages_Keyboard_repository_Prompt = "It is possible to check desktop and remember WPS objects";
-CONST PCHAR StrConst_RU_Pages_Keyboard_repository_CheckWPS = "Проверять значки при запуске";
-CONST PCHAR StrConst_EN_Pages_Keyboard_repository_CheckWPS = "Check WPS objects at startup";
 
 CONST PCHAR StrConst_RU_Pages_Keyboard_ffx_Prompt = "Использовать некоторые клавиши для работы с FireFox";
 CONST PCHAR StrConst_EN_Pages_Keyboard_ffx_Prompt = "Use some keys to work with FireFox";

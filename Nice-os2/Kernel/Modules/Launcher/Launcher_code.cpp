@@ -1,8 +1,40 @@
 
+// ─── Вызывает окно и делает его выбранным ───
+
+// Frame_window - окно рамки.
+VOID Launcher_MoveWindowAbove( HWND Frame_window )
+{
+ // Если окно было убрано наверх - восстанавливаем его.
+ if( Frame_window == RolledWindow() ) UnrollWindow( RolledWindow() );
+
+ // Вызываем окно и делаем его выбранным.
+ MoveWindowAbove( Frame_window );
+
+ // Возврат.
+ return;
+}
+
+// ─── Проверяет состояние окна ───
+
+BYTE Launcher_MinimizedOrHidden( HWND Frame_window )
+{
+ // Проверяем флажок видимости окна.
+ if( !WinIsWindowVisible( Frame_window ) ) return 1;
+
+ // Проверяем состояние окна.
+ SWP Window_state = {0};
+ WinQueryWindowPos( Frame_window, &Window_state );
+
+ if( Window_state.fl & SWP_MINIMIZE || Window_state.fl & SWP_HIDE ) return 1;
+
+ // Возврат.
+ return 0;
+}
+
 // ─── Скрывает окно приложения, если оно соответствует действию ───
 
-// Action - действие, которое надо выполнить, Filter - правила выбора.
-BYTE Launcher_CheckActiveWindowAndHideApplication( INT Action, BYTE Filter )
+// Action - действие, которое надо выполнить, Filter - условие отбора.
+BYTE Launcher_CheckAndHideActiveWindow( INT Action, BYTE Filter )
 {
  // Узнаем окно рабочего стола.
  HWND Desktop = QueryDesktopWindow();
@@ -19,26 +51,28 @@ BYTE Launcher_CheckActiveWindowAndHideApplication( INT Action, BYTE Filter )
      // Находим другое такое же окно, а если его нет - скрываем это окно.
      BYTE Another_window_is_found = 0;
 
-     // Перебираем окна в окне рабочего стола.
-     HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
-     while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-      {
-       // Если это другое окно, и это тоже окно рамки, и оно тоже доступно в списке окон:
-       if( Window != Active_window && IsFrameWindow( Window ) && WindowIsTouchable( Window ) )
-        {
-         // Если оно предназначено для выполнения тех же действий:
-         if( CommandForWindowIs( Action, Window, Filter ) )
-          {
-           // Запоминаем, что оно было найдено и завершаем перебор окон.
-           Another_window_is_found = 1; break;
-          }
-        }
-      }
-     WinEndEnumWindows( Enumeration );
+     {
+      // Перебираем окна в окне рабочего стола.
+      HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
+      while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+       {
+        // Если это другое окно, и это тоже окно рамки, и оно тоже доступно в списке окон:
+        if( Window != Active_window && IsFrameWindow( Window ) && WindowIsTouchable( Window ) && !Launcher_MinimizedOrHidden( Window ) )
+         {
+          // Если оно предназначено для выполнения тех же действий:
+          if( CommandForWindowIs( Action, Window, Filter ) )
+           {
+            // Запоминаем, что оно было найдено и завершаем перебор окон.
+            Another_window_is_found = 1; break;
+           }
+         }
+       }
+      WinEndEnumWindows( Enumeration );
+     }
 
      // Если другого окна нет - скрываем окно приложения.
      // При этом возвращаем ненулевое значение, чтобы поток не выполнял никаких других действий.
-     if( !Another_window_is_found ) 
+     if( !Another_window_is_found )
       {
        HideWindowAway( Active_window ); return 1;
       }
@@ -49,204 +83,294 @@ BYTE Launcher_CheckActiveWindowAndHideApplication( INT Action, BYTE Filter )
  return 0;
 }
 
-// ─── Вызывает окно приложения, которое соответствует действию ───
+// ─── Находит окно приложения и вызывает его ───
 
-// Action - действие, которое надо выполнить, Filter - правила выбора.
-BYTE Launcher_FindAndShowApplication( INT Action, BYTE Filter )
+// Position - расположение приложения в списке, Filter - условие отбора.
+BYTE Launcher_FindAndShowFrameWindow( INT Position, BYTE Filter )
 {
- // Находим в списке приложения, способные откликнуться на эту команду, и пробуем вызвать их.
- INT Position = -1;
+ // Пробуем вызвать окно этого приложения или окно, способное откликнуться на такую же команду.
+ BYTE Success = 0;
+ HWND Selected_window = NULLHANDLE; BYTE Selected_window_is_hidden = 0;
+ HWND Window_with_menu = NULLHANDLE; BYTE Window_with_menu_is_hidden = 0;
 
- while( 1 )
-  {
-   // Пробуем найти первое или следующее приложение.
-   Position = FindApplicationInRepository( 0, Action, Filter, Position + 1 );
+ {
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если это не окно рамки - продолжаем перебор.
+    if( !IsFrameWindow( Window ) ) continue;
 
-   // Если ничего не найдено - возврат.
-   if( Position == -1 ) return 0;
+    // Если окно не присутствует в списке окон - продолжаем перебор.
+    // Эта проверка необходима, так как сетевые обозреватели Mozilla и
+    // Opera создают такие окна, и даже зачем-то Switch_handle для них.
+    if( !WindowIsTouchable( Window ) )
+     if( !WindowIsUsedTo( DO_IMPROVE_WORKPLACE, Window ) )
+      continue;
 
-   // Пробуем вызвать окно этого приложения или окно, способное откликнуться на такую же команду.
-   BYTE Success = 0; INT How_much_found = 0; HWND Window_with_menu = NULLHANDLE;
+    // Если окно выбрано - продолжаем перебор.
+    // Эта проверка позволит выбрать одно из нескольких окон ("следующее по списку").
+    if( WindowIsActive( Window ) ) continue;
 
-   // Перебираем окна в окне рабочего стола.
-   HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
-   while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-    {
-     // Если это не окно рамки - продолжаем перебор.
-     if( !IsFrameWindow( Window ) ) continue;
+    // Проверяем, видимо окно или скрыто.
+    // Эта проверка позволит переключаться сначала между видимыми окнами, а затем между остальными.
+    BYTE Minimized_or_hidden = Launcher_MinimizedOrHidden( Window );
 
-     // Если окно не присутствует в списке окон - продолжаем перебор.
-     // Эта проверка необходима, так как сетевые обозреватели Mozilla и
-     // Opera создают такие окна, и даже зачем-то Switch_handle для них.
-     if( !WindowIsTouchable( Window ) )
-      if( !WindowIsUsedTo( DO_IMPROVE_WORKPLACE, Window ) )
-       continue;
+    if( Filter == FLT_VISIBLE && Minimized_or_hidden == 1 ) continue;
+    if( Filter == FLT_HIDDEN && Minimized_or_hidden == 0 ) continue;
 
-     // Смотрим, соответствует ли окно заданным условиям.
-     BYTE Show_window = 0;
+    // Смотрим, соответствует ли окно заданным условиям.
+    BYTE Show_window = 0;
 
-     // Если окно создано этим приложением - надо вызвать его.
-     if( WindowIsCreatedBy( Repository.Items[ Position ].Application, Window ) ) Show_window = 1;
+    // Если окно создано этим приложением - надо вызвать его.
+    if( WindowIsCreatedBy( Repository.Items[ Position ].Application, Window ) ) Show_window = 1;
 
-     // Если для приложения были заданы ключевые слова и они есть в заголовке окна - тоже.
-     if( Repository.Items[ Position ].Window_keyword_1[ 0 ] != 0 ||
-         Repository.Items[ Position ].Window_keyword_2[ 0 ] != 0 ||
-         Repository.Items[ Position ].Window_keyword_3[ 0 ] != 0 ||
-         Repository.Items[ Position ].Window_keyword_4[ 0 ] != 0 )
-      {
-       // Узнаем заголовок окна или выбираем его из списка свойств.
-       CHAR Title[ SIZE_OF_TITLE ] = ""; GetDetectedWindowTitle( Window, Title );
+    // Если для приложения были заданы ключевые слова и они есть в заголовке окна - тоже.
+    if( Repository.Items[ Position ].Window_keyword_1[ 0 ] != 0 ||
+        Repository.Items[ Position ].Window_keyword_2[ 0 ] != 0 ||
+        Repository.Items[ Position ].Window_keyword_3[ 0 ] != 0 ||
+        Repository.Items[ Position ].Window_keyword_4[ 0 ] != 0 )
+     {
+      // Узнаем заголовок окна или выбираем его из списка свойств.
+      CHAR Title[ SIZE_OF_TITLE ] = ""; GetDetectedWindowTitle( Window, Title );
 
-       // Проверяем его.
-       if( Repository.Items[ Position ].Window_keyword_1[ 0 ] != 0 )
-        if( stristr( Repository.Items[ Position ].Window_keyword_1, Title ) )
-         Show_window = 1;
+      // Проверяем его.
+      if( Repository.Items[ Position ].Window_keyword_1[ 0 ] != 0 )
+       if( stristr( Repository.Items[ Position ].Window_keyword_1, Title ) ) Show_window = 1;
 
-       if( Repository.Items[ Position ].Window_keyword_2[ 0 ] != 0 )
-        if( stristr( Repository.Items[ Position ].Window_keyword_2, Title ) )
-         Show_window = 1;
+      if( Repository.Items[ Position ].Window_keyword_2[ 0 ] != 0 )
+       if( stristr( Repository.Items[ Position ].Window_keyword_2, Title ) ) Show_window = 1;
 
-       if( Repository.Items[ Position ].Window_keyword_3[ 0 ] != 0 )
-        if( stristr( Repository.Items[ Position ].Window_keyword_3, Title ) )
-         Show_window = 1;
+      if( Repository.Items[ Position ].Window_keyword_3[ 0 ] != 0 )
+       if( stristr( Repository.Items[ Position ].Window_keyword_3, Title ) ) Show_window = 1;
 
-       if( Repository.Items[ Position ].Window_keyword_4[ 0 ] != 0 )
-        if( stristr( Repository.Items[ Position ].Window_keyword_4, Title ) )
-         Show_window = 1;
-      }
+      if( Repository.Items[ Position ].Window_keyword_4[ 0 ] != 0 )
+       if( stristr( Repository.Items[ Position ].Window_keyword_4, Title ) ) Show_window = 1;
+     }
 
-     // Если это окно, которое надо вызвать:
-     if( Show_window )
-      {
-       // Узнаем состояние окна рамки.
-       SWP Window_state = {0}; WinQueryWindowPos( Window, &Window_state );
+    // Если окно надо вызвать - запоминаем его.
+    if( Show_window )
+     {
+      // Запоминаем окно.
+      if( !Selected_window )
+       {
+        Selected_window = Window;
+        Selected_window_is_hidden = Minimized_or_hidden;
+       }
 
-       // Если окно уменьшено или скрыто - восстанавливаем его.
-       if( Window_state.fl & SWP_MINIMIZE || Window_state.fl & SWP_HIDE )
-        {
-         // Узнаем, было ли окно увеличено.
-         BYTE Maximized = 0; FindProperty( Window, PRP_MAXIMIZED, &Maximized );
-
-         // Посылаем сообщение в окно.
-         if( !Maximized ) PerformAction( Window, RESTORE_ACTION );
-         else PerformAction( Window, MAXIMIZE_ACTION );
-        }
-
-       // Если окно было убрано наверх - восстанавливаем его.
-       if( Window == RolledWindow() ) UnrollWindow( RolledWindow() );
-
-       // Вызываем окно и делаем его выбранным.
-       MoveWindowAbove( Window );
-
-       // Если у окна есть заголовок, меню и рабочая область - запоминаем его.
+      // Если у окна есть заголовок, меню и рабочая область - запоминаем его отдельно.
+      if( !Window_with_menu )
        if( WinWindowFromID( Window, FID_TITLEBAR ) != NULLHANDLE )
         if( WinWindowFromID( Window, FID_MENU ) != NULLHANDLE )
          if( WinWindowFromID( Window, FID_CLIENT ) != NULLHANDLE )
-          Window_with_menu = Window;
+          {
+           Window_with_menu = Window;
+           Window_with_menu_is_hidden = Minimized_or_hidden;
+          }
 
-       // Запоминаем, что окно вызвано. Окон может быть несколько, поэтому продолжаем перебор.
-       Success = 1; How_much_found ++;
-      }
+      // Запоминаем, что окно должно быть вызвано.
+      // Если были заполнены все переменные - завершаем перебор.
+      Success = 1; if( Selected_window && Window_with_menu ) break;
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
+
+ // Если было найдено несколько окон - вызываем окно, у которого есть меню.
+ if( Window_with_menu != NULLHANDLE )
+  {
+   Selected_window = Window_with_menu;
+   Selected_window_is_hidden = Window_with_menu_is_hidden;
+  }
+
+ // Делаем окно выбранным.
+ if( Selected_window )
+  {
+   // Если окно уменьшено или скрыто - восстанавливаем его.
+   if( Selected_window_is_hidden )
+    {
+     // Узнаем, было ли окно увеличено.
+     BYTE Maximized = 0; FindProperty( Selected_window, PRP_MAXIMIZED, &Maximized );
+
+     // Посылаем сообщение в окно.
+     if( !Maximized ) PerformAction( Selected_window, RESTORE_ACTION );
+     else PerformAction( Selected_window, MAXIMIZE_ACTION );
     }
-   WinEndEnumWindows( Enumeration );
 
-   // Если было найдено несколько окон - вызываем наверх последнее из них, у которого есть меню.
-   if( Success && How_much_found > 1 && Window_with_menu != NULLHANDLE )
-    if( !WindowIsActive( Window_with_menu ) ) MoveWindowAbove( Window_with_menu );
+   // Вызываем окно и делаем его выбранным.
+   Launcher_MoveWindowAbove( Selected_window );
+  }
 
-   // Если окно или несколько окон были вызваны - возврат.
-   if( Success ) return 1;
+ // Возврат.
+ return Success;
+}
 
-   // Если используется оболочка WPS:
+// ─── Находит значок приложения и вызывает его ───
+
+// Position - расположение приложения в списке.
+BYTE Launcher_FindAndOpenWPSObject( INT Position )
+{
+ // Если оболочка рабочего стола WPS не используется - возврат.
+ if( !ShellIsWPS() ) return 0;
+
+ // Если значки не были найдены - возврат.
+ if( Repository.Items[ Position ].Known_WPS_objects_not_found ) return 0;
+
+ // Пробуем вызвать значок на рабочем столе.
+ BYTE Success = 0;
+
+ // Пробуем вызвать один из значков, заданных в списке, и в том числе значок,
+ // ранее считанный функцией "ReadRepository()" - она читает строку с именем
+ // значка в поле "WPS_name_#", если видит, что оно не задано.
+ for( INT Step = 0; Step < 4; Step ++ )
+  {
+   // Узнаем значок на рабочем столе.
+   PCHAR Object_name = NULL;
+
+   if( Step == 0 ) Object_name = Repository.Items[ Position ].WPS_name_A;
+   if( Step == 1 ) Object_name = Repository.Items[ Position ].WPS_name_B;
+   if( Step == 2 ) Object_name = Repository.Items[ Position ].WPS_name_C;
+   if( Step == 3 ) Object_name = Repository.Items[ Position ].WPS_name_D;
+
+   // Если значок есть - вызываем его.
+   if( Object_name[ 0 ] != 0 )
+    {
+     HOBJECT Object = QueryWPSObject( Object_name );
+
+     if( Object != NULLHANDLE ) Success = WinOpenObject( Object, OPEN_DEFAULT, SHOW_EXISTING );
+    }
+
+   // Если значок удалось вызвать - выходим из цикла.
+   if( Success ) break;
+  }
+
+ // Если приложение не было вызвано - запоминаем это.
+ if( !Success ) Repository.Items[ Position ].Known_WPS_objects_not_found = 1;
+
+ // Возврат.
+ return Success;
+}
+
+// ─── Находит исполняемый файл приложения и вызывает его ───
+
+// Position - расположение приложения в списке.
+BYTE Launcher_FindAndStartExeFile( INT Position )
+{
+ // Если настройки в INI-файле не были заданы - возврат.
+ if( Repository.Items[ Position ].Path_INI_setting_name[ 0 ] == 0 ) return 0;
+
+ // Если путь к приложению не был найден - возврат.
+ if( Repository.Items[ Position ].Known_Exe_files_not_found ) return 0;
+
+ // Пробуем найти файл приложения и вызвать его.
+ BYTE Success = 0;
+
+ // Открываем файл настроек.
+ CHAR Settings_file_name[ SIZE_OF_PATH ] = ""; GetSettingsFileName( Settings_file_name );
+ HINI Ini_file = OpenIniProfile( Enhancer.Application, Settings_file_name );
+
+ // Читаем путь к каталогу приложения.
+ CHAR Exe_path[ SIZE_OF_PATH ] = "";
+
+ if( Ini_file )
+  {
+   ULONG Path = SIZE_OF_PATH; PrfQueryProfileData( Ini_file, "Applications", Repository.Items[ Position ].Path_INI_setting_name, Exe_path, &Path );
+  }
+
+ // Закрываем файл настроек.
+ if( Ini_file ) PrfCloseProfile( Ini_file );
+
+ // Если путь не удалось прочитать или он не задан в файле настроек - возврат.
+ if( Exe_path[ 0 ] == 0 ) { Repository.Items[ Position ].Known_Exe_files_not_found = 1; return 0; }
+
+ // Пробуем найти и вызвать Exe-файлы, заданные в списке, и в том числе файл
+ // ранее считанный функцией "ReadRepository()" - она читает строку с именем
+ // файла в поле "Exe_name_#", если видит, что оно не задано.
+ for( INT Step = 0; Step < 4; Step ++ )
+  {
+   // Переменная с полным именем файла будет указывать на файл "*.exe".
+   PCHAR Exe_name = NULL;
+
+   if( Step == 0 ) Exe_name = Repository.Items[ Position ].Exe_name_1;
+   if( Step == 1 ) Exe_name = Repository.Items[ Position ].Exe_name_2;
+   if( Step == 2 ) Exe_name = Repository.Items[ Position ].Exe_name_3;
+   if( Step == 3 ) Exe_name = Repository.Items[ Position ].Exe_name_4;
+
+   if( Exe_name[ 0 ] == NULL ) continue;
+
+   CHAR Path[ SIZE_OF_PATH ] = "";
+   strcpy( Path, Exe_path ); strcat( Path, "\\" ); strcat( Path, Exe_name );
+
+   // Но если рядом с ним в том же каталоге есть файл "*.cmd" - надо вызвать его.
+   {
+    CHAR Cmd_path[ SIZE_OF_PATH ] = ""; strcpy( Cmd_path, Path );
+
+    PCHAR Extension = stristr( ".exe", Cmd_path );
+
+    if( Extension != NULL )
+     {
+      *( Extension + 1 ) = 'c';
+      *( Extension + 2 ) = 'm';
+      *( Extension + 3 ) = 'd';
+     }
+
+    if( FileExists( Cmd_path ) ) strcpy( Path, Cmd_path );
+   }
+
+   // Если используется оболочка WPS - вызываем значок.
    if( ShellIsWPS() )
     {
-     // Пробуем вызвать значок на рабочем столе, если он был задан заранее.
-     for( INT Count = 0; Count < 4; Count ++ )
-      {
-       // Узнаем значок на рабочем столе.
-       PCHAR Object_name = NULL;
+     HOBJECT Object = QueryWPSObject( Path );
 
-       if( Count == 0 ) Object_name = Repository.Items[ Position ].WPS_name_A;
-       if( Count == 1 ) Object_name = Repository.Items[ Position ].WPS_name_B;
-       if( Count == 2 ) Object_name = Repository.Items[ Position ].WPS_name_C;
-       if( Count == 3 ) Object_name = Repository.Items[ Position ].WPS_name_D;
-
-       // Если значок есть - вызываем его.
-       if( Object_name[ 0 ] != 0 )
-        {
-         HOBJECT Object = QueryWPSObject( Object_name );
-
-         if( Object != NULLHANDLE ) Success = WinOpenObject( Object, OPEN_DEFAULT, SHOW_EXISTING );
-        }
-
-       // Если значок был вызван - возврат.
-       if( Success ) return 1;
-      }
-
-     // Пробуем вызвать значок на рабочем столе, если он был найден и занесен в список.
-     if( Repository.Items[ Position ].Object[ 0 ] != 0 )
-      {
-       // Вызываем значок.
-       HOBJECT Object = QueryWPSObject( Repository.Items[ Position ].Object );
-
-       if( Object != NULLHANDLE ) Success = WinOpenObject( Object, OPEN_DEFAULT, SHOW_EXISTING );
-
-       // Если значок был вызван - возврат.
-       if( Success ) return 1;
-      }
+     if( Object != NULLHANDLE ) Success = WinOpenObject( Object, OPEN_DEFAULT, SHOW_EXISTING );
+    }
+   // Иначе - вызываем приложение.
+   else
+    {
+     Success = Execute( Path );
     }
 
-   // Если известен путь:
-   if( Repository.Items[ Position ].Path[ 0 ] != 0 )
+   // Если приложение удалось вызвать - выходим из цикла.
+   if( Success ) break;
+  }
+
+ // Если приложение не было вызвано - запоминаем это.
+ if( !Success ) Repository.Items[ Position ].Known_Exe_files_not_found = 1;
+
+ // Возврат.
+ return Success;
+}
+
+// ─── Вызывает окно приложения, которое соответствует действию ───
+
+// Action - действие, которое надо выполнить, Filter - условие отбора.
+BYTE Launcher_FindAndShowApplication( INT Action, BYTE Filter )
+{
+ // Находим в списке приложения, способные откликнуться на эту команду, и пробуем вызвать их.
+ for( INT Step = 0; Step < 4; Step ++ )
+  {
+   INT Position = -1;
+
+   while( 1 )
     {
-     // Пробуем вызвать приложение.
-     for( INT Count = 0; Count < 4; Count ++ )
+     // Пробуем найти первое или следующее приложение.
+     Position = FindApplicationInRepository( 0, Action, Filter, Position + 1 );
+
+     // Если приложение было найдено:
+     if( Position != -1 )
       {
-       // Узнаем путь к приложению.
-       PCHAR Exe_name = NULL;
-
-       if( Count == 0 ) Exe_name = Repository.Items[ Position ].Exe_name_1;
-       if( Count == 1 ) Exe_name = Repository.Items[ Position ].Exe_name_2;
-       if( Count == 2 ) Exe_name = Repository.Items[ Position ].Exe_name_3;
-       if( Count == 3 ) Exe_name = Repository.Items[ Position ].Exe_name_4;
-
-       // Вызываем приложение.
-       if( Exe_name[ 0 ] != 0 )
-        {
-         // Задаем путь к приложению.
-         CHAR Path[ SIZE_OF_PATH ] = "";
-         strcpy( Path, Repository.Items[ Position ].Path );
-         strcat( Path, "\\" );
-         strcat( Path, Exe_name );
-
-         // Если для приложения задан файл *.cmd - вызываем его.
-         CHAR Cmd_path[ SIZE_OF_PATH ] = ""; strcpy( Cmd_path, Path );
-
-         PCHAR Extension = stristr( ".exe", Cmd_path );
-
-         if( Extension != NULL )
-          {
-           *( Extension + 1 ) = 'c';
-           *( Extension + 2 ) = 'm';
-           *( Extension + 3 ) = 'd';
-          }
-
-         if( FileExists( Cmd_path ) ) strcpy( Path, Cmd_path );
-
-         // Если используется оболочка WPS - вызываем значок.
-         if( ShellIsWPS() )
-          {
-           Success = WinOpenObject( QueryWPSObject( Path ), OPEN_DEFAULT, SHOW_EXISTING );
-          }
-         // Иначе - вызываем приложение.
-         else
-          {
-           Success = Execute( Path );
-          }
-        }
-
-       // Если приложение было вызвано - возврат.
-       if( Success ) return 1;
+       // Пробуем вызвать окно приложения, затем WPS-значок и само приложение.
+       // Если хотя бы одно из этих действий было выполенно - больше ничего делать не надо.
+       if( Step == 0 ) { if( Launcher_FindAndShowFrameWindow( Position, FLT_VISIBLE ) ) return 1; }
+       if( Step == 1 ) { if( Launcher_FindAndShowFrameWindow( Position, FLT_HIDDEN ) ) return 1;  }
+       if( Step == 2 ) { if( Launcher_FindAndOpenWPSObject( Position ) ) return 1;                }
+       if( Step == 3 ) { if( Launcher_FindAndStartExeFile( Position ) ) return 1;                 }
+      }
+     // А если его нет или список был пройден - выходим из цикла.
+     else
+      {
+       // Выходим из внутреннего цикла.
+       break;
       }
     }
   }
@@ -263,40 +387,42 @@ VOID Launcher_ShowShellToolbarMenu( LONG Toolbar )
  // Узнаем окно рабочего стола.
  HWND Desktop = QueryDesktopWindow();
 
- // Перебираем окна.
- HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если это окно меню оболочки:
-   if( ( Toolbar == FIND_WARPCENTER && IsWarpCenterWindow( Window ) ) ||
-       ( Toolbar == FIND_SYSTRAY && IsSysTrayWindow( Window ) ) ||
-       ( Toolbar == FIND_ECENTER && IsECenterWindow( Window ) ) )
-    {
-     // Если окно скрыто - показываем его.
-     if( !WinIsWindowVisible( Window ) ) WinShowWindow( Window, 1 );
+ {
+  // Перебираем окна.
+  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если это окно меню оболочки:
+    if( ( Toolbar == FIND_WARPCENTER && IsWarpCenterWindow( Window ) ) ||
+        ( Toolbar == FIND_SYSTRAY && IsSysTrayWindow( Window ) ) ||
+        ( Toolbar == FIND_ECENTER && IsECenterWindow( Window ) ) )
+     {
+      // Если окно скрыто - показываем его.
+      if( !WinIsWindowVisible( Window ) ) WinShowWindow( Window, 1 );
 
-     // Вызываем окно и делаем его выбранным.
-     WinSetActiveWindow( Desktop, Window );
+      // Вызываем окно и делаем его выбранным.
+      WinSetActiveWindow( Desktop, Window );
 
-     // Узнаем расположение окна.
-     SWP Window_placement = {0}; WinQueryWindowPos( Window, &Window_placement );
+      // Узнаем расположение окна.
+      SWP Window_placement = {0}; WinQueryWindowPos( Window, &Window_placement );
 
-     // Узнаем окно, которое расположено в левом нижнем углу этого окна.
-     // Если внутреннего окна нет, будет возвращено это окно.
-     INT X_Point = 15; INT Y_Point = 15;
+      // Узнаем окно, которое расположено в левом нижнем углу этого окна.
+      // Если внутреннего окна нет, будет возвращено это окно.
+      INT X_Point = 15; INT Y_Point = 15;
 
-     POINT Desktop_point = { Window_placement.x + X_Point, Window_placement.y + Window_placement.cy - Y_Point };
-     HWND Inner_window = WinWindowFromPoint( Desktop, &Desktop_point, 1 );
+      POINT Desktop_point = { Window_placement.x + X_Point, Window_placement.y + Window_placement.cy - Y_Point };
+      HWND Inner_window = WinWindowFromPoint( Desktop, &Desktop_point, 1 );
 
-     // Посылаем внутреннему окну сообщение о нажатии кнопки мыши.
-     WinPostMsg( Inner_window, WM_BUTTON1DOWN, MRFROM2SHORT( X_Point, Y_Point ), MRFROM2SHORT( HT_NORMAL, KC_NONE ) );
-     WinPostMsg( Inner_window, WM_BUTTON1UP, MRFROM2SHORT( X_Point, Y_Point ), MRFROM2SHORT( HT_NORMAL, KC_NONE ) );
+      // Посылаем внутреннему окну сообщение о нажатии кнопки мыши.
+      WinPostMsg( Inner_window, WM_BUTTON1DOWN, MRFROM2SHORT( X_Point, Y_Point ), MRFROM2SHORT( HT_NORMAL, KC_NONE ) );
+      WinPostMsg( Inner_window, WM_BUTTON1UP, MRFROM2SHORT( X_Point, Y_Point ), MRFROM2SHORT( HT_NORMAL, KC_NONE ) );
 
-     // Завершаем перебор окон.
-     break;
-    }
-  }
- WinEndEnumWindows( Enumeration );
+      // Завершаем перебор окон.
+      break;
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Возврат.
  return;
@@ -314,56 +440,58 @@ VOID Launcher_HideShellToolbarMenu( BYTE Activate_window_in_center = 0 )
  // Узнаем окно рабочего стола.
  HWND Desktop = QueryDesktopWindow();
 
- // Перебираем окна.
- HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Проверяем окно.
-   LONG Found = 0;
+ {
+  // Перебираем окна.
+  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Проверяем окно.
+    LONG Found = 0;
 
-   if( IsWarpCenterMenuWindow( Window ) ) Found = FIND_WARPCENTER;
-   if( IsSysTrayMenuWindow( Window ) ) Found = FIND_SYSTRAY;
-   if( IsECenterMenuWindow( Window ) ) Found = FIND_ECENTER;
+    if( IsWarpCenterMenuWindow( Window ) ) Found = FIND_WARPCENTER;
+    if( IsSysTrayMenuWindow( Window ) ) Found = FIND_SYSTRAY;
+    if( IsECenterMenuWindow( Window ) ) Found = FIND_ECENTER;
 
-   // Если это окно меню оболочки:
-   if( Found )
-    {
-     // Меню WarpCenter надо передавать сообщения напрямую. Другим меню отправлять его
-     // так нельзя - меню отправляет такие сообщения владельцу, который пропускает их.
-     BYTE Send_messages = 0; if( Found == FIND_WARPCENTER ) Send_messages = 1;
+    // Если это окно меню оболочки:
+    if( Found )
+     {
+      // Меню WarpCenter надо передавать сообщения напрямую. Другим меню отправлять его
+      // так нельзя - меню отправляет такие сообщения владельцу, который пропускает их.
+      BYTE Send_messages = 0; if( Found == FIND_WARPCENTER ) Send_messages = 1;
 
-     // Составляем сообщение о нажатии клавиши Esc.
-     MPARAM First_parameter_1 = 0; MPARAM Second_parameter_1 = 0;
-     MPARAM First_parameter_2 = 0; MPARAM Second_parameter_2 = 0;
-     ComposeWMCharMessage( &First_parameter_1, &Second_parameter_1, &First_parameter_2, &Second_parameter_2, SC_ESC, 0, 0 );
+      // Составляем сообщение о нажатии клавиши Esc.
+      MPARAM First_parameter_1 = 0; MPARAM Second_parameter_1 = 0;
+      MPARAM First_parameter_2 = 0; MPARAM Second_parameter_2 = 0;
+      ComposeWMCharMessage( &First_parameter_1, &Second_parameter_1, &First_parameter_2, &Second_parameter_2, SC_ESC, 0, 0 );
 
-     // Посылаем сообщение и ждем ответа, если это требуется.
-     if( Send_messages )
-      {
-       WinSendMsg( Window, WM_CHAR, First_parameter_1, Second_parameter_1 );
-       WinSendMsg( Window, WM_CHAR, First_parameter_2, Second_parameter_2 );
-      }
-     else
-      {
-       WinPostMsg( Window, WM_CHAR, First_parameter_1, Second_parameter_1 );
-       WinPostMsg( Window, WM_CHAR, First_parameter_2, Second_parameter_2 );
-      }
+      // Посылаем сообщение и ждем ответа, если это требуется.
+      if( Send_messages )
+       {
+        WinSendMsg( Window, WM_CHAR, First_parameter_1, Second_parameter_1 );
+        WinSendMsg( Window, WM_CHAR, First_parameter_2, Second_parameter_2 );
+       }
+      else
+       {
+        WinPostMsg( Window, WM_CHAR, First_parameter_1, Second_parameter_1 );
+        WinPostMsg( Window, WM_CHAR, First_parameter_2, Second_parameter_2 );
+       }
 
-     // Запоминаем, что действие выполнено.
-     Action_is_performed = 1;
+      // Запоминаем, что действие выполнено.
+      Action_is_performed = 1;
 
-     // Если найден eCenter, надо выбирать окно в середине экрана, используя поток WindowManager.
-     if( Found == FIND_ECENTER )
-      {
-       Post_queue_message = 1;
-       Frame_window = QueryFrameWindow( WinQueryWindow( Window, QW_OWNER ) );
-      }
+      // Если найден eCenter, надо выбирать окно в середине экрана, используя поток WindowManager.
+      if( Found == FIND_ECENTER )
+       {
+        Post_queue_message = 1;
+        Frame_window = QueryFrameWindow( WinQueryWindow( Window, QW_OWNER ) );
+       }
 
-     // Завершаем перебор окон.
-     break;
-    }
-  }
- WinEndEnumWindows( Enumeration );
+      // Завершаем перебор окон.
+      break;
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Делаем выбранным окно в середине экрана.
  if( Action_is_performed && Activate_window_in_center )
@@ -395,41 +523,43 @@ VOID Launcher_ToggleEPager( VOID )
  // Узнаем окно рабочего стола.
  HWND Desktop = QueryDesktopWindow();
 
- // Перебираем окна.
- HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если это окно ePager:
-   if( IsEPagerWindow( Window ) )
-    {
-     // Если показано меню WarpCenter - прячем его.
-     if( SystemWindowIsPresent( FIND_ALL_TOOLBAR_MENUS, FIND_VISIBLE_WINDOW ) )
-      {
-       Launcher_HideShellToolbarMenu( 0 );
-       Launcher_HideShellToolbarMenu( 0 );
-      }
+ {
+  // Перебираем окна.
+  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если это окно ePager:
+    if( IsEPagerWindow( Window ) )
+     {
+      // Если показано меню WarpCenter - прячем его.
+      if( SystemWindowIsPresent( FIND_ALL_TOOLBAR_MENUS, FIND_VISIBLE_WINDOW ) )
+       {
+        Launcher_HideShellToolbarMenu( 0 );
+        Launcher_HideShellToolbarMenu( 0 );
+       }
 
-     // Если окно ePager не выбрано:
-     if( !WindowIsActive( Window ) )
-      {
-       // Если окно скрыто - показываем его.
-       if( !WinIsWindowVisible( Window ) ) WinShowWindow( Window, 1 );
+      // Если окно ePager не выбрано:
+      if( !WindowIsActive( Window ) )
+       {
+        // Если окно скрыто - показываем его.
+        if( !WinIsWindowVisible( Window ) ) WinShowWindow( Window, 1 );
 
-       // Вызываем окно и делаем его выбранным.
-       WinSetActiveWindow( Desktop, Window );
-      }
-     // А если оно уже вызвано:
-     else
-      {
-       // Делаем выбранным окно в середине экрана.
-       ActivateWindowInCenter();
-      }
+        // Вызываем окно и делаем его выбранным.
+        WinSetActiveWindow( Desktop, Window );
+       }
+      // А если оно уже вызвано:
+      else
+       {
+        // Делаем выбранным окно в середине экрана.
+        ActivateWindowInCenter();
+       }
 
-     // Завершаем перебор окон.
-     break;
-    }
-  }
- WinEndEnumWindows( Enumeration );
+      // Завершаем перебор окон.
+      break;
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Возврат.
  return;
@@ -471,16 +601,6 @@ VOID Launcher_ShowFileBarMenu( VOID )
 // Show_window - скрыть или показать окно, Show_at_pointer - переместить его к указателю мыши.
 VOID Launcher_ShowWindowList( BYTE Show_window, LONG Show_at_pointer = 0 )
 {
- // Если показано окно сообщения об ошибке - возврат.
- if( SystemWindowIsPresent( FIND_SYSMSG_WINDOW, FIND_VISIBLE_WINDOW ) )
-  {
-   // Звук.
-   WinAlarm( QueryDesktopWindow(), WA_NOTE );
-
-   // Возврат.
-   return;
-  }
-
  // Перебираем окна.
  HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
@@ -1023,7 +1143,7 @@ VOID Launcher_DoSystemAction( INT Action, LONG Do_not_check_mouse = 0 )
      if( Window_in_center != NULLHANDLE ) if( Window_in_center != Active_window )
       {
        // Делаем выбранным окно в середине экрана.
-       MoveWindowAbove( Window_in_center );
+       Launcher_MoveWindowAbove( Window_in_center );
 
        // Возврат.
        return;
@@ -1059,7 +1179,7 @@ VOID Launcher_DoSystemAction( INT Action, LONG Do_not_check_mouse = 0 )
      }
 
    // Делаем окно выбранным.
-   MoveWindowAbove( Next_window );
+   Launcher_MoveWindowAbove( Next_window );
 
    // Возврат.
    return;
@@ -1067,13 +1187,14 @@ VOID Launcher_DoSystemAction( INT Action, LONG Do_not_check_mouse = 0 )
 
  // Если пользователь работает с окном приложения, которое соответствует этой команде -
  // прячем его и выбираем окно в середине экрана.
- if( Launcher_CheckActiveWindowAndHideApplication( Action, FLT_ALL ) ) return;
-
  // Если одно из известных приложений может откликнуться на эту команду - вызываем его.
- // Если для этой команды был задан значок - приложение будет вызвано в первую очередь.
- if( Launcher_FindAndShowApplication( Action, FLT_DESIRED ) ) return;
- if( Launcher_FindAndShowApplication( Action, FLT_SUITABLE ) ) return;
- 
+ // Если ни одного окна не найдено - вызываем значок на рабочем столе или приложение.
+ if( Launcher_CheckAndHideActiveWindow( Action, FLT_DESIRED ) ||
+     Launcher_FindAndShowApplication( Action, FLT_DESIRED ) ) return;
+
+ if( Launcher_CheckAndHideActiveWindow( Action, FLT_SUITABLE ) ||
+     Launcher_FindAndShowApplication( Action, FLT_SUITABLE ) ) return;
+
  // Вызываем значок на рабочем столе.
  // Он будет вызван только если для этой команды нет подходящего приложения.
  if( Action >= SHOW_OBJECT_FIRST && Action <= SHOW_OBJECT_LAST )

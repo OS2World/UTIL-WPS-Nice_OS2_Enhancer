@@ -36,7 +36,7 @@ VOID Controller_ReadSettings( HINI Ini_file )
 
  Byte = sizeof( BYTE ); if( PrfQueryProfileData( Ini_file, "Settings", "Reset Shift keys", &Byte_data, &Byte ) ) Controller.Settings.Reset_Shift_keys = Byte_data;
 
- Byte = sizeof( BYTE ); if( PrfQueryProfileData( Ini_file, "Settings", "SpeedUp keyboard", &Byte_data, &Byte ) ) Controller.Settings.SpeedUp_keyboard = Byte_data;
+ Byte = sizeof( BYTE ); if( PrfQueryProfileData( Ini_file, "Settings", "Speed up keyboard", &Byte_data, &Byte ) ) Controller.Settings.SpeedUp_keyboard = Byte_data;
  Byte = sizeof( BYTE ); if( PrfQueryProfileData( Ini_file, "Settings", "Keyboard rate", &Byte_data, &Byte ) ) Controller.Settings.Keyboard_rate = Byte_data;
 
  Byte = sizeof( BYTE ); if( PrfQueryProfileData( Ini_file, "Settings", "Suppress Ctrl+Alt+Del", &Byte_data, &Byte ) ) Controller.Settings.Suppress_CtrlAltDel = Byte_data;

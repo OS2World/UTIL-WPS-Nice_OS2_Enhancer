@@ -87,11 +87,11 @@ MRESULT EXPENTRY Drawing_Titlebars_WndProc( HWND Window, ULONG Message, MPARAM F
           WinQueryPresParam( WinWindowFromID( WinWindowFromID( WinWindowFromID( Window, Drawing_Titlebars.Settings.NeonPalette_Container_ID ), Drawing_Titlebars.Settings.NeonPalette_Palette_ID ), Drawing_Titlebars.Settings.NeonPalette_Inactive_3_ID ), PP_BACKGROUNDCOLOR, 0, NULL, sizeof( ULONG ), &Painter.Settings.IT_Color_3, QPF_NOINHERIT );
          }
 
-         PrfWriteProfileData( Ini_file, "Drawing", "AT Text color", &Painter.Settings.AT_Text_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "AT Background color", &Painter.Settings.AT_Background_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "AT Color", &Painter.Settings.AT_Text_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "AT BG Color", &Painter.Settings.AT_Background_color, sizeof( LONG ) );
 
-         PrfWriteProfileData( Ini_file, "Drawing", "IT Text color", &Painter.Settings.IT_Text_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "IT Background color", &Painter.Settings.IT_Background_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "IT Color", &Painter.Settings.IT_Text_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "IT BG Color", &Painter.Settings.IT_Background_color, sizeof( LONG ) );
 
          PrfWriteProfileData( Ini_file, "Drawing", "AT Color 1", &Painter.Settings.AT_Color_1, sizeof( LONG ) );
          PrfWriteProfileData( Ini_file, "Drawing", "AT Color 2", &Painter.Settings.AT_Color_2, sizeof( LONG ) );

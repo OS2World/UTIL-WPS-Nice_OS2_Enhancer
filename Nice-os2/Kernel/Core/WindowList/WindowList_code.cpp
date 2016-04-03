@@ -152,35 +152,37 @@ HWND Krnl_WindowList_FindFrameWindowInWindowList( PCHAR WinList_title )
  // Окно может быть не найдено.
  HWND Frame_window = NULLHANDLE;
 
- // Перебираем окна в окне рабочего стола.
- HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Узнаем свойства окна.
-   HSWITCH Switch_handle = WinQuerySwitchHandle( Window, NULLHANDLE );
-   SWCNTRL Task = {0}; WinQuerySwitchEntry( Switch_handle, &Task );
+ {
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Узнаем свойства окна.
+    HSWITCH Switch_handle = WinQuerySwitchHandle( Window, NULLHANDLE );
+    SWCNTRL Task = {0}; WinQuerySwitchEntry( Switch_handle, &Task );
 
-   // Если они были получены:
-   if( Task.hwnd != NULLHANDLE )
-    {
-     // Если окно недоступно в списке окон - ничего делать не надо.
-     if( Task.uchVisibility != SWL_VISIBLE ) continue;
+    // Если они были получены:
+    if( Task.hwnd != NULLHANDLE )
+     {
+      // Если окно недоступно в списке окон - ничего делать не надо.
+      if( Task.uchVisibility != SWL_VISIBLE ) continue;
 
-     // Если заголовок окна неизвестен - ничего делать не надо.
-     if( Task.szSwtitle == NULL ) continue;
+      // Если заголовок окна неизвестен - ничего делать не надо.
+      if( Task.szSwtitle == NULL ) continue;
 
-     // Если заголовок содержит искомую строку:
-     if( stristr( WinList_title, Task.szSwtitle ) )
-      {
-       // Запоминаем окно.
-       Frame_window = QueryFrameWindow( Window );
+      // Если заголовок содержит искомую строку:
+      if( stristr( WinList_title, Task.szSwtitle ) )
+       {
+        // Запоминаем окно.
+        Frame_window = QueryFrameWindow( Window );
 
-       // Прекращаем перебор окон.
-       break;
-      }
-    }
-  }
- WinEndEnumWindows( Enumeration );
+        // Прекращаем перебор окон.
+        break;
+       }
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Возврат.
  return Frame_window;

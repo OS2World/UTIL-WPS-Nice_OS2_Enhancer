@@ -5,10 +5,10 @@ VOID MMKbdListener_WaitKeyboardEvents( VOID )
 {
  // Проверяем, работает ли "MMKbd.exe"
  CHAR MMKbd_semaphore_name[] = "\\SEM32\\MMKbd"; HMTX MMKbd_semaphore = NULLHANDLE;
- if( DosOpenMutexSem( MMKbd_semaphore_name, &MMKbd_semaphore ) != NO_ERROR ) 
-  { 
-   WinPostQueueMsg( Enhancer.Modules.MMKbdListener->Message_queue, WM_QUIT, 0, 0 ); 
-   return; 
+ if( DosOpenMutexSem( MMKbd_semaphore_name, &MMKbd_semaphore ) != NO_ERROR )
+  {
+   WinPostQueueMsg( Enhancer.Modules.MMKbdListener->Message_queue, WM_QUIT, 0, 0 );
+   return;
   }
  DosCloseMutexSem( MMKbd_semaphore );
 
@@ -34,10 +34,8 @@ VOID MMKbdListener_WaitKeyboardEvents( VOID )
      if( Input_window == NULLHANDLE ) Input_window = QueryDesktopWindow();
 
      // Задаем сочетание клавиш.
-     ULONG Position = Record_number - 1;
-
-     CHAR New_character_code = Char_codes[ Position ];
-     BYTE New_scan_code = Scan_codes[ Position ];
+     CHAR New_character_code = Char_codes[ Record_number ];
+     BYTE New_scan_code = Scan_codes[ Record_number ];
      LONG New_modifiers = 0;
 
      // Составляем сообщения о нажатии и отжатии клавиши.
@@ -49,18 +47,17 @@ VOID MMKbdListener_WaitKeyboardEvents( VOID )
      // Для этих клавиш не будет выполняться проверка, нажаты ли они на самом деле.
      WinPostMsg( Input_window, WM_CHAR, First_parameter_1, Second_parameter_1 );
      WinPostMsg( Input_window, WM_CHAR, First_parameter_2, Second_parameter_2 );
+
+     // Сбрасываем событийные семафоры в начальное состояние.
+     for( INT Count = 0; Count < Quantity; Count ++ )
+      {
+       HEV Semaphore = (HEV) Semaphores[ Count ].hsemCur; ULONG Post_count = 0;
+       DosResetEventSem( Semaphore, &Post_count );
+      }
     }
 
    // Выполняем короткую задержку на случай "дрожания" клавиш.
    Retard();
-
-   // Сбрасываем событийные семафоры в начальное состояние.
-   for( INT Count = 0; Count < Quantity; Count ++ )
-    {
-     ULONG Post_count = 0;
-     HEV Semaphore = (HEV) Semaphores[ Count ].hsemCur;
-     DosResetEventSem( Semaphore, &Post_count );
-    }
   }
 
  // Удаляем семафоры.

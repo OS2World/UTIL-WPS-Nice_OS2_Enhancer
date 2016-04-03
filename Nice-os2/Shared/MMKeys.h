@@ -6,17 +6,11 @@
 #define MMK_SLEEP                           0x8002
 #define MMK_SLEEP_SEMAPHORE_NAME            "\\SEM32\\MMKbdKey\\Sleep"
 
-#define MMK_WAKEUP                          0x8003
-#define MMK_WAKEUP_SEMAPHORE_NAME           "\\SEM32\\MMKbdKey\\WakeUp"
-
 #define MMK_MAIL_READER                     0x8004
 #define MMK_MAIL_READER_SEMAPHORE_NAME      "\\SEM32\\MMKbdKey\\MailReader"
 
-#define MMK_USB_MEDIA                       0x8005
-#define MMK_USB_MEDIA_SEMAPHORE_NAME        "\\SEM32\\MMKbdKey\\USBKbdMedia"
-
-#define MMK_USB_MAIL_READER                 0x8006
-#define MMK_USB_MAIL_READER_SEMAPHORE_NAME  "\\SEM32\\MMKbdKey\\USBKbdMailReader"
+#define MMK_MEDIA_PLAYER                    0x8005
+#define MMK_MEDIA_PLAYER_SEMAPHORE_NAME     "\\SEM32\\MMKbdKey\\MediaPlayer"
 
 #define MMK_PAGE_LEFT                       0x8007
 #define MMK_PAGE_LEFT_SEMAPHORE_NAME        "\\SEM32\\MMKbdKey\\USBKbdPageLeft"

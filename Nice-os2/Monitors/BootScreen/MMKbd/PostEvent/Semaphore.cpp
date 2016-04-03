@@ -1,40 +1,38 @@
 // ─── Сообщает внешнему приложению о нажатии клавиши ───
 
-VOID PostEventSemaphore( ULONG ulKnownKeyNumber )
+VOID PostEventSemaphore (ULONG Known_key_number)
 {
- // Чтобы сообщить о нажатии клавиши, можно включить событийный семафор,
- // который должен быть создан внешним приложением (например, в одном из
- // потоков Nice). Задаем название семафора.
- CHAR strSemaphoreName[ 256 ] = "";
+  // Чтобы сообщить о нажатии клавиши, можно включить событийный семафор,
+  // который должен быть создан внешним приложением (например, в одном из
+  // потоков Nice). Задаем название семафора.
+  CHAR Semaphore_name[256] = "";
 
- switch( ulKnownKeyNumber )
+  switch (Known_key_number)
   {
-   case MMK_POWER:           strcpy( strSemaphoreName, MMK_POWER_SEMAPHORE_NAME           ); break;
-   case MMK_SLEEP:           strcpy( strSemaphoreName, MMK_SLEEP_SEMAPHORE_NAME           ); break;
-   case MMK_WAKEUP:          strcpy( strSemaphoreName, MMK_WAKEUP_SEMAPHORE_NAME          ); break;
-   case MMK_MAIL_READER:     strcpy( strSemaphoreName, MMK_MAIL_READER_SEMAPHORE_NAME     ); break;
-   case MMK_USB_MEDIA:       strcpy( strSemaphoreName, MMK_USB_MEDIA_SEMAPHORE_NAME       ); break;
-   case MMK_USB_MAIL_READER: strcpy( strSemaphoreName, MMK_USB_MAIL_READER_SEMAPHORE_NAME ); break;
-   case MMK_PAGE_LEFT:       strcpy( strSemaphoreName, MMK_PAGE_LEFT_SEMAPHORE_NAME       ); break;
-   case MMK_PAGE_RIGHT:      strcpy( strSemaphoreName, MMK_PAGE_RIGHT_SEMAPHORE_NAME      ); break;
+    case MMK_POWER:           strcpy (Semaphore_name, MMK_POWER_SEMAPHORE_NAME           ); break;
+    case MMK_SLEEP:           strcpy (Semaphore_name, MMK_SLEEP_SEMAPHORE_NAME           ); break;
+    case MMK_MAIL_READER:     strcpy (Semaphore_name, MMK_MAIL_READER_SEMAPHORE_NAME     ); break;
+    case MMK_MEDIA_PLAYER:    strcpy (Semaphore_name, MMK_MEDIA_PLAYER_SEMAPHORE_NAME    ); break;
+    case MMK_PAGE_LEFT:       strcpy (Semaphore_name, MMK_PAGE_LEFT_SEMAPHORE_NAME       ); break;
+    case MMK_PAGE_RIGHT:      strcpy (Semaphore_name, MMK_PAGE_RIGHT_SEMAPHORE_NAME      ); break;
 
-   default: return;
+    default: return;
   }
 
- // Включаем семафор.
- if( strSemaphoreName[ 0 ] != 0 )
+  // Включаем семафор.
+  if (Semaphore_name[0] != 0)
   {
-   HEV hSemaphore = NULLHANDLE; ULONG ulPostCount = 0;
+    HEV Semaphore = NULLHANDLE; ULONG Post_count = 0;
 
-   if( DosOpenEventSem( strSemaphoreName, &hSemaphore ) == NO_ERROR &&
-       DosQueryEventSem( hSemaphore, &ulPostCount) == NO_ERROR) 
+    if (DosOpenEventSem (Semaphore_name, &Semaphore) == NO_ERROR &&
+        DosQueryEventSem (Semaphore, &Post_count) == NO_ERROR)
     {
-     DosPostEventSem( hSemaphore );
+      APIRET RC = DosPostEventSem (Semaphore);
     }
 
-   if( hSemaphore != NULLHANDLE ) DosClose( hSemaphore );
+    if (Semaphore != NULLHANDLE) DosClose (Semaphore);
   }
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

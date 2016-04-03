@@ -156,7 +156,7 @@ ULONG WinPrpList_GetSizeOfData( LISTPRP Property )
 VOID WinPrpList_SetProperty( HWND Frame_window, LONG Property, PVOID Data )
 {
  // Находим окно.
- AbstractPrpList_SetProperty( &WinPrpList.Descendant, Frame_window, Property, Data );
+ PrpList_SetProperty( &WinPrpList.Descendant, Frame_window, Property, Data );
 
  // Возврат.
  return;
@@ -168,7 +168,7 @@ VOID WinPrpList_SetProperty( HWND Frame_window, LONG Property, PVOID Data )
 VOID WinPrpList_FindProperty( HWND Frame_window, LONG Property, PVOID Data )
 {
  // Находим окно.
- AbstractPrpList_FindProperty( &WinPrpList.Descendant, Frame_window, Property, Data );
+ PrpList_FindProperty( &WinPrpList.Descendant, Frame_window, Property, Data );
 
  // Возврат.
  return;
@@ -180,7 +180,7 @@ VOID WinPrpList_FindProperty( HWND Frame_window, LONG Property, PVOID Data )
 VOID WinPrpList_DiscardUnusedProperties( HWND Frame_window )
 {
  // Просматриваем список.
- for( INT Count = AbstractPrpList_GetTopItemPosition( &WinPrpList.Descendant ); Count >= 0; Count -- )
+ for( INT Count = PrpList_GetTopItemPosition( &WinPrpList.Descendant ); Count >= 0; Count -- )
   {
    // Проверяем окно.
    if( WinPrpList_IsItemEmpty( Count ) ) continue;

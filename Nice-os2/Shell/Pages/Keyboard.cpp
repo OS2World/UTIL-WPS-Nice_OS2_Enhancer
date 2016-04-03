@@ -11,10 +11,6 @@ VOID Keyboard_Start( LONG Settings_to_show = SET_ALL_SETTINGS )
  bzero( &Keyboard_Actions, sizeof( Keyboard_Actions ) );
  #endif
 
- #ifdef Keyboard_Repository
- bzero( &Keyboard_Repository, sizeof( Keyboard_Repository ) );
- #endif
-
  #ifdef Keyboard_Clipboard
  bzero( &Keyboard_Clipboard, sizeof( Keyboard_Clipboard ) );
  #endif
@@ -100,30 +96,6 @@ VOID Keyboard_Start( LONG Settings_to_show = SET_ALL_SETTINGS )
   Keyboard_Actions.Settings.SplitView_ID       = 1006;
   Keyboard_Actions.Settings.Key_list_ID        = 1007;
   Keyboard_Actions.Settings.Action_list_ID     = 1008;
- }
-
- {
-  // Задаем указатели в списке составляющих расширителя.
-  {
-   PAGE Item; PresetPageItem( &Item );
-
-   Item.Style = BKA_MINOR;
-
-   if( Code_page == RUSSIAN ) strcpy( Item.Name, StrConst_RU_Pages_Keyboard_repository_Name );
-   else strcpy( Item.Name, StrConst_EN_Pages_Keyboard_repository_Name );
-
-   Item.Settings_to_show = SET_KEYBOARD;
-   strcpy( Item.Icon_name, "Kbd_page.ico" );
-
-   Item.CreatePage     = Keyboard_Repository_CreatePage;
-   Item.SetDefSettings = Inspector_SetPreDefinedSettings;
-   Item.ReadSettings   = Inspector_ReadSettings;
-
-   RememberPageItem( Enhancer.Pages.Keyboard_repository, &Item );
-  }
-
-  // Задаем ID полей ввода.
-  Keyboard_Repository.Settings.CheckWPS_button_ID  = 1001;
  }
 
  {

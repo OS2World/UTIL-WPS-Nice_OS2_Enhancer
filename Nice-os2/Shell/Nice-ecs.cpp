@@ -1,5 +1,6 @@
 // Постоянные величины.
 #include "..\\Shared\\General.h"
+#pragma pack(4)
 
 // Вызовы C/C++.
 #include "..\\Shared\\StdLib\\StdLib_code.cpp"
@@ -28,6 +29,7 @@
 
 // Свойства окружения.
 #include "..\\Shared\\SysState.h"
+#pragma pack(4)
 
 // Клавиши.
 #include "..\\Shared\\Scan_codes.h"
@@ -144,7 +146,6 @@ typedef struct _PAGE_POINTERS
   PPAGE Rooms_exceptions;
   PPAGE Keyboard_keys;
   PPAGE Keyboard_actions;
-  PPAGE Keyboard_repository;
   PPAGE Keyboard_ffx;
   PPAGE Keyboard_break;
   PPAGE Keyboard_various;
@@ -340,11 +341,6 @@ ENHANCER; ENHANCER Enhancer;
 #include "Pages\\Keyboard\\Keyboard_actions_data.cpp"
 #include "Pages\\Keyboard\\Keyboard_actions_page.cpp"
 #include "Pages\\Keyboard\\Keyboard_actions_open.cpp"
-#include "..\\Kernel\\Modules\\Inspector\\Inspector_data.cpp"
-#include "..\\Kernel\\Modules\\Inspector\\Inspector_init.cpp"
-#include "Pages\\Keyboard\\Keyboard_repository_data.cpp"
-#include "Pages\\Keyboard\\Keyboard_repository_page.cpp"
-#include "Pages\\Keyboard\\Keyboard_repository_open.cpp"
 #include "..\\Kernel\\Modules\\KeyMapper\\KeyMapper_data.cpp"
 #include "..\\Kernel\\Modules\\KeyMapper\\KeyMapper_init.cpp"
 #include "..\\Kernel\\Modules\\Controller\\Controller_data.cpp"
@@ -513,12 +509,13 @@ INT main( INT argc, PCHAR argv[] )
  Connector_Start();
 
  // Узнаем страну, в которой работает приложение.
- Enhancer.Code_page = QuerySystemCodePage();
+ if( argc >= 3 && stristr( "english", argv[ 2 ] ) ) Enhancer.Code_page = ENGLISH;
+ else Enhancer.Code_page = QuerySystemCodePage();
 
  // Узнаем, как должно должно выглядеть окно приложения.
  Enhancer.Settings_to_show = SET_ALL_SETTINGS;
 
- if( argc == 2 )
+ if( argc >= 2 )
   {
    if( stristr( "icon", argv[ 1 ] ) || stristr( "min", argv[ 1 ] ) )
     {
@@ -545,24 +542,26 @@ INT main( INT argc, PCHAR argv[] )
  {
   CHAR Enhancer_title[ SIZE_OF_TITLE ] = ""; GetEnhancerWindowTitle( Enhancer_title );
 
-  // Перебираем окна в окне рабочего стола.
-  HENUM Enumeration = WinBeginEnumWindows( WinQueryDesktopWindow( Enhancer.Application, NULLHANDLE ) ); HWND Window = NULLHANDLE;
-  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-   {
-    // Если окно создано расширителем - запоминаем его.
-    if( IsFrameWindow( Window ) && WindowIsCreatedBy( APP_NICE, Window ) )
-     {
-      CHAR Window_name[ SIZE_OF_NAME ] = ""; 
-      WinQueryClassName( WinWindowFromID( Window, FID_CLIENT ), SIZE_OF_NAME, Window_name );
+  {
+   // Перебираем окна в окне рабочего стола.
+   HENUM Enumeration = WinBeginEnumWindows( WinQueryDesktopWindow( Enhancer.Application, NULLHANDLE ) ); HWND Window = NULLHANDLE;
+   while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+    {
+     // Если окно создано расширителем - запоминаем его.
+     if( IsFrameWindow( Window ) && WindowIsCreatedBy( APP_NICE, Window ) )
+      {
+       CHAR Window_name[ SIZE_OF_NAME ] = "";
+       WinQueryClassName( WinWindowFromID( Window, FID_CLIENT ), SIZE_OF_NAME, Window_name );
 
-      if( strc( Window_name, "NiceOS2WndClass!E" ) ) 
-       {
-        Enhancer.Remote_window = Window;
-        break;
-       }
-     }
-   }
-  WinEndEnumWindows( Enumeration );
+       if( strc( Window_name, "NiceOS2WndClass!E" ) )
+        {
+         Enhancer.Remote_window = Window;
+         break;
+        }
+      }
+    }
+   WinEndEnumWindows( Enumeration );
+  }
  }
 
  // Если надо вызвать настройки, но не задана страница для них - пробуем открыть окно WPS.
@@ -700,6 +699,9 @@ INT main( INT argc, PCHAR argv[] )
    // Открываем файл настроек.
    CHAR Settings_file_name[ SIZE_OF_PATH ] = ""; GetSettingsFileName( Settings_file_name );
    HINI Ini_file = OpenIniProfile( Enhancer.Application, Settings_file_name );
+
+   // Если его не удалось открыть - возврат.
+   if( !Ini_file ) return 0;
 
    // Читаем настройки. При этом следим за тем, чтобы ни один метод не вызывался дважды.
    typedef struct _PAGEPROC_POINTER

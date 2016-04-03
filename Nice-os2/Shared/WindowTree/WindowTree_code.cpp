@@ -8,26 +8,28 @@ VOID WindowTree_EnumerateWindows( HWND Parent_window, PHWND Array, INT Length, P
  // Если массив заполнен до отказа - возврат.
  if( *Quantity >= Length ) return;
 
- // Перебираем окна в указанном окне.
- HENUM Enumeration = WinBeginEnumWindows( Parent_window ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Запоминаем окно.
-   INT Current_position = ( *Quantity - 1 );
-   INT Next_position = Current_position + 1; Array[ Next_position ] = Window;
+ {
+  // Перебираем окна в указанном окне.
+  HENUM Enumeration = WinBeginEnumWindows( Parent_window ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Запоминаем окно.
+    INT Current_position = ( *Quantity - 1 );
+    INT Next_position = Current_position + 1; Array[ Next_position ] = Window;
 
-   // Увеличиваем переменную, содержащую число окон в массиве.
-   // Запись с использованием "двух плюсов" почему-то не сработала - странно...
-   *Quantity = *Quantity + 1;
+    // Увеличиваем переменную, содержащую число окон в массиве.
+    // Запись с использованием "двух плюсов" почему-то не сработала - странно...
+    *Quantity = *Quantity + 1;
 
-   // Если массив заполнен до отказа - прекращаем поиск.
-   if( *Quantity >= Length ) break;
+    // Если массив заполнен до отказа - прекращаем поиск.
+    if( *Quantity >= Length ) break;
 
-   // Пробуем найти окна внутри этого окна.
-   // Если их там нет - значения переменных не изменятся.
-   WindowTree_EnumerateWindows( Window, Array, Length, Quantity );
-  }
- WinEndEnumWindows( Enumeration );
+    // Пробуем найти окна внутри этого окна.
+    // Если их там нет - значения переменных не изменятся.
+    WindowTree_EnumerateWindows( Window, Array, Length, Quantity );
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Возврат.
  return;

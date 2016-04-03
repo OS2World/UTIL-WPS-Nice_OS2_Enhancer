@@ -6,6 +6,7 @@
 #include <Stdio.h>
 
 #include "..\\..\\Nice-os2\\Shared\\General.h"
+#pragma pack(4)
 
 #include "..\\..\\Nice-os2\\Shared\\Strings.h"
 #include "..\\..\\Nice-os2\\Shared\\Strings\\Strings_data.cpp"

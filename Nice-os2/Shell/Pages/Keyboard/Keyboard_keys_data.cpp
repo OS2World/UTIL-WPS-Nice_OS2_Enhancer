@@ -1,6 +1,6 @@
 // Клавиши и действия.
 #define MAX_KEYS          129
-#define MAX_ACTIONS       163
+#define MAX_ACTIONS       168
 
 // Окно настроек.
 typedef struct _KBDKEYSPAGE

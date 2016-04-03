@@ -111,7 +111,7 @@ MRESULT EXPENTRY Keyboard_Speed_WndProc( HWND Window, ULONG Message, MPARAM Firs
         {
          PrfWriteProfileData( Ini_file, "Settings", "Reset Shift keys", &Controller.Settings.Reset_Shift_keys, sizeof( BYTE ) );
 
-         PrfWriteProfileData( Ini_file, "Settings", "SpeedUp keyboard", &Controller.Settings.SpeedUp_keyboard, sizeof( BYTE ) );
+         PrfWriteProfileData( Ini_file, "Settings", "Speed up keyboard", &Controller.Settings.SpeedUp_keyboard, sizeof( BYTE ) );
          PrfWriteProfileData( Ini_file, "Settings", "Keyboard rate", &Controller.Settings.Keyboard_rate, sizeof( BYTE ) );
 
          PrfCloseProfile( Ini_file );

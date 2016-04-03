@@ -166,44 +166,46 @@ HPOINTER Diver_QueryWindowIcon( HWND Frame_window )
      if( IsWorkplaceShellWindow( Frame_window ) ) return (HPOINTER) WinSendMsg( Shell_window, WM_QUERYICON, 0, 0 );
     }
 
-   // Перебираем окна в окне рабочего стола.
-   HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
-   while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-    {
-     // Если это то же самое окно - продолжаем перебор окон.
-     if( Window == Frame_window ) continue;
+   {
+    // Перебираем окна в окне рабочего стола.
+    HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+    while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+     {
+      // Если это то же самое окно - продолжаем перебор окон.
+      if( Window == Frame_window ) continue;
 
-     // Узнаем расположение окна и его состояние.
-     SWP Window_state = {0}; WinQueryWindowPos( Window, &Window_state );
+      // Узнаем расположение окна и его состояние.
+      SWP Window_state = {0}; WinQueryWindowPos( Window, &Window_state );
 
-     // Если окно не скрыто и не уменьшено в значок:
-     if( !( Window_state.fl & SWP_HIDE ) ) if( !( Window_state.fl & SWP_MINIMIZE ) )
-      {
-       // Если в это окно нельзя переключиться - продолжаем перебор окон.
-       if( !PermissionForSwitching( Window ) ) continue;
-      }
+      // Если окно не скрыто и не уменьшено в значок:
+      if( !( Window_state.fl & SWP_HIDE ) ) if( !( Window_state.fl & SWP_MINIMIZE ) )
+       {
+        // Если в это окно нельзя переключиться - продолжаем перебор окон.
+        if( !PermissionForSwitching( Window ) ) continue;
+       }
 
-     // Узнаем очередь сообщений окна.
-     HMQ Window_queue = WinQueryWindowULong( Window, QWL_HMQ );
+      // Узнаем очередь сообщений окна.
+      HMQ Window_queue = WinQueryWindowULong( Window, QWL_HMQ );
 
-     // Если очереди совпадают - узнаем его значок.
-     if( Window_queue == Message_queue )
-      {
-       // Узнаем значок окна.
-       Icon = (HPOINTER) WinSendMsg( Window, WM_QUERYICON, 0, 0 );
+      // Если очереди совпадают - узнаем его значок.
+      if( Window_queue == Message_queue )
+       {
+        // Узнаем значок окна.
+        Icon = (HPOINTER) WinSendMsg( Window, WM_QUERYICON, 0, 0 );
 
-       // Если он есть - возвращаем его.
-       if( Icon != NULLHANDLE )
-        {
-         // Завершаем перебор окон.
-         WinEndEnumWindows( Enumeration );
+        // Если он есть - возвращаем его.
+        if( Icon != NULLHANDLE )
+         {
+          // Завершаем перебор окон.
+          WinEndEnumWindows( Enumeration );
 
-         // Возвращаем значок.
-         return Icon;
-        }
-      }
-    }
-   WinEndEnumWindows( Enumeration );
+          // Возвращаем значок.
+          return Icon;
+         }
+       }
+     }
+    WinEndEnumWindows( Enumeration );
+   }
 
    // Узнаем путь к приложению, создавшему окно.
    CHAR Path[ SIZE_OF_PATH ] = ""; GetDetectedExePath( Frame_window, Path );

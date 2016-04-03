@@ -136,7 +136,7 @@
 #define SC_MM_MUTE              0xD0     /* E0:20              */
 #define SC_MM_MEDIA             0x6D     /* E0:6D, E0:3D (USB) */
 
-#define SC_APP_MY_CONTOOPER     0x6B     /* E0:6B              */
+#define SC_APP_TERMINAL         0x6B     /* E0:6B              */
 #define SC_APP_CALCULATOR       0xD1     /* E0:21              */
 #define SC_APP_BROWSER          0xDA     /* E0:32              */
 #define SC_APP_MAIL_READER      0xFF     /* E0:6C, E0:6C (USB) */
@@ -169,7 +169,7 @@
 #define SC_CHERRY_K_F7          SC_MM_PREVIOUS_TRACK
 #define SC_CHERRY_K_F8          SC_MM_NEXT_TRACK
 #define SC_CHERRY_K_F9          SC_WEB_SEARCH
-#define SC_CHERRY_K_F10         SC_APP_MY_CONTOOPER
+#define SC_CHERRY_K_F10         SC_APP_TERMINAL
 #define SC_CHERRY_K_F11         SC_WEB_FAVORITES
 #define SC_CHERRY_CALCULATOR    SC_APP_CALCULATOR
 #define SC_CHERRY_MAIL          SC_APP_MAIL_READER

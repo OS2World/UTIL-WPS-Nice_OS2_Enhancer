@@ -2,8 +2,7 @@
 #define SM_PRIORITY                   ( WM_USER + 00 )
 #define SM_WRITE_SETTINGS             ( WM_USER + 01 )
 
-#define SM_CHECK_REPOSITORY           ( WM_USER + 10 )
-#define SM_CHECK_VIO_EXENAME          ( WM_USER + 11 )
+#define SM_CHECK_VIO_EXENAME          ( WM_USER + 10 )
 
 #define SM_SC_BEGIN                   ( WM_USER + 20 )
 #define SM_SC_DRAG                    ( WM_USER + 21 )

@@ -9,77 +9,76 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "DosMon.h"
+#include "..\\..\\..\\Monitor.h"
 
-VOID main( VOID )
+void main ()
 {
- HMONITOR hmonKbd = NULLHANDLE;
+  HMONITOR Keyboard = NULLHANDLE;
 
- MONIN monInBuf;   memset( &monInBuf, 0, sizeof( MONIN ) );   monInBuf.cb = sizeof( MONIN );
- MONOUT monOutBuf; memset( &monOutBuf, 0, sizeof( MONOUT ) ); monOutBuf.cb = sizeof( MONOUT );
+  MONIN Monitor_input   = {0}; Monitor_input.cb = sizeof (MONIN);
+  MONOUT Monitor_output = {0}; Monitor_output.cb = sizeof (MONOUT);
 
- APIRET RC = DosMonOpen( "KBD$", &hmonKbd );
+  APIRET RC = DosMonOpen ("KBD$", &Keyboard);
 
- if( RC == NO_ERROR )
+  if (RC == NO_ERROR)
   {
-   ULONG ulSessionId = 0;
-   DosQuerySysInfo( QSV_FOREGROUND_FS_SESSION, QSV_FOREGROUND_FS_SESSION, &ulSessionId, sizeof( ulSessionId ) );
-   printf( "FFSS %d\n\n", ulSessionId );
+    ULONG Screen_session = 0;
+    DosQuerySysInfo (QSV_FOREGROUND_FS_SESSION, QSV_FOREGROUND_FS_SESSION, &Screen_session, sizeof (Screen_session));
+    printf ("FFSS %d\n\n", Screen_session);
 
-   RC = DosMonReg( hmonKbd, (PBYTE) &monInBuf, (PBYTE) &monOutBuf, MONITOR_BEGIN, ulSessionId );
+    RC = DosMonReg (Keyboard, (PBYTE) &Monitor_input, (PBYTE) &Monitor_output, MONITOR_BEGIN, Screen_session);
 
-   if( RC == NO_ERROR )
+    if (RC == NO_ERROR)
     {
-     while( 1 )
+      while (1)
       {
-       USHORT usCount = sizeof( KEYPACKET );
-       KEYPACKET kbdKeyBuf; memset( &kbdKeyBuf, 0, sizeof( KEYPACKET ) );
+        KEYPACKET Keyboard_packet = {0};
+        USHORT Packet_length = sizeof (KEYPACKET);
 
-       RC = DosMonRead( (PBYTE) &monInBuf, MONITOR_WAIT, (PBYTE) &kbdKeyBuf, &usCount );
-       if( RC != NO_ERROR ) { printf( "[3] Error %d\n", RC ); break; }
+        RC = DosMonRead ((PBYTE) &Monitor_input, MONITOR_WAIT, (PBYTE) &Keyboard_packet, &Packet_length);
+        if (RC != NO_ERROR) { printf ("[3] Error %d\n", RC); break; }
 
-       BYTE bWriteKeyPacket = 1;
+        BYTE Write_back = 1;
 
-       {
-        BYTE bScanCode = kbdKeyBuf.mnflags >> 8;
-        printf( "[ %02x ]", bScanCode );
-
-        BYTE aData[ 256 ];
-        memset( aData, 0, sizeof( aData ) );
-        memcpy( aData, &kbdKeyBuf, sizeof( kbdKeyBuf ) );
-        for( INT i = 0; i < sizeof( kbdKeyBuf ); i++ ) { printf( " %02x", aData[ i ] ); }
-
-        BYTE bExt_1 = 0; if( bScanCode == 0xE0 ) bExt_1 = 1;
-        BYTE bExt_2 = 0; if( bScanCode == 0xE1 ) bExt_2 = 1;
-        BYTE bRelease = 0;  if( !bExt_1 && !bExt_2 && ( bScanCode & 0x80 ) ) bRelease = 1;
-
-        if( bRelease ) printf( "\n");
-        printf( "\n");
-       }
-
-       if( bWriteKeyPacket )
         {
-         RC = DosMonWrite( (PBYTE) &monOutBuf, (PBYTE) &kbdKeyBuf, usCount );
-         if( RC != NO_ERROR ) break;
+          BYTE Scan_code = Keyboard_packet.ScanCode;
+          printf ("[ %02x ]", Scan_code);
+
+          BYTE Message[256] = {0};
+          memcpy (Message, &Keyboard_packet, sizeof (Keyboard_packet));
+          for (INT Cntr = 0; Cntr < sizeof (Keyboard_packet); Cntr ++) { printf (" %02x", Message[Cntr]); }
+
+          BYTE Ext_1 = 0;   if (Scan_code == 0xE0) Ext_1 = 1;
+          BYTE Ext_2 = 0;   if (Scan_code == 0xE1) Ext_2 = 1;
+          BYTE Release = 0; if (!Ext_1 && !Ext_2 && (Scan_code & 0x80)) Release = 1;
+
+          if (Release) printf ("\n");
+          printf ("\n");
+        }
+
+        if (Write_back)
+        {
+          RC = DosMonWrite ((PBYTE) &Monitor_output, (PBYTE) &Keyboard_packet, Packet_length);
+          if (RC != NO_ERROR) break;
         }
       }
     }
-   else
+    else
     {
-     printf( "[2] Error %d\n", RC );
+      printf ("[2] Error %d\n", RC);
     }
 
-   RC = DosMonClose( hmonKbd ); hmonKbd = NULLHANDLE;
+    RC = DosMonClose (Keyboard); Keyboard = NULLHANDLE;
 
-   if( RC != NO_ERROR )
+    if (RC != NO_ERROR)
     {
-     printf( "[5] Error %d\n", RC );
+      printf ("[5] Error %d\n", RC);
     }
   }
- else
+  else
   {
-   printf( "[1] Error %d\n", RC );
+    printf ("[1] Error %d\n", RC);
   }
 
- DosExit( EXIT_PROCESS, 0 );
+  DosExit (EXIT_PROCESS, 0);
 }

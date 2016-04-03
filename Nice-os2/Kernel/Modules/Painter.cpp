@@ -26,6 +26,8 @@
 #define DrawButtonsSettingIsON                  Painter_DrawButtonsSettingIsON
 #define DisableFrameDrawing                     Painter_DisableFrameDrawing
 
+#define SelectDesiredTexture                    Painter_SelectDesiredTexture
+
 // ─── Метод для подключения класса ───
 
 VOID Painter_Start( VOID )

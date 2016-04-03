@@ -49,44 +49,46 @@ VOID Repaint_UpdateAllWindows( HWND Parent_window, BYTE Recursive_calling = 0 )
  // Узнаем окно оболочки.
  HWND Shell_window = GetDetectedShellWindow();
 
- // Перебираем окна.
- HENUM Enumeration = WinBeginEnumWindows( Parent_window ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если это окно оболочки - продолжаем перебор окон.
-   if( Window == Shell_window ) continue;
+ {
+  // Перебираем окна.
+  HENUM Enumeration = WinBeginEnumWindows( Parent_window ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если это окно оболочки - продолжаем перебор окон.
+    if( Window == Shell_window ) continue;
 
-   // Если это не окно рамки - продолжаем перебор окон.
-   if( !IsFrameWindow( Window ) ) continue;
+    // Если это не окно рамки - продолжаем перебор окон.
+    if( !IsFrameWindow( Window ) ) continue;
 
-   // Если это окно рамки списка окон - его свойства надо узнать заранее.
-   if( IsWinListWindow( Window ) )
-    {
-     // Посылаем сообщение в поток.
-     WinPostQueueMsg( Enhancer.Modules.Diver->Message_queue, SM_QUERY_PROPERTIES, (MPARAM) Window, (MPARAM) WT_UNKNOWN );
-    }
+    // Если это окно рамки списка окон - его свойства надо узнать заранее.
+    if( IsWinListWindow( Window ) )
+     {
+      // Посылаем сообщение в поток.
+      WinPostQueueMsg( Enhancer.Modules.Diver->Message_queue, SM_QUERY_PROPERTIES, (MPARAM) Window, (MPARAM) WT_UNKNOWN );
+     }
 
-   // Задаем размер рамки окна.
-   Repaint_UpdateFrameBorder( Window );
+    // Задаем размер рамки окна.
+    Repaint_UpdateFrameBorder( Window );
 
-   // Если окно скрыто - продолжаем перебор окон.
-   if( !WinIsWindowVisible( Window ) ) continue;
+    // Если окно скрыто - продолжаем перебор окон.
+    if( !WinIsWindowVisible( Window ) ) continue;
 
-   // Обновляем окно.
-   Repaint_UpdateWindow( Window );
+    // Обновляем окно.
+    Repaint_UpdateWindow( Window );
 
-   // Если это не повторный вызов:
-   if( !Recursive_calling )
-    {
-     // В окне рабочей области могут быть расположены другие окна рамок. Перебираем их тоже.
-     HWND Client_window = WinWindowFromID( Window, FID_CLIENT );
-     if( Client_window != NULLHANDLE ) Repaint_UpdateAllWindows( Client_window, RECURSIVE_CALLING );
+    // Если это не повторный вызов:
+    if( !Recursive_calling )
+     {
+      // В окне рабочей области могут быть расположены другие окна рамок. Перебираем их тоже.
+      HWND Client_window = WinWindowFromID( Window, FID_CLIENT );
+      if( Client_window != NULLHANDLE ) Repaint_UpdateAllWindows( Client_window, RECURSIVE_CALLING );
 
-     // Надо будет выполнить задержку.
-     Do_retard = 1;
-    }
-  }
- WinEndEnumWindows( Enumeration );
+      // Надо будет выполнить задержку.
+      Do_retard = 1;
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Ждем некоторое время, если это требуется.
  if( Do_retard ) Retard();

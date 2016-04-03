@@ -1,6 +1,6 @@
 // Постоянные величины.
 #include "..\\Shared\\General.h"
-#include "..\\Shared\\AbstractClass\\AbstractClass_code.cpp"
+#pragma pack(4)
 
 // Вызовы C/C++.
 #include "..\\Shared\\StdLib\\StdLib_code.cpp"
@@ -14,6 +14,7 @@
 
 // Дополнительные вызовы OS/2.
 #include "..\\Shared\\SysState.h"
+#pragma pack(4)
 
 // Список известных расширителю окон и приложений.
 #include "..\\Shared\\Repository.h"
@@ -24,16 +25,17 @@
 // Ответы от потоков приложения.
 #include "Core\\ThreadResponds.h"
 
-// Работа с файлами и PIPE-соединениями.
-#include "..\\Shared\\Pipes\\Pipes_code.cpp"
-#include "..\\Shared\\Pipes.cpp"
-
+// Работа с файлами.
 #include "..\\Shared\\Files\\Files_code.cpp"
 #include "..\\Shared\\Files.cpp"
 
 // Отладка приложения.
 #include "Core\\Debug\\Debug_code.cpp"
 #include "Core\\Debug.cpp"
+
+// Работа PIPE-соединениями.
+#include "..\\Shared\\Pipes\\Pipes_code.cpp"
+#include "..\\Shared\\Pipes.cpp"
 
 // Приложение и список его составляющих.
 typedef VOID ( MODPROC_STARTTHREAD ) ( VOID );
@@ -194,16 +196,12 @@ ENHANCER; ENHANCER Enhancer;
 #include "..\\Shared\\Searcher\\Searcher_code.cpp"
 #include "..\\Shared\\Searcher.cpp"
 
-// Проверка списка известных приложений и значков для них.
-#include "Core\\RepositoryChecker\\RepositoryChecker_code.cpp"
-#include "Core\\RepositoryChecker.cpp"
-
 // Значения для потоков.
 #include "Modules\\Constants.h"
 
 // Список свойств окон.
-#include "..\\Shared\\AbstractPrpList\\AbstractPrpList_data.cpp"
-#include "..\\Shared\\AbstractPrpList\\AbstractPrpList_code.cpp"
+#include "..\\Shared\\PrpList\\PrpList_data.cpp"
+#include "..\\Shared\\PrpList\\PrpList_code.cpp"
 
 #include "Core\\WinPrpList.h"
 #include "Core\\WinPrpList\\WinPrpList_data.cpp"
@@ -323,9 +321,7 @@ ENHANCER; ENHANCER Enhancer;
 #include "Modules\\Inspector\\Inspector_code.cpp"
 #include "Modules\\Inspector\\Inspector_init.cpp"
 #include "Modules\\Inspector\\Inspector_tune.cpp"
-#include "Modules\\Inspector\\Inspector_jump.cpp"
 #include "Modules\\Inspector\\Inspector_work.cpp"
-#include "Modules\\Inspector\\Inspector_link.cpp"
 #include "Modules\\Inspector.cpp"
 
 #include "Modules\\MouseMapper\\MouseMapper_data.cpp"
@@ -590,10 +586,10 @@ VOID EXPENTRY Krnl_ReadRepository( VOID )
  HINI Ini_file = OpenIniProfile( Enhancer.Application, Settings_file_name );
 
  // Читаем список приложений.
- ReadRepository( Ini_file );
+ if( Ini_file ) ReadRepository( Ini_file );
 
  // Закрываем файл настроек.
- PrfCloseProfile( Ini_file );
+ if( Ini_file ) PrfCloseProfile( Ini_file );
 
  // Возврат.
  return;
@@ -618,7 +614,6 @@ VOID EXPENTRY Krnl_StartKernel( HAB Application, HMODULE Module, BYTE Nice_is_vi
  Workplace_Start();
  Krnl_Environment_Start();
  Searcher_Start();
- RepositoryChecker_Start();
  WinPrpList_Start();
  KbdMouse_Start(); Krnl_KbdMouse_i386_Start();
  KbdLocks_Start();

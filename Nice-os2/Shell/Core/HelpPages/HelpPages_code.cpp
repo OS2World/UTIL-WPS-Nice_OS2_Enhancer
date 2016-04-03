@@ -88,23 +88,26 @@ VOID HelpPages_Help( INT Topic, ULONG Code_page )
 
 VOID HelpPages_CloseExistingHelpPage( VOID )
 {
- // Перебираем окна в окне рабочего стола.
- HWND Window = NULLHANDLE;
+ // Узнаем окно рабочего стола.
+ HWND Desktop = QueryDesktopWindow();
 
- HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() );
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если это справочник:
-   if( IsFrameWindow( Window ) ) if( WindowIsUsedTo( DO_BROWSE_IPF_HELP, Window ) )
-    {
-     // Узнаем заголовок окна.
-     CHAR Window_title[ SIZE_OF_TITLE ] = "";
-     WinQueryWindowText( WinWindowFromID( Window, FID_TITLEBAR ), SIZE_OF_TITLE, Window_title );
+ { 
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если это справочник:
+    if( IsFrameWindow( Window ) ) if( WindowIsUsedTo( DO_BROWSE_IPF_HELP, Window ) )
+     {
+      // Узнаем заголовок окна.
+      CHAR Window_title[ SIZE_OF_TITLE ] = "";
+      WinQueryWindowText( WinWindowFromID( Window, FID_TITLEBAR ), SIZE_OF_TITLE, Window_title );
 
-     // Если это справочник расширителя - закрываем окно.
-     if( stristr( "Nice", Window_title ) ) WinPostMsg( Window, WM_SYSCOMMAND, (MPARAM) SC_CLOSE, MPFROM2SHORT( CMDSRC_MENU, 0 ) );
-    }
-  }
+      // Если это справочник расширителя - закрываем окно.
+      if( stristr( "Nice", Window_title ) ) WinPostMsg( Window, WM_SYSCOMMAND, (MPARAM) SC_CLOSE, MPFROM2SHORT( CMDSRC_MENU, 0 ) );
+     }
+   }
+ }
 
  // Возврат.
  return;

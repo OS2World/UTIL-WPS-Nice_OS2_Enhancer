@@ -48,13 +48,15 @@ BYTE Layout_ResizeInputFields( HWND Box_window, PLTWALL Layout )
   // Узнаем все поля ввода в указанном окне.
   HWND Fields[ LTM_FIELDS_IN_MATRIX ]; INT Quantity = 0;
 
-  // Перебираем окна в указанном окне и запоминаем их.
-  HENUM Enumeration = WinBeginEnumWindows( Box_window ); HWND Field = NULLHANDLE;
-  while( ( Field = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-   {
-    Fields[ Quantity ] = Field; Quantity ++;
-   }
-  WinEndEnumWindows( Enumeration );
+  {
+   // Перебираем окна в указанном окне и запоминаем их.
+   HENUM Enumeration = WinBeginEnumWindows( Box_window ); HWND Field = NULLHANDLE;
+   while( ( Field = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+    {
+     Fields[ Quantity ] = Field; Quantity ++;
+    }
+   WinEndEnumWindows( Enumeration );
+  }
 
   // Если поля ввода были найдены:
   if( Quantity )

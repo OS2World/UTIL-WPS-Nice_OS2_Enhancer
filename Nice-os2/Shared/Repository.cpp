@@ -1,10 +1,7 @@
 // Методы для работы со списком приложений и распознавания окон.
-#define rp_next                     Repository_rp_next
-#define rp_clear                    Repository_rp_clear
 #define ReadRepository              Repository_ReadRepository
 
 #define QueryWPSObject              Repository_QueryWPSObject
-#define WPSObjectIsExists           Repository_WPSObjectIsExists
 
 #define FindApplicationInRepository Repository_FindApplicationInRepository
 #define ApplicationIsExists         Repository_ApplicationIsExists

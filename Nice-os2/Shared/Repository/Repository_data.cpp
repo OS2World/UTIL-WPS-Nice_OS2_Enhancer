@@ -21,9 +21,6 @@ typedef struct _APPLICATIONS
   // Задача, для которой используется приложение - значение вида BROWSE_... и т.п.
   INT Purpose;
 
-  // Вид приложения - значения вида PROG_..., описанные в PMShl.h, можно не задавать.
-  PROGCATEGORY Mode;
-
   // Признак, что это часто используемое приложение (его окно будет вызываться в первую очередь).
   BYTE Desired;
 
@@ -43,13 +40,19 @@ typedef struct _APPLICATIONS
   CHAR Exe_INI_setting_name[ SIZE_OF_NAME ];
 
   // Значок на рабочем столе.
-  CHAR Object[ SIZE_OF_NAME ];
-  // Имя настройки в INI, содержащей это значение.
+  #ifdef INCLUDED_BY_SHELL
+  CHAR Known_WPS_object[ SIZE_OF_NAME ];
+  #else
+  BYTE Known_WPS_objects_not_found;
+  #endif
   CHAR Object_INI_setting_name[ SIZE_OF_NAME ];
 
   // Путь к приложению.
-  CHAR Path[ SIZE_OF_PATH ];
-  // Имя настройки в INI, содержащей это значение.
+  #ifdef INCLUDED_BY_SHELL
+  CHAR Path_to_Exe_file[ SIZE_OF_PATH ];
+  #else
+  BYTE Known_Exe_files_not_found;
+  #endif
   CHAR Path_INI_setting_name[ SIZE_OF_NAME ];
 
   // Ключевые слова для поиска значка, может быть несколько.

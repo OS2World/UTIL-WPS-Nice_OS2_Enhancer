@@ -339,25 +339,25 @@ MRESULT EXPENTRY Rooms_Colors_WndProc( HWND Window, ULONG Message, MPARAM First_
          PrfWriteProfileData( Ini_file, "Settings", "Wallpaper for southern room", Rooms.Settings.Wallpaper_for_southern_room, strlen( Rooms.Settings.Wallpaper_for_southern_room ) + 1 );
 
          // Записываем цвета.
-         PrfWriteProfileData( Ini_file, "Drawing", "Northern AT Text color", &Painter.Settings.Northern_AT_Text_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "Northern IT Text color", &Painter.Settings.Northern_IT_Text_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "Northern AT Background color", &Painter.Settings.Northern_AT_Background_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "Northern IT Background color", &Painter.Settings.Northern_IT_Background_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Northern AT Color", &Painter.Settings.Northern_AT_Text_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Northern IT Color", &Painter.Settings.Northern_IT_Text_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Northern AT BG Color", &Painter.Settings.Northern_AT_Background_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Northern IT BG Color", &Painter.Settings.Northern_IT_Background_color, sizeof( LONG ) );
 
-         PrfWriteProfileData( Ini_file, "Drawing", "Western AT Text color", &Painter.Settings.Western_AT_Text_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "Western IT Text color", &Painter.Settings.Western_IT_Text_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "Western AT Background color", &Painter.Settings.Western_AT_Background_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "Western IT Background color", &Painter.Settings.Western_IT_Background_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Western AT Color", &Painter.Settings.Western_AT_Text_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Western IT Color", &Painter.Settings.Western_IT_Text_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Western AT BG Color", &Painter.Settings.Western_AT_Background_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Western IT BG Color", &Painter.Settings.Western_IT_Background_color, sizeof( LONG ) );
 
-         PrfWriteProfileData( Ini_file, "Drawing", "Eastern AT Text color", &Painter.Settings.Eastern_AT_Text_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "Eastern IT Text color", &Painter.Settings.Eastern_IT_Text_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "Eastern AT Background color", &Painter.Settings.Eastern_AT_Background_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "Eastern IT Background color", &Painter.Settings.Eastern_IT_Background_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Eastern AT Color", &Painter.Settings.Eastern_AT_Text_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Eastern IT Color", &Painter.Settings.Eastern_IT_Text_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Eastern AT BG Color", &Painter.Settings.Eastern_AT_Background_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Eastern IT BG Color", &Painter.Settings.Eastern_IT_Background_color, sizeof( LONG ) );
 
-         PrfWriteProfileData( Ini_file, "Drawing", "Southern AT Text color", &Painter.Settings.Southern_AT_Text_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "Southern IT Text color", &Painter.Settings.Southern_IT_Text_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "Southern AT Background color", &Painter.Settings.Southern_AT_Background_color, sizeof( LONG ) );
-         PrfWriteProfileData( Ini_file, "Drawing", "Southern IT Background color", &Painter.Settings.Southern_IT_Background_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Southern AT Color", &Painter.Settings.Southern_AT_Text_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Southern IT Color", &Painter.Settings.Southern_IT_Text_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Southern AT BG Color", &Painter.Settings.Southern_AT_Background_color, sizeof( LONG ) );
+         PrfWriteProfileData( Ini_file, "Drawing", "Southern IT BG Color", &Painter.Settings.Southern_IT_Background_color, sizeof( LONG ) );
 
          PrfWriteProfileData( Ini_file, "Drawing", "Northern AT Color 1", &Painter.Settings.Northern_AT_Color_1, sizeof( LONG ) );
          PrfWriteProfileData( Ini_file, "Drawing", "Northern AT Color 2", &Painter.Settings.Northern_AT_Color_2, sizeof( LONG ) );

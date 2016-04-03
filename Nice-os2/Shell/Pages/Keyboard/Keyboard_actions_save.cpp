@@ -100,7 +100,7 @@
       case  5006: strcpy( Setting_name, "Mute" ); Setting_value = &Definer.Settings.Keys.Mute; break;
       case  5007: strcpy( Setting_name, "Media" ); Setting_value = &Definer.Settings.Keys.Media; break;
 
-      case  6000: strcpy( Setting_name, "MyContooper" ); Setting_value = &Definer.Settings.Keys.MyContooper; break;
+      case  6000: strcpy( Setting_name, "Terminal" ); Setting_value = &Definer.Settings.Keys.Terminal; break;
       case  6001: strcpy( Setting_name, "Calculator" ); Setting_value = &Definer.Settings.Keys.Calculator; break;
       case  6002: strcpy( Setting_name, "Browser" ); Setting_value = &Definer.Settings.Keys.Browser; break;
       case  6003: strcpy( Setting_name, "Mail reader" ); Setting_value = &Definer.Settings.Keys.Mail_reader; break;
@@ -175,105 +175,105 @@
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 1 name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 1 object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool 1 path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool 1 path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_2 );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 2 name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 2 object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool 2 path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool 2 path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_3 );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 3 name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 3 object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool 3 path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool 3 path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_4 );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 4 name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 4 object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool 4 path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool 4 path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_5 );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 5 name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 5 object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool 5 path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool 5 path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_6 );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 6 name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 6 object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool 6 path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool 6 path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_7 );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 7 name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 7 object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool 7 path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool 7 path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_8 );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 8 name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 8 object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool 8 path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool 8 path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_9 );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 9 name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool 9 object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool 9 path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool 9 path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_A );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool A name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool A object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool A path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool A path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_B );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool B name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool B object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool B path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool B path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_C );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool C name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool C object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool C path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool C path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_D );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool D name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool D object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool D path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool D path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_E );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool E name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool E object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool E path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool E path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
   Position = FindApplicationInRepository( APP_USER_TOOL_F );
   if( Repository.Items[ Position ].Exe_name_1[ 0 ] != 0 ) if( Repository.Items[ Position ].Exe_name_1[ 0 ] != '*' )
    {
     PrfWriteProfileData( Ini_file, "Applications", "UserTool F name", Repository.Items[ Position ].Exe_name_1, strlen( Repository.Items[ Position ].Exe_name_1 ) + 1 );
     PrfWriteProfileData( Ini_file, "Applications", "UserTool F object", NULL, 0 );
-    PrfWriteProfileData( Ini_file, "Applications", "UserTool F path", Repository.Items[ Position ].Path, strlen( Repository.Items[ Position ].Path ) + 1 );
+    PrfWriteProfileData( Ini_file, "Applications", "UserTool F path", Repository.Items[ Position ].Path_to_Exe_file, strlen( Repository.Items[ Position ].Path_to_Exe_file ) + 1 );
    }
  }
 

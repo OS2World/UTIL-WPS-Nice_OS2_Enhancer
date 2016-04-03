@@ -232,27 +232,29 @@ VOID Diver_CheckWindowControls( HWND Frame_window )
  // Узнаем очередь сообщений окна.
  HMQ Message_queue = WinQueryWindowULong( Frame_window, QWL_HMQ );
 
- // Перебираем окна в окне рабочего стола.
- HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если окно скрыто - продолжаем перебор окон.
-   if( !WinIsWindowVisible( Window ) ) continue;
+ {
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если окно скрыто - продолжаем перебор окон.
+    if( !WinIsWindowVisible( Window ) ) continue;
 
-   // Если это не окно рамки - продолжаем перебор окон.
-   if( !IsFrameWindow( Window ) ) continue;
+    // Если это не окно рамки - продолжаем перебор окон.
+    if( !IsFrameWindow( Window ) ) continue;
 
-   // Если это то же самое окно - продолжаем перебор окон.
-   if( Window == Frame_window ) continue;
+    // Если это то же самое окно - продолжаем перебор окон.
+    if( Window == Frame_window ) continue;
 
-   // Узнаем очередь сообщений окна.
-   HMQ Window_queue = WinQueryWindowULong( Window, QWL_HMQ );
+    // Узнаем очередь сообщений окна.
+    HMQ Window_queue = WinQueryWindowULong( Window, QWL_HMQ );
 
-   // Если окно использует ту же очередь сообщений - его надо проверить.
-   if( Window_queue == Message_queue ) if( PermissionForDrawing( Window ) )
-    Diver_QueryWindowProperty( Window, WT_SYSMENU | WT_MINMAX, CLOSE_ACTION );
-  }
- WinEndEnumWindows( Enumeration );
+    // Если окно использует ту же очередь сообщений - его надо проверить.
+    if( Window_queue == Message_queue ) if( PermissionForDrawing( Window ) )
+     Diver_QueryWindowProperty( Window, WT_SYSMENU | WT_MINMAX, CLOSE_ACTION );
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Возврат.
  return;

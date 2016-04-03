@@ -152,24 +152,26 @@ BYTE Krnl_Repository_IsJobCnrWindow( HWND Frame_window )
  // Если окно создано не оболочкой - возврат.
  if( !Repository_IsWorkplaceShellWindow( Frame_window ) ) return 0;
 
- // Перебираем окна, расположенные в окне рамки.
- HENUM Enumeration = WinBeginEnumWindows( Frame_window ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Узнаем имя, под которым определено окно.
-   CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
+ {
+  // Перебираем окна, расположенные в окне рамки.
+  HENUM Enumeration = WinBeginEnumWindows( Frame_window ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Узнаем имя, под которым определено окно.
+    CHAR Window_name[ SIZE_OF_NAME ] = ""; WinQueryClassName( Window, SIZE_OF_NAME, Window_name );
 
-   // Проверяем его.
-   if( strc( Window_name, "JobCnr" ) )
-    {
-     // Завершаем перебор окон.
-     WinEndEnumWindows( Enumeration );
+    // Проверяем его.
+    if( strc( Window_name, "JobCnr" ) )
+     {
+      // Завершаем перебор окон.
+      WinEndEnumWindows( Enumeration );
 
-     // Возврат.
-     return 1;
-    }
-  }
- WinEndEnumWindows( Enumeration );
+      // Возврат.
+      return 1;
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Возврат.
  return 0;
@@ -511,28 +513,30 @@ HWND Krnl_Repository_FindRelatedFrameWindow( HWND Frame_window, PISAPPWINDOW Met
  // Узнаем окно рабочего стола.
  HWND Desktop = QueryDesktopWindow();
 
- // Перебираем окна в окне рабочего стола.
- HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если это окно рамки и для него выполняется указанный метод:
-   if( Window != Frame_window ) if( IsFrameWindow( Window ) ) if( Method( Window ) )
-    {
-     // Узнаем очередь сообщений окна.
-     HMQ Window_queue = WinQueryWindowULong( Window, QWL_HMQ );
+ {
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если это окно рамки и для него выполняется указанный метод:
+    if( Window != Frame_window ) if( IsFrameWindow( Window ) ) if( Method( Window ) )
+     {
+      // Узнаем очередь сообщений окна.
+      HMQ Window_queue = WinQueryWindowULong( Window, QWL_HMQ );
 
-     // Если очереди совпадают - завершаем перебор окон.
-     if( Window_queue == Message_queue )
-      {
-       // Завершаем перебор окон
-       WinEndEnumWindows( Enumeration );
+      // Если очереди совпадают - завершаем перебор окон.
+      if( Window_queue == Message_queue )
+       {
+        // Завершаем перебор окон
+        WinEndEnumWindows( Enumeration );
 
-       // Возврат.
-       return Window;
-      }
-    }
-  }
- WinEndEnumWindows( Enumeration );
+        // Возврат.
+        return Window;
+       }
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Возврат.
  return NULLHANDLE;

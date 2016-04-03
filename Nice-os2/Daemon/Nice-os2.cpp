@@ -1,5 +1,6 @@
 // Постоянные величины.
 #include "..\\Shared\\General.h"
+#pragma pack(4)
 
 // Вызовы C/C++.
 #include "..\\Shared\\StdLib\\StdLib_code.cpp"
@@ -17,6 +18,7 @@
 
 // Свойства окружения.
 #include "..\\Shared\\SysState.h"
+#pragma pack(4)
 
 // Переменные среды.
 #define INCLUDED_BY_SHELL
@@ -208,22 +210,24 @@ INT main( INT argc, PCHAR argv[] )
    // Пробуем найти окно загрузчика.
    HWND Launcher_window = NULLHANDLE; CHAR Launcher_title[] = "Nice-OS2!L";
 
-   // Перебираем окна в окне рабочего стола.
-   HENUM Enumeration = WinBeginEnumWindows( WinQueryDesktopWindow( Enhancer.Application, NULLHANDLE ) ); HWND Window = NULLHANDLE;
-   while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-    {
-     // Узнаем заголовок окна.
-     CHAR Window_title[ SIZE_OF_TITLE ] = "";
-     WinQueryWindowText( WinWindowFromID( Window, FID_TITLEBAR ), SIZE_OF_TITLE, Window_title );
+   {
+    // Перебираем окна в окне рабочего стола.
+    HENUM Enumeration = WinBeginEnumWindows( WinQueryDesktopWindow( Enhancer.Application, NULLHANDLE ) ); HWND Window = NULLHANDLE;
+    while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+     {
+      // Узнаем заголовок окна.
+      CHAR Window_title[ SIZE_OF_TITLE ] = "";
+      WinQueryWindowText( WinWindowFromID( Window, FID_TITLEBAR ), SIZE_OF_TITLE, Window_title );
 
-     // Если это окно расширителя - запоминаем его.
-     if( strc( Window_title, Launcher_title ) )
-      {
-       Launcher_window = Window;
-       break;
-      }
-    }
-   WinEndEnumWindows( Enumeration );
+      // Если это окно расширителя - запоминаем его.
+      if( strc( Window_title, Launcher_title ) )
+       {
+        Launcher_window = Window;
+        break;
+       }
+     }
+    WinEndEnumWindows( Enumeration );
+   }
 
    // Если загрузчика нет - выход.
    // Вообще-то он должен быть, раз найден семафор, но кто знает...

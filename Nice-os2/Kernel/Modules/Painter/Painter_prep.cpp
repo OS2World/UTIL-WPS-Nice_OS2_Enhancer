@@ -112,82 +112,84 @@ BYTE Painter_PrepareWindowControls( HWND Frame_window, LONG Frame_type, PRECT Fr
    HWND HSBar_window = WinWindowFromID( Frame_window, FID_HORZSCROLL );
    HWND VSBar_window = WinWindowFromID( Frame_window, FID_VERTSCROLL );
 
-   // Перебираем окна, расположеные в окне рамки и проверяем их.
-   HENUM Enumeration = WinBeginEnumWindows( Frame_window ); HWND Window = NULLHANDLE;
-   while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-    {
-     // Если это окно заголовка, обычные кнопки и т. п. - продолжаем перебор.
-     if( Window == SysMenu_window || Window == TitleBar_window || Window == MinMax_window ||
-         Window == Menu_window    || Window == HSBar_window    || Window == VSBar_window )
-      continue;
+   {
+    // Перебираем окна, расположеные в окне рамки и проверяем их.
+    HENUM Enumeration = WinBeginEnumWindows( Frame_window ); HWND Window = NULLHANDLE;
+    while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+     {
+      // Если это окно заголовка, обычные кнопки и т. п. - продолжаем перебор.
+      if( Window == SysMenu_window || Window == TitleBar_window || Window == MinMax_window ||
+          Window == Menu_window    || Window == HSBar_window    || Window == VSBar_window )
+       continue;
 
-     // Узнаем расположение окна.
-     SWP Window_placement = {0}; WinQueryWindowPos( Window, &Window_placement );
+      // Узнаем расположение окна.
+      SWP Window_placement = {0}; WinQueryWindowPos( Window, &Window_placement );
 
-     // Если окно расположено между заголовком и кнопками - его надо передвинуть.
-     POINT Central_point = { Window_placement.x + Window_placement.cx / 2, Window_placement.y + Window_placement.cy / 2 };
-     if( Central_point.y > TitleBar_placement.y )
-      if( Central_point.y < TitleBar_placement.y + TitleBar_placement.cy )
-       if( MinMax_is_available && ( Central_point.x > TitleBar_placement.x + TitleBar_placement.cx ) ||
-          !MinMax_is_available && ( Central_point.x > TitleBar_placement.x + TitleBar_placement.cx / 2 ) )
-        if( WinIsWindowVisible( Window ) )
+      // Если окно расположено между заголовком и кнопками - его надо передвинуть.
+      POINT Central_point = { Window_placement.x + Window_placement.cx / 2, Window_placement.y + Window_placement.cy / 2 };
+      if( Central_point.y > TitleBar_placement.y )
+       if( Central_point.y < TitleBar_placement.y + TitleBar_placement.cy )
+        if( MinMax_is_available && ( Central_point.x > TitleBar_placement.x + TitleBar_placement.cx ) ||
+           !MinMax_is_available && ( Central_point.x > TitleBar_placement.x + TitleBar_placement.cx / 2 ) )
+         if( WinIsWindowVisible( Window ) )
+          {
+           // Запоминаем окно и его расположение.
+           if( Controls_quantity < PAINTER_MAX_CONTROLS )
+            {
+             Controls[ Controls_quantity ] = Window;
+
+             Controls_rects[ Controls_quantity ].xLeft = Window_placement.x;
+             Controls_rects[ Controls_quantity ].xRight = Window_placement.x + Window_placement.cx;
+             Controls_rects[ Controls_quantity ].yBottom = Window_placement.y;
+             Controls_rects[ Controls_quantity ].yTop = Window_placement.y + Window_placement.cy;
+
+             Controls_quantity ++;
+            }
+          }
+
+      // Проверяем, может ли окно мешать кнопкам.
+      if( Hide_fields )
+       {
+        // Если окно закрывает кнопки - его надо сжать.
+        BYTE Wring_out = 0;
+        // Окно может частично закрывать кнопки.
+        INT X_Allowable_space = 1; INT Y_Allowable_space = Size * 2 / 3;
+        // Проверяем расположение прямоугольников слева направо.
+        if( Window_placement.y <= All_buttons.yTop &&
+            Window_placement.y + Window_placement.cy > All_buttons.yBottom )
          {
-          // Запоминаем окно и его расположение.
-          if( Controls_quantity < PAINTER_MAX_CONTROLS )
-           {
-            Controls[ Controls_quantity ] = Window;
-
-            Controls_rects[ Controls_quantity ].xLeft = Window_placement.x;
-            Controls_rects[ Controls_quantity ].xRight = Window_placement.x + Window_placement.cx;
-            Controls_rects[ Controls_quantity ].yBottom = Window_placement.y;
-            Controls_rects[ Controls_quantity ].yTop = Window_placement.y + Window_placement.cy;
-
-            Controls_quantity ++;
-           }
+          if( Window_placement.x >= All_buttons.xLeft &&
+              Window_placement.x < All_buttons.xRight ) Wring_out = 1;
+          if( Window_placement.x + Window_placement.cx > All_buttons.xLeft + X_Allowable_space &&
+              Window_placement.x + Window_placement.cx <= All_buttons.xRight ) Wring_out = 1;
+         }
+        // Проверяем расположение прямоугольников сверху вниз.
+        if( Window_placement.x <= All_buttons.xRight &&
+            Window_placement.x + Window_placement.cx > All_buttons.xLeft )
+         {
+          if( Window_placement.y >= All_buttons.yBottom &&
+              Window_placement.y < All_buttons.yTop ) Wring_out = 1;
+          if( Window_placement.y + Window_placement.cy > All_buttons.yBottom + Y_Allowable_space &&
+              Window_placement.y + Window_placement.cy <= All_buttons.yTop ) Wring_out = 1;
          }
 
-     // Проверяем, может ли окно мешать кнопкам.
-     if( Hide_fields )
-      {
-       // Если окно закрывает кнопки - его надо сжать.
-       BYTE Wring_out = 0;
-       // Окно может частично закрывать кнопки.
-       INT X_Allowable_space = 1; INT Y_Allowable_space = Size * 2 / 3;
-       // Проверяем расположение прямоугольников слева направо.
-       if( Window_placement.y <= All_buttons.yTop &&
-           Window_placement.y + Window_placement.cy > All_buttons.yBottom )
-        {
-         if( Window_placement.x >= All_buttons.xLeft &&
-             Window_placement.x < All_buttons.xRight ) Wring_out = 1;
-         if( Window_placement.x + Window_placement.cx > All_buttons.xLeft + X_Allowable_space &&
-             Window_placement.x + Window_placement.cx <= All_buttons.xRight ) Wring_out = 1;
-        }
-       // Проверяем расположение прямоугольников сверху вниз.
-       if( Window_placement.x <= All_buttons.xRight &&
-           Window_placement.x + Window_placement.cx > All_buttons.xLeft )
-        {
-         if( Window_placement.y >= All_buttons.yBottom &&
-             Window_placement.y < All_buttons.yTop ) Wring_out = 1;
-         if( Window_placement.y + Window_placement.cy > All_buttons.yBottom + Y_Allowable_space &&
-             Window_placement.y + Window_placement.cy <= All_buttons.yTop ) Wring_out = 1;
-        }
+        // Запоминаем окно и его расположение.
+        if( Wring_out )
+         if( Fields_quantity < PAINTER_MAX_CONTROLS )
+          {
+           Fields[ Fields_quantity ] = Window;
 
-       // Запоминаем окно и его расположение.
-       if( Wring_out )
-        if( Fields_quantity < PAINTER_MAX_CONTROLS )
-         {
-          Fields[ Fields_quantity ] = Window;
+           Fields_rects[ Fields_quantity ].xLeft = Window_placement.x;
+           Fields_rects[ Fields_quantity ].xRight = Window_placement.x + Window_placement.cx;
+           Fields_rects[ Fields_quantity ].yBottom = Window_placement.y;
+           Fields_rects[ Fields_quantity ].yTop = Window_placement.y + Window_placement.cy;
 
-          Fields_rects[ Fields_quantity ].xLeft = Window_placement.x;
-          Fields_rects[ Fields_quantity ].xRight = Window_placement.x + Window_placement.cx;
-          Fields_rects[ Fields_quantity ].yBottom = Window_placement.y;
-          Fields_rects[ Fields_quantity ].yTop = Window_placement.y + Window_placement.cy;
-
-          Fields_quantity ++;
-         }
-      }
-    }
-   WinEndEnumWindows( Enumeration );
+           Fields_quantity ++;
+          }
+       }
+     }
+    WinEndEnumWindows( Enumeration );
+   }
 
    // Находим крайнее правое окно и запоминаем его расположение.
    INT Right_point = 0;

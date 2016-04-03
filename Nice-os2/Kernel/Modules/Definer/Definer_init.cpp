@@ -20,7 +20,7 @@ VOID Definer_SetPreDefinedSettings( LONG Division )
    Definer.Settings.Define_quick_keys = 1;
    Definer.Settings.Define_numeric_keys = 1;
    Definer.Settings.Define_pointer_keys = 0;
-   Definer.Settings.Define_power_keys = 1;
+   Definer.Settings.Define_power_keys = 0;
    Definer.Settings.Define_multimedia_keys = 1;
    Definer.Settings.Define_toolkit_keys = 1;
    Definer.Settings.Define_internet_keys = 1;
@@ -56,14 +56,14 @@ VOID Definer_SetPreDefinedSettings( LONG Division )
    Definer.Settings.Keys.F9 = CHAR_CTRL_H;
    Definer.Settings.Keys.F10 = CHAR_ALT_F4;
 
-   Definer.Settings.Keys.WinKey_Backslash = -1;
+   Definer.Settings.Keys.WinKey_Backslash = SHOW_VIO_COMMANDER;
    Definer.Settings.Keys.WinKey_Backspace = SHOW_WEB_BROWSER;
 
-   Definer.Settings.Keys.WinKey_Num_Slash = MM_NEXT;
-   Definer.Settings.Keys.WinKey_Num_Multiple = MM_PAUSE;
+   Definer.Settings.Keys.WinKey_Num_Slash = MM_VOLUME_DECREMENT;
+   Definer.Settings.Keys.WinKey_Num_Multiple = MM_VOLUME_INCREMENT;
    Definer.Settings.Keys.WinKey_Num_Minus = MM_STOP;
    Definer.Settings.Keys.WinKey_Num_Plus = MM_REPEAT;
-   Definer.Settings.Keys.WinKey_Num_Enter = SHOW_MP3_PLAYER;
+   Definer.Settings.Keys.WinKey_Num_Enter = SHOW_MUSIC_PLAYER;
 
    Definer.Settings.Keys.WinKey_F1 = 0;
    Definer.Settings.Keys.WinKey_F2 = 0;
@@ -74,9 +74,9 @@ VOID Definer_SetPreDefinedSettings( LONG Division )
    Definer.Settings.Keys.WinKey_F7 = 0;
    Definer.Settings.Keys.WinKey_F8 = 0;
    Definer.Settings.Keys.WinKey_F9 = 0;
-   Definer.Settings.Keys.WinKey_F10 = 0;
-   Definer.Settings.Keys.WinKey_F11 = 0;
-   Definer.Settings.Keys.WinKey_F12 = 0;
+   Definer.Settings.Keys.WinKey_F10 = SHOW_VIO_SSH_TERMINAL;
+   Definer.Settings.Keys.WinKey_F11 = SHOW_FTP_BROWSER;
+   Definer.Settings.Keys.WinKey_F12 = SHOW_PM_COMMANDER;
 
    Definer.Settings.Keys.WinKey_A = 0;
    Definer.Settings.Keys.WinKey_B = 0;
@@ -105,9 +105,9 @@ VOID Definer_SetPreDefinedSettings( LONG Division )
    Definer.Settings.Keys.WinKey_Y = 0;
    Definer.Settings.Keys.WinKey_Z = 0;
 
-   Definer.Settings.Keys.Power = SHOW_WEB_BROWSER;
-   Definer.Settings.Keys.Sleep = SHOW_DRIVES;
-   Definer.Settings.Keys.WakeUp = -1;
+   Definer.Settings.Keys.Power = SHOW_DRIVES;
+   Definer.Settings.Keys.Sleep = SHOW_WEB_BROWSER;
+   Definer.Settings.Keys.WakeUp = SHOW_VIO_COMMANDER;
 
    Definer.Settings.Keys.Play = MM_PAUSE;
    Definer.Settings.Keys.Stop = MM_STOP;
@@ -116,17 +116,17 @@ VOID Definer_SetPreDefinedSettings( LONG Division )
    Definer.Settings.Keys.Volume_decrement = MM_VOLUME_DECREMENT;
    Definer.Settings.Keys.Volume_increment = MM_VOLUME_INCREMENT;
    Definer.Settings.Keys.Mute = MM_REPEAT;
-   Definer.Settings.Keys.Media = SHOW_MP3_PLAYER;
+   Definer.Settings.Keys.Media = SHOW_MUSIC_PLAYER;
 
-   Definer.Settings.Keys.MyContooper = SHOW_VIO_SSH_TERMINAL;
+   Definer.Settings.Keys.Terminal = SHOW_VIO_SSH_TERMINAL;
    Definer.Settings.Keys.Calculator = SHOW_CALCULATOR;
    Definer.Settings.Keys.Browser = SHOW_WEB_BROWSER;
-   Definer.Settings.Keys.Mail_reader = -1;
-   Definer.Settings.Keys.Search = -1;
+   Definer.Settings.Keys.Mail_reader = 0;
+   Definer.Settings.Keys.Search = SHOW_PM_COMMANDER;
    Definer.Settings.Keys.Bookmarks = SHOW_FTP_BROWSER;
 
-   Definer.Settings.Keys.Back = -1;
-   Definer.Settings.Keys.Forward = -1;
+   Definer.Settings.Keys.Back = 0;
+   Definer.Settings.Keys.Forward = 0;
    Definer.Settings.Keys.Cancel = 0;
    Definer.Settings.Keys.Refresh = 0;
 
@@ -150,12 +150,12 @@ VOID Definer_SetPreDefinedSettings( LONG Division )
    Definer.Settings.Keys.UserKey_F = 0;
 
    Definer.Settings.Keys.Compaq_i = SHOW_DRIVES;
-   Definer.Settings.Keys.Compaq_Home = SHOW_MP3_PLAYER;
-   Definer.Settings.Keys.Compaq_Search = -1;
-   Definer.Settings.Keys.Compaq_Mail = -1;
+   Definer.Settings.Keys.Compaq_Home = SHOW_MUSIC_PLAYER;
+   Definer.Settings.Keys.Compaq_Search = SHOW_VIO_COMMANDER;
+   Definer.Settings.Keys.Compaq_Mail = 0;
    Definer.Settings.Keys.Compaq_People = SHOW_WEB_BROWSER;
    Definer.Settings.Keys.Compaq_Bench = SHOW_FTP_BROWSER;
-   Definer.Settings.Keys.Compaq_Chat = -1;
+   Definer.Settings.Keys.Compaq_Chat = 0;
    Definer.Settings.Keys.Compaq_Reading = SHOW_VIO_SSH_TERMINAL;
 
    if( Division != SET_ALL_SETTINGS )
@@ -171,16 +171,6 @@ VOID Definer_SetPreDefinedSettings( LONG Division )
        Definer.Settings.Keys.Left_WinKey = SHOW_LAUNCHPAD;
        Definer.Settings.Keys.Right_WinKey = SHOW_WARPCENTER;
       }
-
-     {
-      INT File_Commander = 0;
-      if( ShowCommandCanBeUsed( SHOW_PM_COMMANDER ) )  File_Commander = SHOW_PM_COMMANDER;
-      if( ShowCommandCanBeUsed( SHOW_VIO_COMMANDER ) ) File_Commander = SHOW_VIO_COMMANDER;
-      Definer.Settings.Keys.WinKey_Backslash = File_Commander;
-      Definer.Settings.Keys.WakeUp = File_Commander;
-      Definer.Settings.Keys.Search = File_Commander;
-      Definer.Settings.Keys.Compaq_Search = File_Commander;
-     }
 
      {
       INT Volume_control = 0;
@@ -205,14 +195,7 @@ VOID Definer_SetPreDefinedSettings( LONG Division )
       INT Internet_chat = 0;
       if( ShowCommandCanBeUsed( SHOW_ICQ_PAGER ) ) Internet_chat = SHOW_ICQ_PAGER;
       if( ShowCommandCanBeUsed( SHOW_INTERNET_CHAT ) ) Internet_chat = SHOW_INTERNET_CHAT;
-      Definer.Settings.Keys.Back = Internet_chat;
       Definer.Settings.Keys.Compaq_Chat = Internet_chat;
-     }
-
-     {
-      INT ICQ_pager = 0;
-      if( ShowCommandCanBeUsed( SHOW_ICQ_PAGER ) ) ICQ_pager = SHOW_ICQ_PAGER;
-      Definer.Settings.Keys.Forward = ICQ_pager;
      }
     }
   }
@@ -335,7 +318,7 @@ VOID Definer_ReadSettings( HINI Ini_file )
  Int = sizeof( INT ); if( PrfQueryProfileData( Ini_file, "Keys", "Mute", &Int_data, &Int ) ) Definer.Settings.Keys.Mute = Int_data;
  Int = sizeof( INT ); if( PrfQueryProfileData( Ini_file, "Keys", "Media", &Int_data, &Int ) ) Definer.Settings.Keys.Media = Int_data;
 
- Int = sizeof( INT ); if( PrfQueryProfileData( Ini_file, "Keys", "MyContooper", &Int_data, &Int ) ) Definer.Settings.Keys.MyContooper = Int_data;
+ Int = sizeof( INT ); if( PrfQueryProfileData( Ini_file, "Keys", "Terminal", &Int_data, &Int ) ) Definer.Settings.Keys.Terminal = Int_data;
  Int = sizeof( INT ); if( PrfQueryProfileData( Ini_file, "Keys", "Calculator", &Int_data, &Int ) ) Definer.Settings.Keys.Calculator = Int_data;
  Int = sizeof( INT ); if( PrfQueryProfileData( Ini_file, "Keys", "Browser", &Int_data, &Int ) ) Definer.Settings.Keys.Browser = Int_data;
  Int = sizeof( INT ); if( PrfQueryProfileData( Ini_file, "Keys", "Mail reader", &Int_data, &Int ) ) Definer.Settings.Keys.Mail_reader = Int_data;

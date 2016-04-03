@@ -5,22 +5,23 @@ BYTE Krnl_Environment_ShellIsFileBar( VOID )
 {
  // FileBar может быть вызван после расширителя.
  if( Krnl_Environment.RTSettings.Shell_is_FileBar ) return 1;
+ {
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если окно скрыто - продолжаем перебор окон.
+    if( !WinIsWindowVisible( Window ) ) continue;
 
- // Перебираем окна в окне рабочего стола.
- HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если окно скрыто - продолжаем перебор окон.
-   if( !WinIsWindowVisible( Window ) ) continue;
-
-   // Если это FileBar - считаем, что он используется в качестве оболочки.
-   if( IsFileBarWindow( Window ) )
-    {
-     Krnl_Environment.RTSettings.Shell_is_FileBar = 1;
-     break;
-    }
-  }
- WinEndEnumWindows( Enumeration );
+    // Если это FileBar - считаем, что он используется в качестве оболочки.
+    if( IsFileBarWindow( Window ) )
+     {
+      Krnl_Environment.RTSettings.Shell_is_FileBar = 1;
+      break;
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Возврат.
  return Krnl_Environment.RTSettings.Shell_is_FileBar;

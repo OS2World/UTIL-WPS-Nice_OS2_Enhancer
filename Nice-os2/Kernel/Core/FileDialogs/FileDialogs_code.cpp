@@ -13,21 +13,23 @@ HWND FileDialogs_FindFieldInFileDialog( HWND Frame_window )
    // Считаем, что поле ввода неизвестно.
    if( Field != NULLHANDLE ) Field = NULLHANDLE;
 
-   // Перебираем окна в окне рамки.
-   HENUM Enumeration = WinBeginEnumWindows( Frame_window ); HWND Window = NULLHANDLE;
-   while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-    {
-     // Если это поле ввода:
-     if( IsEntryFieldWindow( Window ) )
-      {
-       // Если было найдено несколько полей ввода - прекращаем перебор окон.
-       if( Field != NULLHANDLE ) { Field = NULLHANDLE; break; }
+   {
+    // Перебираем окна в окне рамки.
+    HENUM Enumeration = WinBeginEnumWindows( Frame_window ); HWND Window = NULLHANDLE;
+    while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+     {
+      // Если это поле ввода:
+      if( IsEntryFieldWindow( Window ) )
+       {
+        // Если было найдено несколько полей ввода - прекращаем перебор окон.
+        if( Field != NULLHANDLE ) { Field = NULLHANDLE; break; }
 
-       // Запоминаем поле ввода.
-       Field = Window;
-      }
-    }
-   WinEndEnumWindows( Enumeration );
+        // Запоминаем поле ввода.
+        Field = Window;
+       }
+     }
+    WinEndEnumWindows( Enumeration );
+   }
   }
 
  // Возврат.

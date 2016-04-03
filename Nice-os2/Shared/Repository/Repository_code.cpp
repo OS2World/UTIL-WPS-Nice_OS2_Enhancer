@@ -68,7 +68,6 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_WATCHCAT;
  Repository.Items[ I ].Purpose = DO_MONITOR_SYSTEM;
  Repository.Items[ I ].Action = SHOW_TASK_MANAGER;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  Repository.Items[ I ].Desired = 1;
  strcpy( Repository.Items[ I ].Exe_name_1, "WatchCat.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "WatchCat object" );
@@ -98,8 +97,18 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Action = SHOW_PULSE;
  strcpy( Repository.Items[ I ].WPS_name_A, "<WP_PULSE>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "MPCPUMon.exe" );
+ strcpy( Repository.Items[ I ].Exe_name_1, "Pulse.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "MPCPUMonitor object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "MPCPUMonitor path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_SYSTEMLOAD;
+ Repository.Items[ I ].Purpose = DO_MONITOR_SYSTEM;
+ Repository.Items[ I ].Action = SHOW_PULSE;
+ strcpy( Repository.Items[ I ].WPS_name_A, "<SYSTEMLOAD>" );
+ strcpy( Repository.Items[ I ].Exe_name_1, "SL.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "SystemLoad object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "SystemLoad path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_NPSWPS;
@@ -132,7 +141,6 @@ VOID Repository_SetRepository( VOID )
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_CDRECORD;
  Repository.Items[ I ].Purpose = DO_PREPARE_DRIVES;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "CDRecord.exe" );
  strcpy( Repository.Items[ I ].Exe_name_2, "CDRDao.exe" );
  strcpy( Repository.Items[ I ].Exe_name_3, "CDRDao2.exe" );
@@ -146,7 +154,6 @@ VOID Repository_SetRepository( VOID )
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_DVDRECORD;
  Repository.Items[ I ].Purpose = DO_PREPARE_DRIVES;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "DVDDao.exe" );
  strcpy( Repository.Items[ I ].Exe_name_2, "MkISOFS.exe" );
 
@@ -188,7 +195,6 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_INJOY;
  Repository.Items[ I ].Purpose = DO_CONNECT_INTERNET;
  Repository.Items[ I ].Action = SHOW_DIALER;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "In-joy.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "In-joy object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "In-joy path" );
@@ -214,7 +220,6 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_FC;
  Repository.Items[ I ].Purpose = DO_MANAGE_FILES;
  Repository.Items[ I ].Action = SHOW_VIO_COMMANDER;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  Repository.Items[ I ].Desired = 1;
  strcpy( Repository.Items[ I ].Exe_name_1, "Fc.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "FC/2 object" );
@@ -224,7 +229,6 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_DN;
  Repository.Items[ I ].Purpose = DO_MANAGE_FILES;
  Repository.Items[ I ].Action = SHOW_VIO_COMMANDER;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "Dn.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "DN/2 object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "DN/2 path" );
@@ -233,7 +237,6 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_XC;
  Repository.Items[ I ].Purpose = DO_MANAGE_FILES;
  Repository.Items[ I ].Action = SHOW_VIO_COMMANDER;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "XCom2.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "X-Commander object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "X-Commander path" );
@@ -285,6 +288,24 @@ VOID Repository_SetRepository( VOID )
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "FileFreedom path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_FOTOGET;
+ Repository.Items[ I ].Purpose = DO_MANAGE_FILES;
+ Repository.Items[ I ].Action = SHOW_DIGITAL_CAMERA;
+ Repository.Items[ I ].Desired = 1;
+ strcpy( Repository.Items[ I ].WPS_name_A, "<FotoGet_2>" );
+ strcpy( Repository.Items[ I ].Exe_name_1, "FotoGet.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "FotoGet object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "FotoGet path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_DCAMERA;
+ Repository.Items[ I ].Purpose = DO_MANAGE_FILES;
+ Repository.Items[ I ].Action = SHOW_DIGITAL_CAMERA;
+ strcpy( Repository.Items[ I ].Exe_name_1, "Camera.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "DigitalCamera object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "DigitalCamera path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_GTU_FILES;
  Repository.Items[ I ].Purpose = DO_SEARCH_FILES;
  Repository.Items[ I ].Action = SHOW_FINDER;
@@ -317,9 +338,26 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_ARORA;
  Repository.Items[ I ].Purpose = DO_BROWSE_WEB_PAGES;
  Repository.Items[ I ].Action = SHOW_WEB_BROWSER;
+ strcpy( Repository.Items[ I ].WPS_name_A, "<AWB_ARORA_EXE>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Arora.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "Arora object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "Arora path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_QTWEB;
+ Repository.Items[ I ].Purpose = DO_BROWSE_WEB_PAGES;
+ Repository.Items[ I ].Action = SHOW_WEB_BROWSER;
+ strcpy( Repository.Items[ I ].Exe_name_1, "QtWeb.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "QtWeb object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "QtWeb path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_SURFER;
+ Repository.Items[ I ].Purpose = DO_BROWSE_WEB_PAGES;
+ Repository.Items[ I ].Action = SHOW_WEB_BROWSER;
+ strcpy( Repository.Items[ I ].Exe_name_1, "Surfer.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "Surfer object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "Surfer path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_QUPZILLA;
@@ -328,6 +366,14 @@ VOID Repository_SetRepository( VOID )
  strcpy( Repository.Items[ I ].Exe_name_1, "QupZilla.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "QupZilla object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "QupZilla path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_DOOBLE;
+ Repository.Items[ I ].Purpose = DO_BROWSE_WEB_PAGES;
+ Repository.Items[ I ].Action = SHOW_WEB_BROWSER;
+ strcpy( Repository.Items[ I ].Exe_name_1, "Dooble.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "Dooble object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "Dooble path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_LINKS;
@@ -366,9 +412,18 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_OPENCHAT;
  Repository.Items[ I ].Purpose = DO_INTERNET_CHAT;
  Repository.Items[ I ].Action = SHOW_INTERNET_CHAT;
+ Repository.Items[ I ].Desired = 1;
  strcpy( Repository.Items[ I ].Exe_name_1, "OpenChat.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "OpenChat object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "OpenChat path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_QUASSEL;
+ Repository.Items[ I ].Purpose = DO_INTERNET_CHAT;
+ Repository.Items[ I ].Action = SHOW_INTERNET_CHAT;
+ strcpy( Repository.Items[ I ].Exe_name_1, "Quassel.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "Quassel object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "Quassel path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_PMBITCHX;
@@ -400,16 +455,30 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_AICQ;
  Repository.Items[ I ].Purpose = DO_CONTACT_PEOPLE;
  Repository.Items[ I ].Action = SHOW_ICQ_PAGER;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "AICQ.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "AICQ object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "AICQ path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_PSI;
+ Repository.Items[ I ].Purpose = DO_CONTACT_PEOPLE;
+ Repository.Items[ I ].Action = SHOW_ICQ_PAGER;
+ strcpy( Repository.Items[ I ].Exe_name_1, "Psi.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "Psi object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "Psi path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_EYECU;
+ Repository.Items[ I ].Purpose = DO_CONTACT_PEOPLE;
+ Repository.Items[ I ].Action = SHOW_ICQ_PAGER;
+ strcpy( Repository.Items[ I ].Exe_name_1, "EyeCU.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "EyeCU object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "EyeCU path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_NFTPPM;
  Repository.Items[ I ].Purpose = DO_BROWSE_FTP_SITES;
  Repository.Items[ I ].Action = SHOW_FTP_BROWSER;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "Nftp.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "NFTP object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "NFTP path" );
@@ -432,15 +501,39 @@ VOID Repository_SetRepository( VOID )
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "FTPPM path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_HANDYFTP;
+ Repository.Items[ I ].Purpose = DO_BROWSE_FTP_SITES;
+ Repository.Items[ I ].Action = SHOW_FTP_BROWSER;
+ strcpy( Repository.Items[ I ].Exe_name_1, "HandyFTP.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "HandyFTP object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "HandyFTP path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_QFTP;
+ Repository.Items[ I ].Purpose = DO_BROWSE_FTP_SITES;
+ Repository.Items[ I ].Action = SHOW_FTP_BROWSER;
+ strcpy( Repository.Items[ I ].Exe_name_1, "qFTP.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "qFTP object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "qFTP path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_SSH;
  Repository.Items[ I ].Purpose = DO_REMOTE_CONTROL;
  Repository.Items[ I ].Action = SHOW_VIO_SSH_TERMINAL;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  Repository.Items[ I ].Desired = 1;
+ strcpy( Repository.Items[ I ].WPS_name_A, "<ECS_OPENSSHCLIENT>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Ssh.exe" );
  strcpy( Repository.Items[ I ].Exe_name_2, "Ssh2.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "SSH object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "SSH path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_QPUTTY;
+ Repository.Items[ I ].Purpose = DO_REMOTE_CONTROL;
+ Repository.Items[ I ].Action = SHOW_PM_SSH_TERMINAL;
+ strcpy( Repository.Items[ I ].Exe_name_1, "qPutty.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "qPutty object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "qPutty path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_MINDTERM;
@@ -451,9 +544,29 @@ VOID Repository_SetRepository( VOID )
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "MindTerm object" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_VNC;
+ Repository.Items[ I ].Purpose = DO_REMOTE_CONTROL;
+ Repository.Items[ I ].Action = SHOW_REMOTE_DESKTOP_VNC;
+ Repository.Items[ I ].Desired = 1;
+ strcpy( Repository.Items[ I ].WPS_name_A, "<PM_VNCVIEW>" );
+ strcpy( Repository.Items[ I ].Exe_name_1, "VNCView.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "PMVNC object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "PMVNC path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_LIXIA;
+ Repository.Items[ I ].Purpose = DO_REMOTE_CONTROL;
+ Repository.Items[ I ].Action = SHOW_REMOTE_DESKTOP_RDP;
+ strcpy( Repository.Items[ I ].WPS_name_A, "<JAVA_RDPVIEW>" );
+ strcpy( Repository.Items[ I ].WPS_keyword_1, "Lixia" );
+ strcpy( Repository.Items[ I ].Window_keyword_1, "Lixia" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "Lixia object" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_MED;
  Repository.Items[ I ].Purpose = DO_EDIT_TEXT;
  Repository.Items[ I ].Action = SHOW_TEXT_EDITOR;
+ Repository.Items[ I ].Desired = 1;
  strcpy( Repository.Items[ I ].Exe_name_1, "Med.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "MED object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "MED path" );
@@ -463,9 +576,18 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Purpose = DO_EDIT_TEXT;
  Repository.Items[ I ].Action = SHOW_TEXT_EDITOR;
  strcpy( Repository.Items[ I ].WPS_name_A, "<KON2>" );
+ strcpy( Repository.Items[ I ].WPS_name_B, "<KON2 README>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "KonOS2.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "KON object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "KON path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_QEDIT;
+ Repository.Items[ I ].Purpose = DO_EDIT_TEXT;
+ Repository.Items[ I ].Action = SHOW_TEXT_EDITOR;
+ strcpy( Repository.Items[ I ].Exe_name_1, "qEdit.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "qEdit object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "qEdit path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_FTEPM;
@@ -529,7 +651,6 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_SCALC;
  Repository.Items[ I ].Purpose = DO_CALCULATION;
  Repository.Items[ I ].Action = SHOW_CALCULATOR;
- strcpy( Repository.Items[ I ].WPS_name_A, "<ECS_CALC>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "SCalc.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "SCalc object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "SCalc path" );
@@ -547,6 +668,7 @@ VOID Repository_SetRepository( VOID )
  Repository.Items[ I ].Application = APP_ECALC;
  Repository.Items[ I ].Purpose = DO_CALCULATION;
  Repository.Items[ I ].Action = SHOW_CALCULATOR;
+ strcpy( Repository.Items[ I ].WPS_name_A, "<ECS_CALC>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "eCSCalc.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "eCalc object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "eCalc path" );
@@ -614,7 +736,7 @@ VOID Repository_SetRepository( VOID )
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_PM123;
  Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
- Repository.Items[ I ].Action = SHOW_MP3_PLAYER;
+ Repository.Items[ I ].Action = SHOW_MUSIC_PLAYER;
  Repository.Items[ I ].Desired = 1;
  strcpy( Repository.Items[ I ].WPS_name_A, "<PM123>" );
  strcpy( Repository.Items[ I ].Exe_name_1, "Pm123.exe" );
@@ -624,16 +746,39 @@ VOID Repository_SetRepository( VOID )
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_WARPVISION;
  Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
- Repository.Items[ I ].Action = SHOW_MP3_PLAYER;
+ Repository.Items[ I ].Action = SHOW_VIDEO_PLAYER;
  strcpy( Repository.Items[ I ].Exe_name_1, "Video2.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "WarpVision object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "WarpVision path" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_VLC;
+ Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
+ Repository.Items[ I ].Action = SHOW_VIDEO_PLAYER;
+ strcpy( Repository.Items[ I ].Exe_name_1, "VLC.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "VLC object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "VLC path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_MPLAYER;
+ Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
+ Repository.Items[ I ].Action = SHOW_MUSIC_PLAYER;
+ strcpy( Repository.Items[ I ].Exe_name_1, "MPlayer.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "MPlayer object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "MPlayer path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
+ Repository.Items[ I ].Application = APP_MOOSICK;
+ Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
+ Repository.Items[ I ].Action = SHOW_MUSIC_PLAYER;
+ strcpy( Repository.Items[ I ].Exe_name_1, "MooSick.exe" );
+ strcpy( Repository.Items[ I ].Object_INI_setting_name, "MooSick object" );
+ strcpy( Repository.Items[ I ].Path_INI_setting_name, "MooSick path" );
+
+ Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_ZMP3;
  Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
- Repository.Items[ I ].Action = SHOW_MP3_PLAYER;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
+ Repository.Items[ I ].Action = SHOW_MUSIC_PLAYER;
  strcpy( Repository.Items[ I ].Exe_name_1, "Z.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "ZMP3 object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "ZMP3 path" );
@@ -649,7 +794,6 @@ VOID Repository_SetRepository( VOID )
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_TIMIDITY;
  Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
  strcpy( Repository.Items[ I ].Exe_name_1, "Timidity.exe" );
 
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
@@ -663,8 +807,7 @@ VOID Repository_SetRepository( VOID )
  Repository_next( &I ); Repository_clear( &Repository.Items[ I ] );
  Repository.Items[ I ].Application = APP_ZMP3;
  Repository.Items[ I ].Purpose = DO_ENTERTAINMENT;
- Repository.Items[ I ].Action = SHOW_MP3_PLAYER;
- Repository.Items[ I ].Mode = PROG_WINDOWABLEVIO;
+ Repository.Items[ I ].Action = SHOW_MUSIC_PLAYER;
  strcpy( Repository.Items[ I ].Exe_name_1, "Z.exe" );
  strcpy( Repository.Items[ I ].Object_INI_setting_name, "ZMP3 object" );
  strcpy( Repository.Items[ I ].Path_INI_setting_name, "ZMP3 path" );
@@ -890,27 +1033,43 @@ VOID Repository_ReadRepository( HINI Ini_file )
 
  for( Count = 0; Count < Repository.Length; Count ++ )
   {
+   // Читаем имена исполняемых файлов.
    if( Repository.Items[ Count ].Exe_INI_setting_name[ 0 ] != 0 )
     {
-     ULONG Name = SIZE_OF_NAME; PrfQueryProfileData( Ini_file, "Applications", Repository.Items[ Count ].Exe_INI_setting_name, Repository.Items[ Count ].Exe_name_1, &Name );
+     PCHAR Target = NULL;
 
-     Repository.Items[ Count ].Object[ 0 ] = 0;
-     Repository.Items[ Count ].Path[ 0 ] = 0;
+     if( Repository.Items[ Count ].Exe_name_4[ 0 ] == 0 || Repository.Items[ Count ].Exe_name_4[ 0 ] == '*' ) Target = Repository.Items[ Count ].Exe_name_4;
+     if( Repository.Items[ Count ].Exe_name_3[ 0 ] == 0 || Repository.Items[ Count ].Exe_name_3[ 0 ] == '*' ) Target = Repository.Items[ Count ].Exe_name_3;
+     if( Repository.Items[ Count ].Exe_name_2[ 0 ] == 0 || Repository.Items[ Count ].Exe_name_2[ 0 ] == '*' ) Target = Repository.Items[ Count ].Exe_name_2;
+     if( Repository.Items[ Count ].Exe_name_1[ 0 ] == 0 || Repository.Items[ Count ].Exe_name_1[ 0 ] == '*' ) Target = Repository.Items[ Count ].Exe_name_1;
+
+     if( Target != NULL )
+      {
+       ULONG Name = SIZE_OF_NAME; PrfQueryProfileData( Ini_file, "Applications", Repository.Items[ Count ].Exe_INI_setting_name, Target, &Name );
+      }
     }
 
-   if( Repository.Items[ Count ].Object_INI_setting_name[ 0 ] != 0 ) if( Repository.Items[ Count ].Object[ 0 ] == 0 )
+   // Читаем имена значков на рабочем столе.
+   if( Repository.Items[ Count ].Object_INI_setting_name[ 0 ] != 0 )
     {
-     ULONG Name = SIZE_OF_NAME; PrfQueryProfileData( Ini_file, "Applications", Repository.Items[ Count ].Object_INI_setting_name, Repository.Items[ Count ].Object, &Name );
+     PCHAR Target = NULL;
+
+     if( Repository.Items[ Count ].WPS_name_D[ 0 ] == 0 ) Target = Repository.Items[ Count ].WPS_name_D;
+     if( Repository.Items[ Count ].WPS_name_C[ 0 ] == 0 ) Target = Repository.Items[ Count ].WPS_name_C;
+     if( Repository.Items[ Count ].WPS_name_B[ 0 ] == 0 ) Target = Repository.Items[ Count ].WPS_name_B;
+     if( Repository.Items[ Count ].WPS_name_A[ 0 ] == 0 ) Target = Repository.Items[ Count ].WPS_name_A;
+
+     ULONG Name = SIZE_OF_NAME; PrfQueryProfileData( Ini_file, "Applications", Repository.Items[ Count ].Object_INI_setting_name, Target, &Name );
     }
 
-   if( Repository.Items[ Count ].Path_INI_setting_name[ 0 ] != 0 ) if( Repository.Items[ Count ].Path[ 0 ] == 0 )
+   // Читаем путь к каталогу приложения.
+   #ifdef INCLUDED_BY_SHELL
+   if( Repository.Items[ Count ].Path_INI_setting_name[ 0 ] != 0 )
     {
-     ULONG Path = SIZE_OF_PATH; PrfQueryProfileData( Ini_file, "Applications", Repository.Items[ Count ].Path_INI_setting_name, Repository.Items[ Count ].Path, &Path );
+     ULONG Path = SIZE_OF_PATH; PrfQueryProfileData( Ini_file, "Applications", Repository.Items[ Count ].Path_INI_setting_name, Repository.Items[ Count ].Path_to_Exe_file, &Path );
     }
+   #endif
   }
-
- // Закрываем файл настроек.
- PrfCloseProfile( Ini_file );
 
  // Возврат.
  return;
@@ -934,45 +1093,6 @@ HOBJECT Repository_QueryWPSObject( PCHAR Name )
 
  // Возврат.
  return NULLHANDLE;
-}
-
-// ─── Узнает значок на рабочем столе, распознавая имена от WPTools.dll, и проверяет его существование ───
-
-// Name - имя значка, возвращенное WPTools.dll
-BYTE Repository_WPSObjectIsExists( PCHAR Name )
-{
- // Если в начале имени стоит "#" - разбираем его, как 16-ричное значение.
- if( Name[ 0 ] == '#' )
-  {
-   // Разбираем значение.
-   HOBJECT Object = (HOBJECT) atoi( &Name[ 1 ] );
-
-   // Проверяем, доступен ли этот значок на рабочем столе.
-   HOBJECT Hidden_folder = WinQueryObject( "<WP_NOWHERE>" );
-
-   if( Hidden_folder != NULLHANDLE )
-    {
-     HOBJECT Shadow = WinCreateShadow( Object, Hidden_folder, 0 );
-
-     if( Shadow != NULLHANDLE )
-      {
-       WinDestroyObject( Shadow ); return 1;
-      }
-    }
-   else
-    {
-     return 1;
-    }
-  }
- // Иначе - вызываем обычный метод WPS.
- else
-  {
-   // Проверяем существование значка.
-   if( WinQueryObject( Name ) != NULLHANDLE ) return 1;
-  }
-
- // Возврат.
- return 0;
 }
 
 // ─── Находит приложение в списке ───
@@ -1015,7 +1135,7 @@ INT Repository_FindApplicationInRepository( INT Application, BYTE Filter = FLT_A
      if( Filter == FLT_SUITABLE && Repository.Items[ Count ].Desired == 0 ) Success = 1;
     }
    #else
-   if( Repository.Items[ Count ].Application == Application ) 
+   if( Repository.Items[ Count ].Application == Application )
     {
      if( Filter == FLT_ALL ) Success = 1;
      if( Filter == FLT_DESIRED  && Repository.Items[ Count ].Desired == 1 ) Success = 1;
@@ -1046,7 +1166,7 @@ INT Repository_FindExeNameInRepository( PCHAR Name, BYTE Filter = FLT_ALL )
    if( stric( Name, Repository.Items[ Count ].Exe_name_1 ) ||
        stric( Name, Repository.Items[ Count ].Exe_name_2 ) ||
        stric( Name, Repository.Items[ Count ].Exe_name_3 ) ||
-       stric( Name, Repository.Items[ Count ].Exe_name_4 ) ) 
+       stric( Name, Repository.Items[ Count ].Exe_name_4 ) )
     {
      if( Filter == FLT_ALL ) Success = 1;
      if( Filter == FLT_DESIRED  && Repository.Items[ Count ].Desired == 1 ) Success = 1;
@@ -1077,35 +1197,6 @@ BYTE Repository_ApplicationIsExists( INT Application, BYTE Filter = FLT_ALL )
  if( Repository.Items[ Position ].WPS_name_B[ 0 ] != 0 ) if( Repository_QueryWPSObject( Repository.Items[ Position ].WPS_name_B ) != NULLHANDLE ) return 1;
  if( Repository.Items[ Position ].WPS_name_C[ 0 ] != 0 ) if( Repository_QueryWPSObject( Repository.Items[ Position ].WPS_name_C ) != NULLHANDLE ) return 1;
  if( Repository.Items[ Position ].WPS_name_D[ 0 ] != 0 ) if( Repository_QueryWPSObject( Repository.Items[ Position ].WPS_name_D ) != NULLHANDLE ) return 1;
-
- if( Repository.Items[ Position ].Object[ 0 ] != 0 )
-  if( Repository_WPSObjectIsExists( Repository.Items[ Position ].Object ) )
-   return 1;
-
- // Проверяем, есть ли приложение на диске.
- if( Repository.Items[ Position ].Path[ 0 ] != 0 )
-  {
-   INT Count = 0;
-
-   for( Count = 0; Count < 4; Count ++ )
-    {
-     CHAR Path[ SIZE_OF_PATH ] = "";
-
-     PCHAR File_name = Repository.Items[ Position ].Exe_name_1;
-     if( Count == 1 ) Repository.Items[ Position ].Exe_name_2;
-     if( Count == 2 ) Repository.Items[ Position ].Exe_name_3;
-     if( Count == 3 ) Repository.Items[ Position ].Exe_name_4;
-
-     if( File_name[ 0 ] != 0 )
-      {
-       strcpy( Path, Repository.Items[ Position ].Path );
-       strcat( Path, "\\" );
-       strcat( Path, File_name );
-
-       if( FileExists( Path ) ) return 1;
-      }
-    }
-  }
 
  // Возврат.
  return 0;

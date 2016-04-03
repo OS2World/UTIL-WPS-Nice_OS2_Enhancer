@@ -24,135 +24,137 @@ VOID Krnl_DlgBox_ScanDialogWindow( HWND Window, PDLGBOX Data, BYTE Condition = S
  DLGFIELD Fields[ DLG_MAX_FIELDS ]; SWP Placements[ DLG_MAX_FIELDS ];
  bzero( Fields, sizeof( DLGFIELD ) * DLG_MAX_FIELDS );
 
- // Перебираем поля ввода в указанном окне.
- HENUM Enumeration = WinBeginEnumWindows( Window ); HWND Field = NULLHANDLE;
- while( ( Field = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если поле ввода недоступно - продолжаем перебор окон.
-   if( !WindowIsPresent( Field ) ) continue;
+ {
+  // Перебираем поля ввода в указанном окне.
+  HENUM Enumeration = WinBeginEnumWindows( Window ); HWND Field = NULLHANDLE;
+  while( ( Field = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если поле ввода недоступно - продолжаем перебор окон.
+    if( !WindowIsPresent( Field ) ) continue;
 
-   // Узнаем, что это за поле ввода. Выбор зависит от внешних условий.
-   LONG Field_type = 0;
+    // Узнаем, что это за поле ввода. Выбор зависит от внешних условий.
+    LONG Field_type = 0;
 
-   if( Condition == SCAN_ALL_FIELDS || Condition & SCAN_INPUT_FIELDS )
-    {
-     if( !Field_type ) if( IsInputFieldWindow( Field ) ) Field_type = DLG_INPUT_FIELD;
-     if( !Field_type ) if( IsEntryFieldWindow( Field ) ) Field_type = DLG_ENTRY_FIELD;
-    }
+    if( Condition == SCAN_ALL_FIELDS || Condition & SCAN_INPUT_FIELDS )
+     {
+      if( !Field_type ) if( IsInputFieldWindow( Field ) ) Field_type = DLG_INPUT_FIELD;
+      if( !Field_type ) if( IsEntryFieldWindow( Field ) ) Field_type = DLG_ENTRY_FIELD;
+     }
 
-   if( Condition == SCAN_ALL_FIELDS )
-    {
-     if( !Field_type ) if( IsComboBoxWindow( Field ) ) Field_type = DLG_COMBO_BOX;
-     if( !Field_type ) if( IsListBoxWindow( Field ) ) Field_type = DLG_LIST_BOX;
-    }
+    if( Condition == SCAN_ALL_FIELDS )
+     {
+      if( !Field_type ) if( IsComboBoxWindow( Field ) ) Field_type = DLG_COMBO_BOX;
+      if( !Field_type ) if( IsListBoxWindow( Field ) ) Field_type = DLG_LIST_BOX;
+     }
 
-   if( Condition == SCAN_ALL_FIELDS )
-    {
-     if( !Field_type ) if( IsSpinButtonWindow( Field ) ) Field_type = DLG_SPIN_BUTTON;
-     if( !Field_type ) if( IsCheckBoxButtonWindow( Field ) ) Field_type = DLG_CHECKBOX_BUTTON;
-     if( !Field_type ) if( IsRadioButtonWindow( Field ) ) Field_type = DLG_RADIO_BUTTON;
-    }
+    if( Condition == SCAN_ALL_FIELDS )
+     {
+      if( !Field_type ) if( IsSpinButtonWindow( Field ) ) Field_type = DLG_SPIN_BUTTON;
+      if( !Field_type ) if( IsCheckBoxButtonWindow( Field ) ) Field_type = DLG_CHECKBOX_BUTTON;
+      if( !Field_type ) if( IsRadioButtonWindow( Field ) ) Field_type = DLG_RADIO_BUTTON;
+     }
 
-   if( Condition == SCAN_ALL_FIELDS )
-    {
-     if( !Field_type ) if( IsButtonWindow( Field ) ) Field_type = DLG_PUSH_BUTTON;
-    }
+    if( Condition == SCAN_ALL_FIELDS )
+     {
+      if( !Field_type ) if( IsButtonWindow( Field ) ) Field_type = DLG_PUSH_BUTTON;
+     }
 
-   if( Condition == SCAN_ALL_FIELDS )
-    {
-     if( !Field_type ) if( IsSliderWindow( Field ) ) Field_type = DLG_SLIDER;
-    }
+    if( Condition == SCAN_ALL_FIELDS )
+     {
+      if( !Field_type ) if( IsSliderWindow( Field ) ) Field_type = DLG_SLIDER;
+     }
 
-   // Распознаем невидимые прямоугольники, которые могут содержать другие поля.
-   if( !Field_type ) if( IsStaticWindow( Field ) ) Field_type = DLG_STATIC;
+    // Распознаем невидимые прямоугольники, которые могут содержать другие поля.
+    if( !Field_type ) if( IsStaticWindow( Field ) ) Field_type = DLG_STATIC;
 
-   // Если это не кнопка и не прямоугольник и окно выключено - продолжаем перебор окон.
-   if( Field_type != DLG_PUSH_BUTTON )
-    if( Field_type != DLG_STATIC )
-     if( !WinIsWindowEnabled( Field ) ) continue;
+    // Если это не кнопка и не прямоугольник и окно выключено - продолжаем перебор окон.
+    if( Field_type != DLG_PUSH_BUTTON )
+     if( Field_type != DLG_STATIC )
+      if( !WinIsWindowEnabled( Field ) ) continue;
 
-   // Если поле ввода надо запомнить:
-   if( Field_type )
-    {
-     // Запоминаем окно.
-     Fields[ Quantity ].Window = Field;
+    // Если поле ввода надо запомнить:
+    if( Field_type )
+     {
+      // Запоминаем окно.
+      Fields[ Quantity ].Window = Field;
 
-     // Запоминаем, что это за поле ввода.
-     Fields[ Quantity ].Type = Field_type;
+      // Запоминаем, что это за поле ввода.
+      Fields[ Quantity ].Type = Field_type;
 
-     // Сбрасываем временные переменные.
-     Krnl_DlgBox.RTSettings.Item_index = LIT_NONE; Krnl_DlgBox.RTSettings.Item_text[ 0 ] = 0;
+      // Сбрасываем временные переменные.
+      Krnl_DlgBox.RTSettings.Item_index = LIT_NONE; Krnl_DlgBox.RTSettings.Item_text[ 0 ] = 0;
 
-     // Запоминаем содержимое поля ввода.
-     Fields[ Quantity ].Value[ 0 ] = 0;
+      // Запоминаем содержимое поля ввода.
+      Fields[ Quantity ].Value[ 0 ] = 0;
 
-     if( Field_type == DLG_INPUT_FIELD || Field_type == DLG_ENTRY_FIELD )
-      {
-       WinQueryWindowText( Field, SIZE_OF_DIALOG_FIELD, Fields[ Quantity ].Value );
-       if( Fields[ Quantity ].Value[ 0 ] != 0 ) Fields[ Quantity ].Useful = 1;
-      }
+      if( Field_type == DLG_INPUT_FIELD || Field_type == DLG_ENTRY_FIELD )
+       {
+        WinQueryWindowText( Field, SIZE_OF_DIALOG_FIELD, Fields[ Quantity ].Value );
+        if( Fields[ Quantity ].Value[ 0 ] != 0 ) Fields[ Quantity ].Useful = 1;
+       }
 
-     if( Field_type == DLG_COMBO_BOX || Field_type == DLG_LIST_BOX )
-      {
-       LONG Index = (LONG) WinSendMsg( Field, LM_QUERYSELECTION, (MPARAM) LIT_CURSOR, 0 );
-       if( Index != LIT_NONE )
-        {
-         WinSendMsg( Field, LM_QUERYITEMTEXT, MPFROM2SHORT( Index, SIZE_OF_DIALOG_FIELD ), Krnl_DlgBox.RTSettings.Item_text );
-         strcpy( Fields[ Quantity ].Value, Krnl_DlgBox.RTSettings.Item_text );
-         if( Fields[ Quantity ].Value[ 0 ] != 0 ) Fields[ Quantity ].Useful = 1;
-        }
-      }
+      if( Field_type == DLG_COMBO_BOX || Field_type == DLG_LIST_BOX )
+       {
+        LONG Index = (LONG) WinSendMsg( Field, LM_QUERYSELECTION, (MPARAM) LIT_CURSOR, 0 );
+        if( Index != LIT_NONE )
+         {
+          WinSendMsg( Field, LM_QUERYITEMTEXT, MPFROM2SHORT( Index, SIZE_OF_DIALOG_FIELD ), Krnl_DlgBox.RTSettings.Item_text );
+          strcpy( Fields[ Quantity ].Value, Krnl_DlgBox.RTSettings.Item_text );
+          if( Fields[ Quantity ].Value[ 0 ] != 0 ) Fields[ Quantity ].Useful = 1;
+         }
+       }
 
-     if( Field_type == DLG_SPIN_BUTTON )
-      {
-       WinSendMsg( Field, SPBM_QUERYVALUE, &Krnl_DlgBox.RTSettings.Item_index, MPFROM2SHORT( 0, SPBQ_ALWAYSUPDATE ) );
+      if( Field_type == DLG_SPIN_BUTTON )
+       {
+        WinSendMsg( Field, SPBM_QUERYVALUE, &Krnl_DlgBox.RTSettings.Item_index, MPFROM2SHORT( 0, SPBQ_ALWAYSUPDATE ) );
 
-       if( Krnl_DlgBox.RTSettings.Item_index != LIT_NONE )
-        {
-         itoa( Krnl_DlgBox.RTSettings.Item_index, Fields[ Quantity ].Value, 10 );
-         strcat( Fields[ Quantity ].Value, ":" );
+        if( Krnl_DlgBox.RTSettings.Item_index != LIT_NONE )
+         {
+          itoa( Krnl_DlgBox.RTSettings.Item_index, Fields[ Quantity ].Value, 10 );
+          strcat( Fields[ Quantity ].Value, ":" );
 
-         WinSendMsg( Field, SPBM_QUERYVALUE, Krnl_DlgBox.RTSettings.Item_text, MPFROM2SHORT( SIZE_OF_DIALOG_FIELD, SPBQ_ALWAYSUPDATE ) );
-         strcat( Fields[ Quantity ].Value, Krnl_DlgBox.RTSettings.Item_text );
+          WinSendMsg( Field, SPBM_QUERYVALUE, Krnl_DlgBox.RTSettings.Item_text, MPFROM2SHORT( SIZE_OF_DIALOG_FIELD, SPBQ_ALWAYSUPDATE ) );
+          strcat( Fields[ Quantity ].Value, Krnl_DlgBox.RTSettings.Item_text );
 
-         if( Fields[ Quantity ].Value[ 0 ] != 0 ) Fields[ Quantity ].Useful = 1;
-        }
-      }
+          if( Fields[ Quantity ].Value[ 0 ] != 0 ) Fields[ Quantity ].Useful = 1;
+         }
+       }
 
-     if( Field_type == DLG_CHECKBOX_BUTTON || Field_type == DLG_RADIO_BUTTON )
-      {
-       LONG Checked = (LONG) WinSendMsg( Field, BM_QUERYCHECK, 0, 0 );
-       switch( Checked )
-        {
-         case 0: strcpy( Fields[ Quantity ].Value, "-" ); break;
-         case 1: strcpy( Fields[ Quantity ].Value, "+" ); break;
-         case 2: strcpy( Fields[ Quantity ].Value, "*" ); break;
-        }
-      }
+      if( Field_type == DLG_CHECKBOX_BUTTON || Field_type == DLG_RADIO_BUTTON )
+       {
+        LONG Checked = (LONG) WinSendMsg( Field, BM_QUERYCHECK, 0, 0 );
+        switch( Checked )
+         {
+          case 0: strcpy( Fields[ Quantity ].Value, "-" ); break;
+          case 1: strcpy( Fields[ Quantity ].Value, "+" ); break;
+          case 2: strcpy( Fields[ Quantity ].Value, "*" ); break;
+         }
+       }
 
-     if( Field_type == DLG_PUSH_BUTTON )
-      {
-       WinQueryWindowText( Field, SIZE_OF_DIALOG_FIELD, Fields[ Quantity ].Value );
-       if( Fields[ Quantity ].Value[ 0 ] == 0 ) strcpy( Fields[ Quantity ].Value, ">>" );
-      }
+      if( Field_type == DLG_PUSH_BUTTON )
+       {
+        WinQueryWindowText( Field, SIZE_OF_DIALOG_FIELD, Fields[ Quantity ].Value );
+        if( Fields[ Quantity ].Value[ 0 ] == 0 ) strcpy( Fields[ Quantity ].Value, ">>" );
+       }
 
-     if( Field_type == DLG_SLIDER )
-      {
-       ULONG Position = (ULONG) WinSendMsg( Field, SLM_QUERYSLIDERINFO, MPFROM2SHORT( SMA_SLIDERARMPOSITION, SMA_INCREMENTVALUE ), 0 );
-       itoa( Position, Fields[ Quantity ].Value, 10 );
-       if( Fields[ Quantity ].Value[ 0 ] != 0 ) Fields[ Quantity ].Useful = 1;
-      }
+      if( Field_type == DLG_SLIDER )
+       {
+        ULONG Position = (ULONG) WinSendMsg( Field, SLM_QUERYSLIDERINFO, MPFROM2SHORT( SMA_SLIDERARMPOSITION, SMA_INCREMENTVALUE ), 0 );
+        itoa( Position, Fields[ Quantity ].Value, 10 );
+        if( Fields[ Quantity ].Value[ 0 ] != 0 ) Fields[ Quantity ].Useful = 1;
+       }
 
-     if( Field_type == DLG_STATIC ) strcpy( Fields[ Quantity ].Value, "::" );
+      if( Field_type == DLG_STATIC ) strcpy( Fields[ Quantity ].Value, "::" );
 
-     // Запоминаем расположение окна.
-     WinQueryWindowPos( Field, &Placements[ Quantity ] );
+      // Запоминаем расположение окна.
+      WinQueryWindowPos( Field, &Placements[ Quantity ] );
 
-     // Увеличиваем счетчик.
-     Quantity ++; if( Quantity == DLG_MAX_FIELDS ) break;
-    }
-  }
- WinEndEnumWindows( Enumeration );
+      // Увеличиваем счетчик.
+      Quantity ++; if( Quantity == DLG_MAX_FIELDS ) break;
+     }
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Если найдено хотя бы одно окно:
  if( Quantity > 0 )

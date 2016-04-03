@@ -1,5 +1,5 @@
 // Задержка при выравнивании текстовых окон.
-#define ARRANGER_DELAY_VIO        7500
+#define ARRANGER_DELAY_VIO        12500
 
 // Выравнивание окон.
 typedef struct _ARRANGER

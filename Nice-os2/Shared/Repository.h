@@ -14,6 +14,7 @@
 #define APP_THESEUS                  10021
 #define APP_KTASKMAN                 10022
 #define APP_MPCPUMON                 10023
+#define APP_SYSTEMLOAD               10024
 
 #define APP_NPSWPS                   10030
 #define APP_SYSBAR                   10031
@@ -45,40 +46,55 @@
 #define APP_FBROWSER                 10083
 #define APP_FFREEDOM                 10084
 
-#define APP_GTU_FILES                10090
+#define APP_FOTOGET                  10090
+#define APP_DCAMERA                  10091
+
+#define APP_GTU_FILES                10095
 
 #define APP_MOZILLA                  10100
 #define APP_FIREFOX                  10101
 #define APP_ARORA                    10102
-#define APP_QUPZILLA                 10103
-#define APP_LINKS                    10104
+#define APP_QTWEB                    10103
+#define APP_SURFER                   10104
+#define APP_QUPZILLA                 10105
+#define APP_DOOBLE                   10106
+#define APP_LINKS                    10107
 
 #define APP_THUNDERBIRD              10110
 #define APP_PMMAIL                   10111
 #define APP_POLARBAR                 10112
 
 #define APP_OPENCHAT                 10120
-#define APP_PMBITCHX                 10121
+#define APP_QUASSEL                  10121
+#define APP_PMBITCHX                 10122
 
 #define APP_PWICQ                    10130
 #define APP_ICECQ                    10131
 #define APP_AICQ                     10132
+#define APP_PSI                      10133
+#define APP_EYECU                    10134
 
 #define APP_FTPBROWSER               10140
 #define APP_NFTPPM                   10141
 #define APP_FTPPM                    10142
+#define APP_HANDYFTP                 10143
+#define APP_QFTP                     10144
 
 #define APP_SSH                      10150
-#define APP_MINDTERM                 10151
+#define APP_QPUTTY                   10151
+#define APP_MINDTERM                 10152
+#define APP_VNC                      10153
+#define APP_LIXIA                    10154
 
 #define APP_MED                      10160
 #define APP_KON                      10161
-#define APP_FTEPM                    10162
-#define APP_FWE                      10163
-#define APP_E                        10164
-#define APP_EPM                      10165
-#define APP_EDPLUS                   10166
-#define APP_ZED                      10167
+#define APP_QEDIT                    10162
+#define APP_FTEPM                    10163
+#define APP_FWE                      10164
+#define APP_E                        10165
+#define APP_EPM                      10166
+#define APP_EDPLUS                   10167
+#define APP_ZED                      10168
 
 #define APP_EULER                    10170
 #define APP_SCALC                    10171
@@ -98,10 +114,13 @@
 
 #define APP_PM123                    10210
 #define APP_WARPVISION               10211
-#define APP_ZMP3                     10212
-#define APP_MIKMOD                   10213
-#define APP_TIMIDITY                 10214
-#define APP_COOLFM                   10215
+#define APP_VLC                      10212
+#define APP_MPLAYER                  10213
+#define APP_MOOSICK                  10214
+#define APP_ZMP3                     10215
+#define APP_MIKMOD                   10216
+#define APP_TIMIDITY                 10217
+#define APP_COOLFM                   10218
 
 #define APP_MMOS2_VOLUME             10220
 #define APP_UNIAUDIO_MIXER           10221
@@ -190,6 +209,7 @@
 
 #define SHOW_VIO_COMMANDER           12000
 #define SHOW_PM_COMMANDER            12010
+#define SHOW_DIGITAL_CAMERA          12015
 #define SHOW_FINDER                  12020
 
 #define SHOW_WEB_BROWSER             13000
@@ -200,12 +220,15 @@
 
 #define SHOW_VIO_SSH_TERMINAL        14000
 #define SHOW_PM_SSH_TERMINAL         14010
+#define SHOW_REMOTE_DESKTOP_VNC      14020
+#define SHOW_REMOTE_DESKTOP_RDP      14030
 
 #define SHOW_TEXT_EDITOR             14500
 #define SHOW_CALCULATOR              14510
 #define SHOW_IMAGE_VIEWER            14520
 
-#define SHOW_MP3_PLAYER              15000
+#define SHOW_MUSIC_PLAYER            15000
+#define SHOW_VIDEO_PLAYER            15005
 #define SHOW_MOD_PLAYER              15010
 #define SHOW_FM_TUNER                15020
 
@@ -395,3 +418,5 @@
 #define FLT_ALL                     0
 #define FLT_DESIRED                 1
 #define FLT_SUITABLE                2
+#define FLT_VISIBLE                 3
+#define FLT_HIDDEN                  4

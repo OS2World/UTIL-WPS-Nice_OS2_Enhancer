@@ -9,6 +9,7 @@
 #define INCLUDED_BY_SHELL
 
 #include "..\\..\\Nice-os2\\Shared\\General.h"
+#pragma pack(4)
 
 #include "..\\..\\Nice-os2\\Shared\\Strings.h"
 #include "..\\..\\Nice-os2\\Shared\\Strings\\Strings_data.cpp"
@@ -19,6 +20,7 @@
 #include "..\\..\\Nice-os2\\Shared\\Files.cpp"
 
 #include "..\\..\\Nice-os2\\Shared\\SysState.h"
+#pragma pack(4)
 
 #include "..\\..\\Nice-os2\\Shared\\Environment\\Environment_data.cpp"
 #include "..\\..\\Nice-os2\\Shared\\Environment\\Environment_code.cpp"
@@ -64,16 +66,18 @@ INT main( INT argc, CHAR *argv[] )
  // Узнаем окно рабочего стола.
  HWND Desktop = WinQueryDesktopWindow( Application, NULLHANDLE );
 
- // Перебираем окна в окне рабочего стола.
- HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-  {
-   // Если это окно расширителя - закрываем его.
-   if( IsFrameWindow( Window ) )
-    if( WindowIsCreatedBy( APP_NICE, Window ) || WindowIsCreatedBy( APP_NICE_ECS, Window ) )
-     WinPostMsg( Window, WM_SYSCOMMAND, (MPARAM) SC_CLOSE, 0 );
-  }
- WinEndEnumWindows( Enumeration );
+ {
+  // Перебираем окна в окне рабочего стола.
+  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
+  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+   {
+    // Если это окно расширителя - закрываем его.
+    if( IsFrameWindow( Window ) )
+     if( WindowIsCreatedBy( APP_NICE, Window ) || WindowIsCreatedBy( APP_NICE_ECS, Window ) )
+      WinPostMsg( Window, WM_SYSCOMMAND, (MPARAM) SC_CLOSE, 0 );
+   }
+  WinEndEnumWindows( Enumeration );
+ }
 
  // Сбрасываем очередь сообщений.
  WinDestroyMsgQueue( Message_queue );

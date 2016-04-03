@@ -1,5 +1,6 @@
 // Постоянные величины.
 #include "..\\Shared\\General.h"
+#pragma pack(4)
 
 // Вызовы C/C++.
 #include "..\\Shared\\StdLib\\StdLib_code.cpp"
@@ -28,6 +29,7 @@
 
 // Свойства окружения.
 #include "..\\Shared\\SysState.h"
+#pragma pack(4)
 
 // Переменные среды.
 #define INCLUDED_BY_SHELL
@@ -210,14 +212,11 @@ INT main( INT argc, PCHAR argv[] )
  }
  HINI Ini_file = OpenIniProfile( Inspector.Application, Settings_file_name );
 
- if( Ini_file )
-  {
-   // Читаем список приложений.
-   ReadRepository( Ini_file );
+ // Читаем список приложений.
+ if( Ini_file ) ReadRepository( Ini_file );
 
-   // Закрываем файл настроек.
-   PrfCloseProfile( Ini_file );
- }
+ // Закрываем файл настроек.
+ if( Ini_file ) PrfCloseProfile( Ini_file );
 
  // Узнаем страну, в которой работает приложение.
  Inspector.Code_page = QuerySystemCodePage();

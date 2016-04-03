@@ -17,9 +17,9 @@ VOID Processor_ProcessFile( PCHAR File_name )
    {
     CHAR Path[ SIZE_OF_PATH ] = ""; strcpy( Path, File_name ); CutNameInPath( Path );
 
-    if( !strc( Repository.Items[ Position ].Path, Path ) )
+    if( !strc( Repository.Items[ Position ].Path_to_Exe_file, Path ) )
      {
-      strcpy( Repository.Items[ Position ].Path, Path );
+      strcpy( Repository.Items[ Position ].Path_to_Exe_file, Path );
       Inspector.Write_settings = 1;
      }
 
@@ -32,7 +32,7 @@ VOID Processor_ProcessFile( PCHAR File_name )
        UpperCase( Name ); LowerCase( &Name[ 1 ] );
        strcpy( Status_string, Name );
        strcat( Status_string, " - " );
-       strcat( Status_string, Repository.Items[ Position ].Path );
+       strcat( Status_string, Repository.Items[ Position ].Path_to_Exe_file );
 
        WinSendDlgItemMsg( Inspector.Client_window, Client_Window.Settings.List_ID, LM_INSERTITEM, MPFROMSHORT( LIT_END ), MPFROMP( Status_string ) );
       }

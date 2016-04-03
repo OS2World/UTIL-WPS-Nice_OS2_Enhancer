@@ -1,6 +1,7 @@
 // Постоянные величины.
 #include "..\\..\\Nice-os2\\Shared\\General.h"
 #include "..\\..\\Nice-os2\\Shared\\Scan_codes.h"
+#pragma pack(4)
 
 // Вызовы C/C++.
 #include "..\\..\\Nice-os2\\Shared\\StdLib\\StdLib_code.cpp"

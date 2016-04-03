@@ -11,6 +11,7 @@
 #include <StdLib.h>
 
 #include "..\\Shared\\General.h"
+#pragma pack(4)
 
 #include "..\\Shared\\Strings.h"
 #include "..\\Shared\\Strings\\Strings_data.cpp"

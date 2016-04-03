@@ -119,7 +119,7 @@
    Point ++; if( Point < MAX_KEYS ) strcpy( Strings[ Point ], "Mute" );
    Point ++; if( Point < MAX_KEYS ) strcpy( Strings[ Point ], "Media" );
    Point ++; if( Point < MAX_KEYS ) strcpy( Strings[ Point ], "" );
-   Point ++; if( Point < MAX_KEYS ) strcpy( Strings[ Point ], "MyContooper" );
+   Point ++; if( Point < MAX_KEYS ) strcpy( Strings[ Point ], "Terminal" );
    Point ++; if( Point < MAX_KEYS ) strcpy( Strings[ Point ], "Calculator" );
    Point ++; if( Point < MAX_KEYS ) strcpy( Strings[ Point ], "Browser" );
    Point ++; if( Point < MAX_KEYS ) strcpy( Strings[ Point ], "Mail" );
@@ -238,6 +238,7 @@
 
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Работа с диском - VIO" );
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Работа с диском - PM" );
+    Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Цифровая камера" );
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Поиск файлов" );
 
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "" );
@@ -255,6 +256,11 @@
 
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "" );
 
+    Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Удалённый доступ, VNC" );
+    Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Удалённый доступ, RDP" );
+
+    Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "" );
+
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Текстовый редактор" );
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Калькулятор" );
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Просмотр изображений" );
@@ -262,6 +268,7 @@
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "" );
 
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Проигрыватель MP3" );
+    Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Проигрыватель видео" );
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Проигрыватель MOD" );
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "FM радио" );
 
@@ -335,6 +342,7 @@
 
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "File Manager - VIO" );
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "File Manager - PM" );
+    Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Digital Camera" );
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "File Search" );
 
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "" );
@@ -352,6 +360,11 @@
 
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "" );
 
+    Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Remote Desktop, VNC" );
+    Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Remote Desktop, RDP" );
+
+    Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "" );
+
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Text editor" );
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Calculator" );
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "Image viewer" );
@@ -359,6 +372,7 @@
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "" );
 
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "MP3 player" );
+    Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "MPEG player" );
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "MOD/S3M player" );
     Point ++; if( Point < MAX_ACTIONS ) strcpy( Strings[ Point ], "FM Tuner" );
 
@@ -661,7 +675,7 @@
 
   { INT Count; for( Count = Previous_point; Count <= Point; Count ++ ) { if( Count < MAX_KEYS ) Keyboard_Actions.Settings.Actions.Keys[ Count ].Permission = &Definer.Settings.Define_multimedia_keys; } Previous_point = Point; }
 
-  Point ++; if( Point < MAX_KEYS ) Keyboard_Actions.Settings.Actions.Keys[ Point ].Key = &Definer.Settings.Keys.MyContooper;
+  Point ++; if( Point < MAX_KEYS ) Keyboard_Actions.Settings.Actions.Keys[ Point ].Key = &Definer.Settings.Keys.Terminal;
   Point ++; if( Point < MAX_KEYS ) Keyboard_Actions.Settings.Actions.Keys[ Point ].Key = &Definer.Settings.Keys.Calculator;
   Point ++; if( Point < MAX_KEYS ) Keyboard_Actions.Settings.Actions.Keys[ Point ].Key = &Definer.Settings.Keys.Browser;
   Point ++; if( Point < MAX_KEYS ) Keyboard_Actions.Settings.Actions.Keys[ Point ].Key = &Definer.Settings.Keys.Mail_reader;
@@ -776,6 +790,7 @@
 
   Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_VIO_COMMANDER;
   Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_PM_COMMANDER;
+  Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_DIGITAL_CAMERA;
   Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_FINDER;
 
   Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = EMPTY_ACTION_ITEM;
@@ -793,13 +808,19 @@
 
   Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = EMPTY_ACTION_ITEM;
 
+  Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_REMOTE_DESKTOP_VNC;
+  Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_REMOTE_DESKTOP_RDP;
+
+  Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = EMPTY_ACTION_ITEM;
+
   Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_TEXT_EDITOR;
   Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_CALCULATOR;
   Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_IMAGE_VIEWER;
 
   Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = EMPTY_ACTION_ITEM;
 
-  Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_MP3_PLAYER;
+  Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_MUSIC_PLAYER;
+  Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_VIDEO_PLAYER;
   Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_MOD_PLAYER;
   Point ++; if( Point < MAX_ACTIONS ) Keyboard_Actions.Settings.Actions.Actions[ Point ] = SHOW_FM_TUNER;
 

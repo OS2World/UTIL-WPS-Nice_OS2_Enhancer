@@ -1,11 +1,11 @@
 // ─── Распознает клавиши Cherry CyMotion (USB) ───
 
-ULONG DetectUSBCherryKeys( PBYTE bSeq )
+ULONG DetectUSBCherryKeys (PBYTE Message)
 {
- // Распознаем клавишу "Media".
- if( bSeq[ 0 ] == 0xE0 &&
-     bSeq[ 1 ] == 0x3D ) { PostEventSemaphore( MMK_USB_MEDIA ); return 1; }
+  // Распознаем клавишу "Media".
+  if (Message[0] == 0xE0 &&
+      Message[1] == 0x3D) { PostEventSemaphore (MMK_MEDIA_PLAYER); return 1; }
 
- // Возврат.
- return 0;
+  // Возврат.
+  return 0;
 }

@@ -5,7 +5,7 @@
 VOID WinPrpListAndPainter_CheckActivityProperties( HWND Frame_window )
 {
  // Просматриваем список.
- for( INT Count = AbstractPrpList_GetTopItemPosition( &WinPrpList.Descendant ); Count >= 0; Count -- )
+ for( INT Count = PrpList_GetTopItemPosition( &WinPrpList.Descendant ); Count >= 0; Count -- )
   {
    // Если другое окно осталось выбранным - его рамка и заголовок должны быть перерисованы.
    HWND Window = WinPrpList.Properties_list[ Count ].Frame_window;

@@ -91,7 +91,7 @@ typedef struct _KEYS
   INT Mute;
   INT Media;
 
-  INT MyContooper;
+  INT Terminal;
   INT Calculator;
   INT Browser;
   INT Mail_reader;

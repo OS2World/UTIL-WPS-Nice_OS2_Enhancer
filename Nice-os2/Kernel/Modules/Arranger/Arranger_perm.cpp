@@ -39,31 +39,33 @@ BYTE Arranger_PermissionForBrowsers( HWND Frame_window, BYTE Recursive_calling =
      // Считаем, что окно выравнивать можно.
      BYTE Permission = 1;
 
-     // Перебираем окна в окне рабочего стола.
-     HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
-     while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-      {
-       // Если это то же самое окно - продолжаем перебор окон.
-       if( Window == Frame_window ) continue;
+     {
+      // Перебираем окна в окне рабочего стола.
+      HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
+      while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+       {
+        // Если это то же самое окно - продолжаем перебор окон.
+        if( Window == Frame_window ) continue;
 
-       // Если это не окно рамки - продолжаем перебор окон.
-       if( !IsFrameWindow( Window ) ) continue;
+        // Если это не окно рамки - продолжаем перебор окон.
+        if( !IsFrameWindow( Window ) ) continue;
 
-       // Узнаем имя приложения, создавшего окно.
-       CHAR Exe_name_2[ SIZE_OF_NAME ] = ""; GetDetectedExeName( Window, Exe_name_2 );
+        // Узнаем имя приложения, создавшего окно.
+        CHAR Exe_name_2[ SIZE_OF_NAME ] = ""; GetDetectedExeName( Window, Exe_name_2 );
   
-       // Если имена совпадают:
-       if( strc( Exe_name, Exe_name_2 ) )
-        {
-         // Если и другое окно можно выравнивать по тем же правилам - значит, 
-         // такое же окно уже присутствует на экране и больше ничего делать не надо.
-         if( Arranger_PermissionForBrowsers( Window, RECURSIVE_CALLING ) )
-          {
-           Permission = 0; break;
-          }
-        }
-      }
-     WinEndEnumWindows( Enumeration );
+        // Если имена совпадают:
+        if( strc( Exe_name, Exe_name_2 ) )
+         {
+          // Если и другое окно можно выравнивать по тем же правилам - значит, 
+          // такое же окно уже присутствует на экране и больше ничего делать не надо.
+          if( Arranger_PermissionForBrowsers( Window, RECURSIVE_CALLING ) )
+           {
+            Permission = 0; break;
+           }
+         }
+       }
+      WinEndEnumWindows( Enumeration );
+     }
 
      // Если окно выравнивать нельзя - возврат.
      if( !Permission ) return 0;

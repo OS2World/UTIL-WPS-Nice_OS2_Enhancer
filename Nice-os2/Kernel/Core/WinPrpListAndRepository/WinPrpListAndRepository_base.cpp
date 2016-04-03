@@ -20,22 +20,6 @@ VOID WinPrpListAndRepository_RememberExeNameAndPath( HWND Frame_window )
  SetProperty( Frame_window, PRP_EXENAME, Name );
  SetProperty( Frame_window, PRP_EXEPATH, Path );
 
- // Если список приложений был прочтен:
- if( Krnl_Repository.RTSettings.Repository_is_ready )
-  {
-   // Проверяем, есть ли это приложение в списке известных приложений.
-   INT Position = FindExeNameInRepository( Name );
-
-   // Если оно есть:
-   if( Position != -1 )
-    {
-     // Если путь к приложению изменился - запоминаем новый путь.
-     if( Repository.Items[ Position ].Path_INI_setting_name[ 0 ] != 0 )
-      if( !strc( Repository.Items[ Position ].Path, Path ) ) 
-       strcpy( Repository.Items[ Position ].Path, Path );
-    }
-  }
-
  // Возврат.
  return;
 }

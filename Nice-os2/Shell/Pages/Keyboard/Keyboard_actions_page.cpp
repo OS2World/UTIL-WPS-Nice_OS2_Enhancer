@@ -128,7 +128,7 @@ MRESULT EXPENTRY Keyboard_Actions_WndProc( HWND Window, ULONG Message, MPARAM Fi
        if( Position != -1 )
         {
          Keyboard_Actions.Settings.UserTool_name = Repository.Items[ Position ].Exe_name_1;
-         Keyboard_Actions.Settings.UserTool_path = Repository.Items[ Position ].Path;
+         Keyboard_Actions.Settings.UserTool_path = Repository.Items[ Position ].Path_to_Exe_file;
 
          WinSetWindowText( WinWindowFromID( WinWindowFromID( Page->Window, Keyboard_Actions.Settings.ExeName_filebox_ID ), Keyboard_Actions.Settings.ExeName_name_ID ), Keyboard_Actions.Settings.UserTool_name );
         }

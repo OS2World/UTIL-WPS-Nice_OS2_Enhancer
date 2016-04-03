@@ -1563,7 +1563,7 @@ VOID Painter_DrawSystemMenu( HWND SysMenu_window, HWND Frame_window, PRECT Frame
  return;
 }
 
-// ─── Подчеркивает объем заголовка делая его трехмерным ───
+// ─── Подчеркивает объем заголовка, делая его трехмерным ───
 
 // Все переменные - внешние.
 VOID Painter_DrawVTVControlVolumeLines( HWND TitleBar_window, PRECT Rectangle, LONG Color, BYTE Window_is_active, HWND Frame_window, PRECT Frame_rectangle, PSWP Frame_placement )
@@ -1908,6 +1908,7 @@ VOID Painter_DrawTitleBarVolumeLines( HWND TitleBar_window, LONG Frame_type, PRE
  BYTE Draw_classic_lines = 0; 
  BYTE Draw_Snow_lines    = 0; 
  BYTE Draw_VTV_lines     = 0;
+ BYTE Draw_nothing       = 0;
 
  switch( Painter.Settings.Theme )
   {
@@ -1921,12 +1922,14 @@ VOID Painter_DrawTitleBarVolumeLines( HWND TitleBar_window, LONG Frame_type, PRE
    case PAINTER_THEME_BLUE_LION:
     {
      if( Window_is_active ) Draw_Lion_lines = 1;
+     else Draw_nothing = 1;
     }
    break;
 
    case PAINTER_THEME_ECOMSTATION:
     {
      if( Window_is_active ) Draw_eCS_lines = 1;
+     else Draw_nothing = 1;
     }
    break;
 
@@ -1941,6 +1944,7 @@ VOID Painter_DrawTitleBarVolumeLines( HWND TitleBar_window, LONG Frame_type, PRE
      else
       {
        if( !Painter_PermissionForCompleteDrawing( Frame_window ) ) Draw_OS4_lines = 1;
+       else Draw_nothing = 1;
       }
     }
    break;

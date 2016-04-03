@@ -14,8 +14,8 @@ VOID Rooms_SetPreDefinedSettings( LONG Division )
  if( Division == SET_ALL_SETTINGS || Division == SET_ROOMS )
   {
    Rooms.Settings.Create_Rooms = 0;
-   Rooms.Settings.Allocate_windows_to_Rooms = 0;
-   Rooms.Settings.Allocate_known_applications = 0;
+   Rooms.Settings.Allocate_windows_to_Rooms = 1;
+   Rooms.Settings.Allocate_known_applications = 1;
    Rooms.Settings.Draw_wallpaper = 1;
    Rooms.Settings.Switch_by_WarpCenter = 1;
    Rooms.Settings.Switch_by_keyboard = 1;

@@ -64,9 +64,9 @@ VOID ObserverR_ProcessReportData( PCHAR Object, PCHAR Exe_name, PCHAR Parameters
      // на уже присутствующие в списке, и для них надо будет запомнить те же самые значения.
      if( Name_is_found )
       {
-       if( !strc( Repository.Items[ Count ].Object, Object ) )
+       if( !strc( Repository.Items[ Count ].Known_WPS_object, Object ) )
         {
-         strcpy( Repository.Items[ Count ].Object, Object );
+         strcpy( Repository.Items[ Count ].Known_WPS_object, Object );
          Inspector.Write_settings = 1;
         }
 

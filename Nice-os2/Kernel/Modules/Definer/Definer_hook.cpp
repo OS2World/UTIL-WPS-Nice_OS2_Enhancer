@@ -347,7 +347,7 @@ VOID Definer_DefineKeysNode( PQMSG Message, PBYTE Discarding )
 
    if( Definer.Settings.Keys.Power ) if( Scan_code == SC_ACPI_POWER && Character == 'P' ) { Action = Definer.Settings.Keys.Power; Key_should_be_pressed = 0; }
    if( Definer.Settings.Keys.Sleep ) if( Scan_code == SC_ACPI_SLEEP && Character == 'S' ) { Action = Definer.Settings.Keys.Sleep; Key_should_be_pressed = 0; }
-   if( Definer.Settings.Keys.WakeUp ) if( Scan_code == SC_ACPI_WAKE_UP && Character == 'W' ) { Action = Definer.Settings.Keys.WakeUp; Key_should_be_pressed = 0; }
+   if( Definer.Settings.Keys.WakeUp ) if( Scan_code == SC_ACPI_WAKE_UP ) Action = Definer.Settings.Keys.WakeUp;
   }
 
  if( Definer.Settings.Define_multimedia_keys ) if( Scan_code != 0 )
@@ -361,7 +361,6 @@ VOID Definer_DefineKeysNode( PQMSG Message, PBYTE Discarding )
    if( Definer.Settings.Keys.Volume_decrement ) if( Scan_code == SC_MM_VOLUME_DECREMENT ) Action = Definer.Settings.Keys.Volume_decrement;
    if( Definer.Settings.Keys.Volume_increment ) if( Scan_code == SC_MM_VOLUME_INCREMENT ) Action = Definer.Settings.Keys.Volume_increment;
    if( Definer.Settings.Keys.Mute ) if( Scan_code == SC_MM_MUTE ) Action = Definer.Settings.Keys.Mute;
-   if( Definer.Settings.Keys.Media ) if( Scan_code == SC_MM_MEDIA ) Action = Definer.Settings.Keys.Media;
    if( Definer.Settings.Keys.Media ) if( Scan_code == SC_MM_MEDIA && Character == 'M' ) { Action = Definer.Settings.Keys.Media; Key_should_be_pressed = 0; }
   }
 
@@ -369,7 +368,7 @@ VOID Definer_DefineKeysNode( PQMSG Message, PBYTE Discarding )
   {
    SHORT Character = SHORT1FROMMP( Message->mp2 );
 
-   if( Definer.Settings.Keys.MyContooper ) if( Scan_code == SC_APP_MY_CONTOOPER ) Action = Definer.Settings.Keys.MyContooper;
+   if( Definer.Settings.Keys.Terminal ) if( Scan_code == SC_APP_TERMINAL ) Action = Definer.Settings.Keys.Terminal;
    if( Definer.Settings.Keys.Calculator ) if( Scan_code == SC_APP_CALCULATOR ) Action = Definer.Settings.Keys.Calculator;
    if( Definer.Settings.Keys.Browser ) if( Scan_code == SC_APP_BROWSER ) Action = Definer.Settings.Keys.Browser;
    if( Definer.Settings.Keys.Mail_reader ) if( Scan_code == SC_APP_MAIL_READER && Character == 'M' ) { Action = Definer.Settings.Keys.Mail_reader; Key_should_be_pressed = 0; }
