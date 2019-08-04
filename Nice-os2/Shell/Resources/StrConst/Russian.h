@@ -149,8 +149,8 @@ CONST PCHAR StrConst_EN_Pages_Drawing_themes_Draw_frames = "Draw new frames and 
 
 CONST PCHAR StrConst_RU_Pages_Drawing_themes_TName_Phoenix = "OS/4";
 CONST PCHAR StrConst_EN_Pages_Drawing_themes_TName_Phoenix = "OS/4";
-CONST PCHAR StrConst_RU_Pages_Drawing_themes_TName_BlueLion = "Blue Lion";
-CONST PCHAR StrConst_EN_Pages_Drawing_themes_TName_BlueLion = "Blue Lion";
+CONST PCHAR StrConst_RU_Pages_Drawing_themes_TName_BlueLion = "ArcaOS";
+CONST PCHAR StrConst_EN_Pages_Drawing_themes_TName_BlueLion = "ArcaOS";
 CONST PCHAR StrConst_RU_Pages_Drawing_themes_TName_eComStation = "eComStation";
 CONST PCHAR StrConst_EN_Pages_Drawing_themes_TName_eComStation = "eComStation";
 CONST PCHAR StrConst_RU_Pages_Drawing_themes_TName_Classic = "Классика";

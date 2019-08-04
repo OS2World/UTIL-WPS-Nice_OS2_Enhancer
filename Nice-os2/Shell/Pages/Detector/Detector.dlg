@@ -1,4 +1,4 @@
-#include "Detector.h"
+#include "Pages\\Detector\\Detector.h"
 
 DLGTEMPLATE ID_DETECTORFORM
 BEGIN

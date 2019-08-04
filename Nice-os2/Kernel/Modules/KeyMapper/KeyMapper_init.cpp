@@ -5,11 +5,12 @@
 VOID KeyMapper_SetPreDefinedSettings( LONG Division )
 {
  // Задаем настройки.
+ // Клавиша "|\" иногда располагается рядом рядом с клавишей "Enter", поэтому настройки лучше отключить.
  if( Division == SET_ALL_SETTINGS || Division == SET_KEYBOARD )
   {
    KeyMapper.Settings.Define_Ctrl_CV = 1;
-   KeyMapper.Settings.Define_Dash = 1;
-   KeyMapper.Settings.Define_Ctrl_Dash = 1;
+   KeyMapper.Settings.Define_Dash = 0;
+   KeyMapper.Settings.Define_Ctrl_Dash = 0;
    KeyMapper.Settings.Define_Enter = 1;
    KeyMapper.Settings.Define_Alt_F9 = 1;
    KeyMapper.Settings.Discard_F3 = 1;
