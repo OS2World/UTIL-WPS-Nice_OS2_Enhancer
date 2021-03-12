@@ -3,12 +3,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID WinPrpListAndPainter_Start( VOID )
+VOID WinPrpListAndPainter_Start (VOID)
 {
- #ifdef WinPrpListAndPainter
- bzero( &WinPrpListAndPainter, sizeof( WinPrpListAndPainter ) );
- #endif
+  #ifdef WinPrpListAndPainter
+  bzero (&WinPrpListAndPainter, sizeof (WinPrpListAndPainter));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

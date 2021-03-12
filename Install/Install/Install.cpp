@@ -39,7 +39,7 @@
 
 // Данные приложения.
 typedef struct _INSTALLER
- {
+{
   // Приложение.
   HAB Application;
 
@@ -48,10 +48,10 @@ typedef struct _INSTALLER
 
   // Окно рамки.
   HWND Frame_window;
-  CHAR Frame_window_title[ SIZE_OF_TITLE ];
+  CHAR Frame_window_title[SIZE_OF_TITLE];
   // Окно рабочей области.
   HWND Client_window;
- }
+}
 INSTALLER; INSTALLER Installer;
 
 // Строки и изображения.
@@ -59,10 +59,10 @@ INSTALLER; INSTALLER Installer;
 #include "Resources\\StrConst.h"
 
 // Внутренние сообщения.
-#define MY_CREATE          ( WM_USER +  1 )
+#define MY_CREATE          (WM_USER +  1)
 
-#define MY_APPLY_LAYOUT    ( WM_USER + 10 )
-#define MY_ENABLE_BUTTONS  ( WM_USER + 20 )
+#define MY_APPLY_LAYOUT    (WM_USER + 10)
+#define MY_ENABLE_BUTTONS  (WM_USER + 20)
 
 // Действия.
 #define NIA_INSTALL 1
@@ -84,89 +84,89 @@ INSTALLER; INSTALLER Installer;
 
 // ─── Приложение ───
 
-INT main( INT argc, PCHAR argv[] )
+INT Main (INT argc, PCHAR argv[])
 {
- // Сбрасываем свойства приложения.
- bzero( &Installer, sizeof( INSTALLER ) );
+  // Сбрасываем свойства приложения.
+  bzero (&Installer, sizeof (INSTALLER));
 
- // Определяем приложение в системе.
- Installer.Application = WinInitialize( 0 );
+  // Определяем приложение в системе.
+  Installer.Application = WinInitialize (0);
 
- // Если это сделать не удалось - выход.
- if( Installer.Application == NULLHANDLE )
+  // Если это сделать не удалось - выход.
+  if (Installer.Application == NULLHANDLE)
   {
-   // Звук - ошибка.
-   WinAlarm( HWND_DESKTOP, WA_ERROR );
-   // Выход.
-   return 0;
-  }
-
- // Создаем очередь сообщений.
- HMQ Message_queue = WinCreateMsgQueue( Installer.Application, 0 );
-
- // Если очередь создать не удалось - выход.
- if( Message_queue == NULLHANDLE )
-  {
-   // Звук - ошибка.
-   WinAlarm( HWND_DESKTOP, WA_ERROR );
-   // Выход.
-   WinTerminate( Installer.Application ); return 0;
-  }
-
- // Запускаем составляющие приложения.
- StdLib_Start();
- Strings_Start();
- Files_Start();
-
- WindowTree_Start();
- Layout_Start();
- Environment_Start();
- EnhancerProperties_Start();
-
- // Если окно приложения уже есть - выход.
- {
-  CHAR Semaphore_name[] = "\\SEM32\\N2ENSTALLER";
-  HMTX hmtxAlreadyRunning = NULLHANDLE;
-
-  if( DosOpenMutexSem( Semaphore_name, &hmtxAlreadyRunning ) == NO_ERROR )
-   {
-    WinDestroyMsgQueue( Message_queue );
-    WinTerminate( Installer.Application );
+    // Звук - ошибка.
+    WinAlarm (HWND_DESKTOP, WA_ERROR);
+    // Выход.
     return 0;
-   }
-  else
-   {
-    DosCreateMutexSem( Semaphore_name, &hmtxAlreadyRunning, DC_SEM_SHARED, 1 );
-   }
- }
+  }
 
- // Узнаем страну, в которой работает приложение.
- if( argc == 2 && stristr( "english", argv[ 1 ] ) ) Installer.Code_page = ENGLISH;
- else Installer.Code_page = QuerySystemCodePage();
+  // Создаем очередь сообщений.
+  HMQ Message_queue = WinCreateMsgQueue (Installer.Application, 0);
 
- // Заполняем структуры данных, используемых окнами.
- ClientWindow_Start();
+  // Если очередь создать не удалось - выход.
+  if (Message_queue == NULLHANDLE)
+  {
+    // Звук - ошибка.
+    WinAlarm (HWND_DESKTOP, WA_ERROR);
+    // Выход.
+    WinTerminate (Installer.Application); return 0;
+  }
 
- // Создаем окно рабочей области.
- CHAR Class_name[] = "InstallerWndClass";
- WinRegisterClass( Installer.Application, Class_name, (PFNWP) Installer_ClientWindowProc, 0, 0 );
+  // Запускаем составляющие приложения.
+  StdLib_Start ();
+  Strings_Start ();
+  Files_Start ();
 
- // Создаем окно рамки.
- ULONG Creation_flags = FCF_TITLEBAR | FCF_SYSMENU | FCF_BORDER | FCF_NOBYTEALIGN;
- Installer.Frame_window = WinCreateStdWindow( HWND_DESKTOP, CS_FRAME | WS_VISIBLE, &Creation_flags, Class_name, StrConst_EN_Title, 0, NULLHANDLE, 0, &Installer.Client_window );
+  WindowTree_Start ();
+  Layout_Start ();
+  Environment_Start ();
+  EnhancerProperties_Start ();
 
- // Выбираем сообщения из очереди.
- QMSG Message; bzero( &Message, sizeof( QMSG ) );
- while( WinGetMsg( Installer.Application, &Message, 0, 0, 0 ) ) WinDispatchMsg( Installer.Application, &Message );
+  // Если окно приложения уже есть - выход.
+  {
+    CHAR Semaphore_name[] = "\\SEM32\\N2ENSTALLER";
+    HMTX hmtxAlreadyRunning = NULLHANDLE;
 
- // Закрываем окна.
- WinDestroyWindow( Installer.Client_window );
- WinDestroyWindow( Installer.Frame_window );
+    if (DosOpenMutexSem (Semaphore_name, &hmtxAlreadyRunning) == NO_ERROR)
+    {
+      WinDestroyMsgQueue (Message_queue);
+      WinTerminate (Installer.Application);
+      return 0;
+    }
+    else
+    {
+      DosCreateMutexSem (Semaphore_name, &hmtxAlreadyRunning, DC_SEM_SHARED, 1);
+    }
+  }
 
- // Сбрасываем очередь сообщений.
- WinDestroyMsgQueue( Message_queue );
+  // Узнаем страну, в которой работает приложение.
+  if (argc == 2 && stristr ("english", argv[1])) Installer.Code_page = ENGLISH;
+  else Installer.Code_page = QuerySystemCodePage ();
 
- // Выход.
- WinTerminate( Installer.Application ); return 0;
+  // Заполняем структуры данных, используемых окнами.
+  ClientWindow_Start ();
+
+  // Создаем окно рабочей области.
+  CHAR Class_name[] = "InstallerWndClass";
+  WinRegisterClass (Installer.Application, Class_name, (PFNWP) Installer_ClientWindowProc, 0, 0);
+
+  // Создаем окно рамки.
+  ULONG Creation_flags = FCF_TITLEBAR | FCF_SYSMENU | FCF_BORDER | FCF_NOBYTEALIGN;
+  Installer.Frame_window = WinCreateStdWindow (HWND_DESKTOP, CS_FRAME | WS_VISIBLE, &Creation_flags, Class_name, StrConst_EN_Title, 0, NULLHANDLE, 0, &Installer.Client_window);
+
+  // Выбираем сообщения из очереди.
+  QMSG Message; bzero (&Message, sizeof (QMSG));
+  while (WinGetMsg (Installer.Application, &Message, 0, 0, 0)) WinDispatchMsg (Installer.Application, &Message);
+
+  // Закрываем окна.
+  WinDestroyWindow (Installer.Client_window);
+  WinDestroyWindow (Installer.Frame_window);
+
+  // Сбрасываем очередь сообщений.
+  WinDestroyMsgQueue (Message_queue);
+
+  // Выход.
+  WinTerminate (Installer.Application); return 0;
 }
 

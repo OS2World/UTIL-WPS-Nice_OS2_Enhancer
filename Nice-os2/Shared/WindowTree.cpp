@@ -6,13 +6,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID WindowTree_Start( VOID )
+VOID WindowTree_Start (VOID)
 {
- #ifdef WindowTree
- bzero( &WindowTree, sizeof( WindowTree ) );
- #endif
+  #ifdef WindowTree
+  bzero (&WindowTree, sizeof (WindowTree));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

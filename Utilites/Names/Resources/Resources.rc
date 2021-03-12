@@ -2,3 +2,5 @@ ICON   1 Resources\Images\Names.ico
 
 #include <PMWin.h>
 rcinclude "Pages\DialogWindow\DialogWindow.dlg"
+
+/* EOF */

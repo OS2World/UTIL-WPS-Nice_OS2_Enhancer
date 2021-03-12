@@ -39,18 +39,18 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Krnl_Repository_Start( VOID )
+VOID Krnl_Repository_Start (VOID)
 {
- #ifdef Krnl_Repository
- bzero( &Krnl_Repository, sizeof( Krnl_Repository ) );
- #endif
+  #ifdef Krnl_Repository
+  bzero (&Krnl_Repository, sizeof (Krnl_Repository));
+  #endif
 
- // Задаем имена значков рабочего стола.
- Krnl_Repository_SetObjectNames();
+  // Задаем имена значков рабочего стола.
+  Krnl_Repository_SetObjectNames ();
 
- // Задаем соединения.
- Krnl_Repository_SetPipeNames();
+  // Задаем соединения.
+  Krnl_Repository_SetPipeNames ();
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

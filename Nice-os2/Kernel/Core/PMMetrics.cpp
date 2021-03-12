@@ -3,12 +3,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID PMMetrics_Start( VOID )
+VOID PMMetrics_Start (VOID)
 {
- #ifdef PMMetrics
- bzero( &PMMetrics, sizeof( PMMetrics ) );
- #endif
+  #ifdef PMMetrics
+  bzero (&PMMetrics, sizeof (PMMetrics));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

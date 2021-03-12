@@ -30,29 +30,29 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Painter_Start( VOID )
+VOID Painter_Start (VOID)
 {
- #ifdef Painter
- bzero( &Painter, sizeof( Painter ) );
- #endif
+  #ifdef Painter
+  bzero (&Painter, sizeof (Painter));
+  #endif
 
- // Задаем постоянные величины.
- Painter.Constants.Permanent_drawing = 250;
- Painter.Constants.Drawing_check_timeout = 750;
+  // Задаем постоянные величины.
+  Painter.Constants.Permanent_drawing = 250;
+  Painter.Constants.Drawing_check_timeout = 750;
 
- // Задаем указатели в списке составляющих расширителя.
- MODULE Item; PresetModuleItem( &Item );
+  // Задаем указатели в списке составляющих расширителя.
+  MODULE Item; PresetModuleItem (&Item);
 
- Item.StartThread = Painter_StartThread;
- Item.PostQuitMsg = Painter_PostQuitMsg;
- Item.ShutdownAll = Painter_ShutdownAll;
- Item.TuneModule  = Painter_Tune;
- Item.SysColorsChangeReporter = Painter_SysColorsChangeReporter;
- Item.SysValuesChangeReporter = Painter_SysValuesChangeReporter;
+  Item.StartThread = Painter_StartThread;
+  Item.PostQuitMsg = Painter_PostQuitMsg;
+  Item.ShutdownAll = Painter_ShutdownAll;
+  Item.TuneModule  = Painter_Tune;
+  Item.SysColorsChangeReporter = Painter_SysColorsChangeReporter;
+  Item.SysValuesChangeReporter = Painter_SysValuesChangeReporter;
 
- RememberModuleItem( Enhancer.Modules.Painter, &Item );
+  RememberModuleItem (Enhancer.Modules.Painter, &Item);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

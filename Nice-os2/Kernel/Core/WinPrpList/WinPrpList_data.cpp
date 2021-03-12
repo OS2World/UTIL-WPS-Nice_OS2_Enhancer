@@ -1,11 +1,11 @@
 // Свойства окна.
 typedef struct _WINDOWPROPERTY
- {
+{
   // Окно рамки.
   HWND Frame_window;
 
   // Заголовок окна.
-  CHAR Title[ SIZE_OF_TITLE ];
+  CHAR Title[SIZE_OF_TITLE];
   // Значок.
   HPOINTER Icon; BYTE Icon_was_loaded;
   // Ширина рамки окна.
@@ -52,22 +52,22 @@ typedef struct _WINDOWPROPERTY
   LONG Priority_delta;
 
   // Имя приложения, создавшего окно.
-  CHAR Exe_name[ SIZE_OF_NAME ];
+  CHAR Exe_name[SIZE_OF_NAME];
   // Путь к приложению, создавшему окно.
-  CHAR Exe_path[ SIZE_OF_PATH ];
- }
+  CHAR Exe_path[SIZE_OF_PATH];
+}
 WINDOWPROPERTY;
 
 // Список свойств окон.
 #define WINPRPLIST_LENGTH 256
 
 typedef struct _WINPRPLIST
- {
+{
   // Список свойств.
-  WINDOWPROPERTY Properties_list[ WINPRPLIST_LENGTH ];
+  WINDOWPROPERTY Properties_list[WINPRPLIST_LENGTH];
   // Сведения о списке свойств.
   PRPLISTDESC Descendant;
- }
+}
 WINPRPLIST;
 
 WINPRPLIST WinPrpList;

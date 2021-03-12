@@ -15,64 +15,64 @@
 
 // ─── Вызывает компилятор ───
 
-VOID main( VOID )
+VOID Main (VOID)
 {
- // ********************************************************** //
+  // ********************************************************** //
 
- // Можно создать приложение, *.dll или *.obj.
- CHAR Target[] = "/Ge+ /Ss+";    // Приложение.
- // CHAR Target[] = "/C /Ss+";   // Object.
- // CHAR Target[] = "/Ge- /Ss+"; // Library.
+  // Можно создать приложение, *.dll или *.obj.
+  CHAR Target[] = "/Ge+ /Ss+";    // Приложение.
+  // CHAR Target[] = "/C /Ss+";   // Object.
+  // CHAR Target[] = "/Ge- /Ss+"; // Library.
 
- // Процессор - Pentium.
- CHAR Processor[] = "/G5 /Gf+ /Gi+";
+  // Процессор - Pentium.
+  CHAR Processor[] = "/G5 /Gf+ /Gi+";
 
- // Оптимизация - по скорости.
- CHAR Optimization[] = "/Gs+ /O+ /Oi+";
+  // Оптимизация - по скорости.
+  CHAR Optimization[] = "/Gs+ /O+ /Oi+";
 
- // Имена файлов.
- CHAR CPP_Name[] = "NumLock.cpp";
- CHAR DEF_Name[] = "NumLock.def";
+  // Имена файлов.
+  CHAR CPP_Name[] = "NumLock.cpp";
+  CHAR DEF_Name[] = "NumLock.def";
 
- CHAR OBJ_Name[] = "NumLock.obj";
- CHAR RC_Name[] =  "NumLock.rc";
- CHAR TGT_Name[] = "NumLock.exe ";
- CHAR RES_Name[] = "NumLock.res";
+  CHAR OBJ_Name[] = "NumLock.obj";
+  CHAR RC_Name[]  = "NumLock.rc";
+  CHAR TGT_Name[] = "NumLock.exe ";
+  CHAR RES_Name[] = "NumLock.res";
 
- // ********************************************************** //
+  // ********************************************************** //
 
- // Задаем параметры.
- CHAR Compiler[] = "Icc.exe"; CHAR Parameters[ 255 ] = "";
- strcpy( Parameters, Compiler );     strcat( Parameters, "|" );
- strcat( Parameters, Target );       strcat( Parameters, " " );
- strcat( Parameters, CPP_Name );     strcat( Parameters, " " );
- strcat( Parameters, DEF_Name );     strcat( Parameters, " " );
- strcat( Parameters, Processor );    strcat( Parameters, " " );
- strcat( Parameters, Optimization );
- strchg( Parameters, '|', 0x00 );
+  // Задаем параметры.
+  CHAR Compiler[] = "Icc.exe"; CHAR Parameters[255] = "";
+  strcpy (Parameters, Compiler);     strcat (Parameters, "|");
+  strcat (Parameters, Target);       strcat (Parameters, " ");
+  strcat (Parameters, CPP_Name);     strcat (Parameters, " ");
+  strcat (Parameters, DEF_Name);     strcat (Parameters, " ");
+  strcat (Parameters, Processor);    strcat (Parameters, " ");
+  strcat (Parameters, Optimization);
+  strchg (Parameters, '|', 0x00);
 
- // Вызываем IBM VA C++.
- CHAR Error_string[ 1 ]; RESULTCODES Return_codes;
- DosResetBuffer( -1 ); DosExecPgm( Error_string, sizeof( Error_string ), EXEC_SYNC, Parameters, NULL, &Return_codes, Compiler );
+  // Вызываем IBM VA C++.
+  CHAR Error_string[1]; RESULTCODES Return_codes;
+  DosResetBuffer (-1); DosExecPgm (Error_string, sizeof (Error_string), EXEC_SYNC, Parameters, NULL, &Return_codes, Compiler);
 
- // Задаем параметры для Resource Compiler.
- // RC.exe - 16-разрядное приложение, и его надо вызвать как "Cmd /C RC.exe".
- CHAR RC_starter[] = "Cmd.exe"; Parameters[ 0 ] = 0;
- strcpy( Parameters, RC_starter );   strcat( Parameters, "|" );
- strcat( Parameters, "/C RC.exe" );  strcat( Parameters, " " );
- strcat( Parameters, RC_Name );      strcat( Parameters, " " );
- strcat( Parameters, TGT_Name );
- strchg( Parameters, '|', 0x00 );
+  // Задаем параметры для Resource Compiler.
+  // RC.exe - 16-разрядное приложение, и его надо вызвать как "Cmd /C RC.exe".
+  CHAR RC_starter[] = "Cmd.exe"; Parameters[0] = 0;
+  strcpy (Parameters, RC_starter);   strcat (Parameters, "|");
+  strcat (Parameters, "/C RC.exe");  strcat (Parameters, " ");
+  strcat (Parameters, RC_Name);      strcat (Parameters, " ");
+  strcat (Parameters, TGT_Name);
+  strchg (Parameters, '|', 0x00);
 
- // Вызываем Resource Compiler.
- DosResetBuffer( -1 ); DosExecPgm( Error_string, sizeof( Error_string ), EXEC_SYNC, Parameters, NULL, &Return_codes, RC_starter );
+  // Вызываем Resource Compiler.
+  DosResetBuffer (-1); DosExecPgm (Error_string, sizeof (Error_string), EXEC_SYNC, Parameters, NULL, &Return_codes, RC_starter);
 
- // Удаляем временные файлы.
- DosForceDelete( OBJ_Name ); DosForceDelete( RES_Name );
+  // Удаляем временные файлы.
+  DosForceDelete (OBJ_Name); DosForceDelete (RES_Name);
 
- // Звук.
- WinAlarm( HWND_DESKTOP, WA_NOTE );
+  // Звук.
+  WinAlarm (HWND_DESKTOP, WA_NOTE);
 
- // Выход.
- return;
+  // Выход.
+  return;
 }

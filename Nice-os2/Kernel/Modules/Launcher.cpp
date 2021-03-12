@@ -3,22 +3,22 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Launcher_Start( VOID )
+VOID Launcher_Start (VOID)
 {
- #ifdef Launcher
- bzero( &Launcher, sizeof( Launcher ) );
- #endif
+  #ifdef Launcher
+  bzero (&Launcher, sizeof (Launcher));
+  #endif
 
- // Задаем указатели в списке составляющих расширителя.
- MODULE Item; PresetModuleItem( &Item );
+  // Задаем указатели в списке составляющих расширителя.
+  MODULE Item; PresetModuleItem (&Item);
 
- Item.StartThread = Launcher_StartThread;
- Item.PostQuitMsg = Launcher_PostQuitMsg;
- Item.TuneModule  = Launcher_Tune;
+  Item.StartThread = Launcher_StartThread;
+  Item.PostQuitMsg = Launcher_PostQuitMsg;
+  Item.TuneModule  = Launcher_Tune;
 
- RememberModuleItem( Enhancer.Modules.Launcher, &Item );
+  RememberModuleItem (Enhancer.Modules.Launcher, &Item);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

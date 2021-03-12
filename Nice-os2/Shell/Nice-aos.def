@@ -1,0 +1,21 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  NAME
+   NICE-AOS
+
+  WINDOWAPI
+
+  STUB
+   '..\Shared\OS2Stub\OS2Stub.bin'
+
+  DESCRIPTION
+   '@#Sergey Posokhov:5.7.2 for OS/2#@Nice Enhancer'
+
+  IMPORTS
+   DosQuerySysState   = DOSCALLS.368
+   DosReplaceModule   = DOSCALLS.417
+   DosVerifyPidTid    = DOSCALLS.460
+   DosSetExtLIBPATH   = DOSCALLS.873
+   DosQueryExtLibpath = DOSCALLS.874
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

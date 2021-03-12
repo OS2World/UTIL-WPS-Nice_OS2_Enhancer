@@ -13,13 +13,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID WindowManagement_Start( VOID )
+VOID WindowManagement_Start (VOID)
 {
- #ifdef WindowManagement
- bzero( &WindowManagement, sizeof( WindowManagement ) );
- #endif
+  #ifdef WindowManagement
+  bzero (&WindowManagement, sizeof (WindowManagement));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

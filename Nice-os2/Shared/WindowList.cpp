@@ -10,13 +10,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID WindowList_Start( VOID )
+VOID WindowList_Start (VOID)
 {
- #ifdef WindowList
- bzero( &WindowList, sizeof( WindowList ) );
- #endif
+  #ifdef WindowList
+  bzero (&WindowList, sizeof (WindowList));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

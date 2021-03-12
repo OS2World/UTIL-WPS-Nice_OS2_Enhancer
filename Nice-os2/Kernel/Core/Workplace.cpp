@@ -9,12 +9,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Workplace_Start( VOID )
+VOID Workplace_Start (VOID)
 {
- #ifdef Workplace
- bzero( &Workplace, sizeof( Workplace ) );
- #endif
+  #ifdef Workplace
+  bzero (&Workplace, sizeof (Workplace));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

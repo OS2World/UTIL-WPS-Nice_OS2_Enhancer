@@ -13,15 +13,15 @@
 // ─── Метод для подключения класса ───
 
 // Application - приложение.
-VOID StdLib_Start( HAB Application = NULLHANDLE )
+VOID StdLib_Start (HAB Application = NULLHANDLE)
 {
- #ifdef StdLib
- bzero( &StdLib, sizeof( StdLib ) );
- #endif
+  #ifdef StdLib
+  bzero (&StdLib, sizeof (StdLib));
+  #endif
 
- // Запускаем датчик случайных чисел.
- srand( WinGetCurrentTime( Application ) );
+  // Запускаем датчик случайных чисел.
+  srand (WinGetCurrentTime (Application));
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

@@ -12,12 +12,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Krnl_Environment_Start( VOID )
+VOID Krnl_Environment_Start (VOID)
 {
- #ifdef Krnl_Environment
- bzero( &Krnl_Environment, sizeof( Krnl_Environment ) );
- #endif
+  #ifdef Krnl_Environment
+  bzero (&Krnl_Environment, sizeof (Krnl_Environment));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

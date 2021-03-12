@@ -260,8 +260,8 @@ CONST PCHAR StrConst_RU_Pages_Rooms_exceptions_Prompt = "Задать список исключени
 CONST PCHAR StrConst_EN_Pages_Rooms_exceptions_Prompt = "Disable window hiding, wallpaper drawing, keyboard switching";
 CONST PCHAR StrConst_RU_Pages_Rooms_exceptions_NoKeys = "Не использовать клавиши";
 CONST PCHAR StrConst_EN_Pages_Rooms_exceptions_NoKeys = "Do not use keyboard for switching";
-CONST PCHAR StrConst_RU_Pages_Rooms_exceptions_NoIcons = "Не использовать eCenter";
-CONST PCHAR StrConst_EN_Pages_Rooms_exceptions_NoIcons = "Do not use eCenter for switching";
+CONST PCHAR StrConst_RU_Pages_Rooms_exceptions_NoIcons = "Не использовать ArcaOS TaskBar";
+CONST PCHAR StrConst_EN_Pages_Rooms_exceptions_NoIcons = "Do not use ArcaOS TaskBar for switching";
 CONST PCHAR StrConst_RU_Pages_Rooms_exceptions_NoWallpaper = "Не рисовать обои";
 CONST PCHAR StrConst_EN_Pages_Rooms_exceptions_NoWallpaper = "Do not draw wallpaper in Rooms";
 CONST PCHAR StrConst_RU_Pages_Rooms_exceptions_Caption = "Не прятать следующие окна при переключении: ";
@@ -424,6 +424,10 @@ CONST PCHAR StrConst_RU_Pages_Placement_settings_WPS_button = "Выравнивать окна 
 CONST PCHAR StrConst_EN_Pages_Placement_settings_WPS_button = "Arrange WPS windows";
 CONST PCHAR StrConst_RU_Pages_Placement_settings_Browser_button = "Выравнивать окна браузеров";
 CONST PCHAR StrConst_EN_Pages_Placement_settings_Browser_button = "Arrange browser windows";
+CONST PCHAR StrConst_RU_Pages_Placement_settings_Network_button = "Выравнивать окна соединителей";
+CONST PCHAR StrConst_EN_Pages_Placement_settings_Network_button = "Arrange network dialer windows";
+CONST PCHAR StrConst_RU_Pages_Placement_settings_XWP_button = "Выравнивать окна XWorkplace";
+CONST PCHAR StrConst_EN_Pages_Placement_settings_XWP_button = "Arrange XWorkplace windows";
 
 CONST PCHAR StrConst_RU_Pages_Dialogs_logon_Prompt = "Выполнять приложение или скрипт на Rexx после закрытия окна ввода пароля";
 CONST PCHAR StrConst_EN_Pages_Dialogs_logon_Prompt = "Execute an application or Rexx script after logging into the network and use these values in the script";
@@ -540,3 +544,5 @@ CONST PCHAR StrConst_EN_Pages_Log_DynamicPriority = " Not found in \"Config.sys\
 
 CONST PCHAR StrConst_RU_Pages_Log_Note = " Это необязательные требования. Но желательно включить.\n";
 CONST PCHAR StrConst_EN_Pages_Log_Note = " This is optional.\n";
+
+/* EOF */

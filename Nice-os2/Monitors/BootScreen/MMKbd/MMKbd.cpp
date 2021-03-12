@@ -34,12 +34,12 @@
 #define THREAD_STACK_SIZE 16384
 #define SCREEN_SESSIONS   16
 
-typedef struct _threadrc
+typedef struct _THREADRC
 {
   HMONITOR Keyboard;
   ULONG Screen_session;
   ULONG Thread_ID;
-} THREADRC; typedef _threadrc* PTHREADRC;
+} THREADRC; typedef _THREADRC* PTHREADRC;
 
 VOID APIENTRY ThreadProc (ULONG Thread_parameter)
 {
@@ -116,7 +116,7 @@ VOID APIENTRY ThreadProc (ULONG Thread_parameter)
   DosExit (EXIT_THREAD, 0);
 }
 
-void main ()
+VOID Main (VOID)
 {
   // Если приложение уже есть - выход.
   {
@@ -129,20 +129,22 @@ void main ()
      DosCreateMutexSem (Semaphore_name, &Already_running, DC_SEM_SHARED, 1);
   }
 
+  /*
+
   // Ждем появления оконной оболочки.
-  /* -
   ULONG Boot_screen_session = 0;
   DosQuerySysInfo (QSV_FOREGROUND_FS_SESSION, QSV_FOREGROUND_FS_SESSION, &Boot_screen_session, sizeof (Boot_screen_session));
 
   while (1)
-   {
+  {
     ULONG Screen_session = 0;
     DosQuerySysInfo (QSV_FOREGROUND_FS_SESSION, QSV_FOREGROUND_FS_SESSION, &Screen_session, sizeof (Screen_session));
 
     if (Screen_session != Boot_screen_session) break;
     else DosSleep (1000);
-   }
-  - */
+  }
+
+  */
 
   // Присоединяемся к драйверу клавиатуры.
   HMONITOR Keyboard_monitor = NULLHANDLE; APIRET RC = DosMonOpen ("KBD$", &Keyboard_monitor);

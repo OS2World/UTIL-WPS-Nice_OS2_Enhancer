@@ -4,12 +4,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Themes_Start( VOID )
+VOID Themes_Start (VOID)
 {
- #ifdef Themes
- bzero( &Themes, sizeof( Themes ) );
- #endif
+  #ifdef Themes
+  bzero (&Themes, sizeof (Themes));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

@@ -1,9 +1,9 @@
 // Окно настроек.
 typedef struct _DLGFIELDSPAGE
- {
+{
   // Настройки.
   typedef struct _INRSTS
-   {
+  {
     // Поля ввода в окне.
     ULONG WinList_Container_ID;
     ULONG ControlBox_ID;
@@ -18,9 +18,9 @@ typedef struct _DLGFIELDSPAGE
     // Внутренние переменные.
     BYTE Dialog_list_is_locked;
     PDLGBOX Selected_dialog;
-   }
+  }
   INRSTS; INRSTS Settings;
- }
+}
 DLGFIELDSPAGE;
 
 DLGFIELDSPAGE Dialogs_Fields;

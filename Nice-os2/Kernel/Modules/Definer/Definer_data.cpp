@@ -1,6 +1,6 @@
 // Клавиши, которые может переопределить расширитель.
 typedef struct _KEYS
- {
+{
   // Значение: 0 - не трогать клавишу, иначе - выполнить определенное действие.
   INT F11;
   INT Shift_F11;
@@ -130,15 +130,15 @@ typedef struct _KEYS
   INT Compaq_Bench;
   INT Compaq_Chat;
   INT Compaq_Reading;
- }
+}
 KEYS; typedef KEYS* PKEYS;
 
 // Клавиши и действия.
 typedef struct _DEFINER
- {
+{
   // Настройки.
   typedef struct _INRSTS
-   {
+  {
     BYTE Define_keys;
     BYTE Define_common_keys;
     BYTE Define_win_keys;
@@ -156,9 +156,9 @@ typedef struct _DEFINER
     BYTE Define_Compaq_keys;
 
     KEYS Keys;
-   }
+  }
   INRSTS; INRSTS Settings;
- }
+}
 DEFINER;
 
 DEFINER Definer;

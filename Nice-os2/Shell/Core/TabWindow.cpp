@@ -3,12 +3,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID TabWindow_Start( VOID )
+VOID TabWindow_Start (VOID)
 {
- #ifdef TabWindow
- bzero( &TabWindow, sizeof( TabWindow ) );
- #endif
+  #ifdef TabWindow
+  bzero (&TabWindow, sizeof (TabWindow));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

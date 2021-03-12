@@ -4,12 +4,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID HelpPages_Start( VOID )
+VOID HelpPages_Start (VOID)
 {
- #ifdef HelpPages
- bzero( &HelpPages, sizeof( HelpPages ) );
- #endif
+  #ifdef HelpPages
+  bzero (&HelpPages, sizeof (HelpPages));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

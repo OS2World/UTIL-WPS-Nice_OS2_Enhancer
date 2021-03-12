@@ -5,13 +5,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID KbdState_Start( VOID )
+VOID KbdState_Start (VOID)
 {
- #ifdef KbdState
- bzero( &KbdState, sizeof( KbdState ) );
- #endif
+  #ifdef KbdState
+  bzero (&KbdState, sizeof (KbdState));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

@@ -11,12 +11,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Environment_Start( VOID )
+VOID Environment_Start (VOID)
 {
- #ifdef Environment
- bzero( &Environment, sizeof( Environment ) );
- #endif
+  #ifdef Environment
+  bzero (&Environment, sizeof (Environment));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

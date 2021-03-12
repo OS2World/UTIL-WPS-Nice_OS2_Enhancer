@@ -4,13 +4,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Clipboard_Start( VOID )
+VOID Clipboard_Start (VOID)
 {
- #ifdef Clipboard
- bzero( &Clipboard, sizeof( Clipboard ) );
- #endif
+  #ifdef Clipboard
+  bzero (&Clipboard, sizeof (Clipboard));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

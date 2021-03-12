@@ -21,85 +21,85 @@
 
 // Поле ввода в окне диалога.
 typedef struct _DLGFIELD
- {
+{
   // Окно поля ввода.
   HWND Window;
   // Вид поля ввода.
   LONG Type;
   // Значение в текстовом виде. Для "[x]" это может быть "-1", "0", "1" и т. д.
-  CHAR Value[ SIZE_OF_DIALOG_FIELD ];
+  CHAR Value[SIZE_OF_DIALOG_FIELD];
   // Поле содержит текстовое значение, пригодное для дальнейшего использования.
   BYTE Useful;
- }
+}
 DLGFIELD; typedef DLGFIELD* PDLGFIELD;
 
 // Произвольное окно диалога и набор полей в нем.
 typedef struct _DLGBOX
- {
+{
   // Вид рамки окна.
   LONG Frame_type;
   // Имя приложения, создавшего окно.
-  CHAR Exe_name[ SIZE_OF_NAME ];
+  CHAR Exe_name[SIZE_OF_NAME];
   // Заголовок окна. Для плоского окна сообщения - текст вверху.
-  CHAR Window_title[ SIZE_OF_TITLE ];
+  CHAR Window_title[SIZE_OF_TITLE];
 
   // Набор полей ввода в окне и их значения.
-  DLGFIELD Fields[ DLG_MAX_FIELDS ];
+  DLGFIELD Fields[DLG_MAX_FIELDS];
   INT Quantity;
 
   // Действия возможны.
   BYTE Enabled; BYTE Text_fields_only;
- }
+}
 DLGBOX; typedef DLGBOX* PDLGBOX; typedef PDLGBOX* PPDLGBOX;
 
 // Данные для исполнения приложения после ввода пароля.
 typedef struct _LOGONSCRIPTDATA
- {
+{
   // Значения, набранные пользователем.
-  DLGFIELD Values[ DLG_MAX_FIELDS ];
+  DLGFIELD Values[DLG_MAX_FIELDS];
   INT Quantity;
 
   // Приложение, вызвавшее окно ввода пароля.
   PID Process_ID;
- }
+}
 LOGONSCRIPTDATA; typedef LOGONSCRIPTDATA* PLOGONSCRIPTDATA;
 
 // Окно для ввода пароля.
 typedef struct _LOGONDLGBOX
- {
+{
   // Вид рамки окна.
   LONG Frame_type;
   // Имя приложения, создавшего окно.
-  CHAR Exe_name[ SIZE_OF_NAME ];
+  CHAR Exe_name[SIZE_OF_NAME];
   // Заголовок окна. Для плоского окна сообщения - текст вверху.
-  CHAR Window_title[ SIZE_OF_TITLE ];
+  CHAR Window_title[SIZE_OF_TITLE];
 
   // Команда, связанная с окном для ввода пароля.
-  CHAR Logon_command[ SIZE_OF_PATH ];
+  CHAR Logon_command[SIZE_OF_PATH];
 
   // Данные для исполнения приложения после ввода пароля.
   LOGONSCRIPTDATA Parameters;
 
   // Действия возможны.
   BYTE Enabled; BYTE Only_once; BYTE Action_performed;
- }
+}
 LOGONDLGBOX; typedef LOGONDLGBOX* PLOGONDLGBOX; typedef PLOGONDLGBOX* PPLOGONDLGBOX;
 
 // Окно сообщения.
 typedef struct _MSGDLGBOX
- {
+{
   // Вид рамки окна.
   LONG Frame_type;
   // Имя приложения, создавшего окно.
-  CHAR Exe_name[ SIZE_OF_NAME ];
+  CHAR Exe_name[SIZE_OF_NAME];
   // Заголовок окна. Для плоского окна сообщения - текст вверху.
-  CHAR Window_title[ SIZE_OF_TITLE ];
+  CHAR Window_title[SIZE_OF_TITLE];
 
   // Кнопки в окне.
-  DLGFIELD Buttons[ DLG_MAX_BUTTONS ];
+  DLGFIELD Buttons[DLG_MAX_BUTTONS];
   INT Quantity; INT Close_button;
 
   // Действия возможны.
   BYTE Enabled;
- }
+}
 MSGDLGBOX; typedef MSGDLGBOX* PMSGDLGBOX; typedef PMSGDLGBOX* PPMSGDLGBOX;

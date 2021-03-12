@@ -1,4 +1,4 @@
-#include "DialogWindow.h"
+#include "Pages\\DialogWindow\\DialogWindow.h"
 
 BITMAP ID_MAINFORM_BITMAP_NUM Pages\DialogWindow\Images\Names.bmp
 

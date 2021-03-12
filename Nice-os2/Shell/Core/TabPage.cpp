@@ -9,12 +9,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID TabPage_Start( VOID )
+VOID TabPage_Start (VOID)
 {
- #ifdef TabPage
- bzero( &TabPage, sizeof( TabPage ) );
- #endif
+  #ifdef TabPage
+  bzero (&TabPage, sizeof (TabPage));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

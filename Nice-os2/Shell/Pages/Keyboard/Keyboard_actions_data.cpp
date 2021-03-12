@@ -1,9 +1,9 @@
 // Окно настроек.
 typedef struct _KBDACTIONSPAGE
- {
+{
   // Настройки.
   typedef struct _INRSTS
-   {
+  {
     // Поля ввода в окне.
     ULONG Detect_button_ID;
 
@@ -26,27 +26,27 @@ typedef struct _KBDACTIONSPAGE
 
     // Клавиши и действия.
     typedef struct _KEYPTR
-     {
+    {
       PINT Key; PINT Scan_code; PBYTE Permission;
-     }
+    }
     KEYPTR;
 
     typedef struct _ACTIONS
-     {
-      KEYPTR Keys[ MAX_KEYS ]; INT Actions[ MAX_ACTIONS ];
-     }
+    {
+      KEYPTR Keys[MAX_KEYS]; INT Actions[MAX_ACTIONS];
+    }
     ACTIONS; ACTIONS Actions;
-   }
+  }
   INRSTS; INRSTS Settings;
 
   // Внутренние переменные.
   typedef struct _RTSTS
-   {
+  {
     // Последний выбранный каталог.
-    CHAR FileDlg_path[ SIZE_OF_PATH ];
-   }
+    CHAR FileDlg_path[SIZE_OF_PATH];
+  }
   RTSETTINGS; RTSETTINGS RTSettings;
- }
+}
 KBDACTIONSPAGE;
 
 KBDACTIONSPAGE Keyboard_Actions;

@@ -6,17 +6,17 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Krnl_Debug_Start( VOID )
+VOID Krnl_Debug_Start (VOID)
 {
- #ifdef Krnl_Debug
- bzero( &Krnl_Debug, sizeof( Krnl_Debug ) );
- #endif
+  #ifdef Krnl_Debug
+  bzero (&Krnl_Debug, sizeof (Krnl_Debug));
+  #endif
 
- // Удаляем файлы тестовой версии.
- DosForceDelete( "_log.txt" ); DosForceDelete( "XTest.exe" );
+  // Удаляем файлы тестовой версии.
+  DosForceDelete ("_log.txt"); DosForceDelete ("XTest.exe");
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 #endif

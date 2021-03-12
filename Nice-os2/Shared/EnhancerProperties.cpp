@@ -9,13 +9,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID EnhancerProperties_Start( VOID )
+VOID EnhancerProperties_Start (VOID)
 {
- #ifdef EnhancerProperties
- bzero( &EnhancerProperties, sizeof( EnhancerProperties ) );
- #endif
+  #ifdef EnhancerProperties
+  bzero (&EnhancerProperties, sizeof (EnhancerProperties));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

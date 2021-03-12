@@ -3,13 +3,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID GpiExt_Start( VOID )
+VOID GpiExt_Start (VOID)
 {
- #ifdef GpiExt
- bzero( &GpiExt, sizeof( GpiExt ) );
- #endif
+  #ifdef GpiExt
+  bzero (&GpiExt, sizeof (GpiExt));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

@@ -3,13 +3,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID TerminateProcess_Start( VOID )
+VOID TerminateProcess_Start (VOID)
 {
- #ifdef TerminateProcess
- bzero( &TerminateProcess, sizeof( TerminateProcess ) );
- #endif
+  #ifdef TerminateProcess
+  bzero (&TerminateProcess, sizeof (TerminateProcess));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

@@ -1,6 +1,7 @@
-#include "Resources.h"
+#include "Resources\\Resources.h"
 
 ICON   1 Resources\Images\Install.ico
 
 BITMAP RC_BITMAP_ID Resources\Images\Nice.bmp
 
+/* EOF */

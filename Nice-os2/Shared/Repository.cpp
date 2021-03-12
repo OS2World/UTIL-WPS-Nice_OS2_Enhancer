@@ -61,22 +61,22 @@
 #define IsWarpCenterMenuWindow      Repository_IsWarpCenterMenuWindow
 #define IsSysTrayWindow             Repository_IsSysTrayWindow
 #define IsSysTrayMenuWindow         Repository_IsSysTrayMenuWindow
-#define IsECenterWindow             Repository_IsECenterWindow
-#define IsECenterMenuWindow         Repository_IsECenterMenuWindow
-#define IsEPagerWindow              Repository_IsEPagerWindow
-#define IsXWPDaemonWindow           Repository_IsXWPDaemonWindow
+#define IsXWPTaskBarWindow          Repository_IsXWPTaskBarWindow
+#define IsXWPTaskBarMenuWindow      Repository_IsXWPTaskBarMenuWindow
+#define IsXWPPagerWindow            Repository_IsXWPPagerWindow
+#define IsSafeFireWindow            Repository_IsSafeFireWindow
 
 #define IsWindowsWindow             Repository_IsWindowsWindow
 #define IsVIOWindow                 Repository_IsVIOWindow
 
 // ─── Метод для подключения класса ───
 
-VOID Repository_Start( VOID )
+VOID Repository_Start (VOID)
 {
- // Заполняем переменные перед началом работы. 
- // Сбрасывать с помощью bzero() их не нужно - память очищается при заполнении.
- Repository_SetRepository();
+  // Заполняем переменные перед началом работы. 
+  // Сбрасывать с помощью "bzero()" их не нужно - память очищается при заполнении.
+  Repository_SetRepository ();
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

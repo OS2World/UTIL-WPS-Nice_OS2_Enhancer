@@ -9,13 +9,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID HookEvents_Start( VOID )
+VOID HookEvents_Start (VOID)
 {
- #ifdef HookEvents
- bzero( &HookEvents, sizeof( HookEvents ) );
- #endif
+  #ifdef HookEvents
+  bzero (&HookEvents, sizeof (HookEvents));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

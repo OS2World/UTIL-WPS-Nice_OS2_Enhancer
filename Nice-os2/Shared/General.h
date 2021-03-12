@@ -26,6 +26,9 @@
 #define PSIZE   PSIZEL
 #define PPCSZ   PCSZ*
 
+// Точка входа в пррограмму.
+#define Main main
+
 // Повторный вызов.
 #define RECURSIVE_CALLING 1
 
@@ -49,31 +52,31 @@
 
 #define HK_RESERVED_RETURN_VALUE   0
 
-#define MAKERGB( Red, Green, Blue ) ( MAKELONG( MAKESHORT( Blue, Green ), MAKESHORT( Red, 0 ) ) )
-#define REDFROMRGB( Color )         ( CHAR3FROMMP( Color ) )
-#define GREENFROMRGB( Color )       ( CHAR2FROMMP( Color ) )
-#define BLUEFROMRGB( Color )        ( CHAR1FROMMP( Color ) )
+#define MAKERGB(Red, Green, Blue) (MAKELONG(MAKESHORT(Blue, Green), MAKESHORT(Red, 0)))
+#define REDFROMRGB(Color)         (CHAR3FROMMP(Color))
+#define GREENFROMRGB(Color)       (CHAR2FROMMP(Color))
+#define BLUEFROMRGB(Color)        (CHAR1FROMMP(Color))
 
 #undef RGB
 #undef COLOR
 
 #ifndef RGB_WHITE
-   #define RGB_WHITE                   ( MAKERGB( 255, 255, 255 ) )
+   #define RGB_WHITE                   (MAKERGB(255, 255, 255))
 #endif
 #ifndef RGB_PALEGRAY
-   #define RGB_PALEGRAY                ( MAKERGB( 204, 204, 204 ) )
+   #define RGB_PALEGRAY                (MAKERGB(204, 204, 204))
 #endif
 #ifndef RGB_DARKGRAY
-   #define RGB_DARKGRAY                ( MAKERGB( 128, 128, 128 ) )
+   #define RGB_DARKGRAY                (MAKERGB(128, 128, 128))
 #endif
 #ifndef RGB_DARKRED
-   #define RGB_DARKRED                 ( MAKERGB( 128,   0,   0 ) )
+   #define RGB_DARKRED                 (MAKERGB(128,   0,   0))
 #endif
 #ifndef RGB_DARKGREEN
-   #define RGB_DARKGREEN               ( MAKERGB(   0, 128,   0 ) )
+   #define RGB_DARKGREEN               (MAKERGB(  0, 128,   0))
 #endif
 #ifndef RGB_DARKBLUE
-   #define RGB_DARKBLUE                ( MAKERGB(   0,   0,  128) )
+   #define RGB_DARKBLUE                (MAKERGB(  0,   0,  128))
 #endif
 
 #define PP_NOTEBOOKBACKGROUNDCOLOR         69
@@ -82,8 +85,8 @@
 #define PP_NOTEBOOKMINORTABFOREGROUNDCOLOR 72
 #define PP_NOTEBOOKMINORTABBACKGROUNDCOLOR 73
 
-#define SHORT1FROMLONG( Value )     ( SHORT1FROMMP( (MPARAM) Value ) )
-#define SHORT2FROMLONG( Value )     ( SHORT2FROMMP( (MPARAM) Value ) )
+#define SHORT1FROMLONG(Value)     (SHORT1FROMMP((MPARAM) Value))
+#define SHORT2FROMLONG(Value)     (SHORT2FROMMP((MPARAM) Value))
 
 #define HK_PREACCEL 17
 
@@ -119,17 +122,17 @@
 #define MSGBOX_MESSAGE_TEXT   200
 
 typedef struct _SYSCLR_ENTRY
- {
+{
   LONG index;
   LONG color;
- }
+}
 SYSCLR_ENTRY;
 
 typedef struct _SYSVAL_ENTRY
- {
+{
   LONG index;
   LONG value;
- }
+}
 SYSVAL_ENTRY;
 
 // Не определены в PMStdDlg.h.
@@ -166,29 +169,29 @@ SYSVAL_ENTRY;
 #define STD_OUT       1
 #define STD_ERR       2
 
-#define PAG_ALLOCATE         ( PAG_COMMIT | PAG_READ | PAG_WRITE )
+#define PAG_ALLOCATE         (PAG_COMMIT | PAG_READ | PAG_WRITE)
 #define QSV_NUMPROCESSORS    26
 
 #define PRTYD_NORMAL         0
-#define PRTYD_QUICK          ( PRTYD_MAXIMUM / 2 )
+#define PRTYD_QUICK          (PRTYD_MAXIMUM / 2)
 
-#define FILE_COMMON_ATTRIBUTES ( FILE_NORMAL | FILE_ARCHIVED )
-#define FILE_ALL_ATTRIBUTES    ( FILE_NORMAL | FILE_ARCHIVED | FILE_READONLY | FILE_SYSTEM | FILE_HIDDEN | FILE_DIRECTORY )
+#define FILE_COMMON_ATTRIBUTES (FILE_NORMAL | FILE_ARCHIVED)
+#define FILE_ALL_ATTRIBUTES    (FILE_NORMAL | FILE_ARCHIVED | FILE_READONLY | FILE_SYSTEM | FILE_HIDDEN | FILE_DIRECTORY)
 #define FILE_PIPE_ATTRIBUTES   FILE_NORMAL
 
 #define DEA_GET_ATTRS ((ULONG) -1)
 
-#define SUPPRESS_POPUPS ( 0x1 | 0x2 )
+#define SUPPRESS_POPUPS (0x1 | 0x2)
 
 #define BEGIN_LIBPATH 1
 #define END_LIBPATH   2
 
-APIRET APIENTRY DosSuppressPopUps ( ULONG Flags, ULONG Drive );
-APIRET APIENTRY DosDumpProcess ( ULONG Action, ULONG Drive, PID Pid );
-APIRET APIENTRY DosReplaceModule ( PSZ OldModule, PSZ NewModule, PSZ BackModule );
-APIRET APIENTRY DosVerifyPidTid ( ULONG Pid, ULONG Tid );
-APIRET APIENTRY DosSetExtLIBPATH( PSZ pszExtLIBPATH, ULONG flags );
-APIRET APIENTRY DosQueryExtLIBPATH( PSZ pszExtLIBPATH, ULONG flags );
+APIRET APIENTRY DosSuppressPopUps (ULONG Flags, ULONG Drive);
+APIRET APIENTRY DosDumpProcess (ULONG Action, ULONG Drive, PID Pid);
+APIRET APIENTRY DosReplaceModule (PSZ OldModule, PSZ NewModule, PSZ BackModule);
+APIRET APIENTRY DosVerifyPidTid (ULONG Pid, ULONG Tid);
+APIRET APIENTRY DosSetExtLIBPATH (PSZ pszExtLIBPATH, ULONG flags);
+APIRET APIENTRY DosQueryExtLIBPATH (PSZ pszExtLIBPATH, ULONG flags);
 
 // Длина строки для имени файла. Меньше 256 задавать нежелательно.
 #define SIZE_OF_PATH         1024
@@ -205,6 +208,10 @@ APIRET APIENTRY DosQueryExtLIBPATH( PSZ pszExtLIBPATH, ULONG flags );
 // Длина строки для общения с другими приложениями.
 #define SIZE_OF_PIPE_COMMAND 25
 
+// Какие действия выполнять во время чтения настроек.
+#define RS_UPDATE_FRAMES   1
+#define RS_ARRANGE_WINDOWS 1
+
 // Комнаты. Эти значения записываются в INI, менять их нежелательно.
 #define NORTHERN_ROOM   8
 #define SOUTHERN_ROOM   2
@@ -217,18 +224,18 @@ APIRET APIENTRY DosQueryExtLIBPATH( PSZ pszExtLIBPATH, ULONG flags );
 
 // Упрощенный список видимых приложений, который может быть получен из списка окон.
 typedef struct _VISIBLEPROCESS
- {
+{
   // Приложение и окно.
   PID Process_ID;
   HWND Frame_window;
 
   LONG Program_type;
-  CHAR Title[ SIZE_OF_TITLE ];
+  CHAR Title[SIZE_OF_TITLE];
 
   // Приоритет для него.
   LONG Priority_class;
   LONG Priority_delta;
- }
+}
 VISIBLEPROCESS; typedef VISIBLEPROCESS* PVISIBLEPROCESS;
 
 // Размер списка видимых приложений.

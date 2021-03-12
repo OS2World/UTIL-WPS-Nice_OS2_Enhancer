@@ -1,1 +1,1 @@
-VOID StartInstallerThread( ULONG Action );
+VOID StartInstallerThread (ULONG Action);

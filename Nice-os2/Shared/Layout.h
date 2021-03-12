@@ -9,14 +9,14 @@
 #define LTM_VSPLIT_WIDTH     0.50
 #define LTM_HSPLIT_HEIGHT    0.50
 
-#define LTM_COMMON_WIDTH     ( LTM_FULL_WIDTH )
-#define LTM_COMMON_HEIGHT    ( (ULONG) ( WinQuerySysValue( HWND_DESKTOP, SV_CYMENU ) >= 22 ) ? \
-                                       ( WinQuerySysValue( HWND_DESKTOP, SV_CYMENU ) ) : 22 )
-#define LTM_BUTTON_WIDTH     ( LTM_FULL_WIDTH  )
-#define LTM_BUTTON_HEIGHT    ( (ULONG) ( LTM_COMMON_HEIGHT * 1.33333 ) )
-#define LTM_COMBOBOX_WIDTH   ( LTM_FULL_WIDTH  )
-#define LTM_COMBOBOX_HEIGHT  ( LTM_COMMON_HEIGHT )
-#define LTM_COMBOBOX_LIST    ( (ULONG) ( LTM_COMMON_HEIGHT * 5 ) )
+#define LTM_COMMON_WIDTH     (LTM_FULL_WIDTH)
+#define LTM_COMMON_HEIGHT    ((ULONG) (WinQuerySysValue (HWND_DESKTOP, SV_CYMENU) >= 22) ? \
+                                      (WinQuerySysValue (HWND_DESKTOP, SV_CYMENU)) : 22)
+#define LTM_BUTTON_WIDTH     (LTM_FULL_WIDTH )
+#define LTM_BUTTON_HEIGHT    ((ULONG) (LTM_COMMON_HEIGHT * 1.33333))
+#define LTM_COMBOBOX_WIDTH   (LTM_FULL_WIDTH )
+#define LTM_COMBOBOX_HEIGHT  (LTM_COMMON_HEIGHT)
+#define LTM_COMBOBOX_LIST    ((ULONG) (LTM_COMMON_HEIGHT * 5))
 
 #define LTM_TOP_FRAME_WIDTH  0.75
 #define LTM_TOP_FRAME_HEIGHT 0.75
@@ -24,7 +24,7 @@
 
 // Прямоугольник или поле ввода.
 typedef struct _LTBRICK
- {
+{
   // Размер структуры.
   ULONG cb;
   // Окно, создаваемое заранее.
@@ -46,13 +46,13 @@ typedef struct _LTBRICK
   // должна быть видна только его верхняя часть (таковы окна "WC_COMBOBOX").
   // Это значение задается только в точках (требование Presentation Manager).
   ULONG ulBoxHeight;
- }
+}
 LTBRICK; typedef LTBRICK* PLTBRICK;
 
 // Список прямоугольников или полей ввода.
 // Такое значение возвращается после создания списка.
 typedef struct _LTWALL
- {
+{
   // Окно, для которого создается список.
   HWND hwnd;
 
@@ -61,5 +61,5 @@ typedef struct _LTWALL
 
   // Длина списка и число полей ввода в нем.
   ULONG ulLength; ULONG ulQuantity;
- }
+}
 LTWALL; typedef LTWALL* PLTWALL;

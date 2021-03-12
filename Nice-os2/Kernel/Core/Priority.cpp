@@ -3,13 +3,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Priority_Start( VOID )
+VOID Priority_Start (VOID)
 {
- #ifdef Priority
- bzero( &Priority, sizeof( Priority ) );
- #endif
+  #ifdef Priority
+  bzero (&Priority, sizeof (Priority));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

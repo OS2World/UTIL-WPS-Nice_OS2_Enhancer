@@ -34,54 +34,54 @@
 
 // ─── Приложение ───
 
-INT main( INT argc, CHAR *argv[] )
+INT Main (INT argc, CHAR *argv[])
 {
- // Определяем приложение в системе.
- HAB Application = WinInitialize( 0 );
+  // Определяем приложение в системе.
+  HAB Application = WinInitialize (0);
 
- // Если это сделать не удалось - выход.
- if( Application == NULLHANDLE )
+  // Если это сделать не удалось - выход.
+  if (Application == NULLHANDLE)
   {
-   // Звук - ошибка.
-   WinAlarm( HWND_DESKTOP, WA_ERROR );
-   // Выход.
-   return 0;
+    // Звук - ошибка.
+    WinAlarm (HWND_DESKTOP, WA_ERROR);
+    // Выход.
+    return 0;
   }
 
- // Создаем очередь сообщений.
- HMQ Message_queue = WinCreateMsgQueue( Application, 0 );
+  // Создаем очередь сообщений.
+  HMQ Message_queue = WinCreateMsgQueue (Application, 0);
 
- // Если очередь создать не удалось - выход.
- if( Message_queue == NULLHANDLE )
+  // Если очередь создать не удалось - выход.
+  if (Message_queue == NULLHANDLE)
   {
-   // Звук - ошибка.
-   WinAlarm( HWND_DESKTOP, WA_ERROR );
-   // Выход.
-   WinTerminate( Application ); return 0;
+    // Звук - ошибка.
+    WinAlarm (HWND_DESKTOP, WA_ERROR);
+    // Выход.
+    WinTerminate (Application); return 0;
   }
 
- // Задаем список приложений.
- Repository_Start();
+  // Задаем список приложений.
+  Repository_Start ();
 
- // Узнаем окно рабочего стола.
- HWND Desktop = WinQueryDesktopWindow( Application, NULLHANDLE );
+  // Узнаем окно рабочего стола.
+  HWND Desktop = WinQueryDesktopWindow (Application, NULLHANDLE);
 
- {
-  // Перебираем окна в окне рабочего стола.
-  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
-  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-   {
-    // Если это окно расширителя - закрываем его.
-    if( IsFrameWindow( Window ) )
-     if( WindowIsCreatedBy( APP_NICE, Window ) || WindowIsCreatedBy( APP_NICE_ECS, Window ) )
-      WinPostMsg( Window, WM_SYSCOMMAND, (MPARAM) SC_CLOSE, 0 );
-   }
-  WinEndEnumWindows( Enumeration );
- }
+  {
+    // Перебираем окна в окне рабочего стола.
+    HENUM Enumeration = WinBeginEnumWindows (Desktop); HWND Window = NULLHANDLE;
+    while ((Window = WinGetNextWindow (Enumeration)) != NULLHANDLE)
+    {
+      // Если это окно расширителя - закрываем его.
+      if (IsFrameWindow (Window))
+       if (WindowIsCreatedBy (APP_NICE_ENHANCER, Window) || WindowIsCreatedBy (APP_NICE_ENHANCER_SHELL, Window))
+        WinPostMsg (Window, WM_SYSCOMMAND, (MPARAM) SC_CLOSE, 0);
+    }
+    WinEndEnumWindows (Enumeration);
+  }
 
- // Сбрасываем очередь сообщений.
- WinDestroyMsgQueue( Message_queue );
+  // Сбрасываем очередь сообщений.
+  WinDestroyMsgQueue (Message_queue);
 
- // Выход.
- WinTerminate( Application ); return 0;
+  // Выход.
+  WinTerminate (Application); return 0;
 }

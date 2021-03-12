@@ -7,13 +7,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID MenuItems_Start( VOID )
+VOID MenuItems_Start (VOID)
 {
- #ifdef MenuItems
- bzero( &MenuItems, sizeof( MenuItems ) );
- #endif
+  #ifdef MenuItems
+  bzero (&MenuItems, sizeof (MenuItems));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

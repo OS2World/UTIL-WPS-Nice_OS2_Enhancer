@@ -9,12 +9,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Krnl_WindowList_Start( VOID )
+VOID Krnl_WindowList_Start (VOID)
 {
- #ifdef Krnl_WindowList
- bzero( &Krnl_WindowList, sizeof( Krnl_WindowList ) );
- #endif
+  #ifdef Krnl_WindowList
+  bzero (&Krnl_WindowList, sizeof (Krnl_WindowList));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

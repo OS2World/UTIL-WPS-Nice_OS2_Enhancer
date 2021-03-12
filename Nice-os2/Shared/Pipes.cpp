@@ -3,12 +3,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Pipes_Start( VOID )
+VOID Pipes_Start (VOID)
 {
- #ifdef Pipes
- bzero( &Pipes, sizeof( Pipes ) );
- #endif
+  #ifdef Pipes
+  bzero (&Pipes, sizeof (Pipes));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

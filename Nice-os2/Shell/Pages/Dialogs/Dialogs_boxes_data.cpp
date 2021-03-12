@@ -1,9 +1,9 @@
 // Окно настроек.
 typedef struct _DLGBOXESPAGE
- {
+{
   // Настройки.
   typedef struct _INRSTS
-   {
+  {
     // Поля ввода в окне.
     ULONG WinList_Container_ID;
     ULONG ButtonBox_ID;
@@ -20,9 +20,9 @@ typedef struct _DLGBOXESPAGE
     BYTE Dialog_list_is_locked;
     PMSGDLGBOX Selected_dialog;
     BYTE Action_list_is_locked;
-   }
+  }
   INRSTS; INRSTS Settings;
- }
+}
 DLGBOXESPAGE;
 
 DLGBOXESPAGE Dialogs_Boxes;

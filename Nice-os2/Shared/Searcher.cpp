@@ -6,12 +6,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Searcher_Start( VOID )
+VOID Searcher_Start (VOID)
 {
- #ifdef Searcher
- bzero( &Searcher, sizeof( Searcher ) );
- #endif
+  #ifdef Searcher
+  bzero (&Searcher, sizeof (Searcher));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

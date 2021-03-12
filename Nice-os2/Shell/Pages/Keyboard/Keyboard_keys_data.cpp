@@ -4,10 +4,10 @@
 
 // Окно настроек.
 typedef struct _KBDKEYSPAGE
- {
+{
   // Настройки.
   typedef struct _INRSTS
-   {
+  {
     // Поля ввода в окне.
     ULONG Container_ID;
     ULONG Use_button_ID;
@@ -16,9 +16,9 @@ typedef struct _KBDKEYSPAGE
 
     ULONG Key_list_is_locked;
     PBYTE Key_permission;
-   }
+  }
   INRSTS; INRSTS Settings;
- }
+}
 KBDKEYSPAGE;
 
 KBDKEYSPAGE Keyboard_Keys;

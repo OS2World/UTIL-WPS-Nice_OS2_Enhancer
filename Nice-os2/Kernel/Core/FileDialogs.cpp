@@ -3,13 +3,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID FileDialogs_Start( VOID )
+VOID FileDialogs_Start (VOID)
 {
- #ifdef FileDialogs
- bzero( &FileDialogs, sizeof( FileDialogs ) );
- #endif
+  #ifdef FileDialogs
+  bzero (&FileDialogs, sizeof (FileDialogs));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

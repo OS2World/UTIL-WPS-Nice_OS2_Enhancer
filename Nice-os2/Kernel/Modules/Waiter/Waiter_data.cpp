@@ -1,9 +1,9 @@
 // Ожидание появления или завершения приложений.
 typedef struct _WAITER
- {
+{
   // Постоянные величины.
   typedef struct _CONSTANTS
-   {
+  {
     // Число задержек для простого ожидания.
     INT Sleep_to_wait_some_time;
 
@@ -15,9 +15,9 @@ typedef struct _WAITER
 
     // Число задержек для сокрытия приложения в начале его сопровождения.
     INT Retards_at_escorting_process;
-   }
+  }
   CONSTANTS; CONSTANTS Constants;
- }
+}
 WAITER;
 
 WAITER Waiter;

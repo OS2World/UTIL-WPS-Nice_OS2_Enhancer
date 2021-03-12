@@ -1,11 +1,11 @@
 
 // ─── Сообщает, как должен работать поток для выравнивания окон ───
 
-BYTE Rooms_SynchronizeArrangerAndRooms( VOID )
+BYTE Rooms_SynchronizeArrangerAndRooms (VOID)
 {
- // Проверяем настройки.
- if( Rooms.Settings.Synchronize_arranger_and_rooms ) return 1;
+  // Проверяем настройки.
+  if (Rooms.Settings.Synchronize_arranger_and_rooms) return 1;
 
- // Возврат.
- return 0;
+  // Возврат.
+  return 0;
 }

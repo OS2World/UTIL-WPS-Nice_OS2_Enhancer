@@ -1,8 +1,8 @@
 // Список известных расширителю приложений.
 #define MAX_RP_ENTRIES               128
 
-#define APP_NICE                     1010
-#define APP_NICE_ECS                 1011
+#define APP_NICE_ENHANCER            1010
+#define APP_NICE_ENHANCER_SHELL      1011
 
 #define APP_CMD                      10000
 #define APP_COM                      10001
@@ -54,7 +54,7 @@
 #define APP_MOZILLA                  10100
 #define APP_FIREFOX                  10101
 #define APP_ARORA                    10102
-#define APP_QTWEB                    10103
+#define APP_OTTER                    10103
 #define APP_SURFER                   10104
 #define APP_QUPZILLA                 10105
 #define APP_DOOBLE                   10106
@@ -187,8 +187,8 @@
 #define SHOW_PULSE                   1120
 #define SHOW_POWER_MGR               1130
 
-#define SHOW_ECENTER                 1201
-#define SHOW_EPAGER                  1211
+#define SHOW_XWP_TASKBAR             1201
+#define SHOW_XWP_PAGER               1211
 #define SHOW_WARPCENTER              1221
 #define SHOW_LAUNCHPAD               1231
 

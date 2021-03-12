@@ -2,22 +2,22 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Clicker_Start( VOID )
+VOID Clicker_Start (VOID)
 {
- #ifdef Clicker
- bzero( &Clicker, sizeof( Clicker ) );
- #endif
+  #ifdef Clicker
+  bzero (&Clicker, sizeof (Clicker));
+  #endif
 
- // Задаем указатели в списке составляющих расширителя.
- MODULE Item; PresetModuleItem( &Item );
+  // Задаем указатели в списке составляющих расширителя.
+  MODULE Item; PresetModuleItem (&Item);
 
- Item.StartThread = Clicker_StartThread;
- Item.PostQuitMsg = Clicker_PostQuitMsg;
- Item.TuneModule  = Clicker_Tune;
+  Item.StartThread = Clicker_StartThread;
+  Item.PostQuitMsg = Clicker_PostQuitMsg;
+  Item.TuneModule  = Clicker_Tune;
 
- RememberModuleItem( Enhancer.Modules.Clicker, &Item );
+  RememberModuleItem (Enhancer.Modules.Clicker, &Item);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

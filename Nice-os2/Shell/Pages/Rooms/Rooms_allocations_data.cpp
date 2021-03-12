@@ -1,9 +1,9 @@
 // Окно настроек.
 typedef struct _RMSALLOCSPAGE
- {
+{
   // Настройки.
   typedef struct _INRSTS
-   {
+  {
     // Поля ввода в окне.
     ULONG AppList_Container_ID;
     ULONG SelectBox_ID;
@@ -20,9 +20,9 @@ typedef struct _RMSALLOCSPAGE
     ULONG Selected_room;
     ULONG Allocation_list_is_locked;
     PINT Preferable_room_variable;
-   }
+  }
   INRSTS; INRSTS Settings;
- }
+}
 RMSALLOCSPAGE;
 
 RMSALLOCSPAGE Rooms_Allocations;

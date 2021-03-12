@@ -3,13 +3,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID KbdLocks_Start( VOID )
+VOID KbdLocks_Start (VOID)
 {
- #ifdef KbdLocks
- bzero( &KbdLocks, sizeof( KbdLocks ) );
- #endif
+  #ifdef KbdLocks
+  bzero (&KbdLocks, sizeof (KbdLocks));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

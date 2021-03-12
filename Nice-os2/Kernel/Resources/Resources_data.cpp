@@ -13,16 +13,16 @@
 
 // Загруженные изображения.
 typedef struct _RESOURCES
- {
+{
   // Указатель мыши, используемый для передвижения изображения.
   HPOINTER Pointer_for_dragging;
 
   // Значки по умолчанию для окон.
-  HPOINTER Default_icons[ RC_ICONS_QUANTITY ];
+  HPOINTER Default_icons[RC_ICONS_QUANTITY];
 
   // Указатель мыши, используемый при вставке текста.
   HPOINTER Pointer_for_CopyPaste;
- }
+}
 RESOURCES;
 
 RESOURCES Resources;

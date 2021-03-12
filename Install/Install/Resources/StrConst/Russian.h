@@ -8,3 +8,5 @@ CONST PCHAR StrConst_RU_Remove_button = "Удалить";
 CONST PCHAR StrConst_EN_Remove_button = "Remove";
 CONST PCHAR StrConst_RU_Cancel_button = "Выход";
 CONST PCHAR StrConst_EN_Cancel_button = "Exit";
+
+/* EOF */

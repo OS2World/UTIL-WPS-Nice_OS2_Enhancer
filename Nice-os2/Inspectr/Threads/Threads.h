@@ -1,1 +1,1 @@
-VOID StartProcessing( VOID );
+VOID StartProcessing (VOID);

@@ -2,20 +2,20 @@
 
 // ─── Метод для подключения класса ───
 
-VOID KeyMapper_Start( VOID )
+VOID KeyMapper_Start (VOID)
 {
- #ifdef KeyMapper
- bzero( &KeyMapper, sizeof( KeyMapper ) );
- #endif
+  #ifdef KeyMapper
+  bzero (&KeyMapper, sizeof (KeyMapper));
+  #endif
 
- // Задаем указатели в списке составляющих расширителя.
- MODULE Item; PresetModuleItem( &Item );
+  // Задаем указатели в списке составляющих расширителя.
+  MODULE Item; PresetModuleItem (&Item);
 
- Item.TuneModule = KeyMapper_Tune;
+  Item.TuneModule = KeyMapper_Tune;
 
- RememberModuleItem( Enhancer.Modules.KeyMapper, &Item );
+  RememberModuleItem (Enhancer.Modules.KeyMapper, &Item);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

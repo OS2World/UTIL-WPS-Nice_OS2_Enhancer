@@ -1,9 +1,9 @@
 // Окно настроек.
 typedef struct _DRWTHEMESPAGE
- {
+{
   // Настройки.
   typedef struct _INRSTS
-   {
+  {
     // Поля ввода в окне.
     ULONG Container_ID;
     ULONG Texture_filebox_ID;
@@ -15,17 +15,17 @@ typedef struct _DRWTHEMESPAGE
 
     // Идет заполнение списка тем.
     BYTE Theme_list_is_locked;
-   }
+  }
   INRSTS; INRSTS Settings;
 
   // Внутренние переменные.
   typedef struct _RTSTS
-   {
+  {
     // Последний выбранный каталог.
-    CHAR FileDlg_path[ SIZE_OF_PATH ];
-   }
+    CHAR FileDlg_path[SIZE_OF_PATH];
+  }
   RTSETTINGS; RTSETTINGS RTSettings;
- }
+}
 DRWTHEMESPAGE;
 
 DRWTHEMESPAGE Drawing_Themes;

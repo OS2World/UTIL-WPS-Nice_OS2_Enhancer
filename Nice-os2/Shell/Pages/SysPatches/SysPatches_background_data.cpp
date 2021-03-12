@@ -1,9 +1,9 @@
 // Окно настроек.
 typedef struct _SPTBKGNDPAGE
- {
+{
   // Настройки.
   typedef struct _INRSTS
-   {
+  {
     // Поля ввода в окне.
     ULONG Wallpaper_filebox_ID;
     ULONG Wallpaper_label_ID;
@@ -14,21 +14,21 @@ typedef struct _SPTBKGNDPAGE
     ULONG Comment_ID;
 
     // Изображение для окон оболочки.
-    CHAR Folder_background_name[ SIZE_OF_PATH ];
+    CHAR Folder_background_name[SIZE_OF_PATH];
     HBITMAP Folder_background;
     INT Folder_background_width;
     INT Folder_background_height;
-   }
+  }
   INRSTS; INRSTS Settings;
 
   // Внутренние переменные.
   typedef struct _RTSTS
-   {
+  {
     // Последний выбранный каталог.
-    CHAR FileDlg_path[ SIZE_OF_PATH ];
-   }
+    CHAR FileDlg_path[SIZE_OF_PATH];
+  }
   RTSETTINGS; RTSETTINGS RTSettings;
- }
+}
 SPTBKGNDPAGE;
 
 SPTBKGNDPAGE SysPatches_Background;

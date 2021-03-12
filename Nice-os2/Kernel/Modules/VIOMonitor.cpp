@@ -2,25 +2,25 @@
 
 // ─── Метод для подключения класса ───
 
-VOID VIOMonitor_Start( VOID )
+VOID VIOMonitor_Start (VOID)
 {
- #ifdef VIOMonitor
- bzero( &VIOMonitor, sizeof( VIOMonitor ) );
- #endif
+  #ifdef VIOMonitor
+  bzero (&VIOMonitor, sizeof (VIOMonitor));
+  #endif
 
- // Задаем постоянные величины.
- VIOMonitor.Constants.Retards_when_VIO_monitoring = 100;
+  // Задаем постоянные величины.
+  VIOMonitor.Constants.Retards_when_VIO_monitoring = 100;
 
- // Задаем указатели в списке составляющих расширителя.
- MODULE Item; PresetModuleItem( &Item );
+  // Задаем указатели в списке составляющих расширителя.
+  MODULE Item; PresetModuleItem (&Item);
 
- Item.StartThread = VIOMonitor_StartThread;
- Item.PostQuitMsg = VIOMonitor_PostQuitMsg;
- Item.TuneModule  = VIOMonitor_Tune;
+  Item.StartThread = VIOMonitor_StartThread;
+  Item.PostQuitMsg = VIOMonitor_PostQuitMsg;
+  Item.TuneModule  = VIOMonitor_Tune;
 
- RememberModuleItem( Enhancer.Modules.VIOMonitor, &Item );
+  RememberModuleItem (Enhancer.Modules.VIOMonitor, &Item);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

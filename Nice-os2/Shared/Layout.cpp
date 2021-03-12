@@ -11,12 +11,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Layout_Start( VOID )
+VOID Layout_Start (VOID)
 {
- #ifdef Layout
- bzero( &Layout, sizeof( Layout ) );
- #endif
+  #ifdef Layout
+  bzero (&Layout, sizeof (Layout));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

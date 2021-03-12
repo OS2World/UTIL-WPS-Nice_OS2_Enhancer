@@ -17,12 +17,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Files_Start( VOID )
+VOID Files_Start (VOID)
 {
- #ifdef Files
- bzero( &Files, sizeof( Files ) );
- #endif
+  #ifdef Files
+  bzero (&Files, sizeof (Files));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

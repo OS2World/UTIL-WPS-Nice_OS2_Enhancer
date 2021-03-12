@@ -2,12 +2,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Launcher_Start( VOID )
+VOID Launcher_Start (VOID)
 {
- #ifdef Launcher
- bzero( &Launcher, sizeof( Launcher ) );
- #endif
+  #ifdef Launcher
+  bzero (&Launcher, sizeof (Launcher));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

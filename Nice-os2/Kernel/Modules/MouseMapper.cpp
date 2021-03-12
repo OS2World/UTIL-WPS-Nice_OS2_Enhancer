@@ -6,20 +6,20 @@
 
 // ─── Метод для подключения класса ───
 
-VOID MouseMapper_Start( VOID )
+VOID MouseMapper_Start (VOID)
 {
- #ifdef MouseMapper
- bzero( &MouseMapper, sizeof( MouseMapper ) );
- #endif
+  #ifdef MouseMapper
+  bzero (&MouseMapper, sizeof (MouseMapper));
+  #endif
 
- // Задаем указатели в списке составляющих расширителя.
- MODULE Item; PresetModuleItem( &Item );
+  // Задаем указатели в списке составляющих расширителя.
+  MODULE Item; PresetModuleItem (&Item);
 
- Item.TuneModule = MouseMapper_Tune;
+  Item.TuneModule = MouseMapper_Tune;
 
- RememberModuleItem( Enhancer.Modules.MouseMapper, &Item );
+  RememberModuleItem (Enhancer.Modules.MouseMapper, &Item);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

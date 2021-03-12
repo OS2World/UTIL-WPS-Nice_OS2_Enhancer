@@ -1,1 +1,1 @@
-VOID StartObserverReportReading( VOID );
+VOID StartObserverReportReading (VOID);

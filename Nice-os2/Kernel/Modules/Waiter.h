@@ -1,2 +1,2 @@
 // Поток для ожидания появления или завершения приложения.
-VOID WaiterThread( VOID );
+VOID WaiterThread (VOID);

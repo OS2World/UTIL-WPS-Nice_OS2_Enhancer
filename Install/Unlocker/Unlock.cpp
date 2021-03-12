@@ -19,15 +19,15 @@
 
 // ─── Приложение ───
 
-VOID main( INT argc, CHAR *argv[] )
+VOID Main (INT argc, CHAR *argv[])
 {
- // Если не задано имя файла - выход.
- if( argc < 2 ) DosExit( EXIT_PROCESS, 0 );
+  // Если не задано имя файла - выход.
+  if (argc < 2) DosExit (EXIT_PROCESS, 0);
 
- // Выполняем Unlock.
- PCHAR File_name = argv[ 1 ];
- DosReplaceModule( File_name, NULL, NULL );
+  // Выполняем Unlock.
+  PCHAR File_name = argv[1];
+  DosReplaceModule (File_name, NULL, NULL);
 
- // Выход.
- DosExit( EXIT_PROCESS, 0 );
+  // Выход.
+  DosExit (EXIT_PROCESS, 0);
 }

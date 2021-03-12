@@ -8,19 +8,19 @@
 
 // ─── Метод для подключения класса ───
 
-VOID RoomsTracker_Start( VOID )
+VOID RoomsTracker_Start (VOID)
 {
- #ifdef RoomsTracker
- bzero( &RoomsTracker, sizeof( RoomsTracker ) );
- #endif
+  #ifdef RoomsTracker
+  bzero (&RoomsTracker, sizeof (RoomsTracker));
+  #endif
 
- // Задаем постоянные величины.
- RoomsTracker.Constants.Time_for_room_change = 7500;
+  // Задаем постоянные величины.
+  RoomsTracker.Constants.Time_for_room_change = 7500;
 
- // Задаем настройки по умолчанию.
- RoomsTracker.RTSettings.Current_room = RoomsTracker.RTSettings.Current_room_reserved_value = SHELL_ROOM;
+  // Задаем настройки по умолчанию.
+  RoomsTracker.RTSettings.Current_room = RoomsTracker.RTSettings.Current_room_reserved_value = SHELL_ROOM;
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

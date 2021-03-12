@@ -6,12 +6,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID ModList_Start( VOID )
+VOID ModList_Start (VOID)
 {
- #ifdef ModList
- bzero( &ModList, sizeof( ModList ) );
- #endif
+  #ifdef ModList
+  bzero (&ModList, sizeof (ModList));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

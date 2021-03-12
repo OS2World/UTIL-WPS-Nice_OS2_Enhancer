@@ -3,12 +3,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID WinPrpListAndRepository_Start( VOID )
+VOID WinPrpListAndRepository_Start (VOID)
 {
- #ifdef WinPrpListAndRepository
- bzero( &WinPrpListAndRepository, sizeof( WinPrpListAndRepository ) );
- #endif
+  #ifdef WinPrpListAndRepository
+  bzero (&WinPrpListAndRepository, sizeof (WinPrpListAndRepository));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

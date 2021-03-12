@@ -4,13 +4,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Krnl_DlgBox_Start( VOID )
+VOID Krnl_DlgBox_Start (VOID)
 {
- #ifdef Krnl_DlgBox
- bzero( &Krnl_DlgBox, sizeof( Krnl_DlgBox ) );
- #endif
+  #ifdef Krnl_DlgBox
+  bzero (&Krnl_DlgBox, sizeof (Krnl_DlgBox));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

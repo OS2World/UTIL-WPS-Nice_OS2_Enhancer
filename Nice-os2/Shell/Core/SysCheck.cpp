@@ -5,12 +5,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID SysCheck_Start( VOID )
+VOID SysCheck_Start (VOID)
 {
- #ifdef SysCheck
- bzero( &SysCheck, sizeof( SysCheck ) );
- #endif
+  #ifdef SysCheck
+  bzero (&SysCheck, sizeof (SysCheck));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

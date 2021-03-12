@@ -2,12 +2,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID MainWindow_Start( VOID )
+VOID MainWindow_Start (VOID)
 {
- #ifdef MainWindow
- bzero( &MainWindow, sizeof( MainWindow ) );
- #endif
+  #ifdef MainWindow
+  bzero (&MainWindow, sizeof (MainWindow));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

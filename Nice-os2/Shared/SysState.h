@@ -365,7 +365,7 @@ typedef struct qsLrec_s {     /* qsLrec */
         USHORT           hmte;           /* handle for this mte */
         USHORT           fFlat;          /* true if 32 bit module */
         ULONG            ctImpMod;       /* # of imported modules in table */
-        ULONG            ctObj;          /* # of objects in module (mte_objcnt)*/
+        ULONG            ctObj;          /* # of objects in module (mte_objcnt) */
         qsLObjrec_t FAR  *pObjInfo;      /* pointer to per object info if any */
         UCHAR     FAR    *pName;         /* -> name string following struc */
 } qsLrec_t;
@@ -453,12 +453,12 @@ typedef qsPtrRec_t QSPTRREC; typedef qsPtrRec_t* PQSPTRREC;
 typedef qsPrec_t   QSPREC;   typedef qsPrec_t*   PQSPREC;
 typedef qsTrec_t   QSTREC;   typedef qsTrec_t*   PQSTREC;
 
-APIRET  APIENTRY DosQuerySysState(ULONG EntityList,
-                                  ULONG EntityLevel,
-                                  PID pid,
-                                  TID tid,
-                                  PVOID pDataBuf,
-                                  ULONG cbBuf);
+APIRET  APIENTRY DosQuerySysState (ULONG EntityList,
+                                   ULONG EntityLevel,
+                                   PID pid,
+                                   TID tid,
+                                   PVOID pDataBuf,
+                                   ULONG cbBuf);
 
 
 

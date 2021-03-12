@@ -2,22 +2,22 @@
 
 // ─── Метод для подключения класса ───
 
-VOID WindowManager_Start( VOID )
+VOID WindowManager_Start (VOID)
 {
- #ifdef WindowManager
- bzero( &WindowManager, sizeof( WindowManager ) );
- #endif
+  #ifdef WindowManager
+  bzero (&WindowManager, sizeof (WindowManager));
+  #endif
 
- // Задаем указатели в списке составляющих расширителя.
- MODULE Item; PresetModuleItem( &Item );
+  // Задаем указатели в списке составляющих расширителя.
+  MODULE Item; PresetModuleItem (&Item);
 
- Item.StartThread = WindowManager_StartThread;
- Item.PostQuitMsg = WindowManager_PostQuitMsg;
- Item.TuneModule  = WindowManager_Tune;
+  Item.StartThread = WindowManager_StartThread;
+  Item.PostQuitMsg = WindowManager_PostQuitMsg;
+  Item.TuneModule  = WindowManager_Tune;
 
- RememberModuleItem( Enhancer.Modules.WindowManager, &Item );
+  RememberModuleItem (Enhancer.Modules.WindowManager, &Item);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

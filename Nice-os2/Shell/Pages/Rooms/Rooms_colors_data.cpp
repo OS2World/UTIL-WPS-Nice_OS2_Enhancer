@@ -1,9 +1,9 @@
 // Окно настроек.
 typedef struct _RMSCLRSPAGE
- {
+{
   // Настройки.
   typedef struct _INRSTS
-   {
+  {
     // Поля ввода в окне.
     ULONG Container_ID;
     ULONG Wallpaper_filebox_ID;
@@ -30,19 +30,19 @@ typedef struct _RMSCLRSPAGE
     ULONG WinTitles_Active_ID;
     ULONG WinTitles_Button_ID;
     ULONG WinTitles_DrawText_ID;
-   }
+  }
   INRSTS; INRSTS Settings;
 
   // Внутренние переменные.
   typedef struct _RTSTS
-   {
+  {
     // Выбранная комната.
     ULONG Selected_room;
     // Последний выбранный каталог.
-    CHAR FileDlg_path[ SIZE_OF_PATH ];
-   }
+    CHAR FileDlg_path[SIZE_OF_PATH];
+  }
   RTSETTINGS; RTSETTINGS RTSettings;
- }
+}
 RMSCLRSPAGE;
 
 RMSCLRSPAGE Rooms_Colors;

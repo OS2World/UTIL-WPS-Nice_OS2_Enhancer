@@ -17,26 +17,26 @@
 
 // Объединение сообщений.
 typedef struct _PAINTERDEMAND
- {
+{
   // Окно рамки.
   HWND Frame_window;
   // Окно, требующее перерисования.
   ULONG Target;
- }
+}
 PAINTERDEMAND; typedef PAINTERDEMAND* PPAINTERDEMAND;
 
 #define PAINTER_DEMAND_TABLE              256
 
 // Отлов ошибки, вызывающей "мигание" рамки.
 typedef struct _MSGQUEUEINFO
- {
+{
   // Очередь сообщений.
   HMQ Queue;
   // Счетчик сообщений.
   INT Quantity;
   // Время последнего увеличения счетчика.
   LONG Time;
- }
+}
 MSGQUEUEINFO; typedef MSGQUEUEINFO* PMSGQUEUEINFO;
 
 #define PAINTER_MONITORING_QUEUES         64
@@ -44,51 +44,51 @@ MSGQUEUEINFO; typedef MSGQUEUEINFO* PMSGQUEUEINFO;
 
 // Исключения.
 typedef struct _PAINTER_EXCEPTIONS
- {
-  CHAR Drawing_1[ SIZE_OF_NAME ];
-  CHAR Drawing_2[ SIZE_OF_NAME ];
-  CHAR Drawing_3[ SIZE_OF_NAME ];
-  CHAR Drawing_4[ SIZE_OF_NAME ];
-  CHAR Drawing_5[ SIZE_OF_NAME ];
-  CHAR Drawing_6[ SIZE_OF_NAME ];
-  CHAR Drawing_7[ SIZE_OF_NAME ];
-  CHAR Drawing_8[ SIZE_OF_NAME ];
+{
+  CHAR Drawing_1[SIZE_OF_NAME];
+  CHAR Drawing_2[SIZE_OF_NAME];
+  CHAR Drawing_3[SIZE_OF_NAME];
+  CHAR Drawing_4[SIZE_OF_NAME];
+  CHAR Drawing_5[SIZE_OF_NAME];
+  CHAR Drawing_6[SIZE_OF_NAME];
+  CHAR Drawing_7[SIZE_OF_NAME];
+  CHAR Drawing_8[SIZE_OF_NAME];
 
-  CHAR BorderDrawing_1[ SIZE_OF_NAME ];
-  CHAR BorderDrawing_2[ SIZE_OF_NAME ];
-  CHAR BorderDrawing_3[ SIZE_OF_NAME ];
-  CHAR BorderDrawing_4[ SIZE_OF_NAME ];
-  CHAR BorderDrawing_5[ SIZE_OF_NAME ];
-  CHAR BorderDrawing_6[ SIZE_OF_NAME ];
-  CHAR BorderDrawing_7[ SIZE_OF_NAME ];
-  CHAR BorderDrawing_8[ SIZE_OF_NAME ];
+  CHAR BorderDrawing_1[SIZE_OF_NAME];
+  CHAR BorderDrawing_2[SIZE_OF_NAME];
+  CHAR BorderDrawing_3[SIZE_OF_NAME];
+  CHAR BorderDrawing_4[SIZE_OF_NAME];
+  CHAR BorderDrawing_5[SIZE_OF_NAME];
+  CHAR BorderDrawing_6[SIZE_OF_NAME];
+  CHAR BorderDrawing_7[SIZE_OF_NAME];
+  CHAR BorderDrawing_8[SIZE_OF_NAME];
 
-  CHAR Rolling_1[ SIZE_OF_NAME ];
-  CHAR Rolling_2[ SIZE_OF_NAME ];
-  CHAR Rolling_3[ SIZE_OF_NAME ];
-  CHAR Rolling_4[ SIZE_OF_NAME ];
-  CHAR Rolling_5[ SIZE_OF_NAME ];
-  CHAR Rolling_6[ SIZE_OF_NAME ];
-  CHAR Rolling_7[ SIZE_OF_NAME ];
-  CHAR Rolling_8[ SIZE_OF_NAME ];
- }
+  CHAR Rolling_1[SIZE_OF_NAME];
+  CHAR Rolling_2[SIZE_OF_NAME];
+  CHAR Rolling_3[SIZE_OF_NAME];
+  CHAR Rolling_4[SIZE_OF_NAME];
+  CHAR Rolling_5[SIZE_OF_NAME];
+  CHAR Rolling_6[SIZE_OF_NAME];
+  CHAR Rolling_7[SIZE_OF_NAME];
+  CHAR Rolling_8[SIZE_OF_NAME];
+}
 PAINTER_EXCEPTIONS;
 
 // Рисование рамок для окон.
 typedef struct _PAINTER
- {
+{
   // Постоянные величины.
   typedef struct _CONSTANTS
-   {
+  {
     // Значения времени и счетчика для определения "мигания" рамки при рисовании.
     INT Permanent_drawing;
     INT Drawing_check_timeout;
-   }
+  }
   CONSTANTS; CONSTANTS Constants;
 
   // Настройки.
   typedef struct _INRSTS
-   {
+  {
     // Изменять рамки окон? 0 - нет, 1 - да.
     BYTE Draw_frames;
     // Тема для рамок.
@@ -141,19 +141,19 @@ typedef struct _PAINTER
     LONG Southern_IT_Color_1; LONG Southern_IT_Color_2; LONG Southern_IT_Color_3;
 
     // Узор для изображений.
-    CHAR TitleBar_pattern[ SIZE_OF_PATH ];
+    CHAR TitleBar_pattern[SIZE_OF_PATH];
 
     // Не менять системные цвета? 0 - нет, 1 - да.
     BYTE Keep_frame_colors;
 
     // Список исключений.
     PAINTER_EXCEPTIONS Exceptions;
-   }
+  }
   INRSTS; INRSTS Settings;
 
   // Внутренние переменные.
   typedef struct _RTSTS
-   {
+  {
     // Окно, в котором нажата кнопка в заголовке.
     HWND Selected_window;
     // Какая кнопка нажата.
@@ -165,16 +165,16 @@ typedef struct _PAINTER
     HBITMAP AT_Bitmap; HBITMAP IT_Bitmap; INT AT_Bitmap_width; INT AT_Bitmap_height;
 
     // Узор для заголовка, загруженный с диска.
-    CHAR Pattern_name[ SIZE_OF_NAME ];
+    CHAR Pattern_name[SIZE_OF_NAME];
     HBITMAP Pattern; INT Pattern_width; INT Pattern_height;
 
     // Объединение сообщений.
-    PAINTERDEMAND Demand[ PAINTER_DEMAND_TABLE ];
+    PAINTERDEMAND Demand[PAINTER_DEMAND_TABLE];
 
     // Отлов ошибки, которая вызывает "мигание" рамки.
-    MSGQUEUEINFO Drawing_windows[ PAINTER_MONITORING_QUEUES ];
-    ULONG Stubborn_processes[ PAINTER_STUBBORN_PID_TABLE ];
-   }
+    MSGQUEUEINFO Drawing_windows[PAINTER_MONITORING_QUEUES];
+    ULONG Stubborn_processes[PAINTER_STUBBORN_PID_TABLE];
+  }
   RTSTS; RTSTS RTSettings;
- }
+}
 PAINTER; PAINTER Painter;

@@ -8,12 +8,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Connector_Start( VOID )
+VOID Connector_Start (VOID)
 {
- #ifdef Connector
- bzero( &Connector, sizeof( Connector ) );
- #endif
+  #ifdef Connector
+  bzero (&Connector, sizeof (Connector));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

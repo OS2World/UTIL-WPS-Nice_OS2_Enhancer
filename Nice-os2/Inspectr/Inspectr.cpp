@@ -50,7 +50,7 @@
 
 // Данные приложения.
 typedef struct _INSPECTOR
- {
+{
   // Приложение.
   HAB Application;
 
@@ -59,12 +59,12 @@ typedef struct _INSPECTOR
 
   // Окно рамки.
   HWND Frame_window;
-  CHAR Frame_window_title[ SIZE_OF_TITLE ];
+  CHAR Frame_window_title[SIZE_OF_TITLE];
   // Окно рабочей области.
   HWND Client_window;
 
   // Каталог приложения.
-  CHAR Current_directory[ SIZE_OF_PATH ];
+  CHAR Current_directory[SIZE_OF_PATH];
 
   // Настройки должны быть записаны.
   BYTE Write_settings;
@@ -81,17 +81,17 @@ typedef struct _INSPECTOR
 
   HPIPE Pipe_ReadHandle_1; HPIPE Pipe_WriteHandle_1;
   HPIPE Pipe_ReadHandle_2; HPIPE Pipe_WriteHandle_2;
- }
+}
 INSPECTOR; INSPECTOR Inspector;
 
 // Строки приложения.
 #include "Resources\\StrConst.h"
 
 // Внутренние сообщения.
-#define MY_CREATE       ( WM_USER +  1 )
+#define MY_CREATE       (WM_USER +  1)
 
-#define MY_APPLY_LAYOUT ( WM_USER + 10 )
-#define MY_START_THREAD ( WM_USER + 11 )
+#define MY_APPLY_LAYOUT (WM_USER + 10)
+#define MY_START_THREAD (WM_USER + 11)
 
 // Внешние сообщения.
 #include "..\\Shared\\Messages4Daemon.h"
@@ -118,134 +118,134 @@ INSPECTOR; INSPECTOR Inspector;
 
 // ─── Приложение ───
 
-INT main( INT argc, PCHAR argv[] )
+INT Main (INT argc, PCHAR argv[])
 {
- // Сбрасываем свойства приложения.
- bzero( &Inspector, sizeof( INSPECTOR ) );
+  // Сбрасываем свойства приложения.
+  bzero (&Inspector, sizeof (INSPECTOR));
 
- // Определяем приложение в системе.
- Inspector.Application = WinInitialize( 0 );
+  // Определяем приложение в системе.
+  Inspector.Application = WinInitialize (0);
 
- // Если это сделать не удалось - выход.
- if( Inspector.Application == NULLHANDLE )
+  // Если это сделать не удалось - выход.
+  if (Inspector.Application == NULLHANDLE)
   {
-   // Звук - ошибка.
-   WinAlarm( HWND_DESKTOP, WA_ERROR );
-   // Выход.
-   return 0;
-  }
-
- // Создаем очередь сообщений.
- HMQ Message_queue = WinCreateMsgQueue( Inspector.Application, 0 );
-
- // Если очередь создать не удалось - выход.
- if( Message_queue == NULLHANDLE )
-  {
-   // Звук - ошибка.
-   WinAlarm( HWND_DESKTOP, WA_ERROR );
-   // Выход.
-   WinTerminate( Inspector.Application ); return 0;
-  }
-
- // Запускаем составляющие приложения.
- StdLib_Start();
- Strings_Start();
- Files_Start();
-
- WindowTree_Start();
- Layout_Start();
- Environment_Start();
- EnhancerProperties_Start();
-
- Repository_Start();
-
- // Если окно приложения уже есть - выход.
- {
-  CHAR Semaphore_name[] = "\\SEM32\\N2ENSPECTR";
-  HMTX hmtxAlreadyRunning = NULLHANDLE;
-
-  if( DosOpenMutexSem( Semaphore_name, &hmtxAlreadyRunning ) == NO_ERROR )
-   {
-    WinDestroyMsgQueue( Message_queue );
-    WinTerminate( Inspector.Application );
+    // Звук - ошибка.
+    WinAlarm (HWND_DESKTOP, WA_ERROR);
+    // Выход.
     return 0;
-   }
-  else
-   {
-    DosCreateMutexSem( Semaphore_name, &hmtxAlreadyRunning, DC_SEM_SHARED, 1 );
-   }
- }
-
- // Узнаем рабочий каталог.
- {
-  ULONG Current_drive = 0; ULONG Drive_map = 0; ULONG Length = SIZE_OF_PATH - 3;
-  DosQueryCurrentDisk( &Current_drive, &Drive_map );
-  Inspector.Current_directory[ 0 ] = (CHAR) Current_drive + 64;
-  Inspector.Current_directory[ 1 ] = ':';
-  Inspector.Current_directory[ 2 ] = '\\';
-  DosQueryCurrentDir( 0, &Inspector.Current_directory[ 3 ], &Length );
- }
-
- // Приложение может быть вызвано из любого каталога внутри расширителя.
- // Переходим в его настоящий каталог.
- if( !stristr( "\\Enhancer\\Inspectr", Inspector.Current_directory ) )
-  {
-   if( stristr( "\\Enhancer", Inspector.Current_directory ) ||
-       stristr( "\\Install", Inspector.Current_directory ) )
-    {
-     CutNameInPath( Inspector.Current_directory );
-     strcat( Inspector.Current_directory, "\\Enhancer\\Inspectr" );
-    }
-   else
-    {
-     strcat( Inspector.Current_directory, "\\Enhancer\\Inspectr" );
-    }
-
-   DosSetCurrentDir( Inspector.Current_directory );
   }
 
- // Открываем файл настроек.
- CHAR Settings_file_name[ SIZE_OF_PATH ] = "";
- {
-  strcpy( Settings_file_name, Inspector.Current_directory );
-  CutNameInPath( Settings_file_name ); strcat( Settings_file_name, "\\Nice-os2.ini" );
- }
- HINI Ini_file = OpenIniProfile( Inspector.Application, Settings_file_name );
+  // Создаем очередь сообщений.
+  HMQ Message_queue = WinCreateMsgQueue (Inspector.Application, 0);
 
- // Читаем список приложений.
- if( Ini_file ) ReadRepository( Ini_file );
+  // Если очередь создать не удалось - выход.
+  if (Message_queue == NULLHANDLE)
+  {
+    // Звук - ошибка.
+    WinAlarm (HWND_DESKTOP, WA_ERROR);
+    // Выход.
+    WinTerminate (Inspector.Application); return 0;
+  }
 
- // Закрываем файл настроек.
- if( Ini_file ) PrfCloseProfile( Ini_file );
+  // Запускаем составляющие приложения.
+  StdLib_Start ();
+  Strings_Start ();
+  Files_Start ();
 
- // Узнаем страну, в которой работает приложение.
- Inspector.Code_page = QuerySystemCodePage();
+  WindowTree_Start ();
+  Layout_Start ();
+  Environment_Start ();
+  EnhancerProperties_Start ();
 
- // Заполняем структуры данных, используемых окнами.
- ClientWindow_Start();
+  Repository_Start ();
 
- // Создаем окно рабочей области.
- CHAR Class_name[] = "InspectrWndClass";
- WinRegisterClass( Inspector.Application, Class_name, (PFNWP) Inspector_ClientWindowProc, 0, 0 );
+  // Если окно приложения уже есть - выход.
+  {
+    CHAR Semaphore_name[] = "\\SEM32\\N2ENSPECTR";
+    HMTX hmtxAlreadyRunning = NULLHANDLE;
 
- // Создаем окно рамки.
- ULONG Creation_flags = FCF_TITLEBAR | FCF_SYSMENU | FCF_BORDER | FCF_NOBYTEALIGN;
- Inspector.Frame_window = WinCreateStdWindow( HWND_DESKTOP, CS_FRAME | WS_VISIBLE, &Creation_flags, Class_name, StrConst_EN_Title, 0, NULLHANDLE, 0, &Inspector.Client_window );
+    if (DosOpenMutexSem (Semaphore_name, &hmtxAlreadyRunning) == NO_ERROR)
+    {
+      WinDestroyMsgQueue (Message_queue);
+      WinTerminate (Inspector.Application);
+      return 0;
+    }
+    else
+    {
+      DosCreateMutexSem (Semaphore_name, &hmtxAlreadyRunning, DC_SEM_SHARED, 1);
+    }
+  }
 
- // Запускаем поток для выполнения действия.
- WinPostMsg( Inspector.Client_window, MY_START_THREAD, 0, 0 );
+  // Узнаем рабочий каталог.
+  {
+    ULONG Current_drive = 0; ULONG Drive_map = 0; ULONG Length = SIZE_OF_PATH - 3;
+    DosQueryCurrentDisk (&Current_drive, &Drive_map);
+    Inspector.Current_directory[0] = (CHAR) Current_drive + 64;
+    Inspector.Current_directory[1] = ':';
+    Inspector.Current_directory[2] = '\\';
+    DosQueryCurrentDir (0, &Inspector.Current_directory[3], &Length);
+  }
 
- // Выбираем сообщения из очереди.
- QMSG Message; bzero( &Message, sizeof( QMSG ) );
- while( WinGetMsg( Inspector.Application, &Message, 0, 0, 0 ) ) WinDispatchMsg( Inspector.Application, &Message );
+  // Приложение может быть вызвано из любого каталога внутри расширителя.
+  // Переходим в его настоящий каталог.
+  if (!stristr ("\\Enhancer\\Inspectr", Inspector.Current_directory))
+  {
+    if (stristr ("\\Enhancer", Inspector.Current_directory) ||
+        stristr ("\\Install", Inspector.Current_directory))
+    {
+      CutNameInPath (Inspector.Current_directory);
+      strcat (Inspector.Current_directory, "\\Enhancer\\Inspectr");
+    }
+    else
+    {
+      strcat (Inspector.Current_directory, "\\Enhancer\\Inspectr");
+    }
 
- // Закрываем окна.
- WinDestroyWindow( Inspector.Client_window );
- WinDestroyWindow( Inspector.Frame_window );
+    DosSetCurrentDir (Inspector.Current_directory);
+  }
 
- // Сбрасываем очередь сообщений.
- WinDestroyMsgQueue( Message_queue );
+  // Открываем файл настроек.
+  CHAR Settings_file_name[SIZE_OF_PATH] = "";
+  {
+    strcpy (Settings_file_name, Inspector.Current_directory);
+    CutNameInPath (Settings_file_name); strcat (Settings_file_name, "\\Nice-os2.ini");
+  }
+  HINI Ini_file = OpenIniProfile (Inspector.Application, Settings_file_name);
 
- // Выход.
- WinTerminate( Inspector.Application ); return 0;
+  // Читаем список приложений.
+  if (Ini_file) ReadRepository (Ini_file);
+
+  // Закрываем файл настроек.
+  if (Ini_file) PrfCloseProfile (Ini_file);
+
+  // Узнаем страну, в которой работает приложение.
+  Inspector.Code_page = QuerySystemCodePage ();
+
+  // Заполняем структуры данных, используемых окнами.
+  ClientWindow_Start ();
+
+  // Создаем окно рабочей области.
+  CHAR Class_name[] = "InspectrWndClass";
+  WinRegisterClass (Inspector.Application, Class_name, (PFNWP) Inspector_ClientWindowProc, 0, 0);
+
+  // Создаем окно рамки.
+  ULONG Creation_flags = FCF_TITLEBAR | FCF_SYSMENU | FCF_BORDER | FCF_NOBYTEALIGN;
+  Inspector.Frame_window = WinCreateStdWindow (HWND_DESKTOP, CS_FRAME | WS_VISIBLE, &Creation_flags, Class_name, StrConst_EN_Title, 0, NULLHANDLE, 0, &Inspector.Client_window);
+
+  // Запускаем поток для выполнения действия.
+  WinPostMsg (Inspector.Client_window, MY_START_THREAD, 0, 0);
+
+  // Выбираем сообщения из очереди.
+  QMSG Message; bzero (&Message, sizeof (QMSG));
+  while (WinGetMsg (Inspector.Application, &Message, 0, 0, 0)) WinDispatchMsg (Inspector.Application, &Message);
+
+  // Закрываем окна.
+  WinDestroyWindow (Inspector.Client_window);
+  WinDestroyWindow (Inspector.Frame_window);
+
+  // Сбрасываем очередь сообщений.
+  WinDestroyMsgQueue (Message_queue);
+
+  // Выход.
+  WinTerminate (Inspector.Application); return 0;
 }

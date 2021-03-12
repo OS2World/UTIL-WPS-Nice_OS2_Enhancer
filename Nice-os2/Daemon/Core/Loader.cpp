@@ -12,12 +12,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Loader_Start( VOID )
+VOID Loader_Start (VOID)
 {
- #ifdef Loader
- bzero( &Loader, sizeof( Loader ) );
- #endif
+  #ifdef Loader
+  bzero (&Loader, sizeof (Loader));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

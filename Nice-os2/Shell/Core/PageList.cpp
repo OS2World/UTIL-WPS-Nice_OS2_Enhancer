@@ -8,12 +8,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID PageList_Start( VOID )
+VOID PageList_Start (VOID)
 {
- #ifdef PageList
- bzero( &PageList, sizeof( PageList ) );
- #endif
+  #ifdef PageList
+  bzero (&PageList, sizeof (PageList));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

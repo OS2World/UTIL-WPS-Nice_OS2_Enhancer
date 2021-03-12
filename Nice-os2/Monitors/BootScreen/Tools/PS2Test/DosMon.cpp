@@ -42,7 +42,7 @@ void main ()
 
         {
           BYTE Scan_code = Keyboard_packet.ScanCode;
-          printf ("[ %02x ]", Scan_code);
+          printf ("[%02x]", Scan_code);
 
           BYTE Message[256] = {0};
           memcpy (Message, &Keyboard_packet, sizeof (Keyboard_packet));

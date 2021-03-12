@@ -5,13 +5,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Roller_Start( VOID )
+VOID Roller_Start (VOID)
 {
- #ifdef Roller
- bzero( &Roller, sizeof( Roller ) );
- #endif
+  #ifdef Roller
+  bzero (&Roller, sizeof (Roller));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

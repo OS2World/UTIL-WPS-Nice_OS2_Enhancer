@@ -7,24 +7,24 @@
 
 // ─── Метод для подключения класса ───
 
-VOID WinPrpList_Start( VOID )
+VOID WinPrpList_Start (VOID)
 {
- // Вызываем родителя для того, чтобы он подготовил все необходимые переменные.
- // Сбрасывать все значения с помощью bzero() при этом нежелательно - увеличится расход памяти.
- PrpList_PrepareList( &WinPrpList.Descendant );
+  // Вызываем родителя для того, чтобы он подготовил все необходимые переменные.
+  // Сбрасывать все значения с помощью bzero () при этом нежелательно - увеличится расход памяти.
+  PrpList_PrepareList (&WinPrpList.Descendant);
 
- // Запоминаем сведения о списке свойств окон.
- // Длина списка соответствует примерному числу окон приложений, которые могут быть открыты одновременно.
- WinPrpList.Descendant.Length = WINPRPLIST_LENGTH;
+  // Запоминаем сведения о списке свойств окон.
+  // Длина списка соответствует примерному числу окон приложений, которые могут быть открыты одновременно.
+  WinPrpList.Descendant.Length = WINPRPLIST_LENGTH;
 
- WinPrpList.Descendant.IsItemEqualsTo = WinPrpList_IsItemEqualsTo;
- WinPrpList.Descendant.IsItemEmpty = WinPrpList_IsItemEmpty;
- WinPrpList.Descendant.CreateNewItem = WinPrpList_CreateNewItem;
- WinPrpList.Descendant.DiscardItem = WinPrpList_DiscardItem;
- WinPrpList.Descendant.GetPointerForData = WinPrpList_GetPointerForData;
- WinPrpList.Descendant.GetSizeOfData = WinPrpList_GetSizeOfData;
+  WinPrpList.Descendant.IsItemEqualsTo = WinPrpList_IsItemEqualsTo;
+  WinPrpList.Descendant.IsItemEmpty = WinPrpList_IsItemEmpty;
+  WinPrpList.Descendant.CreateNewItem = WinPrpList_CreateNewItem;
+  WinPrpList.Descendant.DiscardItem = WinPrpList_DiscardItem;
+  WinPrpList.Descendant.GetPointerForData = WinPrpList_GetPointerForData;
+  WinPrpList.Descendant.GetSizeOfData = WinPrpList_GetSizeOfData;
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

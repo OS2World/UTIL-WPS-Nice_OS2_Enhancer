@@ -5,13 +5,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Images_Start( VOID )
+VOID Images_Start (VOID)
 {
- #ifdef Images
- bzero( &Images, sizeof( Images ) );
- #endif
+  #ifdef Images
+  bzero (&Images, sizeof (Images));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

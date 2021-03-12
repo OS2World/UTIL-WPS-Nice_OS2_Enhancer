@@ -6,13 +6,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID WindowTypes_Start( VOID )
+VOID WindowTypes_Start (VOID)
 {
- #ifdef WindowTypes
- bzero( &WindowTypes, sizeof( WindowTypes ) );
- #endif
+  #ifdef WindowTypes
+  bzero (&WindowTypes, sizeof (WindowTypes));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

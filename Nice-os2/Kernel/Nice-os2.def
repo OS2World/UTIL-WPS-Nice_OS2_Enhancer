@@ -1,7 +1,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   LIBRARY
-   NICE-OS2-ENHANCER-V571
+   NICE-OS2-ENHANCER-V572
 
   PROTMODE
 
@@ -15,7 +15,7 @@
    '..\Shared\OS2Stub\OS2Stub.bin'
 
   DESCRIPTION
-   '@#Sergey Posokhov:5.7.1 for OS/2#@Nice Enhancer'
+   '@#Sergey Posokhov:5.7.2 for OS/2#@Nice Enhancer'
 
   EXPORTS
    Krnl_StartKernel

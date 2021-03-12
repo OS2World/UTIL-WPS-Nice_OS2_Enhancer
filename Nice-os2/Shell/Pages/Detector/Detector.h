@@ -12,3 +12,4 @@
 
 #define ID_DETECTORFORM_ESCAPE_BUTTON    4000
 
+/* EOF */

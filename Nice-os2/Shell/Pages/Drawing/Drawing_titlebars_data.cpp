@@ -1,9 +1,9 @@
 // Окно настроек.
 typedef struct _DRWTBARSPAGE
- {
+{
   // Настройки.
   typedef struct _INRSTS
-   {
+  {
     // Поля ввода в окне.
     ULONG NeonPalette_Container_ID;
     ULONG NeonPalette_Palette_ID;
@@ -21,9 +21,9 @@ typedef struct _DRWTBARSPAGE
     ULONG WinTitles_Active_ID;
     ULONG WinTitles_Button_ID;
     ULONG WinTitles_DrawText_ID;
-   }
+  }
   INRSTS; INRSTS Settings;
- }
+}
 DRWTBARSPAGE;
 
 DRWTBARSPAGE Drawing_Titlebars;

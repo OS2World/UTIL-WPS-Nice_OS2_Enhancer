@@ -16,14 +16,14 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Krnl_KbdMouse_i386_Start( VOID )
+VOID Krnl_KbdMouse_i386_Start (VOID)
 {
- #ifdef Krnl_KbdMouse_i386
- bzero( &Krnl_KbdMouse_i386, sizeof( Krnl_KbdMouse_i386 ) );
- #endif
+  #ifdef Krnl_KbdMouse_i386
+  bzero (&Krnl_KbdMouse_i386, sizeof (Krnl_KbdMouse_i386));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 #endif

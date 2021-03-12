@@ -10,13 +10,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Performer_Start( VOID )
+VOID Performer_Start (VOID)
 {
- #ifdef Performer
- bzero( &Performer, sizeof( Performer ) );
- #endif
+  #ifdef Performer
+  bzero (&Performer, sizeof (Performer));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

@@ -147,16 +147,16 @@ Create Rooms around the desktop.
 
 :p.
 Each room is a set of windows, it has its own wallpaper and color scheme. In the
-room you can launch objects from the Desktop using eCenter or LaunchPad, and access 
-running applications using the Window List.
+room you can launch objects from the Desktop using ArcaOS TaskBar or LaunchPad, 
+and access running applications using the Window List.
 
 :p.
 Use numeric keys "2", "4", "5", "6" and "8" with "Shift" key to switch between
-rooms. Another way is to use objects from the WarpCenter or eCenter&colon.
+rooms. Another way is to use objects from the WarpCenter or TaskBar&colon.
 .br
 :artwork align='center' name='Images\Rooms.bmp'.
 :p.
-To add them, drop icons from the "Rooms" folder to eCenter or WarpCenter surface.
+To add them, drop icons from the "Rooms" folder to WarpCenter or TaskBar surface.
 
 :p.
 
@@ -215,7 +215,7 @@ Keys and actions.
 
 :p.
 You can assign some actions for various keys. For example, pressing a key you can
-launch the Window List, eCenter and ePager, or any other object from the workplace.
+launch the Window List, ArcaOS TaskBar and Pager, or any other object from the workplace.
 
 :p.
 This feature has been designed for keyboards that has two WinKeys (also known as 
@@ -472,7 +472,7 @@ Remove items from the Window List.
 
 :p.
 You can remove some items from the Window List and Alt + Esc round-robin. Common
-items to hide are "LaunchPad", "eCenter" and so on.
+items to hide are "LaunchPad", "TaskBar" and so on.
 
 :p.
 This feature is compatible with lSwitcher and other window switchers.
@@ -688,14 +688,14 @@ load this image and use it.
 
 :p.
 Каждая комната - это набор окон, который имеет свои цветовые настройки и обои.
-В комнате можно вызывать любые приложения с рабочего стола используя eCenter
+В комнате можно вызывать любые приложения с рабочего стола используя TaskBar
 или LaunchPad, а также переносить в неё работающие приложения, выбирая их из
 списка окон.
 
 :p.
 Для переключения между комнатами используются цифровые клавиши "2", "4", "5",
 "6" и "8", которые должны быть нажаты вместе с клавишей "Shift". Также можно
-использовать значки комнат на поверхности eCenter или WarpCenter&colon.
+использовать значки комнат на поверхности TaskBar или WarpCenter&colon.
 .br
 :artwork align='center' name='Images\Rooms.bmp'.
 :p.

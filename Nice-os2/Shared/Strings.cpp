@@ -23,13 +23,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Strings_Start( VOID )
+VOID Strings_Start (VOID)
 {
- #ifdef Strings
- bzero( &Strings, sizeof( Strings ) );
- #endif
+  #ifdef Strings
+  bzero (&Strings, sizeof (Strings));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

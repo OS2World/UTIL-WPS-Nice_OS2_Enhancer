@@ -7,12 +7,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID SysValues_Start( VOID )
+VOID SysValues_Start (VOID)
 {
- #ifdef SysValues
- bzero( &SysValues, sizeof( SysValues ) );
- #endif
+  #ifdef SysValues
+  bzero (&SysValues, sizeof (SysValues));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

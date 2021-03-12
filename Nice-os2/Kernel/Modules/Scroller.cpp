@@ -2,25 +2,25 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Scroller_Start( VOID )
+VOID Scroller_Start (VOID)
 {
- #ifdef Scroller
- bzero( &Scroller, sizeof( Scroller ) );
- #endif
+  #ifdef Scroller
+  bzero (&Scroller, sizeof (Scroller));
+  #endif
 
- // Задаем настройки по умолчанию.
- Scroller.RTSettings.Step_of_scrolling = 1;
+  // Задаем настройки по умолчанию.
+  Scroller.RTSettings.Step_of_scrolling = 1;
 
- // Задаем указатели в списке составляющих расширителя.
- MODULE Item; PresetModuleItem( &Item );
+  // Задаем указатели в списке составляющих расширителя.
+  MODULE Item; PresetModuleItem (&Item);
 
- Item.StartThread = Scroller_StartThread;
- Item.PostQuitMsg = Scroller_PostQuitMsg;
- Item.TuneModule  = Scroller_Tune;
+  Item.StartThread = Scroller_StartThread;
+  Item.PostQuitMsg = Scroller_PostQuitMsg;
+  Item.TuneModule  = Scroller_Tune;
 
- RememberModuleItem( Enhancer.Modules.Scroller, &Item );
+  RememberModuleItem (Enhancer.Modules.Scroller, &Item);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

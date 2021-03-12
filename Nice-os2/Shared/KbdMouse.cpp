@@ -8,13 +8,13 @@
 
 // ─── Метод для подключения класса ───
 
-VOID KbdMouse_Start( VOID )
+VOID KbdMouse_Start (VOID)
 {
- #ifdef KbdMouse
- bzero( &KbdMouse, sizeof( KbdMouse ) );
- #endif
+  #ifdef KbdMouse
+  bzero (&KbdMouse, sizeof (KbdMouse));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 

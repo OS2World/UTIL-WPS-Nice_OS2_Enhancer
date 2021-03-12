@@ -5,12 +5,12 @@
 
 // ─── Метод для подключения класса ───
 
-VOID Repaint_Start( VOID )
+VOID Repaint_Start (VOID)
 {
- #ifdef Repaint
- bzero( &Repaint, sizeof( Repaint ) );
- #endif
+  #ifdef Repaint
+  bzero (&Repaint, sizeof (Repaint));
+  #endif
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }

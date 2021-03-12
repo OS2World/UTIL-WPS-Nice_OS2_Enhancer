@@ -1,6 +1,6 @@
 // Структуры для обращения к функциям, изменяющим внешний вид полей ввода в окне.
 typedef struct _THEMEPAGEDEF
- {
+{
   HWND NeonPalette_FillTB_window;
   HWND NeonPalette_Container_window;
 
@@ -11,7 +11,7 @@ typedef struct _THEMEPAGEDEF
   HWND NeonPalette_Inactive_1_window;
   HWND NeonPalette_Inactive_2_window;
   HWND NeonPalette_Inactive_3_window;
- }
+}
 THEMEPAGEDEF;
 
 typedef THEMEPAGEDEF* PTHEMEPAGEDEF;

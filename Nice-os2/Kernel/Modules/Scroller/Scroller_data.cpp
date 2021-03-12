@@ -5,7 +5,10 @@
 #define SCROLLER_SCRLIST_LINE             150
 
 // Наибольшая поддерживаемая скорость.
-#define SCROLLER_MAX_VELOCITY_DD_D        ( 50 / 1 )
+#define SCROLLER_MAX_VELOCITY_DD_D        (50 / 1)
+
+// Используемые указатели.
+#define SCROLLER_CAT_POINTER              2
 
 // Используемые клавиши.
 #define SCROLLER_USE_CAPS_LOCK            1
@@ -27,50 +30,50 @@
 
 // Список окон, в которых происходит передвижение изображения.
 typedef struct _SCRLIST
- {
+{
   // Имя, под которым определено окно.
-  CHAR Name[ SIZE_OF_NAME ];
+  CHAR Name[SIZE_OF_NAME];
   // Скорость передвижения изображения.
   INT X_Velocity_DD; INT X_Velocity_D;
   INT Y_Velocity_DD; INT Y_Velocity_D;
   // Данные добавлены расширителем.
   BYTE PreDefined; BYTE Method;
- }
+}
 SCRLIST; typedef SCRLIST* PSCRLIST;
 
 // Исключения.
 typedef struct _SCROLLER_EXCEPTIONS
- {
+{
   // Список исключений, заданный пользователем.
-  CHAR Scrolling_1[ SIZE_OF_NAME ];
-  CHAR Scrolling_2[ SIZE_OF_NAME ];
-  CHAR Scrolling_3[ SIZE_OF_NAME ];
-  CHAR Scrolling_4[ SIZE_OF_NAME ];
-  CHAR Scrolling_5[ SIZE_OF_NAME ];
-  CHAR Scrolling_6[ SIZE_OF_NAME ];
-  CHAR Scrolling_7[ SIZE_OF_NAME ];
-  CHAR Scrolling_8[ SIZE_OF_NAME ];
+  CHAR Scrolling_1[SIZE_OF_NAME];
+  CHAR Scrolling_2[SIZE_OF_NAME];
+  CHAR Scrolling_3[SIZE_OF_NAME];
+  CHAR Scrolling_4[SIZE_OF_NAME];
+  CHAR Scrolling_5[SIZE_OF_NAME];
+  CHAR Scrolling_6[SIZE_OF_NAME];
+  CHAR Scrolling_7[SIZE_OF_NAME];
+  CHAR Scrolling_8[SIZE_OF_NAME];
 
-  CHAR KeyScrolling_1[ SIZE_OF_NAME ];
-  CHAR KeyScrolling_2[ SIZE_OF_NAME ];
-  CHAR KeyScrolling_3[ SIZE_OF_NAME ];
-  CHAR KeyScrolling_4[ SIZE_OF_NAME ];
-  CHAR KeyScrolling_5[ SIZE_OF_NAME ];
-  CHAR KeyScrolling_6[ SIZE_OF_NAME ];
-  CHAR KeyScrolling_7[ SIZE_OF_NAME ];
-  CHAR KeyScrolling_8[ SIZE_OF_NAME ];
- }
+  CHAR KeyScrolling_1[SIZE_OF_NAME];
+  CHAR KeyScrolling_2[SIZE_OF_NAME];
+  CHAR KeyScrolling_3[SIZE_OF_NAME];
+  CHAR KeyScrolling_4[SIZE_OF_NAME];
+  CHAR KeyScrolling_5[SIZE_OF_NAME];
+  CHAR KeyScrolling_6[SIZE_OF_NAME];
+  CHAR KeyScrolling_7[SIZE_OF_NAME];
+  CHAR KeyScrolling_8[SIZE_OF_NAME];
+}
 SCROLLER_EXCEPTIONS;
 
 // Передвижение изображения в окнах.
 typedef struct _SCROLLER
- {
+{
   // Список имен окон, в которых можно двигать изображение.
-  SCRLIST Scrolling_list[ SCROLLER_SCRLIST_SIZE ];
+  SCRLIST Scrolling_list[SCROLLER_SCRLIST_SIZE];
 
   // Настройки.
   typedef struct _INRSTS
-   {
+  {
     // Сдвигать изображение в окнах при нажатом Scroll Lock? 0 - нет, 1 - да.
     BYTE Key_scrolling;
     // Сделать передвижение изображения при просмотре плавным? 0 - нет, 1 - да.
@@ -82,11 +85,11 @@ typedef struct _SCROLLER
 
     // Список исключений.
     SCROLLER_EXCEPTIONS Exceptions;
-   }
+  }
   INRSTS; INRSTS Settings;
 
   typedef struct _RTSTS
-   {
+  {
     // Указывает, что скорость передвижения изображения запоминать не надо.
     BYTE Detection_is_disabled;
     // Если 1 или 2, то передвижение только начинается, если 3 или 4 - продолжается.
@@ -115,14 +118,14 @@ typedef struct _SCROLLER
     INT ScrList_position;
     SHORT Slider_position;
 
-    LONG Line_1[ SCROLLER_SCRLIST_LINE ]; 
-    LONG Line_2[ SCROLLER_SCRLIST_LINE ];
+    LONG Line_1[SCROLLER_SCRLIST_LINE]; 
+    LONG Line_2[SCROLLER_SCRLIST_LINE];
 
     // Переменные для хранения состояния полоски просмотра.
     SBCDATA SB_State; SBCDATA VSB_State; SBCDATA HSB_State;
-   }
+  }
   RTSTS; RTSTS RTSettings;
- }
+}
 SCROLLER; typedef SCROLLER* PSCROLLER;
 
 // Переменные должны быть расположены в разделяемой области памяти.

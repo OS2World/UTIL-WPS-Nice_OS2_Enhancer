@@ -2,1417 +2,1409 @@
 // ─── Вызывает окно и делает его выбранным ───
 
 // Frame_window - окно рамки.
-VOID Launcher_MoveWindowAbove( HWND Frame_window )
+VOID Launcher_MoveWindowAbove (HWND Frame_window)
 {
- // Если окно было убрано наверх - восстанавливаем его.
- if( Frame_window == RolledWindow() ) UnrollWindow( RolledWindow() );
+  // Если окно было убрано наверх - восстанавливаем его.
+  if (Frame_window == RolledWindow ()) UnrollWindow (RolledWindow ());
 
- // Вызываем окно и делаем его выбранным.
- MoveWindowAbove( Frame_window );
+  // Вызываем окно и делаем его выбранным.
+  MoveWindowAbove (Frame_window);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Проверяет состояние окна ───
 
-BYTE Launcher_MinimizedOrHidden( HWND Frame_window )
+BYTE Launcher_MinimizedOrHidden (HWND Frame_window)
 {
- // Проверяем флажок видимости окна.
- if( !WinIsWindowVisible( Frame_window ) ) return 1;
+  // Проверяем флажок видимости окна.
+  if (!WinIsWindowVisible (Frame_window)) return 1;
 
- // Проверяем состояние окна.
- SWP Window_state = {0};
- WinQueryWindowPos( Frame_window, &Window_state );
+  // Проверяем состояние окна.
+  SWP Window_state = {0};
+  WinQueryWindowPos (Frame_window, &Window_state);
 
- if( Window_state.fl & SWP_MINIMIZE || Window_state.fl & SWP_HIDE ) return 1;
+  if (Window_state.fl & SWP_MINIMIZE || Window_state.fl & SWP_HIDE) return 1;
 
- // Возврат.
- return 0;
+  // Возврат.
+  return 0;
 }
 
 // ─── Скрывает окно приложения, если оно соответствует действию ───
 
 // Action - действие, которое надо выполнить, Filter - условие отбора.
-BYTE Launcher_CheckAndHideActiveWindow( INT Action, BYTE Filter )
+BYTE Launcher_CheckAndHideActiveWindow (INT Action, BYTE Filter)
 {
- // Узнаем окно рабочего стола.
- HWND Desktop = QueryDesktopWindow();
+  // Узнаем окно рабочего стола.
+  HWND Desktop = QueryDesktopWindow ();
 
- // Узнаем окно, которое сейчас выбрано.
- HWND Active_window = WinQueryActiveWindow( Desktop );
+  // Узнаем окно, которое сейчас выбрано.
+  HWND Active_window = WinQueryActiveWindow (Desktop);
 
- // Если это окно рамки и оно доступно в списке окон:
- if( Active_window != NULLHANDLE && IsFrameWindow( Active_window ) && WindowIsTouchable( Active_window ) )
+  // Если это окно рамки и оно доступно в списке окон:
+  if (Active_window != NULLHANDLE && IsFrameWindow (Active_window) && WindowIsTouchable (Active_window))
   {
-   // Если это и есть то окно, которое надо найти:
-   if( CommandForWindowIs( Action, Active_window, Filter ) )
+    // Если это и есть то окно, которое надо найти:
+    if (CommandForWindowIs (Action, Active_window, Filter))
     {
-     // Находим другое такое же окно, а если его нет - скрываем это окно.
-     BYTE Another_window_is_found = 0;
+      // Находим другое такое же окно, а если его нет - скрываем это окно.
+      BYTE Another_window_is_found = 0;
 
-     {
       // Перебираем окна в окне рабочего стола.
-      HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
-      while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-       {
+      HENUM Enumeration = WinBeginEnumWindows (QueryDesktopWindow ()); HWND Window = NULLHANDLE;
+      while ((Window = WinGetNextWindow (Enumeration)) != NULLHANDLE)
+      {
         // Если это другое окно, и это тоже окно рамки, и оно тоже доступно в списке окон:
-        if( Window != Active_window && IsFrameWindow( Window ) && WindowIsTouchable( Window ) && !Launcher_MinimizedOrHidden( Window ) )
-         {
+        if (Window != Active_window && IsFrameWindow (Window) && WindowIsTouchable (Window) && !Launcher_MinimizedOrHidden (Window))
+        {
           // Если оно предназначено для выполнения тех же действий:
-          if( CommandForWindowIs( Action, Window, Filter ) )
-           {
+          if (CommandForWindowIs (Action, Window, Filter))
+          {
             // Запоминаем, что оно было найдено и завершаем перебор окон.
             Another_window_is_found = 1; break;
-           }
-         }
-       }
-      WinEndEnumWindows( Enumeration );
-     }
+          }
+        }
+      }
+      WinEndEnumWindows (Enumeration);
 
-     // Если другого окна нет - скрываем окно приложения.
-     // При этом возвращаем ненулевое значение, чтобы поток не выполнял никаких других действий.
-     if( !Another_window_is_found )
+      // Если другого окна нет - скрываем окно приложения.
+      // При этом возвращаем ненулевое значение, чтобы поток не выполнял никаких других действий.
+      if (!Another_window_is_found)
       {
-       HideWindowAway( Active_window ); return 1;
+        HideWindowAway (Active_window); return 1;
       }
     }
   }
 
- // Возврат.
- return 0;
+  // Возврат.
+  return 0;
 }
 
 // ─── Находит окно приложения и вызывает его ───
 
 // Position - расположение приложения в списке, Filter - условие отбора.
-BYTE Launcher_FindAndShowFrameWindow( INT Position, BYTE Filter )
+BYTE Launcher_FindAndShowFrameWindow (INT Position, BYTE Filter)
 {
- // Пробуем вызвать окно этого приложения или окно, способное откликнуться на такую же команду.
- BYTE Success = 0;
- HWND Selected_window = NULLHANDLE; BYTE Selected_window_is_hidden = 0;
- HWND Window_with_menu = NULLHANDLE; BYTE Window_with_menu_is_hidden = 0;
+  // Пробуем вызвать окно этого приложения или окно, способное откликнуться на такую же команду.
+  BYTE Success = 0;
+  HWND Selected_window = NULLHANDLE; BYTE Selected_window_is_hidden = 0;
+  HWND Window_with_menu = NULLHANDLE; BYTE Window_with_menu_is_hidden = 0;
 
- {
-  // Перебираем окна в окне рабочего стола.
-  HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
-  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-   {
-    // Если это не окно рамки - продолжаем перебор.
-    if( !IsFrameWindow( Window ) ) continue;
-
-    // Если окно не присутствует в списке окон - продолжаем перебор.
-    // Эта проверка необходима, так как сетевые обозреватели Mozilla и
-    // Opera создают такие окна, и даже зачем-то Switch_handle для них.
-    if( !WindowIsTouchable( Window ) )
-     if( !WindowIsUsedTo( DO_IMPROVE_WORKPLACE, Window ) )
-      continue;
-
-    // Если окно выбрано - продолжаем перебор.
-    // Эта проверка позволит выбрать одно из нескольких окон ("следующее по списку").
-    if( WindowIsActive( Window ) ) continue;
-
-    // Проверяем, видимо окно или скрыто.
-    // Эта проверка позволит переключаться сначала между видимыми окнами, а затем между остальными.
-    BYTE Minimized_or_hidden = Launcher_MinimizedOrHidden( Window );
-
-    if( Filter == FLT_VISIBLE && Minimized_or_hidden == 1 ) continue;
-    if( Filter == FLT_HIDDEN && Minimized_or_hidden == 0 ) continue;
-
-    // Смотрим, соответствует ли окно заданным условиям.
-    BYTE Show_window = 0;
-
-    // Если окно создано этим приложением - надо вызвать его.
-    if( WindowIsCreatedBy( Repository.Items[ Position ].Application, Window ) ) Show_window = 1;
-
-    // Если для приложения были заданы ключевые слова и они есть в заголовке окна - тоже.
-    if( Repository.Items[ Position ].Window_keyword_1[ 0 ] != 0 ||
-        Repository.Items[ Position ].Window_keyword_2[ 0 ] != 0 ||
-        Repository.Items[ Position ].Window_keyword_3[ 0 ] != 0 ||
-        Repository.Items[ Position ].Window_keyword_4[ 0 ] != 0 )
-     {
-      // Узнаем заголовок окна или выбираем его из списка свойств.
-      CHAR Title[ SIZE_OF_TITLE ] = ""; GetDetectedWindowTitle( Window, Title );
-
-      // Проверяем его.
-      if( Repository.Items[ Position ].Window_keyword_1[ 0 ] != 0 )
-       if( stristr( Repository.Items[ Position ].Window_keyword_1, Title ) ) Show_window = 1;
-
-      if( Repository.Items[ Position ].Window_keyword_2[ 0 ] != 0 )
-       if( stristr( Repository.Items[ Position ].Window_keyword_2, Title ) ) Show_window = 1;
-
-      if( Repository.Items[ Position ].Window_keyword_3[ 0 ] != 0 )
-       if( stristr( Repository.Items[ Position ].Window_keyword_3, Title ) ) Show_window = 1;
-
-      if( Repository.Items[ Position ].Window_keyword_4[ 0 ] != 0 )
-       if( stristr( Repository.Items[ Position ].Window_keyword_4, Title ) ) Show_window = 1;
-     }
-
-    // Если окно надо вызвать - запоминаем его.
-    if( Show_window )
-     {
-      // Запоминаем окно.
-      if( !Selected_window )
-       {
-        Selected_window = Window;
-        Selected_window_is_hidden = Minimized_or_hidden;
-       }
-
-      // Если у окна есть заголовок, меню и рабочая область - запоминаем его отдельно.
-      if( !Window_with_menu )
-       if( WinWindowFromID( Window, FID_TITLEBAR ) != NULLHANDLE )
-        if( WinWindowFromID( Window, FID_MENU ) != NULLHANDLE )
-         if( WinWindowFromID( Window, FID_CLIENT ) != NULLHANDLE )
-          {
-           Window_with_menu = Window;
-           Window_with_menu_is_hidden = Minimized_or_hidden;
-          }
-
-      // Запоминаем, что окно должно быть вызвано.
-      // Если были заполнены все переменные - завершаем перебор.
-      Success = 1; if( Selected_window && Window_with_menu ) break;
-     }
-   }
-  WinEndEnumWindows( Enumeration );
- }
-
- // Если было найдено несколько окон - вызываем окно, у которого есть меню.
- if( Window_with_menu != NULLHANDLE )
   {
-   Selected_window = Window_with_menu;
-   Selected_window_is_hidden = Window_with_menu_is_hidden;
+    // Перебираем окна в окне рабочего стола.
+    HENUM Enumeration = WinBeginEnumWindows (QueryDesktopWindow ()); HWND Window = NULLHANDLE;
+    while ((Window = WinGetNextWindow (Enumeration)) != NULLHANDLE)
+    {
+      // Если это не окно рамки - продолжаем перебор.
+      if (!IsFrameWindow (Window)) continue;
+
+      // Если окно не присутствует в списке окон - продолжаем перебор.
+      // Эта проверка необходима, так как сетевые обозреватели Mozilla и
+      // Opera создают такие окна, и даже зачем-то Switch_handle для них.
+      if (!WindowIsTouchable (Window))
+       if (!WindowIsUsedTo (DO_IMPROVE_WORKPLACE, Window))
+        continue;
+
+      // Если окно выбрано - продолжаем перебор.
+      // Эта проверка позволит выбрать одно из нескольких окон ("следующее по списку").
+      if (WindowIsActive (Window)) continue;
+
+      // Проверяем, видимо окно или скрыто.
+      // Эта проверка позволит переключаться сначала между видимыми окнами, а затем между остальными.
+      BYTE Minimized_or_hidden = Launcher_MinimizedOrHidden (Window);
+
+      if (Filter == FLT_VISIBLE && Minimized_or_hidden == 1) continue;
+      if (Filter == FLT_HIDDEN && Minimized_or_hidden == 0) continue;
+
+      // Смотрим, соответствует ли окно заданным условиям.
+      BYTE Show_window = 0;
+
+      // Если окно создано этим приложением - надо вызвать его.
+      if (WindowIsCreatedBy (Repository.Items[Position].Application, Window)) Show_window = 1;
+
+      // Если для приложения были заданы ключевые слова и они есть в заголовке окна - тоже.
+      if (Repository.Items[Position].Window_keyword_1[0] != 0 ||
+          Repository.Items[Position].Window_keyword_2[0] != 0 ||
+          Repository.Items[Position].Window_keyword_3[0] != 0 ||
+          Repository.Items[Position].Window_keyword_4[0] != 0)
+      {
+        // Узнаем заголовок окна или выбираем его из списка свойств.
+        CHAR Title[SIZE_OF_TITLE] = ""; GetDetectedWindowTitle (Window, Title);
+
+        // Проверяем его.
+        if (Repository.Items[Position].Window_keyword_1[0] != 0)
+         if (stristr (Repository.Items[Position].Window_keyword_1, Title)) Show_window = 1;
+
+        if (Repository.Items[Position].Window_keyword_2[0] != 0)
+         if (stristr (Repository.Items[Position].Window_keyword_2, Title)) Show_window = 1;
+
+        if (Repository.Items[Position].Window_keyword_3[0] != 0)
+         if (stristr (Repository.Items[Position].Window_keyword_3, Title)) Show_window = 1;
+
+        if (Repository.Items[Position].Window_keyword_4[0] != 0)
+         if (stristr (Repository.Items[Position].Window_keyword_4, Title)) Show_window = 1;
+      }
+
+      // Если окно надо вызвать - запоминаем его.
+      if (Show_window)
+      {
+        // Запоминаем окно.
+        if (!Selected_window)
+        {
+          Selected_window = Window;
+          Selected_window_is_hidden = Minimized_or_hidden;
+        }
+
+        // Если у окна есть заголовок, меню и рабочая область - запоминаем его отдельно.
+        if (!Window_with_menu)
+         if (WinWindowFromID (Window, FID_TITLEBAR) != NULLHANDLE)
+          if (WinWindowFromID (Window, FID_MENU) != NULLHANDLE)
+           if (WinWindowFromID (Window, FID_CLIENT) != NULLHANDLE)
+           {
+             Window_with_menu = Window;
+             Window_with_menu_is_hidden = Minimized_or_hidden;
+           }
+
+        // Запоминаем, что окно должно быть вызвано.
+        // Если были заполнены все переменные - завершаем перебор.
+        Success = 1; if (Selected_window && Window_with_menu) break;
+      }
+    }
+    WinEndEnumWindows (Enumeration);
   }
 
- // Делаем окно выбранным.
- if( Selected_window )
+  // Если было найдено несколько окон - вызываем окно, у которого есть меню.
+  if (Window_with_menu != NULLHANDLE)
   {
-   // Если окно уменьшено или скрыто - восстанавливаем его.
-   if( Selected_window_is_hidden )
-    {
-     // Узнаем, было ли окно увеличено.
-     BYTE Maximized = 0; FindProperty( Selected_window, PRP_MAXIMIZED, &Maximized );
+    Selected_window = Window_with_menu;
+    Selected_window_is_hidden = Window_with_menu_is_hidden;
+  }
 
-     // Посылаем сообщение в окно.
-     if( !Maximized ) PerformAction( Selected_window, RESTORE_ACTION );
-     else PerformAction( Selected_window, MAXIMIZE_ACTION );
+  // Делаем окно выбранным.
+  if (Selected_window)
+  {
+    // Если окно уменьшено или скрыто - восстанавливаем его.
+    if (Selected_window_is_hidden)
+    {
+      // Узнаем, было ли окно увеличено.
+      BYTE Maximized = 0; FindProperty (Selected_window, PRP_MAXIMIZED, &Maximized);
+
+      // Посылаем сообщение в окно.
+      if (!Maximized) PerformAction (Selected_window, RESTORE_ACTION);
+      else PerformAction (Selected_window, MAXIMIZE_ACTION);
     }
 
-   // Вызываем окно и делаем его выбранным.
-   Launcher_MoveWindowAbove( Selected_window );
+    // Вызываем окно и делаем его выбранным.
+    Launcher_MoveWindowAbove (Selected_window);
   }
 
- // Возврат.
- return Success;
+  // Возврат.
+  return Success;
 }
 
 // ─── Находит значок приложения и вызывает его ───
 
 // Position - расположение приложения в списке.
-BYTE Launcher_FindAndOpenWPSObject( INT Position )
+BYTE Launcher_FindAndOpenWPSObject (INT Position)
 {
- // Если оболочка рабочего стола WPS не используется - возврат.
- if( !ShellIsWPS() ) return 0;
+  // Если оболочка рабочего стола WPS не используется - возврат.
+  if (!ShellIsWPS ()) return 0;
 
- // Если значки не были найдены - возврат.
- if( Repository.Items[ Position ].Known_WPS_objects_not_found ) return 0;
+  // Если значки не были найдены - возврат.
+  if (Repository.Items[Position].Known_WPS_objects_not_found) return 0;
 
- // Пробуем вызвать значок на рабочем столе.
- BYTE Success = 0;
+  // Пробуем вызвать значок на рабочем столе.
+  BYTE Success = 0;
 
- // Пробуем вызвать один из значков, заданных в списке, и в том числе значок,
- // ранее считанный функцией "ReadRepository()" - она читает строку с именем
- // значка в поле "WPS_name_#", если видит, что оно не задано.
- for( INT Step = 0; Step < 4; Step ++ )
+  // Пробуем вызвать один из значков, заданных в списке, и в том числе значок,
+  // ранее считанный функцией "ReadRepository ()" - она читает строку с именем
+  // значка в поле "WPS_name_#", если видит, что оно не задано.
+  for (INT Step = 0; Step < 4; Step ++)
   {
-   // Узнаем значок на рабочем столе.
-   PCHAR Object_name = NULL;
+    // Узнаем значок на рабочем столе.
+    PCHAR Object_name = NULL;
 
-   if( Step == 0 ) Object_name = Repository.Items[ Position ].WPS_name_A;
-   if( Step == 1 ) Object_name = Repository.Items[ Position ].WPS_name_B;
-   if( Step == 2 ) Object_name = Repository.Items[ Position ].WPS_name_C;
-   if( Step == 3 ) Object_name = Repository.Items[ Position ].WPS_name_D;
+    if (Step == 0) Object_name = Repository.Items[Position].WPS_name_A;
+    if (Step == 1) Object_name = Repository.Items[Position].WPS_name_B;
+    if (Step == 2) Object_name = Repository.Items[Position].WPS_name_C;
+    if (Step == 3) Object_name = Repository.Items[Position].WPS_name_D;
 
-   // Если значок есть - вызываем его.
-   if( Object_name[ 0 ] != 0 )
+    // Если значок есть - вызываем его.
+    if (Object_name[0] != 0)
     {
-     HOBJECT Object = QueryWPSObject( Object_name );
+      HOBJECT Object = QueryWPSObject (Object_name);
 
-     if( Object != NULLHANDLE ) Success = WinOpenObject( Object, OPEN_DEFAULT, SHOW_EXISTING );
+      if (Object != NULLHANDLE) Success = WinOpenObject (Object, OPEN_DEFAULT, SHOW_EXISTING);
     }
 
-   // Если значок удалось вызвать - выходим из цикла.
-   if( Success ) break;
+    // Если значок удалось вызвать - выходим из цикла.
+    if (Success) break;
   }
 
- // Если приложение не было вызвано - запоминаем это.
- if( !Success ) Repository.Items[ Position ].Known_WPS_objects_not_found = 1;
+  // Если приложение не было вызвано - запоминаем это.
+  if (!Success) Repository.Items[Position].Known_WPS_objects_not_found = 1;
 
- // Возврат.
- return Success;
+  // Возврат.
+  return Success;
 }
 
 // ─── Находит исполняемый файл приложения и вызывает его ───
 
 // Position - расположение приложения в списке.
-BYTE Launcher_FindAndStartExeFile( INT Position )
+BYTE Launcher_FindAndStartExeFile (INT Position)
 {
- // Если настройки в INI-файле не были заданы - возврат.
- if( Repository.Items[ Position ].Path_INI_setting_name[ 0 ] == 0 ) return 0;
+  // Если настройки в INI-файле не были заданы - возврат.
+  if (Repository.Items[Position].Path_INI_setting_name[0] == 0) return 0;
 
- // Если путь к приложению не был найден - возврат.
- if( Repository.Items[ Position ].Known_Exe_files_not_found ) return 0;
+  // Если путь к приложению не был найден - возврат.
+  if (Repository.Items[Position].Known_Exe_files_not_found) return 0;
 
- // Пробуем найти файл приложения и вызвать его.
- BYTE Success = 0;
+  // Пробуем найти файл приложения и вызвать его.
+  BYTE Success = 0;
 
- // Открываем файл настроек.
- CHAR Settings_file_name[ SIZE_OF_PATH ] = ""; GetSettingsFileName( Settings_file_name );
- HINI Ini_file = OpenIniProfile( Enhancer.Application, Settings_file_name );
+  // Открываем файл настроек.
+  CHAR Settings_file_name[SIZE_OF_PATH] = ""; GetSettingsFileName (Settings_file_name);
+  HINI Ini_file = OpenIniProfile (Enhancer.Application, Settings_file_name);
 
- // Читаем путь к каталогу приложения.
- CHAR Exe_path[ SIZE_OF_PATH ] = "";
+  // Читаем путь к каталогу приложения.
+  CHAR Exe_path[SIZE_OF_PATH] = "";
 
- if( Ini_file )
+  if (Ini_file)
   {
-   ULONG Path = SIZE_OF_PATH; PrfQueryProfileData( Ini_file, "Applications", Repository.Items[ Position ].Path_INI_setting_name, Exe_path, &Path );
+    ULONG Path = SIZE_OF_PATH; PrfQueryProfileData (Ini_file, "Applications", Repository.Items[Position].Path_INI_setting_name, Exe_path, &Path);
   }
 
- // Закрываем файл настроек.
- if( Ini_file ) PrfCloseProfile( Ini_file );
+  // Закрываем файл настроек.
+  if (Ini_file) PrfCloseProfile (Ini_file);
 
- // Если путь не удалось прочитать или он не задан в файле настроек - возврат.
- if( Exe_path[ 0 ] == 0 ) { Repository.Items[ Position ].Known_Exe_files_not_found = 1; return 0; }
+  // Если путь не удалось прочитать или он не задан в файле настроек - возврат.
+  if (Exe_path[0] == 0) { Repository.Items[Position].Known_Exe_files_not_found = 1; return 0; }
 
- // Пробуем найти и вызвать Exe-файлы, заданные в списке, и в том числе файл
- // ранее считанный функцией "ReadRepository()" - она читает строку с именем
- // файла в поле "Exe_name_#", если видит, что оно не задано.
- for( INT Step = 0; Step < 4; Step ++ )
+  // Пробуем найти и вызвать Exe-файлы, заданные в списке, и в том числе файл
+  // ранее считанный функцией "ReadRepository ()" - она читает строку с именем
+  // файла в поле "Exe_name_#", если видит, что оно не задано.
+  for (INT Step = 0; Step < 4; Step ++)
   {
-   // Переменная с полным именем файла будет указывать на файл "*.exe".
-   PCHAR Exe_name = NULL;
+    // Переменная с полным именем файла будет указывать на файл "*.exe".
+    PCHAR Exe_name = NULL;
 
-   if( Step == 0 ) Exe_name = Repository.Items[ Position ].Exe_name_1;
-   if( Step == 1 ) Exe_name = Repository.Items[ Position ].Exe_name_2;
-   if( Step == 2 ) Exe_name = Repository.Items[ Position ].Exe_name_3;
-   if( Step == 3 ) Exe_name = Repository.Items[ Position ].Exe_name_4;
+    if (Step == 0) Exe_name = Repository.Items[Position].Exe_name_1;
+    if (Step == 1) Exe_name = Repository.Items[Position].Exe_name_2;
+    if (Step == 2) Exe_name = Repository.Items[Position].Exe_name_3;
+    if (Step == 3) Exe_name = Repository.Items[Position].Exe_name_4;
 
-   if( Exe_name[ 0 ] == NULL ) continue;
+    if (Exe_name[0] == NULL) continue;
 
-   CHAR Path[ SIZE_OF_PATH ] = "";
-   strcpy( Path, Exe_path ); strcat( Path, "\\" ); strcat( Path, Exe_name );
+    CHAR Path[SIZE_OF_PATH] = "";
+    strcpy (Path, Exe_path); strcat (Path, "\\"); strcat (Path, Exe_name);
 
-   // Но если рядом с ним в том же каталоге есть файл "*.cmd" - надо вызвать его.
-   {
-    CHAR Cmd_path[ SIZE_OF_PATH ] = ""; strcpy( Cmd_path, Path );
-
-    PCHAR Extension = stristr( ".exe", Cmd_path );
-
-    if( Extension != NULL )
-     {
-      *( Extension + 1 ) = 'c';
-      *( Extension + 2 ) = 'm';
-      *( Extension + 3 ) = 'd';
-     }
-
-    if( FileExists( Cmd_path ) ) strcpy( Path, Cmd_path );
-   }
-
-   // Если используется оболочка WPS - вызываем значок.
-   if( ShellIsWPS() )
+    // Но если рядом с ним в том же каталоге есть файл "*.cmd" - надо вызвать его.
     {
-     HOBJECT Object = QueryWPSObject( Path );
+      CHAR Cmd_path[SIZE_OF_PATH] = ""; strcpy (Cmd_path, Path);
 
-     if( Object != NULLHANDLE ) Success = WinOpenObject( Object, OPEN_DEFAULT, SHOW_EXISTING );
-    }
-   // Иначе - вызываем приложение.
-   else
-    {
-     Success = Execute( Path );
+      PCHAR Extension = stristr (".exe", Cmd_path);
+
+      if (Extension != NULL)
+      {
+        *(Extension + 1) = 'c';
+        *(Extension + 2) = 'm';
+        *(Extension + 3) = 'd';
+      }
+
+      if (FileExists (Cmd_path)) strcpy (Path, Cmd_path);
     }
 
-   // Если приложение удалось вызвать - выходим из цикла.
-   if( Success ) break;
+    // Если используется оболочка WPS - вызываем значок.
+    if (ShellIsWPS ())
+    {
+      HOBJECT Object = QueryWPSObject (Path);
+
+      if (Object != NULLHANDLE) Success = WinOpenObject (Object, OPEN_DEFAULT, SHOW_EXISTING);
+    }
+    // Иначе - вызываем приложение.
+    else
+    {
+      Success = Execute (Path);
+    }
+
+    // Если приложение удалось вызвать - выходим из цикла.
+    if (Success) break;
   }
 
- // Если приложение не было вызвано - запоминаем это.
- if( !Success ) Repository.Items[ Position ].Known_Exe_files_not_found = 1;
+  // Если приложение не было вызвано - запоминаем это.
+  if (!Success) Repository.Items[Position].Known_Exe_files_not_found = 1;
 
- // Возврат.
- return Success;
+  // Возврат.
+  return Success;
 }
 
 // ─── Вызывает окно приложения, которое соответствует действию ───
 
 // Action - действие, которое надо выполнить, Filter - условие отбора.
-BYTE Launcher_FindAndShowApplication( INT Action, BYTE Filter )
+BYTE Launcher_FindAndShowApplication (INT Action, BYTE Filter)
 {
- // Находим в списке приложения, способные откликнуться на эту команду, и пробуем вызвать их.
- for( INT Step = 0; Step < 4; Step ++ )
+  // Находим в списке приложения, способные откликнуться на эту команду, и пробуем вызвать их.
+  for (INT Step = 0; Step < 4; Step ++)
   {
-   INT Position = -1;
+    INT Position = -1;
 
-   while( 1 )
+    while (1)
     {
-     // Пробуем найти первое или следующее приложение.
-     Position = FindApplicationInRepository( 0, Action, Filter, Position + 1 );
+      // Пробуем найти первое или следующее приложение.
+      Position = FindApplicationInRepository (0, Action, Filter, Position + 1);
 
-     // Если приложение было найдено:
-     if( Position != -1 )
+      // Если приложение было найдено:
+      if (Position != -1)
       {
-       // Пробуем вызвать окно приложения, затем WPS-значок и само приложение.
-       // Если хотя бы одно из этих действий было выполенно - больше ничего делать не надо.
-       if( Step == 0 ) { if( Launcher_FindAndShowFrameWindow( Position, FLT_VISIBLE ) ) return 1; }
-       if( Step == 1 ) { if( Launcher_FindAndShowFrameWindow( Position, FLT_HIDDEN ) ) return 1;  }
-       if( Step == 2 ) { if( Launcher_FindAndOpenWPSObject( Position ) ) return 1;                }
-       if( Step == 3 ) { if( Launcher_FindAndStartExeFile( Position ) ) return 1;                 }
+        // Пробуем вызвать окно приложения, затем WPS-значок и само приложение.
+        // Если хотя бы одно из этих действий было выполенно - больше ничего делать не надо.
+        if (Step == 0) { if (Launcher_FindAndShowFrameWindow (Position, FLT_VISIBLE)) return 1; }
+        if (Step == 1) { if (Launcher_FindAndShowFrameWindow (Position, FLT_HIDDEN)) return 1; }
+        if (Step == 2) { if (Launcher_FindAndOpenWPSObject (Position)) return 1;               }
+        if (Step == 3) { if (Launcher_FindAndStartExeFile (Position)) return 1;                }
       }
-     // А если его нет или список был пройден - выходим из цикла.
-     else
+      // А если его нет или список был пройден - выходим из цикла.
+      else
       {
-       // Выходим из внутреннего цикла.
-       break;
+        // Выходим из внутреннего цикла.
+        break;
       }
     }
   }
 
- // Возврат.
- return 0;
+  // Возврат.
+  return 0;
 }
 
-// ─── Вызывает WarpCenter, eCenter или SysTray ───
+// ─── Вызывает WarpCenter, XWP TaskBar или SysTray ───
 
 // Toolbar - что надо показать.
-VOID Launcher_ShowShellToolbarMenu( LONG Toolbar )
+VOID Launcher_ShowShellToolbarMenu (LONG Toolbar)
 {
- // Узнаем окно рабочего стола.
- HWND Desktop = QueryDesktopWindow();
+  // Узнаем окно рабочего стола.
+  HWND Desktop = QueryDesktopWindow ();
 
- {
   // Перебираем окна.
-  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
-  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-   {
+  HENUM Enumeration = WinBeginEnumWindows (Desktop); HWND Window = NULLHANDLE;
+  while ((Window = WinGetNextWindow (Enumeration)) != NULLHANDLE)
+  {
     // Если это окно меню оболочки:
-    if( ( Toolbar == FIND_WARPCENTER && IsWarpCenterWindow( Window ) ) ||
-        ( Toolbar == FIND_SYSTRAY && IsSysTrayWindow( Window ) ) ||
-        ( Toolbar == FIND_ECENTER && IsECenterWindow( Window ) ) )
-     {
+    if ((Toolbar == FIND_WARPCENTER  && IsWarpCenterWindow (Window)) ||
+        (Toolbar == FIND_SYSTRAY     && IsSysTrayWindow (Window)) ||
+        (Toolbar == FIND_XWP_TASKBAR && IsXWPTaskBarWindow (Window)))
+    {
       // Если окно скрыто - показываем его.
-      if( !WinIsWindowVisible( Window ) ) WinShowWindow( Window, 1 );
+      if (!WinIsWindowVisible (Window)) WinShowWindow (Window, 1);
 
       // Вызываем окно и делаем его выбранным.
-      WinSetActiveWindow( Desktop, Window );
+      WinSetActiveWindow (Desktop, Window);
 
       // Узнаем расположение окна.
-      SWP Window_placement = {0}; WinQueryWindowPos( Window, &Window_placement );
+      SWP Window_placement = {0}; WinQueryWindowPos (Window, &Window_placement);
 
       // Узнаем окно, которое расположено в левом нижнем углу этого окна.
       // Если внутреннего окна нет, будет возвращено это окно.
       INT X_Point = 15; INT Y_Point = 15;
 
       POINT Desktop_point = { Window_placement.x + X_Point, Window_placement.y + Window_placement.cy - Y_Point };
-      HWND Inner_window = WinWindowFromPoint( Desktop, &Desktop_point, 1 );
+      HWND Inner_window = WinWindowFromPoint (Desktop, &Desktop_point, 1);
 
       // Посылаем внутреннему окну сообщение о нажатии кнопки мыши.
-      WinPostMsg( Inner_window, WM_BUTTON1DOWN, MRFROM2SHORT( X_Point, Y_Point ), MRFROM2SHORT( HT_NORMAL, KC_NONE ) );
-      WinPostMsg( Inner_window, WM_BUTTON1UP, MRFROM2SHORT( X_Point, Y_Point ), MRFROM2SHORT( HT_NORMAL, KC_NONE ) );
+      WinPostMsg (Inner_window, WM_BUTTON1DOWN, MRFROM2SHORT (X_Point, Y_Point), MRFROM2SHORT (HT_NORMAL, KC_NONE));
+      WinPostMsg (Inner_window, WM_BUTTON1UP, MRFROM2SHORT (X_Point, Y_Point), MRFROM2SHORT (HT_NORMAL, KC_NONE));
 
       // Завершаем перебор окон.
       break;
-     }
-   }
-  WinEndEnumWindows( Enumeration );
- }
+    }
+  }
+  WinEndEnumWindows (Enumeration);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
-// ─── Прячет меню WarpCenter, ECenter или SysTray ───
+// ─── Прячет меню WarpCenter, XWP TaskBar или SysTray ───
 
-VOID Launcher_HideShellToolbarMenu( BYTE Activate_window_in_center = 0 )
+VOID Launcher_HideShellToolbarMenu (BYTE Activate_window_in_center = 0)
 {
- // Надо запоминать, выполнено ли действие.
- BYTE Action_is_performed = 0;
- BYTE Post_queue_message = 0;
- BYTE Frame_window = NULLHANDLE;
+  // Надо запоминать, выполнено ли действие.
+  BYTE Action_is_performed = 0;
+  BYTE Post_queue_message = 0;
+  BYTE Frame_window = NULLHANDLE;
 
- // Узнаем окно рабочего стола.
- HWND Desktop = QueryDesktopWindow();
+  // Узнаем окно рабочего стола.
+  HWND Desktop = QueryDesktopWindow ();
 
- {
   // Перебираем окна.
-  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
-  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-   {
+  HENUM Enumeration = WinBeginEnumWindows (Desktop); HWND Window = NULLHANDLE;
+  while ((Window = WinGetNextWindow (Enumeration)) != NULLHANDLE)
+  {
     // Проверяем окно.
     LONG Found = 0;
 
-    if( IsWarpCenterMenuWindow( Window ) ) Found = FIND_WARPCENTER;
-    if( IsSysTrayMenuWindow( Window ) ) Found = FIND_SYSTRAY;
-    if( IsECenterMenuWindow( Window ) ) Found = FIND_ECENTER;
+    if (IsWarpCenterMenuWindow (Window)) Found = FIND_WARPCENTER;
+    if (IsSysTrayMenuWindow (Window))    Found = FIND_SYSTRAY;
+    if (IsXWPTaskBarMenuWindow (Window)) Found = FIND_XWP_TASKBAR;
 
     // Если это окно меню оболочки:
-    if( Found )
-     {
+    if (Found)
+    {
       // Меню WarpCenter надо передавать сообщения напрямую. Другим меню отправлять его
       // так нельзя - меню отправляет такие сообщения владельцу, который пропускает их.
-      BYTE Send_messages = 0; if( Found == FIND_WARPCENTER ) Send_messages = 1;
+      BYTE Send_messages = 0; if (Found == FIND_WARPCENTER) Send_messages = 1;
 
       // Составляем сообщение о нажатии клавиши Esc.
       MPARAM First_parameter_1 = 0; MPARAM Second_parameter_1 = 0;
       MPARAM First_parameter_2 = 0; MPARAM Second_parameter_2 = 0;
-      ComposeWMCharMessage( &First_parameter_1, &Second_parameter_1, &First_parameter_2, &Second_parameter_2, SC_ESC, 0, 0 );
+      ComposeWMCharMessage (&First_parameter_1, &Second_parameter_1, &First_parameter_2, &Second_parameter_2, SC_ESC, 0, 0);
 
       // Посылаем сообщение и ждем ответа, если это требуется.
-      if( Send_messages )
-       {
-        WinSendMsg( Window, WM_CHAR, First_parameter_1, Second_parameter_1 );
-        WinSendMsg( Window, WM_CHAR, First_parameter_2, Second_parameter_2 );
-       }
+      if (Send_messages)
+      {
+        WinSendMsg (Window, WM_CHAR, First_parameter_1, Second_parameter_1);
+        WinSendMsg (Window, WM_CHAR, First_parameter_2, Second_parameter_2);
+      }
       else
-       {
-        WinPostMsg( Window, WM_CHAR, First_parameter_1, Second_parameter_1 );
-        WinPostMsg( Window, WM_CHAR, First_parameter_2, Second_parameter_2 );
-       }
+      {
+        WinPostMsg (Window, WM_CHAR, First_parameter_1, Second_parameter_1);
+        WinPostMsg (Window, WM_CHAR, First_parameter_2, Second_parameter_2);
+      }
 
       // Запоминаем, что действие выполнено.
       Action_is_performed = 1;
 
-      // Если найден eCenter, надо выбирать окно в середине экрана, используя поток WindowManager.
-      if( Found == FIND_ECENTER )
-       {
+      // Если найден XWP TaskBar, надо выбирать окно в середине экрана, используя поток WindowManager.
+      if (Found == FIND_XWP_TASKBAR)
+      {
         Post_queue_message = 1;
-        Frame_window = QueryFrameWindow( WinQueryWindow( Window, QW_OWNER ) );
-       }
+        Frame_window = QueryFrameWindow (WinQueryWindow (Window, QW_OWNER));
+      }
 
       // Завершаем перебор окон.
       break;
-     }
-   }
-  WinEndEnumWindows( Enumeration );
- }
-
- // Делаем выбранным окно в середине экрана.
- if( Action_is_performed && Activate_window_in_center )
-  {
-   // Если можно выбрать окно сразу же:
-   if( !Post_queue_message )
-    {
-     // Выбираем окно.
-     ActivateWindowInCenter();
     }
-   // А если надо подключить поток WindowManager:
-   else
+  }
+  WinEndEnumWindows (Enumeration);
+
+  // Делаем выбранным окно в середине экрана.
+  if (Action_is_performed && Activate_window_in_center)
+  {
+    // Если можно выбрать окно сразу же:
+    if (!Post_queue_message)
     {
-     // Посылаем сообщение в очередь eCenter. К тому времени, как оно придет,
-     // eCenter сделает себя выбранным и можно будет переключиться в другое окно.
-     HMQ Message_queue = WinQueryWindowULong( Frame_window, QWL_HMQ );
-     WinPostQueueMsg( Message_queue, WM_MARK, (MPARAM) MRK_SELECT_ANYTHING, 0 );
+      // Выбираем окно.
+      ActivateWindowInCenter ();
+    }
+    // А если надо подключить поток WindowManager:
+    else
+    {
+      // Посылаем сообщение в очередь XWP TaskBar. К тому времени, как оно придет,
+      // TaskBar сделает себя выбранным и можно будет переключиться в другое окно.
+      HMQ Message_queue = WinQueryWindowULong (Frame_window, QWL_HMQ);
+      WinPostQueueMsg (Message_queue, WM_MARK, (MPARAM) MRK_SELECT_ANYTHING, 0);
     }
   }
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
-// ─── Вызывает ePager ───
+// ─── Вызывает XWP Pager ───
 
-VOID Launcher_ToggleEPager( VOID )
+VOID Launcher_ToggleXWPPager (VOID)
 {
- // Узнаем окно рабочего стола.
- HWND Desktop = QueryDesktopWindow();
+  // Узнаем окно рабочего стола.
+  HWND Desktop = QueryDesktopWindow ();
 
- {
   // Перебираем окна.
-  HENUM Enumeration = WinBeginEnumWindows( Desktop ); HWND Window = NULLHANDLE;
-  while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
-   {
-    // Если это окно ePager:
-    if( IsEPagerWindow( Window ) )
-     {
+  HENUM Enumeration = WinBeginEnumWindows (Desktop); HWND Window = NULLHANDLE;
+  while ((Window = WinGetNextWindow (Enumeration)) != NULLHANDLE)
+  {
+    // Если это окно XWP Pager:
+    if (IsXWPPagerWindow (Window))
+    {
       // Если показано меню WarpCenter - прячем его.
-      if( SystemWindowIsPresent( FIND_ALL_TOOLBAR_MENUS, FIND_VISIBLE_WINDOW ) )
-       {
-        Launcher_HideShellToolbarMenu( 0 );
-        Launcher_HideShellToolbarMenu( 0 );
-       }
+      if (SystemWindowIsPresent (FIND_ALL_TOOLBAR_MENUS, FIND_VISIBLE_WINDOW))
+      {
+        Launcher_HideShellToolbarMenu (0);
+        Launcher_HideShellToolbarMenu (0);
+      }
 
-      // Если окно ePager не выбрано:
-      if( !WindowIsActive( Window ) )
-       {
+      // Если окно не выбрано:
+      if (!WindowIsActive (Window))
+      {
         // Если окно скрыто - показываем его.
-        if( !WinIsWindowVisible( Window ) ) WinShowWindow( Window, 1 );
+        if (!WinIsWindowVisible (Window)) WinShowWindow (Window, 1);
 
         // Вызываем окно и делаем его выбранным.
-        WinSetActiveWindow( Desktop, Window );
-       }
+        WinSetActiveWindow (Desktop, Window);
+      }
       // А если оно уже вызвано:
       else
-       {
+      {
         // Делаем выбранным окно в середине экрана.
-        ActivateWindowInCenter();
-       }
+        ActivateWindowInCenter ();
+      }
 
       // Завершаем перебор окон.
       break;
-     }
-   }
-  WinEndEnumWindows( Enumeration );
- }
+    }
+  }
+  WinEndEnumWindows (Enumeration);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Вызывает или прячет FileBar ───
 
-VOID Launcher_ShowFileBarMenu( VOID )
+VOID Launcher_ShowFileBarMenu (VOID)
 {
- // Перебираем окна.
- HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+  // Перебираем окна.
+  HENUM Enumeration = WinBeginEnumWindows (QueryDesktopWindow ()); HWND Window = NULLHANDLE;
+  while ((Window = WinGetNextWindow (Enumeration)) != NULLHANDLE)
   {
-   // Если окно скрыто - продолжаем перебор окон.
-   if( !WinIsWindowVisible( Window ) ) continue;
+    // Если окно скрыто - продолжаем перебор окон.
+    if (!WinIsWindowVisible (Window)) continue;
 
-   // Если это окно FileBar:
-   if( IsFileBarWindow( Window ) )
+    // Если это окно FileBar:
+    if (IsFileBarWindow (Window))
     {
-     // Узнаем окно меню, расположенное внутри окна рамки FileBar.
-     HWND Menu_window = WinWindowFromID( Window, FID_MENU );
+      // Узнаем окно меню, расположенное внутри окна рамки FileBar.
+      HWND Menu_window = WinWindowFromID (Window, FID_MENU);
 
-     // Посылаем ему сообщение о нажатии кнопки мыши.
-     WinPostMsg( Menu_window, WM_BUTTON1DOWN, MRFROM2SHORT( 1, 1 ), MRFROM2SHORT( HT_NORMAL, KC_NONE ) );
-     WinPostMsg( Menu_window, WM_BUTTON1UP, MRFROM2SHORT( 1, 1 ), MRFROM2SHORT( HT_NORMAL, KC_NONE ) );
+      // Посылаем ему сообщение о нажатии кнопки мыши.
+      WinPostMsg (Menu_window, WM_BUTTON1DOWN, MRFROM2SHORT (1, 1), MRFROM2SHORT (HT_NORMAL, KC_NONE));
+      WinPostMsg (Menu_window, WM_BUTTON1UP, MRFROM2SHORT (1, 1), MRFROM2SHORT (HT_NORMAL, KC_NONE));
 
-     // Завершаем перебор окон.
-     break;
+      // Завершаем перебор окон.
+      break;
     }
   }
- WinEndEnumWindows( Enumeration );
+  WinEndEnumWindows (Enumeration);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Вызывает или прячет список окон ───
 
 // Show_window - скрыть или показать окно, Show_at_pointer - переместить его к указателю мыши.
-VOID Launcher_ShowWindowList( BYTE Show_window, LONG Show_at_pointer = 0 )
+VOID Launcher_ShowWindowList (BYTE Show_window, LONG Show_at_pointer = 0)
 {
- // Перебираем окна.
- HENUM Enumeration = WinBeginEnumWindows( QueryDesktopWindow() ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+  // Перебираем окна.
+  HENUM Enumeration = WinBeginEnumWindows (QueryDesktopWindow ()); HWND Window = NULLHANDLE;
+  while ((Window = WinGetNextWindow (Enumeration)) != NULLHANDLE)
   {
-   // Если это список окон:
-   if( IsWinListWindow( Window ) )
+    // Если это список окон:
+    if (IsWinListWindow (Window))
     {
-     // Если окно надо показать:
-     if( Show_window )
+      // Если окно надо показать:
+      if (Show_window)
       {
-       // Если окно надо передвинуть к указателю мыши:
-       if( Show_at_pointer )
+        // Если окно надо передвинуть к указателю мыши:
+        if (Show_at_pointer)
         {
-         // Узнаем размер экрана.
-         HWND Desktop = QueryDesktopWindow();
+          // Узнаем размер экрана.
+          HWND Desktop = QueryDesktopWindow ();
 
-         INT X_Screen = WinQuerySysValue( Desktop, SV_CXSCREEN );
-         INT Y_Screen = WinQuerySysValue( Desktop, SV_CYSCREEN );
+          INT X_Screen = WinQuerySysValue (Desktop, SV_CXSCREEN);
+          INT Y_Screen = WinQuerySysValue (Desktop, SV_CYSCREEN);
 
-         // Узнаем расположение указателя мыши.
-         POINT Pointer = {0}; WinQueryPointerPos( Desktop, &Pointer );
+          // Узнаем расположение указателя мыши.
+          POINT Pointer = {0}; WinQueryPointerPos (Desktop, &Pointer);
 
-         // Узнаем расположение окна.
-         SWP Window_placement = {0}; WinQueryWindowPos( Window, &Window_placement );
+          // Узнаем расположение окна.
+          SWP Window_placement = {0}; WinQueryWindowPos (Window, &Window_placement);
 
-         // Если окно увеличено - восстанавливаем его.
-         if( Window_placement.fl & SWP_MAXIMIZE )
+          // Если окно увеличено - восстанавливаем его.
+          if (Window_placement.fl & SWP_MAXIMIZE)
           {
-           // Восстанавливаем окно.
-           PerformAction( Window, RESTORE_ACTION );
+            // Восстанавливаем окно.
+            PerformAction (Window, RESTORE_ACTION);
 
-           // Узнаем новый размер и расположение окна.
-           WinQueryWindowPos( Window, &Window_placement );
+            // Узнаем новый размер и расположение окна.
+            WinQueryWindowPos (Window, &Window_placement);
           }
 
-         // Задаем новый размер и расположение окна.
-         INT X_Size = Window_placement.cx;
-         INT Y_Size = Window_placement.cy;
+          // Задаем новый размер и расположение окна.
+          INT X_Size = Window_placement.cx;
+          INT Y_Size = Window_placement.cy;
 
-         INT X_Position = Pointer.x - X_Size / 2;
-         INT Y_Position = Pointer.y - Y_Size / 2;
+          INT X_Position = Pointer.x - X_Size / 2;
+          INT Y_Position = Pointer.y - Y_Size / 2;
 
-         if( X_Position + X_Size > X_Screen ) X_Position = X_Screen - X_Size;
-         if( Y_Position + Y_Size > Y_Screen ) Y_Position = Y_Screen - Y_Size;
+          if (X_Position + X_Size > X_Screen) X_Position = X_Screen - X_Size;
+          if (Y_Position + Y_Size > Y_Screen) Y_Position = Y_Screen - Y_Size;
 
-         if( X_Position < 0 ) X_Position = 0;
-         if( Y_Position < 0 ) Y_Position = 0;
+          if (X_Position < 0) X_Position = 0;
+          if (Y_Position < 0) Y_Position = 0;
 
-         // Устанавливаем новое расположение окна.
-         WinSetWindowPos( Window, NULLHANDLE, X_Position, Y_Position, X_Size, Y_Size, SWP_MOVE | SWP_SIZE );
+          // Устанавливаем новое расположение окна.
+          WinSetWindowPos (Window, NULLHANDLE, X_Position, Y_Position, X_Size, Y_Size, SWP_MOVE | SWP_SIZE);
         }
 
-       // Показываем окно.
-       if( !WinIsWindowVisible( Window ) )
+        // Показываем окно.
+        if (!WinIsWindowVisible (Window))
         {
-         // Показываем окно.
-         WinShowWindow( Window, 1 );
+          // Показываем окно.
+          WinShowWindow (Window, 1);
 
-         // Вызываем окно и делаем его выбранным.
-         WinSetActiveWindow( QueryDesktopWindow(), Window );
+          // Вызываем окно и делаем его выбранным.
+          WinSetActiveWindow (QueryDesktopWindow (), Window);
         }
       }
-     // А если окно надо скрыть:
-     else
+      // А если окно надо скрыть:
+      else
       {
-       // Если окно не скрыто:
-       if( WinIsWindowVisible( Window ) )
+        // Если окно не скрыто:
+        if (WinIsWindowVisible (Window))
         {
-         // Скрываем его.
-         WinShowWindow( Window, 0 );
+          // Скрываем его.
+          WinShowWindow (Window, 0);
 
-         // Делаем выбранным окно в середине экрана.
-         BYTE All_OK = ActivateWindowInCenter();
+          // Делаем выбранным окно в середине экрана.
+          BYTE All_OK = ActivateWindowInCenter ();
 
-         // Если такого окна нет - вызываем выравнивание списка окон.
-         if( !All_OK ) WinPostQueueMsg( Enhancer.Modules.Arranger->Message_queue, SM_ARRANGE_WIN_LIST, (MPARAM) Window, 0 );
+          // Если такого окна нет - вызываем выравнивание списка окон.
+          if (!All_OK) WinPostQueueMsg (Enhancer.Modules.Arranger->Message_queue, SM_ARRANGE_WIN_LIST, (MPARAM) Window, 0);
         }
       }
 
-     // Завершаем перебор окон.
-     WinEndEnumWindows( Enumeration );
+      // Завершаем перебор окон.
+      WinEndEnumWindows (Enumeration);
 
-     // Возврат.
-     return;
+      // Возврат.
+      return;
     }
   }
- WinEndEnumWindows( Enumeration );
+  WinEndEnumWindows (Enumeration);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Прячет все системные окна ───
 
-VOID Launcher_HideAllSystemWindows( VOID )
+VOID Launcher_HideAllSystemWindows (VOID)
 {
- // Прячем список окон и меню WarpCenter.
- if( SystemWindowIsPresent( FIND_WINDOW_LIST | FIND_ALL_TOOLBAR_MENUS, FIND_VISIBLE_WINDOW ) )
+  // Прячем список окон и меню WarpCenter.
+  if (SystemWindowIsPresent (FIND_WINDOW_LIST | FIND_ALL_TOOLBAR_MENUS, FIND_VISIBLE_WINDOW))
   {
-   Launcher_ShowWindowList( 0 ); Launcher_HideShellToolbarMenu( 1 );
+    Launcher_ShowWindowList (0); Launcher_HideShellToolbarMenu (1);
   }
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Создает поток, выполняющий ожидание, и посылает ему сообщение ───
 
 // Message, - сообщение для потока, First_parameter - первый параметр сообщения.
-VOID Launcher_StartDetachedWaiterThread( ULONG Message, ULONG First_parameter )
+VOID Launcher_StartDetachedWaiterThread (ULONG Message, ULONG First_parameter)
 {
- // Сбрасываем переменную для ответа от потока.
- Thread_responds.Thread_is_created = 0;
+  // Сбрасываем переменную для ответа от потока.
+  Thread_responds.Thread_is_created = 0;
 
- // Создаем поток.
- TID Waiter = NULLHANDLE; APIRET Thread_is_created = DosCreateThread( &Waiter, (PFNTHREAD) WaiterThread, 0, 0, THREAD_STACK_SIZE );
- // Если он создан - ждем, пока в нем будет создана очередь сообщений.
- if( Thread_is_created == NO_ERROR ) while( Thread_responds.Thread_is_created == 0 ) { Retard(); }
+  // Создаем поток.
+  TID Waiter = NULLHANDLE; APIRET Thread_is_created = DosCreateThread (&Waiter, (PFNTHREAD) WaiterThread, 0, 0, THREAD_STACK_SIZE);
+  // Если он создан - ждем, пока в нем будет создана очередь сообщений.
+  if (Thread_is_created == NO_ERROR) while (Thread_responds.Thread_is_created == 0) { Retard (); }
 
- // Если поток удалось создать:
- if( Thread_is_created == NO_ERROR && Thread_responds.Thread_is_created != -1 )
+  // Если поток удалось создать:
+  if (Thread_is_created == NO_ERROR && Thread_responds.Thread_is_created != -1)
   {
-   // Посылаем сообщение в поток.
-   HMQ Owner_queue = Enhancer.Modules.Launcher->Message_queue;
-   WinPostQueueMsg( Enhancer.Modules.Waiter->Message_queue, Message, (MPARAM) First_parameter, (MPARAM) Owner_queue );
+    // Посылаем сообщение в поток.
+    HMQ Owner_queue = Enhancer.Modules.Launcher->Message_queue;
+    WinPostQueueMsg (Enhancer.Modules.Waiter->Message_queue, Message, (MPARAM) First_parameter, (MPARAM) Owner_queue);
 
-   // Забываем про него.
-   Enhancer.Modules.Waiter->Message_queue = NULLHANDLE;
+    // Забываем про него.
+    Enhancer.Modules.Waiter->Message_queue = NULLHANDLE;
   }
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Переключает повторение мелодий ───
 
-VOID Launcher_SwitchRepeatMode( VOID )
+VOID Launcher_SwitchRepeatMode (VOID)
 {
- // Получаем указатель на список известных PIPE-соединений.
- PPIPES Pipes = GetKnownPipes();
+  // Получаем указатель на список известных PIPE-соединений.
+  PPIPES Pipes = GetKnownPipes ();
 
- // Посылаем команду проигрывателю PM123.
- TransactNamedPipe( Pipes->PM123_pipe, "*repeat" );
+  // Посылаем команду проигрывателю PM123.
+  TransactNamedPipe (Pipes->PM123_pipe, "*repeat");
 
- // Посылаем команду проигрывателю WarpVision.
- TransactNamedPipe( Pipes->WarpVision_pipe, "flip repeat" );
+  // Посылаем команду проигрывателю WarpVision.
+  TransactNamedPipe (Pipes->WarpVision_pipe, "flip repeat");
 
- // Посылаем команду проигрывателю Z!.
- TransactNamedPipe( Pipes->ZMP3_pipe, "*repeat" );
+  // Посылаем команду проигрывателю Z!.
+  TransactNamedPipe (Pipes->ZMP3_pipe, "*repeat");
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Включает или приостанавливает проигрыватель ───
 
-VOID Launcher_FlipPlayerPause( VOID )
+VOID Launcher_FlipPlayerPause (VOID)
 {
- // Получаем указатель на список известных PIPE-соединений.
- PPIPES Pipes = GetKnownPipes();
+  // Получаем указатель на список известных PIPE-соединений.
+  PPIPES Pipes = GetKnownPipes ();
 
- // Посылаем команду проигрывателю PM123.
- if( !Launcher.RTSettings.Player_is_stopped )
+  // Посылаем команду проигрывателю PM123.
+  if (!Launcher.RTSettings.Player_is_stopped)
   {
-   TransactNamedPipe( Pipes->PM123_pipe, "*pause on" );
-   Launcher.RTSettings.Player_is_stopped = 1;
+    TransactNamedPipe (Pipes->PM123_pipe, "*pause on");
+    Launcher.RTSettings.Player_is_stopped = 1;
   }
- else
+  else
   {
-   TransactNamedPipe( Pipes->PM123_pipe, "*pause off" );
-   Launcher.RTSettings.Player_is_stopped = 0;
+    TransactNamedPipe (Pipes->PM123_pipe, "*pause off");
+    Launcher.RTSettings.Player_is_stopped = 0;
   }
 
- // Посылаем команду проигрывателю WarpVision.
- TransactNamedPipe( Pipes->WarpVision_pipe, "flip pause" );
+  // Посылаем команду проигрывателю WarpVision.
+  TransactNamedPipe (Pipes->WarpVision_pipe, "flip pause");
 
- // Посылаем команду проигрывателю Z!.
- TransactNamedPipe( Pipes->ZMP3_pipe, "*pause" );
+  // Посылаем команду проигрывателю Z!.
+  TransactNamedPipe (Pipes->ZMP3_pipe, "*pause");
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Переводит проигрыватель к следующей дорожке ───
 
-VOID Launcher_SkipPlayerTrack( VOID )
+VOID Launcher_SkipPlayerTrack (VOID)
 {
- // Получаем указатель на список известных PIPE-соединений.
- PPIPES Pipes = GetKnownPipes();
+  // Получаем указатель на список известных PIPE-соединений.
+  PPIPES Pipes = GetKnownPipes ();
 
- // Посылаем команду проигрывателю PM123.
- TransactNamedPipe( Pipes->PM123_pipe, "*next" );
+  // Посылаем команду проигрывателю PM123.
+  TransactNamedPipe (Pipes->PM123_pipe, "*next");
 
- // Посылаем команду проигрывателю WarpVision.
- TransactNamedPipe( Pipes->WarpVision_pipe, "exit" );
+  // Посылаем команду проигрывателю WarpVision.
+  TransactNamedPipe (Pipes->WarpVision_pipe, "exit");
 
- // Посылаем команду проигрывателю Z!.
- TransactNamedPipe( Pipes->ZMP3_pipe, "*next" );
+  // Посылаем команду проигрывателю Z!.
+  TransactNamedPipe (Pipes->ZMP3_pipe, "*next");
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Переводит проигрыватель к предыдущей дорожке ───
 
-VOID Launcher_RollbackPlayerTrack( VOID )
+VOID Launcher_RollbackPlayerTrack (VOID)
 {
- // Получаем указатель на список известных PIPE-соединений.
- PPIPES Pipes = GetKnownPipes();
+  // Получаем указатель на список известных PIPE-соединений.
+  PPIPES Pipes = GetKnownPipes ();
 
- // Посылаем команду проигрывателю PM123.
- TransactNamedPipe( Pipes->PM123_pipe, "*previous" );
+  // Посылаем команду проигрывателю PM123.
+  TransactNamedPipe (Pipes->PM123_pipe, "*previous");
 
- // Посылаем команду проигрывателю Z!.
- TransactNamedPipe( Pipes->ZMP3_pipe, "*previous" );
+  // Посылаем команду проигрывателю Z!.
+  TransactNamedPipe (Pipes->ZMP3_pipe, "*previous");
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Останавливает проигрыватель ───
 
-VOID Launcher_StopPlayer( VOID )
+VOID Launcher_StopPlayer (VOID)
 {
- // Получаем указатель на список известных PIPE-соединений.
- PPIPES Pipes = GetKnownPipes();
+  // Получаем указатель на список известных PIPE-соединений.
+  PPIPES Pipes = GetKnownPipes ();
 
- // Посылаем команду проигрывателю PM123.
- TransactNamedPipe( Pipes->PM123_pipe, "*stop" );
+  // Посылаем команду проигрывателю PM123.
+  TransactNamedPipe (Pipes->PM123_pipe, "*stop");
 
- // Посылаем команду проигрывателю WarpVision.
- TransactNamedPipe( Pipes->WarpVision_pipe, "exit" );
+  // Посылаем команду проигрывателю WarpVision.
+  TransactNamedPipe (Pipes->WarpVision_pipe, "exit");
 
- // Посылаем команду проигрывателю Z!.
- TransactNamedPipe( Pipes->ZMP3_pipe, "*stop" );
+  // Посылаем команду проигрывателю Z!.
+  TransactNamedPipe (Pipes->ZMP3_pipe, "*stop");
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Увеличивает или уменьшает громкость ───
 
 // Up_or_down - значение, на которое надо изменить громкость.
-VOID Launcher_ChangePlayerVolume( INT Up_or_down )
+VOID Launcher_ChangePlayerVolume (INT Up_or_down)
 {
- // Получаем указатель на список известных PIPE-соединений.
- PPIPES Pipes = GetKnownPipes();
+  // Получаем указатель на список известных PIPE-соединений.
+  PPIPES Pipes = GetKnownPipes ();
 
- // Увеличиваем громкость для проигрывателя PM123.
- if( Up_or_down > 0 ) TransactNamedPipe( Pipes->PM123_pipe, "*volume +3" );
- if( Up_or_down < 0 ) TransactNamedPipe( Pipes->PM123_pipe, "*volume -3" );
+  // Увеличиваем громкость для проигрывателя PM123.
+  if (Up_or_down > 0) TransactNamedPipe (Pipes->PM123_pipe, "*volume +3");
+  if (Up_or_down < 0) TransactNamedPipe (Pipes->PM123_pipe, "*volume -3");
 
- // Увеличиваем громкость для проигрывателя WarpVision.
- {
-  if( Launcher.RTSettings.Player_volume == 0 ) Launcher.RTSettings.Player_volume = 25;
-  else Launcher.RTSettings.Player_volume += ( Up_or_down * 5 );
-
-  if( Launcher.RTSettings.Player_volume < 0 ) Launcher.RTSettings.Player_volume = 0;
-  if( Launcher.RTSettings.Player_volume > 100 ) Launcher.RTSettings.Player_volume = 100;
-
+  // Увеличиваем громкость для проигрывателя WarpVision.
   {
-   CHAR Volume_string[ 25 ] = "";
-   itoa( Launcher.RTSettings.Player_volume, Volume_string, 10 );
+    if (Launcher.RTSettings.Player_volume == 0) Launcher.RTSettings.Player_volume = 25;
+    else Launcher.RTSettings.Player_volume += (Up_or_down * 5);
 
-   CHAR Query_string[ SIZE_OF_PIPE_COMMAND ] = "";
-   strcpy( Query_string, "set volume " ); strcat( Query_string, Volume_string );
+    if (Launcher.RTSettings.Player_volume < 0) Launcher.RTSettings.Player_volume = 0;
+    if (Launcher.RTSettings.Player_volume > 100) Launcher.RTSettings.Player_volume = 100;
 
-   TransactNamedPipe( Pipes->WarpVision_pipe, Query_string );
+    {
+      CHAR Volume_string[25] = "";
+      itoa (Launcher.RTSettings.Player_volume, Volume_string, 10);
+
+      CHAR Query_string[SIZE_OF_PIPE_COMMAND] = "";
+      strcpy (Query_string, "set volume "); strcat (Query_string, Volume_string);
+
+      TransactNamedPipe (Pipes->WarpVision_pipe, Query_string);
+    }
   }
- }
 
- // Увеличиваем или уменьшаем громкость для проигрывателя Z!.
- if( Up_or_down > 0 ) TransactNamedPipe( Pipes->ZMP3_pipe, "*vol+" );
- if( Up_or_down < 0 ) TransactNamedPipe( Pipes->ZMP3_pipe, "*vol-" );
+  // Увеличиваем или уменьшаем громкость для проигрывателя Z!.
+  if (Up_or_down > 0) TransactNamedPipe (Pipes->ZMP3_pipe, "*vol+");
+  if (Up_or_down < 0) TransactNamedPipe (Pipes->ZMP3_pipe, "*vol-");
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Увеличивает или уменьшает громкость ───
 
 // Frame_window - окно приложения, Up_or_down - значение, на которое надо изменить громкость.
-VOID Launcher_PostMMOS2VolumeMessages( HWND Frame_window, INT Up_or_down )
+VOID Launcher_PostMMOS2VolumeMessages (HWND Frame_window, INT Up_or_down)
 {
- // Перебираем окна, расположенные в окне рамки.
- HENUM Enumeration = WinBeginEnumWindows( Frame_window ); HWND Window = NULLHANDLE;
- while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+  // Перебираем окна, расположенные в окне рамки.
+  HENUM Enumeration = WinBeginEnumWindows (Frame_window); HWND Window = NULLHANDLE;
+  while ((Window = WinGetNextWindow (Enumeration)) != NULLHANDLE)
   {
-   // Если это окно движка со стрелками:
-   if( IsCircularSliderWindow( Window ) )
+    // Если это окно движка со стрелками:
+    if (IsCircularSliderWindow (Window))
     {
-     // Узнаем выбранное значение громкости.
-     // Переменная "MMOS2_volume" располагается в разделяемой области памяти,
-     // поэтому доступ к ней во время обработки этого сообщения будет возможен.
-     MRESULT Rc = WinSendMsg( Window, CSM_QUERYVALUE, (MPARAM) &Launcher.RTSettings.MMOS2_volume, 0 );
+      // Узнаем выбранное значение громкости.
+      // Переменная "MMOS2_volume" располагается в разделяемой области памяти,
+      // поэтому доступ к ней во время обработки этого сообщения будет возможен.
+      MRESULT Rc = WinSendMsg (Window, CSM_QUERYVALUE, (MPARAM) &Launcher.RTSettings.MMOS2_volume, 0);
 
-     // Если его удалось получить:
-     if( Rc != 0 )
+      // Если его удалось получить:
+      if (Rc != 0)
       {
-       // Узнаем наибольшее и наименьшее возможное значение.
-       WinSendMsg( Window, CSM_QUERYRANGE, (MPARAM) &Launcher.RTSettings.MMOS2_volume_from, (MPARAM) &Launcher.RTSettings.MMOS2_volume_to );
+        // Узнаем наибольшее и наименьшее возможное значение.
+        WinSendMsg (Window, CSM_QUERYRANGE, (MPARAM) &Launcher.RTSettings.MMOS2_volume_from, (MPARAM) &Launcher.RTSettings.MMOS2_volume_to);
 
-       // Задаем новое значение.
-       Launcher.RTSettings.MMOS2_volume += Up_or_down * 2;
-       if( Launcher.RTSettings.MMOS2_volume < Launcher.RTSettings.MMOS2_volume_from ) Launcher.RTSettings.MMOS2_volume = Launcher.RTSettings.MMOS2_volume_from;
-       if( Launcher.RTSettings.MMOS2_volume > Launcher.RTSettings.MMOS2_volume_to ) Launcher.RTSettings.MMOS2_volume = Launcher.RTSettings.MMOS2_volume_to;
+        // Задаем новое значение.
+        Launcher.RTSettings.MMOS2_volume += Up_or_down * 2;
+        if (Launcher.RTSettings.MMOS2_volume < Launcher.RTSettings.MMOS2_volume_from) Launcher.RTSettings.MMOS2_volume = Launcher.RTSettings.MMOS2_volume_from;
+        if (Launcher.RTSettings.MMOS2_volume > Launcher.RTSettings.MMOS2_volume_to) Launcher.RTSettings.MMOS2_volume = Launcher.RTSettings.MMOS2_volume_to;
 
-       WinPostMsg( Window, CSM_SETVALUE, (MPARAM) Launcher.RTSettings.MMOS2_volume, 0 );
+        WinPostMsg (Window, CSM_SETVALUE, (MPARAM) Launcher.RTSettings.MMOS2_volume, 0);
       }
     }
   }
- WinEndEnumWindows( Enumeration );
+  WinEndEnumWindows (Enumeration);
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Увеличивает или уменьшает громкость ───
 
 // Frame_window - окно приложения, Up_or_down - значение, на которое надо изменить громкость.
-VOID Launcher_PostUniMixMessages( HWND Frame_window, INT Up_or_down )
+VOID Launcher_PostUniMixMessages (HWND Frame_window, INT Up_or_down)
 {
- // Проверяем версию UniMixer.
- if( IsSpeedPascalWindow( Frame_window ) )
+  // Проверяем версию UniMixer.
+  if (IsSpeedPascalWindow (Frame_window))
   {
-   // Перебираем окна, расположенные в окне рамки.
-   HENUM Enumeration = WinBeginEnumWindows( WinWindowFromID( Frame_window, FID_CLIENT ) ); HWND Window = NULLHANDLE;
-   while( ( Window = WinGetNextWindow( Enumeration ) ) != NULLHANDLE )
+    // Перебираем окна, расположенные в окне рамки.
+    HENUM Enumeration = WinBeginEnumWindows (WinWindowFromID (Frame_window, FID_CLIENT)); HWND Window = NULLHANDLE;
+    while ((Window = WinGetNextWindow (Enumeration)) != NULLHANDLE)
     {
-     // Составляем сообщение о нажатии стрелки влево или вправо.
-     MPARAM First_parameter_1 = 0; MPARAM Second_parameter_1 = 0;
-     MPARAM First_parameter_2 = 0; MPARAM Second_parameter_2 = 0;
-     if( Up_or_down > 0 )
-      ComposeWMCharMessage( &First_parameter_1, &Second_parameter_1, &First_parameter_2, &Second_parameter_2, SC_RIGHT, 0, 0 );
-     else
-      ComposeWMCharMessage( &First_parameter_1, &Second_parameter_1, &First_parameter_2, &Second_parameter_2, SC_LEFT, 0, 0 );
+      // Составляем сообщение о нажатии стрелки влево или вправо.
+      MPARAM First_parameter_1 = 0; MPARAM Second_parameter_1 = 0;
+      MPARAM First_parameter_2 = 0; MPARAM Second_parameter_2 = 0;
+      if (Up_or_down > 0)
+       ComposeWMCharMessage (&First_parameter_1, &Second_parameter_1, &First_parameter_2, &Second_parameter_2, SC_RIGHT, 0, 0);
+      else
+       ComposeWMCharMessage (&First_parameter_1, &Second_parameter_1, &First_parameter_2, &Second_parameter_2, SC_LEFT, 0, 0);
 
-     // Посылаем его.
-     WinPostMsg( Window, WM_CHAR, First_parameter_1, Second_parameter_1 );
-     WinPostMsg( Window, WM_CHAR, First_parameter_2, Second_parameter_2 );
+      // Посылаем его.
+      WinPostMsg (Window, WM_CHAR, First_parameter_1, Second_parameter_1);
+      WinPostMsg (Window, WM_CHAR, First_parameter_2, Second_parameter_2);
     }
-   WinEndEnumWindows( Enumeration );
+    WinEndEnumWindows (Enumeration);
   }
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Увеличивает или уменьшает громкость ───
 
 // Up_or_down - значение, на которое надо изменить громкость.
-VOID Launcher_ChangeMMOS2Volume( INT Up_or_down )
+VOID Launcher_ChangeMMOS2Volume (INT Up_or_down)
 {
- // Проверяем, есть ли окно приложения, способного менять звук, и если оно есть - обращаемся к нему.
- HWND MMOS2_volume_window = FindAppWindow( APP_MMOS2_VOLUME );
- if( MMOS2_volume_window != NULLHANDLE )
+  // Проверяем, есть ли окно приложения, способного менять звук, и если оно есть - обращаемся к нему.
+  HWND MMOS2_volume_window = FindAppWindow (APP_MMOS2_VOLUME);
+  if (MMOS2_volume_window != NULLHANDLE)
   {
-   // Посылаем сообщения в окно MMOS2 Volume.
-   Launcher_PostMMOS2VolumeMessages( MMOS2_volume_window, Up_or_down );
+    // Посылаем сообщения в окно MMOS2 Volume.
+    Launcher_PostMMOS2VolumeMessages (MMOS2_volume_window, Up_or_down);
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- HWND UniMix_window = FindAppWindow( APP_UNIAUDIO_MIXER );
- if( UniMix_window != NULLHANDLE )
+  HWND UniMix_window = FindAppWindow (APP_UNIAUDIO_MIXER);
+  if (UniMix_window != NULLHANDLE)
   {
-   // Посылаем сообщения в окно UniAudio Mixer.
-   Launcher_PostUniMixMessages( UniMix_window, Up_or_down );
+    // Посылаем сообщения в окно UniAudio Mixer.
+    Launcher_PostUniMixMessages (UniMix_window, Up_or_down);
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- // Если окна нет - вызываем приложение, которое покажет его и ждем его появления.
- if( ShowCommandCanBeUsed( SHOW_MMOS2_VOLUME ) )
+  // Если окна нет - вызываем приложение, которое покажет его и ждем его появления.
+  if (ShowCommandCanBeUsed (SHOW_MMOS2_VOLUME))
   {
-   // Посылаем сообщение в поток, который вызовет приложение.
-   WinPostQueueMsg( Enhancer.Modules.Launcher->Message_queue, SM_DO_SYSTEM_ACTION, (MPARAM) SHOW_MMOS2_VOLUME, 0 );
-   // Посылаем сообщение в поток, который выполнит ожидание.
-   Launcher_StartDetachedWaiterThread( SM_WAIT_STARTING_PROCESS, APP_MMOS2_VOLUME );
+    // Посылаем сообщение в поток, который вызовет приложение.
+    WinPostQueueMsg (Enhancer.Modules.Launcher->Message_queue, SM_DO_SYSTEM_ACTION, (MPARAM) SHOW_MMOS2_VOLUME, 0);
+    // Посылаем сообщение в поток, который выполнит ожидание.
+    Launcher_StartDetachedWaiterThread (SM_WAIT_STARTING_PROCESS, APP_MMOS2_VOLUME);
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- if( ShowCommandCanBeUsed( SHOW_UNIAUDIO_MIXER ) )
+  if (ShowCommandCanBeUsed (SHOW_UNIAUDIO_MIXER))
   {
-   // Посылаем сообщение в поток, который вызовет приложение.
-   WinPostQueueMsg( Enhancer.Modules.Launcher->Message_queue, SM_DO_SYSTEM_ACTION, (MPARAM) SHOW_UNIAUDIO_MIXER, 0 );
-   // Посылаем сообщение в поток, который выполнит ожидание.
-   Launcher_StartDetachedWaiterThread( SM_WAIT_STARTING_PROCESS, APP_UNIAUDIO_MIXER );
+    // Посылаем сообщение в поток, который вызовет приложение.
+    WinPostQueueMsg (Enhancer.Modules.Launcher->Message_queue, SM_DO_SYSTEM_ACTION, (MPARAM) SHOW_UNIAUDIO_MIXER, 0);
+    // Посылаем сообщение в поток, который выполнит ожидание.
+    Launcher_StartDetachedWaiterThread (SM_WAIT_STARTING_PROCESS, APP_UNIAUDIO_MIXER);
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Выполняет определенные действия при нажатии на клавиши ───
 
 // Action - действие, которое нужно выполнить, Do_not_check_mouse - отключить проверку мыши.
-VOID Launcher_DoSystemAction( INT Action, LONG Do_not_check_mouse = 0 )
+VOID Launcher_DoSystemAction (INT Action, LONG Do_not_check_mouse = 0)
 {
- // Кнопка мыши не должна быть нажата - возможно, передвигается предмет или окно.
- if( !Do_not_check_mouse ) if( MouseIsBusy() )
+  // Кнопка мыши не должна быть нажата - возможно, передвигается предмет или окно.
+  if (!Do_not_check_mouse) if (MouseIsBusy ())
   {
-   // Звук.
-   WinAlarm( QueryDesktopWindow(), WA_NOTE );
+    // Звук.
+    WinAlarm (QueryDesktopWindow (), WA_NOTE);
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- // Если показано окно сообщения об ошибке - ничего делать не нужно.
- if( SystemWindowIsPresent( FIND_SYSMSG_WINDOW, FIND_VISIBLE_WINDOW ) )
+  // Если показано окно сообщения об ошибке - ничего делать не нужно.
+  if (SystemWindowIsPresent (FIND_SYSMSG_WINDOW, FIND_VISIBLE_WINDOW))
   {
-   // Звук.
-   WinAlarm( QueryDesktopWindow(), WA_NOTE );
+    // Звук.
+    WinAlarm (QueryDesktopWindow (), WA_NOTE);
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- // Устанавливаем переключатели на клавиатуре, чтобы расширитель не начинал
- // передвижение изображения, если в окна будут направляться сообщения от мыши.
- if( KeyIsToggled( SC_SCRLLOCK ) ) WinPostQueueMsg( Enhancer.Modules.Controller->Message_queue, SM_SET_NUM_LOCK, 0, 0 );
+  // Устанавливаем переключатели на клавиатуре, чтобы расширитель не начинал
+  // передвижение изображения, если в окна будут направляться сообщения от мыши.
+  if (KeyIsToggled (SC_SCRLLOCK)) WinPostQueueMsg (Enhancer.Modules.Controller->Message_queue, SM_SET_NUM_LOCK, 0, 0);
 
- // Вызываем WarpCenter, ECenter или SysTray.
- if( Action == SHOW_WARPCENTER || Action == SHOW_ECENTER || Action == SHOW_SYSTRAY )
+  // Вызываем WarpCenter, XWP TaskBar или SysTray.
+  if (Action == SHOW_WARPCENTER || Action == SHOW_XWP_TASKBAR || Action == SHOW_SYSTRAY)
   {
-   // Если меню уже показано - прячем его.
-   if( SystemWindowIsPresent( FIND_ALL_TOOLBAR_MENUS, FIND_VISIBLE_WINDOW ) )
+    // Если меню уже показано - прячем его.
+    if (SystemWindowIsPresent (FIND_ALL_TOOLBAR_MENUS, FIND_VISIBLE_WINDOW))
     {
-     // Прячем меню.
-     Launcher_HideShellToolbarMenu( 1 );
+      // Прячем меню.
+      Launcher_HideShellToolbarMenu (1);
     }
-   // Иначе - вызываем его.
-   else
+    // Иначе - вызываем его.
+    else
     {
-     // Получаем указатель на список известных имен значков.
-     POBJECTS Objects = GetKnownObjects();
+      // Получаем указатель на список известных имен значков.
+      POBJECTS Objects = GetKnownObjects ();
 
-     // Пробуем найти окно.
-     LONG Toolbar = FIND_WARPCENTER;
-     PCHAR Object_name = Objects->WarpCenter_name;
+      // Пробуем найти окно.
+      LONG Toolbar = FIND_WARPCENTER;
+      PCHAR Object_name = Objects->WarpCenter_name;
 
-     if( Action == SHOW_SYSTRAY )
+      if (Action == SHOW_SYSTRAY)
       {
-       Toolbar = FIND_SYSTRAY;
-       Object_name = Objects->SysTray_name;
+        Toolbar = FIND_SYSTRAY;
+        Object_name = Objects->SysTray_name;
       }
 
-     if( Action == SHOW_ECENTER )
+      if (Action == SHOW_XWP_TASKBAR)
       {
-       Toolbar = FIND_ECENTER;
-       Object_name = Objects->ECenter_name;
+        Toolbar = FIND_XWP_TASKBAR;
+        Object_name = Objects->XWPTaskBar_name;
       }
 
-     // Если его нет:
-     if( !SystemWindowIsPresent( Toolbar ) )
+      // Если его нет:
+      if (!SystemWindowIsPresent (Toolbar))
       {
-       // Узнаем значок на рабочем столе.
-       HOBJECT Object = QueryWPSObject( Object_name );
+        // Узнаем значок на рабочем столе.
+        HOBJECT Object = QueryWPSObject (Object_name);
 
-       // Если значок есть - вызываем его.
-       if( Object != NULLHANDLE ) WinOpenObject( Object, OPEN_DEFAULT, SHOW_EXISTING );
+        // Если значок есть - вызываем его.
+        if (Object != NULLHANDLE) WinOpenObject (Object, OPEN_DEFAULT, SHOW_EXISTING);
       }
 
-     // Вызываем меню.
-     Launcher_ShowShellToolbarMenu( Toolbar );
+      // Вызываем меню.
+      Launcher_ShowShellToolbarMenu (Toolbar);
     }
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- // Вызываем EPager.
- if( Action == SHOW_EPAGER )
+  // Вызываем XWP Pager.
+  if (Action == SHOW_XWP_PAGER)
   {
-   // Вызываем окно ePager.
-   Launcher_ToggleEPager();
+    // Вызываем окно.
+    Launcher_ToggleXWPPager ();
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- // Вызываем меню FileBar.
- if( Action == SHOW_FILEBAR )
+  // Вызываем меню FileBar.
+  if (Action == SHOW_FILEBAR)
   {
-   // Вызываем меню FileBar.
-   Launcher_ShowFileBarMenu();
+    // Вызываем меню FileBar.
+    Launcher_ShowFileBarMenu ();
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- // Вызываем список окон.
- if( Action == SHOW_WINDOW_LIST )
+  // Вызываем список окон.
+  if (Action == SHOW_WINDOW_LIST)
   {
-   // Если список окон уже вызван - прячем его.
-   if( SystemWindowIsPresent( FIND_WINDOW_LIST, FIND_VISIBLE_WINDOW ) )
+    // Если список окон уже вызван - прячем его.
+    if (SystemWindowIsPresent (FIND_WINDOW_LIST, FIND_VISIBLE_WINDOW))
     {
-     Launcher_ShowWindowList( 0 );
+      Launcher_ShowWindowList (0);
     }
-   // Иначе - вызываем список окон.
-   else
+    // Иначе - вызываем список окон.
+    else
     {
-     Launcher_ShowWindowList( 1 );
+      Launcher_ShowWindowList (1);
     }
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- // Делаем выбранным следующее или предыдущее окно в списке окон.
- if( Action == SHOW_NEXT_WINDOW || Action == SHOW_PREV_WINDOW )
+  // Делаем выбранным следующее или предыдущее окно в списке окон.
+  if (Action == SHOW_NEXT_WINDOW || Action == SHOW_PREV_WINDOW)
   {
-   // Если идет смена комнат - возврат.
-   if( RoomsChangeIsInProcess() ) return;
+    // Если идет смена комнат - возврат.
+    if (RoomsChangeIsInProcess ()) return;
 
-   // Если используется оболочка WPS, но ее окно уменьшено, возможно зависание системы на
-   // некоторое время. Оно происходит при вызове WinQueryWindow(), в чем дело - непонятно.
-   if( ShellIsWPS() )
-    if( GetCurrentOrNextRoom() == SHELL_ROOM )
-     if( !ShellIsAvailable() ) return;
+    // Если используется оболочка WPS, но ее окно уменьшено, возможно зависание системы на
+    // некоторое время. Оно происходит при вызове WinQueryWindow (), в чем дело - непонятно.
+    if (ShellIsWPS ())
+     if (GetCurrentOrNextRoom () == SHELL_ROOM)
+      if (!ShellIsAvailable ()) return;
 
-   // Узнаем окно, которое сейчас выбрано.
-   HWND Active_window = WinQueryActiveWindow( QueryDesktopWindow() );
+    // Узнаем окно, которое сейчас выбрано.
+    HWND Active_window = WinQueryActiveWindow (QueryDesktopWindow ());
 
-   // Если его нет или в него нельзя было переключиться с помощью расширителя:
-   if( Active_window == NULLHANDLE || !Launcher_PermissionForHotKeySwitching( Active_window ) )
+    // Если его нет или в него нельзя было переключиться с помощью расширителя:
+    if (Active_window == NULLHANDLE || !Launcher_PermissionForHotKeySwitching (Active_window))
     {
-     // Узнаем окно в середине экрана.
-     HWND Window_in_center = WindowInCenter();
+      // Узнаем окно в середине экрана.
+      HWND Window_in_center = WindowInCenter ();
 
-     // Если оно есть и это не выбранное окно - делаем его выбранным.
-     if( Window_in_center != NULLHANDLE ) if( Window_in_center != Active_window )
+      // Если оно есть и это не выбранное окно - делаем его выбранным.
+      if (Window_in_center != NULLHANDLE) if (Window_in_center != Active_window)
       {
-       // Делаем выбранным окно в середине экрана.
-       Launcher_MoveWindowAbove( Window_in_center );
+        // Делаем выбранным окно в середине экрана.
+        Launcher_MoveWindowAbove (Window_in_center);
 
-       // Возврат.
-       return;
+        // Возврат.
+        return;
       }
     }
 
-   // Если выбранное окно - список окон, его надо скрыть.
-   if( Active_window != NULLHANDLE )
+    // Если выбранное окно - список окон, его надо скрыть.
+    if (Active_window != NULLHANDLE)
     {
-     // Если это список окон - прячем его.
-     if( IsWinListWindow( Active_window ) ) PerformAction( Active_window, HIDE_ACTION );
+      // Если это список окон - прячем его.
+      if (IsWinListWindow (Active_window)) PerformAction (Active_window, HIDE_ACTION);
     }
 
-   // Узнаем следующее или предыдущее окно в списке окон и запоминаем его.
-   // Как ни странно, запрос "prevtop" возвращает следующее окно, а "nexttop" - предыдущее.
-   LONG Query = QW_PREVTOP; if( Action == SHOW_PREV_WINDOW ) Query = QW_NEXTTOP;
+    // Узнаем следующее или предыдущее окно в списке окон и запоминаем его.
+    // Как ни странно, запрос "prevtop" возвращает следующее окно, а "nexttop" - предыдущее.
+    LONG Query = QW_PREVTOP; if (Action == SHOW_PREV_WINDOW) Query = QW_NEXTTOP;
 
-   HWND Next_window = WinQueryWindow( Active_window, Query );
-   HWND Primary_window = Next_window;
+    HWND Next_window = WinQueryWindow (Active_window, Query);
+    HWND Primary_window = Next_window;
 
-   // Если переключение невозможно - просматриваем список дальше.
-   if( !Launcher_PermissionForHotKeySwitching( Next_window ) )
-    while( 1 )
+    // Если переключение невозможно - просматриваем список дальше.
+    if (!Launcher_PermissionForHotKeySwitching (Next_window))
+     while (1)
      {
-      // Узнаем следующее окно в списке окон.
-      Next_window = WinQueryWindow( Next_window, Query );
+       // Узнаем следующее окно в списке окон.
+       Next_window = WinQueryWindow (Next_window, Query);
 
-      // Если список пройден - возврат.
-      if( Next_window == Active_window || Next_window == Primary_window ) return;
+       // Если список пройден - возврат.
+       if (Next_window == Active_window || Next_window == Primary_window) return;
 
-      // Если переключение возможно - завершаем перебор окон.
-      if( Launcher_PermissionForHotKeySwitching( Next_window ) ) break;
+       // Если переключение возможно - завершаем перебор окон.
+       if (Launcher_PermissionForHotKeySwitching (Next_window)) break;
      }
 
-   // Делаем окно выбранным.
-   Launcher_MoveWindowAbove( Next_window );
+    // Делаем окно выбранным.
+    Launcher_MoveWindowAbove (Next_window);
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- // Если пользователь работает с окном приложения, которое соответствует этой команде -
- // прячем его и выбираем окно в середине экрана.
- // Если одно из известных приложений может откликнуться на эту команду - вызываем его.
- // Если ни одного окна не найдено - вызываем значок на рабочем столе или приложение.
- if( Launcher_CheckAndHideActiveWindow( Action, FLT_DESIRED ) ||
-     Launcher_FindAndShowApplication( Action, FLT_DESIRED ) ) return;
+  // Если пользователь работает с окном приложения, которое соответствует этой команде -
+  // прячем его и выбираем окно в середине экрана.
+  // Если одно из известных приложений может откликнуться на эту команду - вызываем его.
+  // Если ни одного окна не найдено - вызываем значок на рабочем столе или приложение.
+  if (Launcher_CheckAndHideActiveWindow (Action, FLT_DESIRED) ||
+      Launcher_FindAndShowApplication (Action, FLT_DESIRED)) return;
 
- if( Launcher_CheckAndHideActiveWindow( Action, FLT_SUITABLE ) ||
-     Launcher_FindAndShowApplication( Action, FLT_SUITABLE ) ) return;
+  if (Launcher_CheckAndHideActiveWindow (Action, FLT_SUITABLE) ||
+      Launcher_FindAndShowApplication (Action, FLT_SUITABLE)) return;
 
- // Вызываем значок на рабочем столе.
- // Он будет вызван только если для этой команды нет подходящего приложения.
- if( Action >= SHOW_OBJECT_FIRST && Action <= SHOW_OBJECT_LAST )
+  // Вызываем значок на рабочем столе.
+  // Он будет вызван только если для этой команды нет подходящего приложения.
+  if (Action >= SHOW_OBJECT_FIRST && Action <= SHOW_OBJECT_LAST)
   {
-   // Если оболочка WPS не используется:
-   if( !ShellIsWPS() )
+    // Если оболочка WPS не используется:
+    if (!ShellIsWPS ())
     {
-     // Если в качестве оболочки используется FileBar - вызываем его.
-     if( ShellIsFileBar() ) Launcher_ShowFileBarMenu();
+      // Если в качестве оболочки используется FileBar - вызываем его.
+      if (ShellIsFileBar ()) Launcher_ShowFileBarMenu ();
 
-     // Возврат.
-     return;
+      // Возврат.
+      return;
     }
 
-   // Вызываем принтер.
-   if( Action == SHOW_PRINTER )
+    // Вызываем принтер.
+    if (Action == SHOW_PRINTER)
     {
-     // Узнаем имя принтера, с которым работает пользователь.
-     CHAR Name[ SIZE_OF_PATH ] = ""; QueryPrinterName( Name );
+      // Узнаем имя принтера, с которым работает пользователь.
+      CHAR Name[SIZE_OF_PATH] = ""; QueryPrinterName (Name);
 
-     // Если имя узнать не удалось - вызываем окно просмотра состояния всех принтеров.
-     if( Name[ 0 ] == 0 )
+      // Если имя узнать не удалось - вызываем окно просмотра состояния всех принтеров.
+      if (Name[0] == 0)
       {
-       // Посылаем сообщение в поток.
-       WinPostQueueMsg( Enhancer.Modules.Launcher->Message_queue, SM_DO_SYSTEM_ACTION, (MPARAM) SHOW_PRINTERS, 0 );
+        // Посылаем сообщение в поток.
+        WinPostQueueMsg (Enhancer.Modules.Launcher->Message_queue, SM_DO_SYSTEM_ACTION, (MPARAM) SHOW_PRINTERS, 0);
 
-       // Возврат.
-       return;
+        // Возврат.
+        return;
       }
     }
 
-   // Получаем указатель на список известных имен значков.
-   POBJECTS Objects = GetKnownObjects();
+    // Получаем указатель на список известных имен значков.
+    POBJECTS Objects = GetKnownObjects ();
 
-   // Задаем имя значка.
-   CHAR Name[ SIZE_OF_PATH ] = "";
+    // Задаем имя значка.
+    CHAR Name[SIZE_OF_PATH] = "";
 
-   if( Action == SHOW_DRIVES )         strcpy( Name, Objects->Drives_name );
-   if( Action == SHOW_PRINTERS )       strcpy( Name, Objects->Printers_name );
+    if (Action == SHOW_DRIVES)         strcpy (Name, Objects->Drives_name);
+    if (Action == SHOW_PRINTERS)       strcpy (Name, Objects->Printers_name);
 
-   if( Action == SHOW_WINVIEWER )      strcpy( Name, Objects->Viewer_name );
-   if( Action == SHOW_WPS_CLOCK )      strcpy( Name, Objects->Clock_name );
-   if( Action == SHOW_PULSE )          strcpy( Name, Objects->Pulse_name );
-   if( Action == SHOW_POWER_MGR )      strcpy( Name, Objects->PowerMgr_name );
+    if (Action == SHOW_WINVIEWER)      strcpy (Name, Objects->Viewer_name);
+    if (Action == SHOW_WPS_CLOCK)      strcpy (Name, Objects->Clock_name);
+    if (Action == SHOW_PULSE)          strcpy (Name, Objects->Pulse_name);
+    if (Action == SHOW_POWER_MGR)      strcpy (Name, Objects->PowerMgr_name);
 
-   if( Action == SHOW_LAUNCHPAD )      strcpy( Name, Objects->LaunchPad_name );
+    if (Action == SHOW_LAUNCHPAD)      strcpy (Name, Objects->LaunchPad_name);
 
-   // Если имя узнать не удалось - возврат.
-   if( Name[ 0 ] == NULL ) return;
+    // Если имя узнать не удалось - возврат.
+    if (Name[0] == NULL) return;
 
-   // Узнаем значок на рабочем столе.
-   HOBJECT Object = QueryWPSObject( Name );
+    // Узнаем значок на рабочем столе.
+    HOBJECT Object = QueryWPSObject (Name);
 
-   // Если значок есть:
-   if( Object != NULLHANDLE )
+    // Если значок есть:
+    if (Object != NULLHANDLE)
     {
-     // Вызываем значок.
-     WinOpenObject( Object, OPEN_DEFAULT, SHOW_EXISTING );
+      // Вызываем значок.
+      WinOpenObject (Object, OPEN_DEFAULT, SHOW_EXISTING);
     }
-   // А если значка нет - вызываем список окон.
-   else
+    // А если значка нет - вызываем список окон.
+    else
     {
-     // Если список окон уже вызван - прячем его.
-     if( SystemWindowIsPresent( FIND_WINDOW_LIST, FIND_VISIBLE_WINDOW ) )
+      // Если список окон уже вызван - прячем его.
+      if (SystemWindowIsPresent (FIND_WINDOW_LIST, FIND_VISIBLE_WINDOW))
       {
-       Launcher_ShowWindowList( 0 );
+        Launcher_ShowWindowList (0);
       }
-     // Иначе - вызываем список окон.
-     else
+      // Иначе - вызываем список окон.
+      else
       {
-       Launcher_ShowWindowList( 1 );
+        Launcher_ShowWindowList (1);
       }
     }
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- // Управляем проигрывателем.
- if( Action >= MM_FIRST && Action <= MM_LAST )
+  // Управляем проигрывателем.
+  if (Action >= MM_FIRST && Action <= MM_LAST)
   {
-   // Обращаемся к проигрывателю.
-   switch( Action )
+    // Обращаемся к проигрывателю.
+    switch (Action)
     {
-     case MM_VOLUME_INCREMENT:       Launcher_ChangePlayerVolume( +1 ); break;
-     case MM_VOLUME_DECREMENT:       Launcher_ChangePlayerVolume( -1 ); break;
-     case MM_VOLUME_INCREMENT_MMOS2: Launcher_ChangeMMOS2Volume( +1 );  break;
-     case MM_VOLUME_DECREMENT_MMOS2: Launcher_ChangeMMOS2Volume( -1 );  break;
+      case MM_VOLUME_INCREMENT:       Launcher_ChangePlayerVolume (+1); break;
+      case MM_VOLUME_DECREMENT:       Launcher_ChangePlayerVolume (-1); break;
+      case MM_VOLUME_INCREMENT_MMOS2: Launcher_ChangeMMOS2Volume (+1);  break;
+      case MM_VOLUME_DECREMENT_MMOS2: Launcher_ChangeMMOS2Volume (-1);  break;
 
-     case MM_REPEAT:                 Launcher_SwitchRepeatMode();       break;
-     case MM_PAUSE:                  Launcher_FlipPlayerPause();        break;
-     case MM_NEXT:                   Launcher_SkipPlayerTrack();        break;
-     case MM_PREVIOUS:               Launcher_RollbackPlayerTrack();    break;
-     case MM_STOP:                   Launcher_StopPlayer();             break;
+      case MM_REPEAT:                 Launcher_SwitchRepeatMode ();       break;
+      case MM_PAUSE:                  Launcher_FlipPlayerPause ();        break;
+      case MM_NEXT:                   Launcher_SkipPlayerTrack ();        break;
+      case MM_PREVIOUS:               Launcher_RollbackPlayerTrack ();    break;
+      case MM_STOP:                   Launcher_StopPlayer ();             break;
     }
 
-   // Возврат.
-   return;
+    // Возврат.
+    return;
   }
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Обработчик сообщений, которые были переданы в поток ───
 
 // Message определяет пришедшее сообщение.
-VOID Launcher_LauncherMessageProcessing( PQMSG Message )
+VOID Launcher_LauncherMessageProcessing (PQMSG Message)
 {
- // Устанавливаем приоритет потока.
- if( Message->msg == SM_PRIORITY )
+  // Устанавливаем приоритет потока.
+  if (Message->msg == SM_PRIORITY)
   {
-   // Устанавливаем приоритет.
-   LONG Class = (LONG) Message->mp1;
-   LONG Delta = (LONG) Message->mp2;
-   DosSetPriority( PRTYS_THREAD, Class, Delta, 0 );
+    // Устанавливаем приоритет.
+    LONG Class = (LONG) Message->mp1;
+    LONG Delta = (LONG) Message->mp2;
+    DosSetPriority (PRTYS_THREAD, Class, Delta, 0);
 
-   // Запоминаем приоритет.
-   Enhancer.Modules.Launcher->Priority = MAKELONG( Class, Delta );
+    // Запоминаем приоритет.
+    Enhancer.Modules.Launcher->Priority = MAKELONG (Class, Delta);
   }
 
- // Выполняем требуемое действие.
- if( Message->msg == SM_DO_SYSTEM_ACTION ) Launcher_DoSystemAction( (INT) Message->mp1, (LONG) Message->mp2  );
+  // Выполняем требуемое действие.
+  if (Message->msg == SM_DO_SYSTEM_ACTION) Launcher_DoSystemAction ((INT) Message->mp1, (LONG) Message->mp2 );
 
- // Вызываем LaunchPad.
- if( Message->msg == SM_SHOW_LAUNCHPAD )
+  // Вызываем LaunchPad.
+  if (Message->msg == SM_SHOW_LAUNCHPAD)
   {
-   // Ждем, пока мышь не станет свободна.
-   while( MouseIsBusy() ) Retard();
+    // Ждем, пока мышь не станет свободна.
+    while (MouseIsBusy ()) Retard ();
 
-   // Вызываем LaunchPad.
-   Launcher_DoSystemAction( SHOW_LAUNCHPAD );
+    // Вызываем LaunchPad.
+    Launcher_DoSystemAction (SHOW_LAUNCHPAD);
   }
 
- // Вызываем список окон.
- if( Message->msg == SM_SHOW_WINDOW_LIST )
+  // Вызываем список окон.
+  if (Message->msg == SM_SHOW_WINDOW_LIST)
   {
-   // Узнаем, должен ли список окон появиться рядом с указателем мыши.
-   LONG Show_at_pointer = (LONG) Message->mp1;
+    // Узнаем, должен ли список окон появиться рядом с указателем мыши.
+    LONG Show_at_pointer = (LONG) Message->mp1;
 
-   // Показываем его окно.
-   Launcher_ShowWindowList( 1, Show_at_pointer );
+    // Показываем его окно.
+    Launcher_ShowWindowList (1, Show_at_pointer);
   }
 
- // Скрываем список окон.
- if( Message->msg == SM_HIDE_WINDOW_LIST ) Launcher_ShowWindowList( 0 );
+  // Скрываем список окон.
+  if (Message->msg == SM_HIDE_WINDOW_LIST) Launcher_ShowWindowList (0);
 
- // Скрываем меню WarpCenter.
- if( Message->msg == SM_HIDE_WARPCENTER ) Launcher_HideShellToolbarMenu( 1 );
+  // Скрываем меню WarpCenter.
+  if (Message->msg == SM_HIDE_WARPCENTER) Launcher_HideShellToolbarMenu (1);
 
- // Скрываем окно регулятора громкости.
- if( Message->msg == SM_STARTING_PROCESS_APPEARED )
+  // Скрываем окно регулятора громкости.
+  if (Message->msg == SM_STARTING_PROCESS_APPEARED)
   {
-   INT App_code = (LONG) Message->mp1;
-   HWND Frame_window = (HWND) Message->mp2;
+    INT App_code = (LONG) Message->mp1;
+    HWND Frame_window = (HWND) Message->mp2;
 
-   if( App_code == APP_MMOS2_VOLUME || App_code == APP_UNIAUDIO_MIXER )
-    WinPostQueueMsg( Enhancer.Modules.WindowManager->Message_queue, SM_HIDE_WINDOW_AWAY, (MPARAM) Frame_window, 0 );
+    if (App_code == APP_MMOS2_VOLUME || App_code == APP_UNIAUDIO_MIXER)
+     WinPostQueueMsg (Enhancer.Modules.WindowManager->Message_queue, SM_HIDE_WINDOW_AWAY, (MPARAM) Frame_window, 0);
   }
 
- // Возврат.
- return;
+  // Возврат.
+  return;
 }
 
 // ─── Поток для выпонения различных действий ───
 
-VOID Launcher_LauncherThread( VOID )
+VOID Launcher_LauncherThread (VOID)
 {
- // Определяем поток в системе.
- HAB Thread = WinInitialize( 0 );
+  // Определяем поток в системе.
+  HAB Thread = WinInitialize (0);
 
- // Если это сделать не удалось - выход.
- if( Thread == NULLHANDLE )
+  // Если это сделать не удалось - выход.
+  if (Thread == NULLHANDLE)
   {
-   // При создании потока произошла ошибка.
-   Thread_responds.Thread_is_created = -1;
+    // При создании потока произошла ошибка.
+    Thread_responds.Thread_is_created = -1;
 
-   // Выход.
-   return;
+    // Выход.
+    return;
   }
 
- // Создаем очередь сообщений - она должна быть в каждом потоке.
- HMQ Message_queue = WinCreateMsgQueue( Thread, 0 ); Enhancer.Modules.Launcher->Message_queue = Message_queue;
+  // Создаем очередь сообщений - она должна быть в каждом потоке.
+  HMQ Message_queue = WinCreateMsgQueue (Thread, 0); Enhancer.Modules.Launcher->Message_queue = Message_queue;
 
- // Если очередь создать не удалось - выход.
- if( Enhancer.Modules.Launcher->Message_queue == NULLHANDLE )
+  // Если очередь создать не удалось - выход.
+  if (Enhancer.Modules.Launcher->Message_queue == NULLHANDLE)
   {
-   // Завершаем работу потока.
-   WinTerminate( Thread );
+    // Завершаем работу потока.
+    WinTerminate (Thread);
 
-   // При создании потока произошла ошибка.
-   Thread_responds.Thread_is_created = -1;
+    // При создании потока произошла ошибка.
+    Thread_responds.Thread_is_created = -1;
 
-   // Выход.
-   return;
+    // Выход.
+    return;
   }
 
- // Поток создан успешно.
- Thread_responds.Thread_is_created = 1;
+  // Поток создан успешно.
+  Thread_responds.Thread_is_created = 1;
 
- // Получение и обработка сообщений, приходящих в поток.
- QMSG Message = {0};
- while( WinGetMsg( Thread, &Message, 0, 0, 0 ) )
+  // Получение и обработка сообщений, приходящих в поток.
+  QMSG Message = {0};
+  while (WinGetMsg (Thread, &Message, 0, 0, 0))
   {
-   // Проверяем, не идет ли следом такое же сообщение.
-   QMSG Next_message = {0};
-   WinPeekMsg( Thread, &Next_message, NULLHANDLE, Message.msg, Message.msg, PM_NOREMOVE );
-   if( Next_message.msg == Message.msg )
-    if( Next_message.mp1 == Message.mp1 )
-     if( Next_message.mp2 == Message.mp2 )
-      if( Next_message.hwnd == Message.hwnd ) continue;
+    // Проверяем, не идет ли следом такое же сообщение.
+    QMSG Next_message = {0};
+    WinPeekMsg (Thread, &Next_message, NULLHANDLE, Message.msg, Message.msg, PM_NOREMOVE);
+    if (Next_message.msg == Message.msg)
+     if (Next_message.mp1 == Message.mp1)
+      if (Next_message.mp2 == Message.mp2)
+       if (Next_message.hwnd == Message.hwnd) continue;
 
-   // Обрабатываем сообщение.
-   Launcher_LauncherMessageProcessing( &Message );
+    // Обрабатываем сообщение.
+    Launcher_LauncherMessageProcessing (&Message);
   }
 
- // Завершаем работу потока.
- WinDestroyMsgQueue( Message_queue );
- WinTerminate( Thread );
- DosExit( EXIT_THREAD, 0 );
+  // Завершаем работу потока.
+  WinDestroyMsgQueue (Message_queue);
+  WinTerminate (Thread);
+  DosExit (EXIT_THREAD, 0);
 }
